@@ -3,7 +3,9 @@
 >  
     <div class="container flex-column flex-lg-row d-flex  justify-content-lg-between py-2 align-items-lg-center">
         <div class="logo d-flex justify-content-between justify-content-lg-start align-items-center">
-            <a routerLink="/">
+            <a 
+            (click)="openNavbar=!openNavbar"
+            routerLink="/">
                 <img src="assets/images/mainlogo.png" alt="join">
             </a>
             <span class="d-none d-lg-block mx-2"></span>
@@ -22,16 +24,26 @@
             'd-none':!openNavbar
         }"
         class="links list-unstyled m-0 py-1 px-0  d-lg-flex flex-column flex-lg-row">
-            <li><a routerLink="/">{{'home'|translate}}</a></li>
-            <li><a routerLink="/store">{{'store'|translate}}</a></li>
-            <li><a routerLink="/store">{{'activities'|translate}}</a></li>
-            <li><a routerLink="/store">{{'aboutus'|translate}}</a></li>
+            <li><a
+                (click)="openNavbar=!openNavbar"
+                routerLink="/">{{'home'|translate}}</a></li>
+            <li><a 
+                (click)="openNavbar=!openNavbar"
+                routerLink="/store">{{'store'|translate}}</a></li>
+            <li><a 
+                (click)="openNavbar=!openNavbar"
+                routerLink="/store">{{'activities'|translate}}</a></li>
+            <li><a 
+                (click)="openNavbar=!openNavbar"
+                routerLink="/store">{{'aboutus'|translate}}</a></li>
             <li class="lang">
                 <a 
                 style="cursor:pointer"
-                (click)="selectLang(lang=='ar'?'en':'ar')"
+                (click)="selectLang(lang=='ar'?'en':'ar');openNavbar=!openNavbar"
                 > {{lang=='ar'?'en':'ar'}}</a></li>
-            <li class="lang"><a routerLink="/auth/login">{{'signin'|translate}}</a></li>
+            <li class="lang"><a 
+                (click)="openNavbar=!openNavbar"
+                routerLink="/auth/login">{{'signin'|translate}}</a></li>
         </ul>
     </div>
 </nav>
