@@ -1,0 +1,28 @@
+<article class="cart-one position-relative">
+    <div class="d-flex justify-content-end p-2 heart">
+        <i class="fa-solid fa-heart"></i>
+    </div>
+    <div class="imgPart">
+        <img 
+        [src]="imgSrc"  alt="join">
+    </div>
+    <div class="detasils px-3 py-4">
+        <h2>Abacus - Level 0</h2>
+        <small class="d-block mb-1">
+            <i class="fa-solid fa-location-dot"></i>
+            <span class="mx-1 gray">
+                Online | 7-16 Years | Education
+            </span>
+        </small>
+        <!--  -->
+        <small class="d-block price">
+            <span>Price:</span> 35.000 KWD
+        </small>
+        <div class="d-flex justify-content-end mt-3 align-items-center viewDetails">
+            <i class="mx-2 fa-solid fa-arrow-up-right-from-square"></i>
+            <a routerLink="/details">
+                {{'view_details'|translate}}
+            </a>
+        </div>
+    </div>
+</article>

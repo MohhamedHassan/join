@@ -1,0 +1,34 @@
+<section class="login p-4">
+    <h1>
+        {{'Be_Part_Of_The_Adventure'|translate}}
+    </h1>
+    <p class="mb-4">{{'insert_your_phone_number'|translate}}</p>
+    <form>
+        <div class="form-group phonNumberParent">
+            <input class="countrycode" value="+966" readonly>
+            <input type="text" placeholder="{{'phone_number'|translate}}">
+        </div>
+        <!--  -->
+        <div class="form-group">
+            <input type="password" placeholder="{{'password'|translate}}">
+        </div>
+        <!--  -->
+        <div class="mb-3">
+            <button>{{'signin'|translate}}</button>
+            <span class="mx-2"></span>
+            <a class="asAGuest" routerLink="/">
+                {{'Countinu_As_Guest'|translate}}
+            </a>
+        </div>
+        <p class="mb-2 fw-bold">
+            {{'Or_Login_With'|translate}}
+        </p>
+        <ul class="p-0 m-0 list-unstyled d-flex login-ways">
+            <li><img src="assets/images/google.png" alt="join"></li>
+            <span class="mx-2"></span>
+            <li><img src="assets/images/google.png" alt="join"></li>
+            <span class="mx-2"></span>
+            <li><img src="assets/images/google.png" alt="join"></li>
+        </ul>
+    </form>
+</section>

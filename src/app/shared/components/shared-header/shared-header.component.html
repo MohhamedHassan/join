@@ -1,0 +1,22 @@
+<header class="shared-header">
+    <div style="position:relative;z-index:11"
+    class="container"
+    >
+        <h1>{{header|translate}}</h1>
+        <p>{{'loremlorem'|translate}}</p>
+        <div>
+            <a 
+            style="cursor: pointer;"
+            routerLink="/">{{'home'|translate}}</a>
+            <i
+            [ngClass]="{
+                'fa-chevron-left':lang=='ar',
+                'fa-chevron-right':lang!='ar'
+            }"
+            class="fa-solid  mx-2"></i>
+            <a 
+            style="cursor: pointer;"
+            routerLink="/store">{{header|translate}}</a>
+        </div>
+    </div>
+</header>

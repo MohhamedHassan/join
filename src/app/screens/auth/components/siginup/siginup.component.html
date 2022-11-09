@@ -1,0 +1,25 @@
+<section class="signup p-4">
+    <h1>
+        {{'Be_Part_Of_The_Adventure'|translate}}
+    </h1>
+    <p class="mb-4">{{'insert_your_phone_number'|translate}}</p>
+    <form>
+        <div class="form-group">
+            <input type="text" placeholder="{{'Full_Name'|translate}}">
+        </div>
+        <!--  -->
+        <div class="form-group phonNumberParent">
+            <input class="countrycode" value="+966" readonly>
+            <input type="text" placeholder="{{'phone_number'|translate}}">
+        </div>
+        <!--  -->
+        <div class="form-group">
+            <input type="email" placeholder="{{'email'|translate}}">
+        </div>
+        <!--  -->
+        <button class="mb-2">{{'signup'|translate}}</button>
+        <p>
+            {{'Already_have_account'|translate}}
+            <a routerLink="/auth/login">{{'signin'|translate}}</a></p>
+    </form>
+</section>

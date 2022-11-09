@@ -1,0 +1,23 @@
+<section class="store">
+    <app-shared-header
+    header="lorem"
+    ></app-shared-header>
+    <!--  -->
+    <div class="container">
+        <app-categories-list [listData]="[
+        {name:'All'},
+        {name:'Books'},
+        {name:'DIY’s'},
+        {name:'Sensory Play'},
+        {name:'Electronics'},
+        {name:'Educational'}]"></app-categories-list>
+        <!--  -->
+        <section class="row">
+            <div *ngFor="let item of data" class="col-md-4 col-lg-3 mb-4">
+                <app-cart-one imgSrc="assets/images/prod_imgv7obaT1639086168.jpg"></app-cart-one>
+            </div>
+        </section>
+        <!--  -->
+    </div>
+
+</section>

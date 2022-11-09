@@ -1,0 +1,35 @@
+<section class="home">
+    <app-slider-one></app-slider-one>
+    <!--  -->
+    <div class="container">
+        <app-categories-list
+        [listData]="[{name:'activities'},
+        {name:'Clubs'},
+        {name:'Events'},
+        {name:'Interests'}]"
+        
+        ></app-categories-list>
+    <!--  -->
+    <section class="row mrginBottom">
+        <div 
+        *ngFor="let item of data"
+        class="col-md-4 col-lg-3 mb-4">
+            <app-cart-one
+            imgSrc="https://app.join.com.kw/public/club_activity_image/club-1650290602.jpg"
+            ></app-cart-one>
+        </div>
+        <div class="col-md-12">
+            <div class="text-center">
+                <button class="showMore">
+                    {{'show_more'|translate}}
+                </button>
+            </div>
+        </div>
+    </section>
+    <!--  -->
+    <h2 class="mainColorHeading">{{'popular'|translate}}</h2>
+    <div class="custom-line"></div>
+    <app-slider-two></app-slider-two>
+    </div>
+
+</section>

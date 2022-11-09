@@ -1,0 +1,34 @@
+<section class="auth" style="overflow-x: hidden;">
+    <div class="row">
+        <div class="col-lg-6">
+            <div 
+            class="authBG">
+               <div style="position: relative;z-index:111">
+                    <div class="mb-4">
+                        <img src="assets/images/mainlogo.png" alt="join">
+                    </div>
+                    <div class="d-flex flex-column flex-md-row  ">
+                        <a routerLink='/auth/login'>
+                            {{'signin'|translate}}
+                        </a>
+                        <span class="m-2"></span>
+                        <a routerLink='/auth/signup'>
+                            {{'signup'|translate}}
+                        </a>
+                    </div>
+               </div>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-lg-6">
+            <div 
+            class="auth-right-side"
+            style="min-height: 100vh;">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <!--  -->
+    </div>
+    
+    
+</section>

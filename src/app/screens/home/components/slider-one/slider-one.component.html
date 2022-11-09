@@ -1,0 +1,16 @@
+<swiper 
+style="direction: ltr;text-align:right"
+[loop]="true" [autoHeight]="true" [allowTouchMove]="false"
+[autoplay]="{ delay: 5000, disableOnInteraction: false }" [pagination]="{ clickable: true }"
+[navigation]="false" class=" ">
+<ng-template 
+*ngFor="let item of images"
+data-swiper-autoplay="6000" swiperSlide>
+<img 
+loading="lazy"
+alt="Eltimes EG ads"
+
+style="height:70vh;width: 100%"
+[src]="item" >
+</ng-template>
+</swiper>
