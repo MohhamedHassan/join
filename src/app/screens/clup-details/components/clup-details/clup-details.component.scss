@@ -1,0 +1,12 @@
+@import '/src/assets//styles/colors.scss';
+.clup-details-list {
+    li {
+        cursor: pointer;
+        padding-bottom:10px;
+        border-bottom: 2px solid transparent;
+    }
+    li.active {
+        color:$mainColor;
+        border-bottom: 2px solid $mainColor;
+    }
+}

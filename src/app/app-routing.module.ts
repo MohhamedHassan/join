@@ -5,11 +5,6 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
 const routes: Routes = [
   {
     path:'',
-    redirectTo:'/',
-    pathMatch:'full'
-  },
-  {
-    path:'',
     loadChildren:() => import('src/app/screens/home/home.module').then(m => m.HomeModule)
   },
   {
@@ -21,8 +16,20 @@ const routes: Routes = [
     loadChildren:() => import('src/app/screens/store/store.module').then(m => m.StoreModule)
   },
   {
-    path:'details',
-    loadChildren:() => import('src/app/screens/details-page/details-page.module').then(m => m.DetailsPageModule)
+    path:'activities',
+    loadChildren:() => import('src/app/screens/activities/activities.module').then(m => m.ActivitiesModule)
+  },
+  {
+    path:'activity/:id',
+    loadChildren:() => import('src/app/screens/activity-details/activity-details.module').then(m => m.ActivityDetailsModule)
+  },
+  {
+    path:'interests/:id',
+    loadChildren:() => import('src/app/screens/intersts/intersts.module').then(m => m.InterstsModule)
+  },
+  {
+    path:'clup/:id',
+    loadChildren:() => import('src/app/screens/clup-details/clup-details.module').then(m => m.ClupDetailsModule)
   },
   {
     path:'**',

@@ -1,28 +1,37 @@
-
- @import '~swiper/swiper-bundle.css';
-$orangeColor: #F89416;
-$mainColor: #00DCDC;
-
-// end variables
-.maincolor {
-     color:$mainColor
+@import '~swiper/swiper-bundle.css';
+@import '/src/assets//styles/colors.scss';
+%ellipsis {
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+} 
+* {
+     outline:  none;
 }
+.maincolor {
+     color: $mainColor;
+     &:hover { color: $mainColor;}
+}
+
 .orangecolor {
      color: $orangeColor;
 }
+
 .mainColorHeading {
-     color:$mainColor;
+     color: $mainColor;
      display: inline-block;
      margin-bottom: 10px;
      font-size: 30px;
      font-weight: 300;
 }
+
 .custom-line {
      height: 1px;
      background-color: $mainColor;
      width: 250px;
      margin-bottom: 20px;
 }
+
 ::placeholder {
      color: rgb(168, 167, 167);
      font-weight: 400;
@@ -48,7 +57,7 @@ $mainColor: #00DCDC;
 }
 
 .mrginBottom {
-     margin-bottom: 150px;
+     margin-bottom: 100px;
 }
 
 a {
@@ -57,7 +66,8 @@ a {
 
 // end glopal
 nav {
-     border-top:5px solid $mainColor;
+     border-top: 5px solid $mainColor;
+
      .logo {
           img {
                width: 70px
@@ -99,10 +109,11 @@ nav {
                     padding: 7px 15px;
                     display: inline-block;
                }
+
                border-bottom: 2px solid transparent;
           }
 
-          li:not(.lang) {
+          li:not(.lang){
                &:hover {
                     a {
                          color: $mainColor;
@@ -110,20 +121,23 @@ nav {
 
                     border-bottom: 2px solid $mainColor;
                }
+        
           }
+          a.active {
+               color: $mainColor;     
+          }  
+          li:has(.active) {
+               border-bottom: 2px solid $mainColor; 
+           }
+      
 
-          li:first-of-type {
-               a {
-                    color: $mainColor;
-               }
 
-               border-bottom: 2px solid $mainColor;
-          }
           .lang:last-of-type {
                background-color: $mainColor;
                border-radius: 5px;
+
                a {
-                    color:white;
+                    color: white;
                }
           }
      }
@@ -132,17 +146,19 @@ nav {
 .custom-rtl {
      nav {
           .logo {
-     
+
                .position-relative {
                     i {
                          right: auto;
                          left: 10px
                     }
                }
+
                input {
                     padding: 7px 7px 7px 30px;
                }
           }
+
           .position-relative {
                i {
                     left: 10px
@@ -150,31 +166,34 @@ nav {
           }
      }
 }
+
 @media only screen and (max-width: 600px) {
      nav {
           .logo {
                input {
-                    width:150px ;
+                    width: 150px;
                }
           }
      }
 }
+
 @media only screen and (min-width: 600px) {
      nav {
           .logo {
                input {
-                    width:300px ;
+                    width: 300px;
                }
           }
      }
 }
+
 // end navbar
 .categoriesList {
      overflow: auto;
      flex-wrap: nowrap;
 
      li {
-          a {
+          button {
                padding: 10px 15px;
                white-space: nowrap;
                font-size: 15px;
@@ -184,21 +203,23 @@ nav {
                cursor: pointer;
                display: inline-block;
                color: black !important;
+               border: none;
+               background-color: transparent;
           }
-     }
 
-     li:first-of-type {
-          a {
+          button.activeTab {
                background-color: $orangeColor;
                color: white !important;
           }
      }
+
+
 }
 
 .custom-rtl {
      .categoriesList {
           li {
-               a {
+               button {
                     margin-left: 10px !important;
                     margin-right: 0 !important;
                }
@@ -207,14 +228,20 @@ nav {
 }
 
 // end categoriesList component
-.cart-one {
+.glopal-cart {
      box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
      transition: .5s;
-
+     border: 1px solid #ebeef5;
      &:hover {
           box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
      }
-
+     h2 {
+          font-weight: 100;
+          font-size: 15px;
+          margin-bottom: 10px;
+          @extend %ellipsis;
+          a {color:black}
+     }
      .heart {
           position: absolute;
           top: 0;
@@ -230,7 +257,8 @@ nav {
                text-align: center;
                cursor: pointer;
                transition: .5s;
-               color:rgb(211, 211, 211);
+               color: rgb(211, 211, 211);
+
                &:hover {
                     color: $mainColor;
                }
@@ -243,34 +271,26 @@ nav {
           object-fit: cover;
      }
 
-     h2 {
-          font-weight: 100;
-          font-size: 16px;
-          margin-bottom: 10px;
+     
+   
+}
+// end glopal cart
+.cart-one {
+     small.location {
+          @extend %ellipsis;  
      }
-
      .gray {
           color: #999
-     }
-
-     .price {
-          color: $orangeColor;
-     }
-
-     .fa-location-dot,
-     .price span,
-     .viewDetails {
-          color: $mainColor;
-          a {
-               color: $mainColor;
-          }
      }
 
      .viewDetails {
           cursor: pointer;
      }
-}
 
+     small {
+          display: inline-block;
+     }
+}
 // end cart one component
 footer {
 
@@ -361,7 +381,7 @@ footer {
      .authBG {
           text-align: center;
           min-height: 100vh;
-       
+
           background-size: cover;
           position: relative;
           display: flex;
@@ -498,12 +518,13 @@ footer {
 // end auth
 .shared-header {
      min-height: 100vh;
-     color:white;
-    
+     color: white;
+
      background-size: cover;
      display: flex;
      align-items: center;
      position: relative;
+
      &:after {
           content: '';
           position: absolute;
@@ -513,71 +534,93 @@ footer {
           left: 0;
           background-color: rgb(0 0 0 / 64%)
      }
+
      a {
-          color:white;
+          color: white;
           display: inline-block;
      }
+
      a:last-of-type {
-               color:$mainColor !important
+          color: $mainColor !important
      }
 }
+
 // end shared-header
 .details-page {
      h2 {
-          font-weight: 200;
-          font-size: 25px;
+          font-weight: 400;
+          font-size: 18px;
           margin: 0;
      }
+
      .cash {
           p {
                font-size: 15px;
           }
      }
+
      .cvr {
           img {
                height: 70vh;
-               object-fit: cover;
                width: 100%;
           }
      }
+
      .header {
-         
+
           button {
                background-color: $mainColor;
                color: white;
-               border:none;
+               border: none;
                padding: 7px 20px;
                border-radius: 5px;
+               transition: .5s;
+               &:hover {
+                    box-shadow: rgb(0 220 220) 0px 8px 25px -8px;
+               }
+          }
+          button.black {
+               background-color: #3A3A3A;
+               &:hover {
+                    box-shadow: rgb(58 58 58) 0px 8px 25px -8px;
+               }
           }
      }
-     .book-now  {
+
+     .book-now {
           box-shadow: 0 4px 25px 0 rgb(0 0 0 / 10%);
+
           small {
                display: inline-block;
           }
      }
+
      svg {
-          color:$orangeColor
+          color: $orangeColor
      }
+
      p {
-          font-size: 25px;
+          font-size: 20px;
      }
-     button {
-          color:white;
+
+     button.book {
+          color: white;
           background-color: $orangeColor;
           border: none;
           padding: 10px;
           border-radius: 5px;
      }
 }
+
 // details-page
 .lds-ring {
      display: inline-block;
      position: relative;
      width: 80px;
      height: 80px;
-   }
-   .lds-ring div {
+}
+
+.lds-ring div {
      box-sizing: border-box;
      display: block;
      position: absolute;
@@ -588,23 +631,59 @@ footer {
      border-radius: 50%;
      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
      border-color: $mainColor transparent transparent transparent;
-   }
-   .lds-ring div:nth-child(1) {
+}
+
+.lds-ring div:nth-child(1) {
      animation-delay: -0.45s;
-   }
-   .lds-ring div:nth-child(2) {
+}
+
+.lds-ring div:nth-child(2) {
      animation-delay: -0.3s;
-   }
-   .lds-ring div:nth-child(3) {
+}
+
+.lds-ring div:nth-child(3) {
      animation-delay: -0.15s;
-   }
-   @keyframes lds-ring {
+}
+
+@keyframes lds-ring {
      0% {
-       transform: rotate(0deg);
+          transform: rotate(0deg);
      }
+
      100% {
-       transform: rotate(360deg);
+          transform: rotate(360deg);
      }
-   }
-   
+}
+
 // end css loading
+
+.clup-details {
+     table {
+         td {
+             display: inline-block;
+             margin-right: 10px;
+             margin-left: 0;
+             small {
+                 font-size: 15px;
+             }
+             .cborder {
+               height: 60px;
+               width: 1px;
+               background-color: #d7dfd7;
+               display: block;
+             }
+         }
+     }
+ }
+ .custom-rtl {
+     .clup-details {
+         table {
+             td {
+                 margin-right: 0;
+                 margin-left: 10px;
+             }
+         }
+     }
+ }
+ 
+// end clup details

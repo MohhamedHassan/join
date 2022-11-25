@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { HomeService } from './screens/home/services/home.service';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +7,9 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  constructor(public homeService:HomeService) {
 
+  }
+  ngOnInit(): void {
+  }
 }

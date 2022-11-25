@@ -1,23 +1,33 @@
-<section class="store">
+<section 
+class="store">
     <app-shared-header
-    header="lorem"
+    header="store"
     ></app-shared-header>
     <!--  -->
-    <div class="container">
-        <app-categories-list [listData]="[
-        {name:'All'},
-        {name:'Books'},
-        {name:'DIY’s'},
-        {name:'Sensory Play'},
-        {name:'Electronics'},
-        {name:'Educational'}]"></app-categories-list>
-        <!--  -->
+    <div
+    style="min-height: 40vh;"
+    class="container">
+        <app-categories-list 
+        (chosenTab)="getCategoryById($event)"  
+        [listData]="tabs"></app-categories-list> 
+        
         <section class="row">
-            <div *ngFor="let item of data" class="col-md-4 col-lg-3 mb-4">
-                <app-cart-one imgSrc="assets/images/prod_imgv7obaT1639086168.jpg"></app-cart-one>
+            <div *ngFor="let product of products" class="col-md-4 col-lg-3 mb-4">
+                <app-store-card 
+                [imgSrc]="product.image"
+                [name_ar]="product.name_ar"
+                [name_en]="product.name_en"
+                [price]="product.price"
+                [pre_price]="product.pre_price"
+                ></app-store-card>
             </div>
         </section>
-        <!--  -->
+        <p    
+        class="text-secondary fw-bold text-center"
+        *ngIf="!products?.length&&requestCompleted">
+           {{'no_data'|translate}}
+        </p>
+        <app-laoding *ngIf="loading"></app-laoding>
     </div>
 
 </section>

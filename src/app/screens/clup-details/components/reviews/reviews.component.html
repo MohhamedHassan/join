@@ -1,0 +1,36 @@
+<section 
+style="min-height: 400px;"
+class="reviews">
+    <ul 
+    *ngIf="reviews?.length"
+    class="list-unstyled p-0 m-0 review-list">
+        <li 
+        *ngFor="let item of reviews"
+        class="d-flex mb-3">
+            <div class="userImage">
+                <img src="assets/images/useravatar.png" alt="join">
+            </div>
+            <div class="mx-2"></div>
+            <div class="content">
+                <h3>{{item.user_name}}</h3>
+                <div class="stars">
+                    <ngx-star-rating  
+                    [(ngModel)]="item.review_rating"
+                    [disabled]="true"></ngx-star-rating>
+                </div>
+                <p> 
+                    {{item.review_desc}}
+                </p>
+            </div>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-12">
+            <p 
+            *ngIf="!reviews?.length"
+            class="text-secondary text-center my-3">
+                {{'no_data'|translate}}
+            </p>
+        </div>
+    </div>
+</section>

@@ -1,16 +1,19 @@
-<swiper 
-style="direction: ltr;text-align:right"
-[loop]="true" [autoHeight]="true" [allowTouchMove]="false"
-[autoplay]="{ delay: 1000, disableOnInteraction: false }" [pagination]="{ clickable: true }"
-[navigation]="false" class=" ">
-<ng-template 
-*ngFor="let item of images"
-data-swiper-autoplay="6000" swiperSlide>
-<img 
-loading="lazy"
-alt="Eltimes EG ads"
-
-style="height:70vh;width: 100%"
-[src]="item" >
-</ng-template>
+<div 
+class="mb-4"
+style="min-height: 70vh;box-shadow: 0 0 20px rgb(0 0 0 / 25%);">
+    <swiper 
+style="direction: ltr;text-align:right" 
+[loop]="false" 
+[autoHeight]="true" 
+[allowTouchMove]="true"
+[autoplay]="{ delay: 1000, disableOnInteraction: false }" 
+[pagination]="{ clickable: true }" 
+[navigation]="true"
+>
+    <ng-template *ngFor="let item of sliderContent" data-swiper-autoplay="6000" swiperSlide>
+        <a>
+            <img  alt="join" style="height:70vh;width: 100%" [src]="item?.photo_name">
+        </a>
+    </ng-template>
 </swiper>
+</div>

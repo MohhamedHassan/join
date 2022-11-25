@@ -25,14 +25,20 @@
         }"
         class="links list-unstyled m-0 py-1 px-0  d-lg-flex flex-column flex-lg-row">
             <li><a
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:true}"
                 (click)="openNavbar=!openNavbar"
                 routerLink="/">{{'home'|translate}}</a></li>
             <li><a 
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:true}"
                 (click)="openNavbar=!openNavbar"
                 routerLink="/store">{{'store'|translate}}</a></li>
             <li><a 
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact:true}"
                 (click)="openNavbar=!openNavbar"
-                routerLink="/store">{{'activities'|translate}}</a></li>
+                routerLink="/activities">{{'activities'|translate}}</a></li>
             <li><a 
                 (click)="openNavbar=!openNavbar"
                 routerLink="/store">{{'aboutus'|translate}}</a></li>

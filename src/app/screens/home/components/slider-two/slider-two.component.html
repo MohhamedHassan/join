@@ -1,24 +1,40 @@
+<app-laoding *ngIf="bottomSliderLoading;else content"></app-laoding>
+<ng-template #content>
+
+<h2 class="mainColorHeading">{{'popular'|translate}}</h2>
+<div class="custom-line"></div>
 <swiper  
 class="mrginBottom"
 style="direction: ltr;text-align:right"
 [config]="swpieroptions">
 
-    <ng-container *ngFor="let item of data;let i = index">
+    <ng-container *ngFor="let item of popular;let i = index">
         <ng-template swiperSlide>
                <div>
-                <div style="position: relative;height: 250px;">
+                <div style="position: relative;height: 250px;box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+                border: 1px solid #ebeef5;">
                     <img  
                     style="    height: 100%;
                     object-fit: cover;"
                     class="w-100"
-                    [src]="item"
+                    [src]="item.banner"
                         alt="">
                     <p 
-                    style="position: absolute;bottom:-18px;left:0;min-width:90%;font-size: 20px;"
-                    class="bg-white p-3 m-0 text-center ">{{'lorem'|translate}}</p>
+                    [ngStyle]="{
+                        'left':lang=='ar'?'auto':'0',
+                        'right':lang=='ar'?'0':'auto',
+                        'direction':lang=='ar'?'rtl':'ltr'
+                    }"
+                    style="position: absolute;bottom:0;left:0;width:90%;font-size: 20px; white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;"
+                    class="bg-white p-3 m-0 text-center ">
+                        <bdi>{{item.title}}</bdi>
+                    </p>
                 </div>
                </div>
         </ng-template>
     </ng-container>
 
 </swiper>
+</ng-template>

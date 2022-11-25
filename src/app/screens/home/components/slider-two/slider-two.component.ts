@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import SwiperCore, { Navigation,Pagination } from 'swiper';
+import { Popular } from '../../models/popular';
+import { HomeService } from '../../services/home.service';
 SwiperCore.use([Navigation,Pagination]);
 @Component({
   selector: 'app-slider-two',
@@ -7,21 +9,8 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./slider-two.component.scss']
 })
 export class SliderTwoComponent implements OnInit {
-// start swiper carousel options
-data:any[]=[
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-  'https://app.join.com.kw/public/club_activity_image/club-1641462874.jpg',
-]
+popular:Popular[]=[]
+bottomSliderLoading:boolean=true
 swpieroptions: any = {
   slidesPerView: 3,
   spaceBetween: "50",
@@ -45,9 +34,17 @@ swpieroptions: any = {
 }
 // end swiper carousel options
 
-  constructor() { }
+  constructor(private homeService:HomeService) { }
 
   ngOnInit(): void {
+      this.homeService.getPopular().subscribe(
+        res=> {
+          this.popular=res
+          this.bottomSliderLoading=false
+        }
+      )
   }
-
+  get  lang() {
+    return localStorage.getItem('lang') || 'en'
+  }
 }

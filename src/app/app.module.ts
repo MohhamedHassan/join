@@ -5,11 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FooterComponent } from './components/footer/footer.component';
 import { ReusableFooterCartComponent } from './components/reusable-footer-cart/reusable-footer-cart.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { TokenInterceptor } from './interceptors/token.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,19 @@ import { NavbarComponent } from './components/navbar/navbar.component';
       }
     }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:TokenInterceptor,
+      multi:true
+    }
+    // ,
+    // {
+    //   provide:HTTP_INTERCEPTORS,
+    //   useClass:ErrorInterceptor,
+    //   multi:true
+    // }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

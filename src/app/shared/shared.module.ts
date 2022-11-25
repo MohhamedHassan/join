@@ -8,17 +8,26 @@ import { CartOneComponent } from './components/cart-one/cart-one.component';
 import { SharedHeaderComponent } from './components/shared-header/shared-header.component';
 import { RouterModule } from '@angular/router';
 import { SwiperModule } from 'swiper/angular';
+import { ClupCardComponent } from './components/clup-card/clup-card.component';
+import { LaodingComponent } from './components/laoding/laoding.component';
+import { NgxStarRatingModule } from 'ngx-star-rating'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     CategoriesListComponent,
     CartOneComponent,
-    SharedHeaderComponent
+    SharedHeaderComponent,
+    ClupCardComponent,
+    LaodingComponent
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     RouterModule,
     SwiperModule,
+    NgxStarRatingModule,
+    ReactiveFormsModule,
+    FormsModule,
     TranslateModule.forChild({
       defaultLanguage:'en',
       loader: {
@@ -33,7 +42,13 @@ import { SwiperModule } from 'swiper/angular';
     SharedHeaderComponent,
     CategoriesListComponent,
     TranslateModule,
-    CartOneComponent
+    CartOneComponent,
+    ClupCardComponent,
+    HttpClientModule,
+    LaodingComponent,
+    NgxStarRatingModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class SharedModule { }

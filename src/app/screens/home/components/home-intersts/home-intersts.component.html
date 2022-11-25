@@ -1,0 +1,16 @@
+<app-laoding *ngIf="homeService.interistsLoading;else content"></app-laoding>
+<ng-template #content>
+    <div class="row">
+        <div *ngFor="let interest of intersts" class="col-md-4 col-lg-3 mb-4">
+            <app-clup-card 
+            [route]="'/interests/'+interest.interests_id"
+            [name]="interest.name"
+            [imgSrc]="interest.photo_name"></app-clup-card>
+        </div>
+        <p    
+        class="text-secondary fw-bold text-center"
+        *ngIf="!intersts?.length">
+           {{'no_data'|translate}}
+        </p>
+    </div>
+</ng-template>

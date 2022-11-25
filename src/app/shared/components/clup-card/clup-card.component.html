@@ -1,0 +1,34 @@
+<article class="clup-cart glopal-cart position-relative">
+    <div class="d-flex justify-content-end p-2 heart">
+        <i class="fa-solid fa-heart"></i>
+    </div>
+    <div class="imgPart">
+        <img 
+        [src]="imgSrc"  alt="join">
+    </div>
+    <div 
+    class="detasils px-3 py-4">
+                <h2 
+            style="font-weight: 400;padding:10px 0;margin:0"
+            class="text-center clup-card">
+            <a [routerLink]="route">
+                <span class="d-block">
+                    {{name}} 
+                </span>
+               <span 
+               class="d-block mt-2"
+               *ngIf="isLogin()">
+                <i class="maincolor fa-solid fa-location-dot"></i>
+                {{location_count}}
+               </span>
+            </a>
+        </h2>
+    </div>
+    <!-- <div 
+    *ngIf="name"
+    class="detasils px-3 py-4">
+        <h2 
+        style="font-weight: 400;"
+        class="text-center">{{name}}</h2>
+    </div> -->
+</article>

@@ -1,0 +1,95 @@
+<app-laoding *ngIf="loading"></app-laoding>
+<section *ngIf="clup_details" style="min-height: 100vh;" class="clup-details details-page">
+    <div 
+    style="box-shadow: 0 0 20px rgb(0 0 0 / 25%);"
+    class="cvr">
+        <img [src]="clup_details.banner" alt="">
+    </div>
+    <div class="container">
+        <div 
+        style="border:1px solid rgb(226, 225, 225)"
+        class="logo my-3 px-3 rounded">
+            <div class="row align-items-center">
+                <div class="col-md-2 my-3">
+                    <div>
+                            <img 
+                        style="width:150px;max-width: 100%;"
+                        [src]="clup_details.logo" alt="">
+                    </div>
+                </div>
+                <div class="col md-6 my-3 ">
+                    <div>
+                        <h2 class="mb-2">{{clup_details.name}}</h2>
+                        <table>
+                            <tr>
+                                <td 
+                                class="text-center py-2">
+                                    <small class="d-block">{{'activities'|translate}}</small>
+                                    <small class="text-secondary">{{clup_details.activity_count}}</small>
+                                </td>
+                                <td>
+                                    <span class="cborder"></span>
+                                </td>
+                                <td 
+                                class="text-center">
+                                    <small class="d-block">{{'reviews'|translate}}</small>
+                                    <small class="text-secondary">{{clup_details.review.length}}</small>
+                                </td>
+                                <td>
+                                    <span class="cborder"></span>
+                                </td>
+                                <td class="text-center">
+                                    <small class="d-block">{{'photos'|translate}}</small>
+                                    <small class="text-secondary">{{clup_details.gallery.length}}</small>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <div class="header flex-column flex-md-row  d-flex justify-content-between align-items-md-center">
+            <div>
+                <h2 class="mb-2">{{clup_details.name}}</h2>
+                <p 
+                style="font-size: 15px;"
+                class="maincolor">
+                    <i class="maincolor fa-solid fa-location-dot"></i>
+                    {{clup_details.location_count}}
+                </p>
+            </div>
+            <div>
+                <button class="mb-2 black">
+                    <i class="fa-solid fa-heart"></i>
+                    <span class="mx-1"></span>
+                    {{'save'|translate}}
+                </button>
+                <span class="mx-1"></span>
+                <button class="mb-2">
+                    <i class="fa-solid fa-share"></i>
+                    <span class="mx-1"></span>
+                    {{'share'|translate}}
+                </button>
+            </div>
+        </div>
+        <p class="my-3" [innerHTML]="savedHtml(clup_details.description)"></p>
+        <hr>
+        <app-clup-activities-slider [clupid]="clup_details.id"></app-clup-activities-slider>
+        <ul class="list-unstyled p-0  d-flex clup-details-list">
+            <li 
+            (click)="gallaryOrReviews(0)"
+            [class.active]="active==0">  {{'Gallery'|translate}}</li>
+            <li class="mx-2"></li>
+            <li 
+            (click)="gallaryOrReviews(1)"
+            [class.active]="active==1"> {{'reviews'|translate}}</li>
+        </ul>
+        <app-clup-details-gallrey 
+        *ngIf="active==0"
+        [gallrey]="clup_details.gallery"></app-clup-details-gallrey>
+        <app-reviews 
+        [reviews]="clup_details.review"
+        *ngIf="active==1"></app-reviews>
+    </div>
+</section>

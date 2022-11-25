@@ -1,0 +1,51 @@
+<section
+style="min-height: 100vh;"
+class="activities-page mb-5 mrginBottom">
+<app-shared-header
+header="activities"
+></app-shared-header>
+<!--  -->
+    <div class="container">
+    <section>
+     
+        <!-- <h2 class="mainColorHeading ">{{'activities'|translate}}</h2>
+        <div class="custom-line"></div> -->
+        <div class="row">
+            <div *ngFor="let activity of activities;let i = index;trackBy:track" class="col-md-4 col-lg-3 mb-4">
+                <app-cart-one 
+                [detailsPageRoute]="'/activity/'+activity.id"
+                [title]="activity.title"
+                [age_from]="activity.age_from"
+                [age_to]="activity.age_to"
+                [price]="activity.location[0].price"
+                [interests_name]="activity.interests_name"
+                [location_count]="activity.location_count"
+                [imgSrc]="activity.banner"></app-cart-one>
+            </div>
+            <p    
+            class="text-secondary fw-bold text-center"
+            *ngIf="!activities?.length&&homeService.ActivitiesRequestComplete">
+               {{'no_data'|translate}}
+            </p>
+            <div 
+            *ngIf="homeService.activitiesLoading"
+            class="col-md-12">
+                <app-laoding ></app-laoding>
+            </div>
+            <div 
+            *ngIf="activities?.length"
+            class="col-md-12">
+                <div class="text-center">
+                    <button 
+                    (click)="showMore()"
+                    class="showMore">
+                        {{'show_more'|translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    </div>
+
+</section>

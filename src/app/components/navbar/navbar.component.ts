@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit {
     }
   }
   selectLang(lang:string) {
+    location.reload()
     this.translateService.use(lang)
     if(lang=='ar') {
      document.body.classList.add("custom-rtl")
@@ -32,6 +33,7 @@ export class NavbarComponent implements OnInit {
      document.body.classList.remove("custom-rtl")
     }
    localStorage.setItem('lang',lang)
+ 
   }
   get  lang() {
    return localStorage.getItem('lang') || 'en'

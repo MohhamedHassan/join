@@ -1,0 +1,30 @@
+<div class="row">
+    <div *ngFor="let activity of activities" class="col-md-4 col-lg-3 mb-4">
+        <app-cart-one 
+        [detailsPageRoute]="'/activity/'+activity.id"
+        [title]="activity.title"
+        [age_from]="activity.age_from"
+        [age_to]="activity.age_to"
+        [price]="activity.location[0].price"
+        [interests_name]="activity.interests_name"
+        [location_count]="activity.location_count"
+        [imgSrc]="activity.banner"></app-cart-one>
+    </div>
+    <p    
+    class="text-secondary fw-bold text-center"
+    *ngIf="!activities?.length&&homeService.ActivitiesRequestComplete">
+       {{'no_data'|translate}}
+    </p>
+    <app-laoding *ngIf="homeService.activitiesLoading"></app-laoding>
+    <div 
+    *ngIf="activities?.length"
+    class="col-md-12">
+        <div class="text-center">
+            <button 
+            (click)="showMore()"
+            class="showMore">
+                {{'show_more'|translate}}
+            </button>
+        </div>
+    </div>
+</div>

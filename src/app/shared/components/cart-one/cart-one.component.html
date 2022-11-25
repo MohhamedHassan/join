@@ -1,4 +1,9 @@
-<article class="cart-one position-relative">
+<article 
+[ngStyle]="{
+    'direction':lang=='ar'?'rtl':'ltr',
+    'text-align':lang=='ar'?'right':'left'
+}"
+class="cart-one glopal-cart position-relative">
     <div class="d-flex justify-content-end p-2 heart">
         <i class="fa-solid fa-heart"></i>
     </div>
@@ -7,20 +12,27 @@
         [src]="imgSrc"  alt="join">
     </div>
     <div class="detasils px-3 py-4">
-        <h2>Abacus - Level 0</h2>
-        <small class="d-block mb-1">
-            <i class="fa-solid fa-location-dot"></i>
+        <h2>{{title}}</h2>
+        <small class="d-block mb-1 location">
+            <i class="fa-solid fa-location-dot maincolor"></i>
             <span class="mx-1 gray">
-                Online | 7-16 Years | Education
+                {{location_count}} | {{age_from}}-{{age_to}} <bdi>{{'years'|translate}}</bdi> | {{interests_name}}
             </span>
         </small>
         <!--  -->
-        <small class="d-block price">
-            <span>Price:</span> 35.000 KWD
-        </small>
+       <div class="price">
+            <small class="maincolor">{{'price'|translate}}:</small>
+            <span class="mx-1"></span>
+            <small class="orangecolor">
+                {{price}} 
+                {{'kwd'|translate}}
+            </small>
+       </div>
         <div class="d-flex justify-content-end mt-3 align-items-center viewDetails">
-            <i class="mx-2 fa-solid fa-arrow-up-right-from-square"></i>
-            <a routerLink="/details">
+            <i class="mx-2 fa-solid fa-arrow-up-right-from-square maincolor"></i>
+            <a 
+            class="maincolor"
+            [routerLink]="detailsPageRoute">
                 {{'view_details'|translate}}
             </a>
         </div>

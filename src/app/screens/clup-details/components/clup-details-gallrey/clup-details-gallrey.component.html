@@ -1,0 +1,35 @@
+<div 
+style="min-height: 400px;"
+class="row">
+    <div 
+    *ngIf="gallrey?.length"
+    class="col-md-6">
+        <div  class="gallarey">
+           
+            <swiper class="mrginBottom" style="direction: ltr;text-align:right" [config]="swpieroptions">
+
+                <ng-container *ngFor="let item of gallrey;let i = index">
+                    <ng-template swiperSlide>
+                        <div>
+                            <div
+                                style="position: relative;height: 400px;box-shadow: 0 0 20px rgb(0 0 0 / 25%);border: 1px solid #ebeef5;">
+                                <img style="height: 100%;" class="w-100" [src]="item.photo_name" alt="join">
+                            </div>
+                        </div>
+                    </ng-template>
+                </ng-container>
+
+            </swiper>
+        </div>
+    </div>
+    <div 
+    *ngIf="!gallrey?.length"
+    class="col-md-12">
+        <div>
+            <p 
+            class="text-secondary text-center my-3">
+                {{'no_data'|translate}}
+            </p>
+        </div>
+    </div>
+</div>

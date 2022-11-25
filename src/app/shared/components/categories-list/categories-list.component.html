@@ -1,8 +1,11 @@
 <ul 
-class="categoriesList list-unstyled p-0 my-4 d-flex">
-    <li *ngFor="let item of listData">
-        <a href="">
-            {{item.name|translate}}
-        </a>
+class="categoriesList list-unstyled p-0 mb-4 d-flex">
+    <li *ngFor="let item of listData;let i = index">
+        <button 
+        (click)="selectTab(item.id,i)"
+        [class.activeTab]="activeTab==i"
+        >
+            {{lang == 'ar' ? item?.name_ar : item?.name_en}}
+        </button>
     </li>
 </ul>
