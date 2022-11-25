@@ -6,10 +6,6 @@
     "aboutus":"About us",
     "signin":"Sign in",
     "signup":"Sign up",
-    "lorem":"Join Us",
-    "loremlorem":"Lorem ipsum dolor sit amet.",
-    "100":"100% genuine products",
-    "lorem30":"Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perferendis deleniti eum quaerat officiis officia quam laudantium ex minima dicta consequatur?",
     "cart":"Cart",
     "wishlist":"Wish List",
     "termsandconditions":"Terms and conditions",
@@ -34,5 +30,15 @@
     "Educational":"Educational",
     "popular":"Popular on join",
     "share":"Share",
-    "book_now":"Book now"
+    "book_now":"Book now",
+    "price":"Price",
+    "years":"Years",
+    "no_data":"No Data Available",
+    "Schedule":"Schedule",
+    "Gallery":"Gallery",
+    "special_order":"Special order",
+    "save":"Save",
+    "reviews":"Reviews",
+    "photos":"Photos",
+    "kwd":"KWD"
 }
