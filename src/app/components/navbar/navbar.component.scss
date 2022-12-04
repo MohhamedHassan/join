@@ -1,0 +1,28 @@
+.subparent {
+    &:hover {
+        .submenu{
+            display: block;
+        }
+    }
+    .submenu {
+        max-height: 70vh;
+        overflow: auto;
+        box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+        border: 1px solid #ebeef5;
+        border-radius: 10px;
+        position: absolute;
+        z-index: 111;
+        background: white;
+        top:40px;
+        width: 200px;
+        display: none;
+        a {
+            display: block;
+        }
+    }
+}
+.additionicons {
+    i {
+        font-size: 20px;
+    }
+}

@@ -15,6 +15,8 @@ export class InterstsComponent implements OnInit {
   constructor(private activatedRoute:ActivatedRoute,
     private intersService:InterstsService) { }
 
+
+
   ngOnInit(): void {
     this.activatedRoute.params.pipe(
       switchMap((params:any) => {

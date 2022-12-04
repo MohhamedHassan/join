@@ -1,0 +1,57 @@
+<div 
+
+class="p-3 rounded my-1 profilepages"
+style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;overflow: auto;">
+    <div class="text-center">
+        <p class="maincolor mb-1">{{name}}</p>
+        <p>{{email}}</p>
+    </div>
+    <ul class="list-unstyled m-0 p-0 profile-layout-list">
+        <li>
+            <a 
+            [class.active]="openedTab==1"
+            (click)="emitToParent(1)"
+            >
+                <i class="fa-regular fa-user"></i>
+             
+                {{'profiledata'|translate}}
+            </a>
+        </li>
+        <li>
+            <a 
+            [class.active]="openedTab==4"
+            (click)="openedTab=4"
+            routerLink="/members"
+            >
+            <i class="fa-solid fa-children"></i>        
+                {{'manage_kids'|translate}}
+            </a>
+        </li>
+        <li>
+            <a 
+            [class.active]="openedTab==2"
+            (click)="emitToParent(2)">
+            <i class="fa-solid fa-location-dot"></i>
+         
+                {{'myaddresses'|translate}}
+            </a>
+        </li>
+        <li>
+            <a 
+            [class.active]="openedTab==3"
+            (click)="emitToParent(3)"
+            >
+            <i class="fa-solid fa-key"></i>
+         
+                {{'changepassword'|translate}}
+            </a>
+        </li>
+        <li>
+            <a >
+                <i class="fa-regular fa-user"></i>
+             
+                {{'profiledata'|translate}}
+            </a>
+        </li>
+    </ul>
+</div>

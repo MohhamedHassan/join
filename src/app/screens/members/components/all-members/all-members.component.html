@@ -1,0 +1,72 @@
+<app-shared-header header="manage_kids"></app-shared-header>
+<div class="container members">
+    <div class="flex-column flex-md-row d-flex justify-content-between align-items-md-center">
+        <h2 class="mb-3" style="font-size: 25px;">{{'members'|translate}}</h2>
+        <div 
+        (click)="showpopup=true"
+        style="width:200px" class="mb-3">
+            <button class="orangebtn">
+                {{'add_members'|translate}}
+            </button>
+        </div>
+    </div>
+    <hr>
+    <app-laoding *ngIf="membersservice?.membersLoading"></app-laoding>
+    <p    
+    class="text-secondary fw-bold text-center"
+    *ngIf="!members?.length&&!membersservice?.membersLoading">
+       {{'no_data'|translate}}
+    </p>
+    <div 
+    *ngIf="!membersservice?.membersLoading"
+    class="row">
+        <div 
+        (click)="showpopup=true"
+        *ngFor="let member of members"
+        class="col-md-4 col-lg-3 col-xl-2 mb-2">
+        <a 
+        style="color:black"
+        [routerLink]="['/members/details',member?.child_id]">
+            <article class="member-card text-center p-2 rounded">
+                <div style="height: 148px;" class="mb-1">
+                    <img [src]="child_photo(member)" alt="" class="img-fluid" style="max-height: 148px;">
+                </div>
+                <h3 
+                style="font-size: 15px;"
+                class="mb-1">{{member?.child_name}}</h3>
+                <p class="text-secondary m-0">
+                   {{member?.child_age}}
+                   {{'years_old'|translate}}
+                </p>
+            </article>
+        </a>
+        </div>
+    </div>
+</div>
+
+<div 
+[ngClass]="{
+    'd-flex':showpopup,
+    'd-none':!showpopup
+}"
+*ngIf="showpopup"
+class="cstmpopup">
+    <div class="content add-member">
+        <i 
+        (click)="showpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <h2
+        style="font-weight: 400;font-size:20px;line-height: 30px;"
+        >{{'add_member'|translate}}</h2>
+        <div class="container ">
+     
+            <app-add-members
+            (closePopUp)="showpopup=false"
+            ></app-add-members>
+        </div>
+    </div>
+</div>

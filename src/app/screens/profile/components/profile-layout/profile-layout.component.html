@@ -1,0 +1,22 @@
+<section 
+class="store">
+    <app-shared-header
+    header="profile"
+    ></app-shared-header>
+    <!--  -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 mb-3">
+               <app-profile-sidebar
+               (chosenTab)="selectTab($event)"
+               ></app-profile-sidebar>
+            </div>
+            <div class="col-lg-9 mb-3">
+                    <app-profile-data *ngIf="selectedtab==1"></app-profile-data>
+                    <app-my-addresses *ngIf="selectedtab==2"></app-my-addresses>
+                    <app-change-passwod *ngIf="selectedtab==3"></app-change-passwod>
+            </div>
+        </div>
+    </div>
+</section>
+

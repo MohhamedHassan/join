@@ -1,0 +1,81 @@
+<section
+style="min-height: 100vh;"
+class="activities-page mb-5 mrginBottom">
+<app-shared-header
+header="notifications"
+></app-shared-header>
+<!--  -->
+
+    <div class="container">
+    <section>
+     
+        <div 
+        *ngIf="notificationsService.loading"
+        class="col-md-12">
+            <app-laoding ></app-laoding>
+        </div>
+        <ul 
+        *ngIf="!notificationsService.loading"
+        class="list-unstyled p-0 m-0">
+            <li
+            style="border: 1px solid #dddddd;
+            padding: 40px 20px;
+            border-radius: 10px;"
+            class="mb-4"
+            *ngFor="let item of notifications"
+            >
+            <span class="d-block mb-2">
+                <i 
+                (click)="showDeleteNotificationsPopup=item?.id"
+                style="cursor: pointer;"
+                class="fa-solid fa-trash text-danger"></i>
+            </span>
+            {{item?.title}}
+        </li>
+        </ul>
+        <p    
+        class="text-secondary fw-bold text-center"
+        *ngIf="!notifications?.length&&!notificationsService.loading">
+           {{'no_data'|translate}}
+        </p>
+    </section>
+    </div>
+
+</section>
+<div 
+[ngClass]="{
+    'd-flex':showDeleteNotificationsPopup!=-1,
+    'd-none':showDeleteNotificationsPopup==-1
+}"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+        (click)="showDeleteNotificationsPopup=-1"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'deletenotitification'|translate}}</h2>
+            <div class="mt-4">
+                <button 
+                (click)="deleteNotification()"
+                class="btn btn-danger">
+                    {{'delete'|translate}}
+                    <i 
+                    *ngIf="deleteLoading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+                <span class="mx-2"></span>
+                <button 
+                (click)="showDeleteNotificationsPopup=-1"
+                class="btn btn-warning">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

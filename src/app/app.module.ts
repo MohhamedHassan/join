@@ -11,15 +11,33 @@ import { ReusableFooterCartComponent } from './components/reusable-footer-cart/r
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { CommonModule } from '@angular/common';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { FilterComponent } from './components/filter/filter.component';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
     ReusableFooterCartComponent,
     NotfoundComponent,
-    NavbarComponent
+    NavbarComponent,
+    FilterComponent
   ],
   imports: [
+    NgxSliderModule,
+    ReactiveFormsModule,
+    FormsModule,
+    RatingModule .forRoot(),
+    AccordionModule.forRoot() ,
+    CommonModule,
+    ToastrModule.forRoot(),
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
@@ -31,19 +49,20 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
         deps:[HttpClient]
       }
     }),
+    BrowserAnimationsModule,
   ],
   providers: [
     {
       provide:HTTP_INTERCEPTORS,
       useClass:TokenInterceptor,
       multi:true
+    },
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:ErrorInterceptor,
+      multi:true
     }
-    // ,
-    // {
-    //   provide:HTTP_INTERCEPTORS,
-    //   useClass:ErrorInterceptor,
-    //   multi:true
-    // }
+  
   ],
   bootstrap: [AppComponent]
 })

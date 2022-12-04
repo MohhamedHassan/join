@@ -1,3 +1,4 @@
+
 @import '~swiper/swiper-bundle.css';
 @import '/src/assets//styles/colors.scss';
 %ellipsis {
@@ -67,7 +68,6 @@ a {
 // end glopal
 nav {
      border-top: 5px solid $mainColor;
-
      .logo {
           img {
                width: 70px
@@ -75,7 +75,8 @@ nav {
 
           input {
                border: 1px solid rgba(0, 0, 0, 0.2);
-               padding: 7px 30px 7px 7px;
+               padding-top: 7px;
+               padding-bottom: 7px;
                border-radius: 5px;
                margin-top: 5px;
                width: 300px;
@@ -94,45 +95,61 @@ nav {
                i {
                     position: absolute;
                     top: 17px;
-                    right: 10px
+                    cursor: pointer;
                }
           }
      }
-
+     a.username {
+          background: $mainColor;
+          color:white !important;
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          line-height: 50px;
+          text-align: center;
+          padding: 0 !important;
+          position: relative;
+          .profilelist {
+               position: absolute;
+               max-height: 80vh;
+               overflow: auto;
+               width:200px
+          }
+     }
      .links {
           li {
                transition: .5s;
-
+               margin-bottom: 5px;
                a {
                     color: black;
                     transition: .5s;
                     padding: 7px 15px;
                     display: inline-block;
+                    border-bottom: 2px solid transparent;
                }
 
-               border-bottom: 2px solid transparent;
+          
           }
 
           li:not(.lang){
                &:hover {
                     a {
                          color: $mainColor;
+                         border-bottom: 2px solid $mainColor;
                     }
-
-                    border-bottom: 2px solid $mainColor;
+                    
                }
         
           }
           a.active {
                color: $mainColor;     
-          }  
-          li:has(.active) {
                border-bottom: 2px solid $mainColor; 
-           }
+          }  
+
       
 
 
-          .lang:last-of-type {
+          .lang.signinbtn:last-of-type {
                background-color: $mainColor;
                border-radius: 5px;
 
@@ -428,15 +445,14 @@ footer {
           font-size: 25px;
      }
 
-     input {
+     input,select {
           border: none;
           padding: 10px 2px;
           border-bottom: 1px solid rgba(0, 0, 0, 0.2);
           outline: none;
-          margin-bottom: 20px;
-          width: 50%;
+          width: 100%;
      }
-
+     select {color: rgb(168, 167, 167);}
      button {
           background-color: $orangeColor;
           border: none;
@@ -474,7 +490,6 @@ footer {
      }
 
      .phonNumberParent {
-          width: 50%;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -589,7 +604,7 @@ footer {
 
      .book-now {
           box-shadow: 0 4px 25px 0 rgb(0 0 0 / 10%);
-
+          border: 1px solid #ebeef5;
           small {
                display: inline-block;
           }
@@ -685,5 +700,170 @@ footer {
          }
      }
  }
- 
+ button.orangebtn {
+     background-color: $orangeColor;
+     width: 100%;
+     color: white;
+     border: none;
+     padding: 10px;
+     border-radius: 5px;
+ }
 // end clup details
+.cstmpopup {
+     position: fixed;
+     top:0;
+     bottom:0;
+     right:0;
+     left:0;
+     z-index: 11111;
+     background-color: rgba(0, 0, 0, 0.5);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 20px;
+
+     .content {
+          background-color: white;
+          width: 60%;
+          border-radius: 20px;
+          padding: 20px;
+          position: relative;
+          .fa-x {
+               position: absolute;
+               top:20px;
+               cursor: pointer;
+          } 
+          .body {
+               max-height: 70vh;
+               overflow: auto;
+          }
+     }
+     .content.small {
+          width: 50% ;
+     }
+}
+@media only screen and (max-width: 768px) {
+     .cstmpopup {
+          .content , .content.small {
+               width: 90% !important;
+          }
+     }
+}
+.profileaddress {
+     .fa-plus {
+         background-color: $mainColor;
+         color: white;
+         border-radius: 50%;
+         padding:10px;
+         cursor: pointer;
+     }
+ }
+/* Importing Bootstrap SCSS file. */
+.profileaddress {
+     ::-webkit-scrollbar {
+         width: 10px;
+         margin: 5px;
+       }
+       
+       /* Track */
+       ::-webkit-scrollbar-track {
+         background: #f1f1f1; 
+       }
+        
+       /* Handle */
+       ::-webkit-scrollbar-thumb {
+         background: #888; 
+       }
+       
+       /* Handle on hover */
+       ::-webkit-scrollbar-thumb:hover {
+         background: #555; 
+       }
+ }
+ .profilepages {
+     height:70vh;
+     .adresss {
+          height: 80%;
+     }
+ }
+ .members {
+     .member-card {
+          cursor: pointer;
+          box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+          transition: .5s;
+          border: 1px solid #ebeef5;
+          &:hover {
+               box-shadow: 0 8px 16px 0 rgb(0 0 0 / 20%);
+          }
+          h3,p {
+               @extend %ellipsis;
+          }
+     }
+ }
+ .add-member {
+     .gender {
+          .gendericon {
+               cursor: pointer;
+               border:1px solid rgb(221, 219, 219);
+               border-radius: 10px;
+               height: 100px;
+               width: 100%;
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               i {
+                    font-size: 50px;
+               }
+          }
+
+     }
+     .memberimg {
+          width: 70px;
+          margin: auto;
+          img {
+               width: 70px;
+               height: 70px;
+               border-radius: 50%;
+               object-fit: cover;
+          }
+          .fileinput {
+               overflow: hidden;
+               input {
+                    width: 100%;
+                    height: 100%;
+                    opacity: 0;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 20px;
+                    right: -15px;
+                    z-index: 111;          
+                    cursor: pointer;
+               }
+          }
+          .fa-camera {
+               position: absolute;
+               top: 20px;
+               right: -15px;
+               background: $mainColor;
+               color: white;
+               padding: 7px;
+               border-radius: 50%;
+               z-index: 1;
+          }
+     }
+ }
+ @media only screen and (max-width: 992px) {
+     .profilepages {
+          height:auto !important;
+          .adresss {
+               height: auto !important;
+          }
+      }
+ }
+@import "~bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+@import "node_modules/ngx-bootstrap/datepicker/bs-datepicker";
+@import 'ngx-toastr/toastr';

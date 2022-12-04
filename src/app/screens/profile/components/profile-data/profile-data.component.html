@@ -1,0 +1,141 @@
+<div 
+class="p-3 rounded my-1 profiledatapage profilepages"
+style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;overflow: auto;">
+    <h2 style="font-weight: 400;font-size:20px" class="mb-3">{{'profiledata'|translate}}</h2>
+    <form 
+    [formGroup]="profilForm"
+    (ngSubmit)="updateProfile(profilForm.value)"
+    class="row">
+        <div class="col-md-6 mb-3">
+            <div>
+                <input 
+                formControlName="fname"
+                type="text" 
+                placeholder="{{'first_name'|translate}}"
+                class="form-control">
+                <p 
+                *ngIf="(profilForm.controls['fname']?.errors!=null && profilForm.controls['fname'].touched) ||
+                (profilForm.controls['fname']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div>
+                <input 
+                formControlName="lname"
+                type="text" 
+                placeholder="{{'last_name'|translate}}"
+                class="form-control">
+                <p 
+                *ngIf="(profilForm.controls['lname']?.errors!=null && profilForm.controls['lname'].touched) ||
+                (profilForm.controls['lname']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div>
+                <!-- <app-phone-number
+                [inputname]="profilForm.get('mobile')"
+                ></app-phone-number> -->
+                <input 
+                formControlName="mobile"
+                type="text" 
+                placeholder="{{'phone_number'|translate}}"
+                class="form-control">
+                <p 
+                *ngIf="(profilForm.controls['mobile']?.errors!=null && profilForm.controls['mobile'].touched) ||
+                (profilForm.controls['mobile']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div>
+                <input 
+                formControlName="email"
+                type="text" 
+                placeholder="{{'email'|translate}}"
+                class="form-control">
+                <p 
+                *ngIf="(profilForm.controls['email']?.errors!=null && profilForm.controls['email'].touched) ||
+                (profilForm.controls['email']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'validemail'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <input 
+                formControlName="dob"
+                class="form-control"
+                #dobirth
+                (blur)="dateInputType(dobirth)"
+                (change)="dateInputType(dobirth)"
+                (focus)="dobirth.type='date'"
+                type="text" placeholder="{{'dob'|translate}}">
+                <p 
+                *ngIf="(profilForm.controls['dob']?.errors!=null && profilForm.controls['dob'].touched) ||
+                (profilForm.controls['dob']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <select 
+                formControlName="area_id"
+                class="form-control"
+                >
+                    <option value="" selected>{{'area'|translate}}</option>
+                    <optgroup 
+                    *ngFor="let area of areas"
+                    [label]="area?.gov">
+                      <option 
+                      *ngFor="let item of area?.areas"
+                      [value]="item?.id">{{item?.name}}</option>
+                    </optgroup>
+                  </select>
+                  <p 
+                  *ngIf="(profilForm.controls['area_id']?.errors!=null && profilForm.controls['area_id'].touched) ||
+                  (profilForm.controls['area_id']?.errors!=null && submited)
+                  "
+                  class="my-2 text-danger">
+                      {{'required'|translate}}
+                  </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div>
+                <button 
+                class="orangebtn"
+                type="submit"
+                [disabled]="loading"
+                >
+                    {{'save'|translate}}
+                    <i 
+                    *ngIf="loading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+            </div>
+        </div>
+        <!--  -->
+    </form>
+</div>

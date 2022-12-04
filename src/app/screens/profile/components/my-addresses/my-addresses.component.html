@@ -1,0 +1,254 @@
+<div 
+class="p-3 rounded my-1 profileaddress profilepages"
+style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;">
+    <div class="d-flex mb-3 mx-2 flex-column flex-md-row justify-content-between align-items-md-center">
+        <h2 style="font-weight: 400;font-size:20px" class="mb-2">{{'myaddresses'|translate}}</h2>
+        <div>
+            <i 
+            (click)="showpopup=true;addressForm.reset();update=-1;pathcharea();submited=false"
+            class="fa-solid fa-plus d-inline-block mb-2"></i>
+        </div>
+       
+    </div>
+    <div class="mx-2">
+        <hr>
+    </div>
+    <app-laoding *ngIf="authservice.addressesLoading"></app-laoding>
+    <p    
+    class="text-secondary fw-bold text-center"
+    *ngIf="!addresses?.length&&!loading">
+       {{'no_data'|translate}}
+    </p>
+    <div 
+    class="adresss"
+    style="overflow:auto">
+        <div 
+        class="m-2"
+        *ngFor="let address of addresses">
+        <div
+        class="p-3"
+        style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;border-radius: 10px;overflow-x: hidden;"
+        >
+            <div class="mb-3">
+                <i 
+                style="cursor: pointer;"
+                (click)="showDeleteAddresspopup=address?.id"
+                class="fa-solid fa-trash maincolor"></i>
+                <span class="mx-2"></span>
+                <i 
+                style="cursor: pointer;"
+                (click)="editAddress(address)"
+                class="fa-solid fa-pen-to-square maincolor"></i>
+            </div>
+            <p class="fw-bold mb-1">{{address?.title}}</p>
+            <p class="m-0">{{address?.block}}, {{address?.street}}, {{address?.building}}</p>
+        </div>
+             
+    
+        </div>
+    </div>
+</div>
+<div 
+[ngClass]="{
+    'd-flex':showpopup,
+    'd-none':!showpopup
+}"
+class="cstmpopup">
+    <div class="content">
+        <i 
+        (click)="showpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'addAddress'|translate}}</h2>
+            <form  
+            (ngSubmit)="addAddress(addressForm.value)"
+            [formGroup]="addressForm"
+            class="row body py-2">
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'title'|translate}}"
+                        formControlName="title"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['title']?.errors!=null && addressForm.controls['title'].touched) ||
+                        (addressForm.controls['title']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <!-- <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'areaname'|translate}}"
+                        formControlName="area_name"
+                        type="text" class="form-control">
+                    </div>
+                </div> -->
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <select 
+                        formControlName="area_id"
+                        class="form-control"
+                        >
+                            <option value="" selected>{{'area'|translate}}</option>
+                            <optgroup 
+                            *ngFor="let area of areas"
+                            [label]="area?.gov">
+                              <option 
+                              *ngFor="let item of area?.areas"
+                              [value]="item?.id">{{item?.name}}</option>
+                            </optgroup>
+                          </select>
+                          <p 
+                          *ngIf="(addressForm.controls['area_id']?.errors!=null&& addressForm.controls['area_id'].touched) ||
+                          (addressForm.controls['area_id']?.errors!=null && submited)
+                          "
+                          class="my-2 text-danger">
+                              {{'required'|translate}}
+                          </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'block'|translate}}"
+                        formControlName="block"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['block']?.errors!=null && addressForm.controls['block'].touched) ||
+                        (addressForm.controls['block']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'street'|translate}}"
+                        formControlName="street"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['street']?.errors!=null && addressForm.controls['street'].touched) ||
+                        (addressForm.controls['street']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'building'|translate}}"
+                        formControlName="building"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['building']?.errors!=null && addressForm.controls['building'].touched) ||
+                        (addressForm.controls['building']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'floor'|translate}}"
+                        formControlName="floor"
+                        type="text" class="form-control">
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'apartment'|translate}}"
+                        formControlName="apartment"
+                        type="text" class="form-control">
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'avenue'|translate}}"
+                        formControlName="avenue"
+                        type="text" class="form-control">
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-12">
+                    <div>
+                        <button 
+                        type="submit"
+                        class="orangebtn"
+                        [disabled]="loading"
+                        >
+                            {{'save'|translate}}
+                            <i 
+                            *ngIf="loading"
+                            class="fas fa-circle-notch fa-spin"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div 
+[ngClass]="{
+    'd-flex':showDeleteAddresspopup!=-1,
+    'd-none':showDeleteAddresspopup==-1
+}"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+        (click)="showDeleteAddresspopup=-1"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'deleteaddress'|translate}}</h2>
+            <div class="mt-4">
+                <button 
+                (click)="deleteAddress()"
+                class="btn btn-danger">
+                    {{'delete'|translate}}
+                    <i 
+                    *ngIf="deleteLoading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+                <span class="mx-2"></span>
+                <button 
+                (click)="showDeleteAddresspopup=-1"
+                class="btn btn-warning">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

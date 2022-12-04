@@ -1,5 +1,6 @@
 <article class="clup-cart glopal-cart position-relative">
-    <div class="d-flex justify-content-end p-2 heart">
+    <div 
+    class="d-flex justify-content-end p-2 heart">
         <i class="fa-solid fa-heart"></i>
     </div>
     <div class="imgPart">
@@ -17,8 +18,9 @@
                 </span>
                <span 
                class="d-block mt-2"
-               *ngIf="isLogin()">
-                <i class="maincolor fa-solid fa-location-dot"></i>
+               *ngIf="isLogin()&&location_count">
+                <i 
+                class="maincolor fa-solid fa-location-dot"></i>
                 {{location_count}}
                </span>
             </a>

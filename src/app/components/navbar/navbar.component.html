@@ -10,8 +10,23 @@
             </a>
             <span class="d-none d-lg-block mx-2"></span>
             <div class="position-relative">
-                <input type="text" placeholder="{{'lets_explore' | translate}}">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <input 
+                (keyup.enter)="inputSearch(searchInput.value)"
+                #searchInput
+                [ngStyle]="           
+                    {
+                        'padding-right':lang=='ar' ? '30px' : '7px',
+                        'padding-left':lang=='ar' ? '7px' : '30px'
+                    }
+                "
+                type="text" placeholder="{{'lets_explore' | translate}}">
+                <i 
+                (click)="filterPopup=true"
+                [ngStyle]="{
+                    'right':lang=='ar' ? '10px' : 'auto',
+                    'left':lang=='ar' ? 'auto' : '10px'
+                }"
+                class="fa-solid fa-filter maincolor"></i>
             </div>
             <i 
             style="cursor: pointer;"
@@ -39,6 +54,26 @@
                 [routerLinkActiveOptions]="{exact:true}"
                 (click)="openNavbar=!openNavbar"
                 routerLink="/activities">{{'activities'|translate}}</a></li>
+                <!--  -->
+            <ng-container *ngIf="isLogin()">
+                <li
+                class="d-lg-none"
+                ><a 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact:true}"
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/profile">{{'myaccount'|translate}}</a></li>
+                <!--  -->
+                <li
+                class="d-lg-none"
+                ><a 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact:true}"
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/notifications">{{'notifications'|translate}}</a></li>
+                <!--  -->
+            </ng-container>
+            
             <li><a 
                 (click)="openNavbar=!openNavbar"
                 routerLink="/store">{{'aboutus'|translate}}</a></li>
@@ -47,9 +82,64 @@
                 style="cursor:pointer"
                 (click)="selectLang(lang=='ar'?'en':'ar');openNavbar=!openNavbar"
                 > {{lang=='ar'?'en':'ar'}}</a></li>
-            <li class="lang"><a 
+            <li 
+            *ngIf="!isLogin()"
+            class="lang signinbtn"><a 
                 (click)="openNavbar=!openNavbar"
                 routerLink="/auth/login">{{'signin'|translate}}</a></li>
+            <li class="lang">
+                <a class="additionicons">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <i class="fa-solid fa-heart mx-2"></i>
+                    <i class="fa-solid fa-bell"></i>
+                </a>
+            </li>
+            <li
+            class="d-none d-lg-block lang position-relative subparent">
+                <a 
+                class="username">
+                  {{userName|uppercase}}
+                </a>
+                <div
+                [ngStyle]="{
+                    'right':lang=='ar'?'auto':'0',
+                    'left':lang=='ar'?'0':'auto'
+                }"
+                class="submenu">
+                    <a 
+                    routerLink="/profile"
+                    >
+                        <i class="fa-regular fa-user maincolor"></i>
+                        {{'myaccount'|translate}}
+                    </a>
+                    <a
+                    routerLink="/notifications"
+                    >
+                        <i class="fa-solid fa-bell maincolor"></i>
+                        {{'notifications'|translate}}
+                    </a>
+                </div>
+            </li>
         </ul>
     </div>
-</nav>
+</nav>            
+
+<!--  -->
+<div 
+[ngClass]="{
+    'd-flex':filterPopup,
+    'd-none':!filterPopup
+}"
+*ngIf="filterPopup"
+class="cstmpopup">
+    <div class="content">
+        <i 
+        (click)="filterPopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+                <app-filter></app-filter>
+    </div>
+</div>

@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
       this.homeService.getClupsGuest()
       this.homeService.getActivitiesGuest(1)
     }
-    this.homeService.getIntersts()
+
   }
   chosenTabFromChild(chosenTab:number) {
     this.chosenTab=chosenTab

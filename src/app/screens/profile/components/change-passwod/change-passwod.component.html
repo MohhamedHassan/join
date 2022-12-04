@@ -1,0 +1,79 @@
+<div 
+class="p-3 rounded my-1 profilechangepassword profilepages"
+style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;overflow: auto;">
+<h2 style="font-weight: 400;font-size:20px" class="mb-4">{{'changepassword'|translate}}</h2> 
+
+    <!-- <app-laoding *ngIf="authservice.addressesLoading"></app-laoding> 
+    
+    -->
+    <form
+    [formGroup]="changePasswordForm"
+    (ngSubmit)="changePassword(changePasswordForm.value)"
+    >
+        <div class="form-group mb-3">
+            <input 
+            readonly
+            formControlName="mobile"
+            type="text" class="form-control" placeholder="{{'phone_number'|translate}}">
+           <p 
+           *ngIf="(changePasswordForm.controls['mobile']?.errors!=null && changePasswordForm.controls['mobile'].touched) ||
+           (changePasswordForm.controls['mobile']?.errors!=null && submited)
+           "
+           class="my-2 text-danger">
+               {{'required'|translate}}
+           </p>
+        </div>
+        <!--  -->
+        <div class="form-group mb-3">
+            <input 
+            formControlName="old_password"
+            type="password" class="form-control" placeholder="{{'oldpassword'|translate}}">
+            <p 
+            *ngIf="(changePasswordForm.controls['old_password']?.errors!=null && changePasswordForm.controls['old_password'].touched) ||
+            (changePasswordForm.controls['old_password']?.errors!=null && submited)
+            "
+            class="my-2 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div>
+        <!--  -->
+        <div class="form-group mb-3">
+            <input 
+            formControlName="password"
+            type="password" class="form-control" placeholder="{{'newpassword'|translate}}">
+            <p
+            *ngIf="(changePasswordForm.controls['password']?.errors!=null && changePasswordForm.controls['password'].touched) ||
+            (changePasswordForm.controls['password']?.errors!=null && submited)
+            "
+            class="my-2 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div>
+        <!--  -->
+        <div class="form-group mb-3">
+            <input 
+            formControlName="confirm_password"
+            type="password" class="form-control" placeholder="{{'confirmpassword'|translate}}">
+            <p
+            *ngIf="(changePasswordForm.controls['confirm_password']?.value !== changePasswordForm.controls['password']?.value && changePasswordForm.controls['confirm_password'].touched) ||
+            (changePasswordForm.controls['confirm_password']?.value !== changePasswordForm.controls['password']?.value && submited)
+            "
+            class="my-2 text-danger">
+                {{'not_match'|translate}}
+            </p>
+        </div>
+        <!--  -->
+        <div class="col-md-12">
+            <div>
+                <button 
+                [disabled]="loading"
+                class="orangebtn">
+                    {{'save'|translate}}
+                    <i 
+                    *ngIf="loading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

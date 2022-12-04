@@ -1,0 +1,140 @@
+<div class="container">
+    <h2
+    style="font-weight: 400;font-size:20px;line-height: 30px;"
+    >{{'Filter'|translate}}</h2>
+    <div class="row body">
+        <div 
+        class="col-lg-6 col-xl-4 mb-3">
+            <div>
+                <accordion [isAnimated]="true">
+                    <accordion-group
+                    heading="{{'Interests'|translate}}">
+                        <ul 
+                        class="list-unstyled p-0"
+                        *ngFor="let item of interst">
+                          <li>
+                            <span 
+                            style="background-color: #F89416;"
+                            class="d-block  rounded text-white p-2 mb-2">
+                              {{item?.name}}
+                            </span>
+                            <ul class="list-unstyled p-0 mx-2">
+                              <li 
+                              class="mb-2"
+                              *ngFor="let sub of item?.sub_interests">
+                                <input type="checkbox">
+                                <label class="mx-2">
+                                  {{sub?.sub_interests_name}}
+                                </label>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                    </accordion-group>
+                  </accordion>
+            </div>
+        </div>
+        <!--  -->
+        <div 
+        class="col-lg-6 col-xl-4 mb-3">
+            <div>
+                <accordion [isAnimated]="true">
+                    <accordion-group
+                    heading="{{'area'|translate}}">
+                        <ul 
+                        class="list-unstyled p-0"
+                        *ngFor="let item of areas">
+                          <li>
+                            <span 
+                            style="background-color: #F89416;"
+                            class="d-block  rounded text-white p-2 mb-2">
+                              {{item?.gov}}
+                            </span>
+                            <ul class="list-unstyled p-0 mx-2">
+                              <li 
+                              class="mb-2"
+                              *ngFor="let sub of item?.areas">
+                                <input type="checkbox">
+                                <label class="mx-2">
+                                  {{sub?.name}}
+                                </label>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                    </accordion-group>
+                  </accordion>
+            </div>
+        </div>
+        <!--  -->
+        <div 
+        *ngIf="isLogin()"
+        class="col-lg-6 col-xl-4 mb-3">
+            <div>
+                <accordion [isAnimated]="true">
+                    <accordion-group
+                    heading="{{'members'|translate}}">
+                    <ul class="list-unstyled p-0">
+                      <li 
+                      class="mb-2"
+                      *ngFor="let item of members">
+                        <input type="checkbox">
+                        <label class="mx-2">
+                          {{item?.child_name}}
+                        </label>
+                      </li>
+                    </ul>
+                    </accordion-group>
+                  </accordion>
+            </div>
+        </div>
+        <!--  -->
+        <div 
+        class="col-lg-6 col-xl-4 mb-3">
+            <div>
+                <accordion [isAnimated]="true">
+                    <accordion-group
+                    heading="{{'rating'|translate}}">
+                    <div class="text-center">
+                      <rating [(ngModel)]="rate"  [max]="5" ></rating>
+                    </div>
+                    </accordion-group>
+                  </accordion>
+            </div>
+        </div>
+        <!--  -->
+        <div 
+        class="col-lg-6 col-xl-4 mb-3">
+            <div>
+                <accordion [isAnimated]="true">
+                    <accordion-group
+                    heading="{{'price'|translate}}">
+                    <ngx-slider 
+                    [(value)]="value2" 
+                    [(highValue)]="highValue2" 
+                    [options]="options2"></ngx-slider>
+                    </accordion-group>
+                  </accordion>
+            </div>
+        </div>
+        <!--  -->
+        <div 
+        class="col-lg-6 col-xl-4 mb-3">
+            <div>
+                <accordion [isAnimated]="true">
+                    <accordion-group
+                    heading="{{'age'|translate}}">
+                    <ngx-slider 
+                    [(value)]="value" 
+                    [(highValue)]="highValue" 
+                    [options]="options"></ngx-slider>
+                    </accordion-group>
+                  </accordion>
+            </div>
+        </div>
+        <!--  -->
+    </div>
+    <button class="orangebtn">
+        {{'search'|translate}}
+    </button>
+</div>

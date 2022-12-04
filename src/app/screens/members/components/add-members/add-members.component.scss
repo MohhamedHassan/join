@@ -1,0 +1,21 @@
+.subinteristList {
+    li {
+        color: #000;
+        box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+        padding: 10px 28px 10px 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        margin: 5px;
+        font-size: 13px;
+        cursor: pointer;
+        transition: .5s;
+        &:hover {
+            color: white;
+            background-color: #F89416;
+        }
+    }
+    li.selected {
+        color: white;
+        background-color: #F89416;
+    }
+}

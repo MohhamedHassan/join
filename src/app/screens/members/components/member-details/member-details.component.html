@@ -1,0 +1,120 @@
+
+<div *ngIf="membersservice?.membersLoading"
+style="min-height: 100vh;"
+>
+    <app-laoding></app-laoding>
+</div>
+<ng-container *ngIf="!membersservice?.membersLoading">
+    <app-shared-header header="member_details"></app-shared-header>
+<div class="container">
+        <div class="d-flex justify-content-center mb-5">
+            <div class="img text-center">
+                <img 
+                style="width: 200px;height:200px;object-fit:contain"
+                class="img-fluid"
+                [src]="child_photo()" alt="">
+                <h2
+                class="mb-2"
+                style="font-weight: 400;font-size: 25px;"
+                >
+                    {{memberDetails?.child_name}}
+                </h2>
+                <p 
+                *ngIf="memberDetails?.child_age"
+                class="text-secondary mb-2">
+                    {{memberDetails?.child_age}}
+                    {{'years_old'|translate}}
+                </p>
+                <p>
+                    <i 
+                    (click)="editMemberPopup=true"
+                    style="cursor: pointer;"
+                    class="fa-solid fa-pen maincolor"></i>
+                    <span class="mx-2"></span>
+                    <i 
+                    (click)="showDeleteMemberpopup=true"
+                    style="cursor: pointer;"
+                    class="fa-solid fa-trash text-danger"></i>
+                </p>
+            </div>
+        </div>
+        <h2 *ngIf="memberDetails?.child_interests?.length">{{'Interests'|translate}}</h2>
+        <ul style="display:flex;flex-wrap:wrap"
+        class="list-unstyled subinteristList p-0"
+        >
+            <li
+            *ngFor="let item of memberDetails?.child_interests;let i = index">
+                {{item?.interests_name}}
+            </li>
+        </ul>
+</div>
+</ng-container>
+<div 
+[ngClass]="{
+    'd-flex':showDeleteMemberpopup,
+    'd-none':!showDeleteMemberpopup
+}"
+*ngIf="showDeleteMemberpopup"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+        (click)="showDeleteMemberpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'deletemember'|translate}}</h2>
+            <div class="mt-4">
+                <button 
+                (click)="deleteMember()"
+                class="btn btn-danger">
+                    {{'delete'|translate}}
+                    <i 
+                    *ngIf="deleteLoading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+                <span class="mx-2"></span>
+                <button 
+                (click)="showDeleteMemberpopup=false"
+                class="btn btn-warning">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div 
+[ngClass]="{
+    'd-flex':editMemberPopup,
+    'd-none':!editMemberPopup
+}"
+*ngIf="editMemberPopup"
+class="cstmpopup">
+    <div class="content add-member">
+        <i 
+        (click)="editMemberPopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <h2
+        style="font-weight: 400;font-size:20px;line-height: 30px;"
+        >{{'add_member'|translate}}</h2>
+        <div class="container ">
+     
+            <app-add-members
+            [patchToEdit]="patchtoedit"
+            (closePopUp)="editMemberPopup=false"
+            ></app-add-members>
+        </div>
+    </div>
+</div>
+
+<a routerLink="/search/t"
+[queryParams]="{test:y}"
+>fgd</a>

@@ -1,0 +1,38 @@
+<app-shared-header
+header="search_result"
+></app-shared-header>
+<section
+class="container my-5"
+style="min-height: 100vh;"
+>
+<app-laoding *ngIf="loading"></app-laoding>
+<div 
+*ngIf="!loading"
+class="row">
+<div *ngFor="let item of searchResult" class="col-md-4 col-lg-3 mb-4">
+    <article class="clup-cart glopal-cart position-relative">
+        <div class="imgPart">
+            <img 
+            [src]="item?.banner"  alt="join">
+        </div>
+        <div 
+        class="detasils px-3 py-4">
+                    <h2 
+                style="font-weight: 400;padding:10px 0;margin:0"
+                class="text-center clup-card">
+                <a [routerLink]="routeToDEtailsPage(item)">
+                    <span class="d-block">
+                        {{item?.title||item?.name}} 
+                    </span>
+                </a>
+            </h2>
+        </div>
+    </article>
+</div>
+<p    
+class="text-secondary fw-bold text-center"
+*ngIf="!searchResult?.length">
+   {{'no_data'|translate}}
+</p>
+</div>
+</section>

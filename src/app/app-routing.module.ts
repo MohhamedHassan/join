@@ -32,6 +32,22 @@ const routes: Routes = [
     loadChildren:() => import('src/app/screens/clup-details/clup-details.module').then(m => m.ClupDetailsModule)
   },
   {
+    path:'search/:str',
+    loadChildren:() => import('src/app/screens/search-result/search-result.module').then(m => m.SearchResultModule)
+  },
+  {
+    path:'profile',
+    loadChildren:() => import('src/app/screens/profile/profile.module').then(m => m.ProfileModule)
+  },
+  {
+    path:'members',
+    loadChildren:() => import('src/app/screens/members/members.module').then(m => m.MembersModule)
+  },
+  {
+    path:'notifications',
+    loadChildren:() => import('src/app/screens/notifications/notifications.module').then(m => m.NotificationsModule)
+  },
+  {
     path:'**',
     component:NotfoundComponent
   }

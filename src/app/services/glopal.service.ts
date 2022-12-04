@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs'
+import { BehaviorSubject, map } from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
@@ -8,4 +8,5 @@ export class GlopalService {
   apiUrlOne:string='https://app.join.com.kw/api/v1/'
   apiUrlTwo:string='https://app.join.com.kw/api/v2/'
   constructor() { }
+
 }

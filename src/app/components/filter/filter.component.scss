@@ -1,0 +1,11 @@
+::ng-deep {
+    .accordion-toggle {
+        .btn.btn-link {
+            color:  black !important;
+            text-decoration: none !important;
+        }
+    }
+    .bs-rating-star {
+        font-size: 30px !important;
+    }
+}

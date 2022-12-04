@@ -1,0 +1,181 @@
+<div 
+*ngIf="step==1"
+class="gender">
+    <div 
+    (click)="selectedGender='BOY'"
+    [ngStyle]="{
+        'background-color':selectedGender=='BOY'?'#f0f8ff':'white'
+    }"
+    class="gendericon mb-2 ">
+        <i class="fa-solid fa-person maincolor"></i>
+    </div>
+    <div 
+    (click)="selectedGender='GIRL'"
+    [ngStyle]="{
+        'background-color':selectedGender=='GIRL'?'#f0f8ff':'white'
+    }"
+    class="gendericon mb-2">
+        <i class="fa-solid fa-person-dress orangecolor"></i>
+    </div>
+    <div class="d-flex justify-content-end">
+        <button 
+        [disabled]="!selectedGender"
+        (click)="selectGEnderDone()"
+        class="btn btn-danger">
+            {{'next'|translate}}
+        </button>
+    </div>
+</div>
+<div 
+[hidden]="step!=2"
+class="general-info">
+    <div class="memberimg text-center position-relative">
+            <img
+            [src]="imgUrl"  alt="">
+            <div class="fileinput">
+                <input
+                (change)="selectMemberImg($event)"
+                type="file">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+    </div>
+    <form 
+    [formGroup]="memberForm"
+    (ngSubmit)="submitMemberForm(memberForm)"
+    >
+        <div class="form-group mb-2">
+            <label for="">{{'name'|translate}}</label>
+            <input 
+            formControlName="name"
+            type="text"  class="form-control">
+            <p 
+            *ngIf="(memberForm.controls['name']?.errors!=null && memberForm.controls['name'].touched) ||
+            (memberForm.controls['name']?.errors!=null && submited)"
+            class="my-1 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div>
+        <div class="form-group mb-2">
+            <label for="">{{'dob'|translate}}</label>
+            <input 
+            formControlName="dob"
+            type="date"  class="form-control">
+            <p 
+            *ngIf="(memberForm.controls['dob']?.errors!=null && memberForm.controls['dob'].touched) ||
+            (memberForm.controls['dob']?.errors!=null && submited)"
+            class="my-1 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div>
+        <div class="d-flex justify-content-end">
+            <button 
+            [disabled]="memberForm.invalid"
+            class="btn btn-danger">
+                {{'next'|translate}}
+            </button>
+            <span class="mx-2"></span>
+            <button 
+            type="button"
+            (click)="step=1"
+            class="btn btn-danger">
+                {{'back'|translate}}
+            </button>
+        </div>
+    </form>
+</div>
+<div 
+*ngIf="step==3"
+>
+    <h2
+    style="font-weight: 400;font-size:20px"
+    >{{'Select_your_interests'|translate}}</h2>
+    <div class="row body">
+        <div 
+        *ngFor="let item of intersts;let i = index"
+        class="col-md-6 mb-3">
+            <article 
+            [ngStyle]="{
+                'background':selectedInterist==i ? '#F89416' : 'white',
+                'color':selectedInterist==i ? 'white' : 'black'
+            }"
+            style="cursor: pointer;"
+            (click)="selectInters(item,i)"
+            class="clup-cart glopal-cart position-relative rounded">
+                <div class="imgPart">
+                    <img 
+                    [src]="item?.photo_name"  alt="join">
+                </div>
+                <div 
+                class="detasils px-3 py-4">
+                            <h2 
+                        style="font-weight: 400;padding:10px 0;margin:0"
+                        class="text-center clup-card">
+                        <a >
+                            {{item?.name}} 
+                        </a>
+                    </h2>
+                </div>
+            </article>
+        </div>
+        <p    
+        class="text-secondary fw-bold text-center"
+        *ngIf="!intersts?.length">
+           {{'no_data'|translate}}
+        </p>
+    </div>
+    <div 
+    *ngIf="intersts?.length"
+    class="d-flex justify-content-end mt-2">
+        <button 
+        [disabled]="selectedInterist==-1"
+        (click)="interstNext()"
+        class="btn btn-danger">
+            {{'next'|translate}}
+        </button>
+        <span class="mx-2"></span>
+        <button 
+        (click)="step=2"
+        class="btn btn-danger">
+            {{'back'|translate}}
+        </button>
+    </div>
+</div>
+ 
+<div *ngIf="step==4">
+    <div class="body">
+        <ul style="display:flex;flex-wrap:wrap"
+        class="list-unstyled subinteristList p-0 m-0"
+        >
+            <li
+            [class.selected]="item?.selected"
+            (click)="selectSubInterist(item?.sub_interests_id,i)"
+            *ngFor="let item of subInterst;let i = index">
+                {{item?.sub_interests_name}}
+            </li>
+        </ul>
+        <p    
+        class="text-secondary fw-bold text-center"
+        *ngIf="!subInterst?.length">
+           {{'no_data'|translate}}
+        </p>
+    </div>
+    <div 
+    *ngIf="intersts?.length"
+    class="d-flex justify-content-end mt-2">
+        <button 
+      [disabled]="!selectedSubInterists.length||addMemberLoading"
+        (click)="createMember()"
+        class="btn btn-danger">
+            {{'finish'|translate}}
+            <i 
+            *ngIf="addMemberLoading"
+            class="fas fa-circle-notch fa-spin"></i>
+        </button>
+        <span class="mx-2"></span>
+        <button 
+        (click)="step=3"
+        class="btn btn-danger">
+            {{'back'|translate}}
+        </button>
+    </div>
+</div>

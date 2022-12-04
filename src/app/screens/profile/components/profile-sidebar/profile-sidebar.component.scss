@@ -1,0 +1,31 @@
+@import '/src/assets//styles/colors.scss';
+.profile-layout-list {
+   a {
+    display: block;
+    width: 100%;
+    border: 1px solid #ebebeb;
+    padding: 10px 19px;
+    border-radius: 20px;
+    color: black;
+    margin-bottom: 10px;
+    cursor: pointer;
+    i {
+        color:$mainColor;
+        display: inline-block;
+        width: 20px;
+    }
+    &:hover {
+        background-color: $mainColor;
+        color: white;
+        i {color:white}
+        border:1px solid transparent
+    }
+
+   }
+   a.active {
+    background-color: $mainColor;
+    color: white;
+    i {color:white}
+    border:1px solid transparent
+   }
+}

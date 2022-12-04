@@ -12,13 +12,17 @@ import { ClupCardComponent } from './components/clup-card/clup-card.component';
 import { LaodingComponent } from './components/laoding/laoding.component';
 import { NgxStarRatingModule } from 'ngx-star-rating'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { ToastrModule } from 'ngx-toastr';
+import { PhoneNumberComponent } from './components/phone-number/phone-number.component';
 @NgModule({
   declarations: [
     CategoriesListComponent,
     CartOneComponent,
     SharedHeaderComponent,
     ClupCardComponent,
-    LaodingComponent
+    LaodingComponent,
+    PhoneNumberComponent
   ],
   imports: [
     CommonModule,
@@ -28,6 +32,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     NgxStarRatingModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxIntlTelInputModule,
+    ToastrModule.forRoot(),
     TranslateModule.forChild({
       defaultLanguage:'en',
       loader: {
@@ -48,7 +54,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     LaodingComponent,
     NgxStarRatingModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgxIntlTelInputModule,
+    ToastrModule,
+    PhoneNumberComponent
   ]
 })
 export class SharedModule { }
