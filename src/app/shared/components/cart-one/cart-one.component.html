@@ -4,8 +4,13 @@
     'text-align':lang=='ar'?'right':'left'
 }"
 class="cart-one glopal-cart position-relative">
-    <div class="d-flex justify-content-end p-2 heart">
-        <i class="fa-solid fa-heart"></i>
+    <div 
+    *ngIf="show_heart"
+    class="d-flex justify-content-end p-2 heart">
+        <i 
+        (click)=" addActivityToFavorite()"
+        [class.active]="heartStatus=='FAVORITE'"
+        class="fa-solid fa-heart"></i>
     </div>
     <div class="imgPart">
         <img 

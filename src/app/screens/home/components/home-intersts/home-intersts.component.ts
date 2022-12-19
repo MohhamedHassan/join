@@ -13,6 +13,7 @@ export class HomeInterstsComponent implements OnInit {
   constructor(public homeService:HomeService) { }
 
   ngOnInit(): void {
+    this.homeService.getIntersts()
     this.homeService.intersts.subscribe((res) => {
       if(Array.isArray(res)) {
         this.intersts=[...this.intersts,...res]

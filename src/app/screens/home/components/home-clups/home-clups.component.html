@@ -2,8 +2,14 @@
 <ng-template #content>
 
 <div class="row">
-    <div *ngFor="let clup of clups" class="col-md-4 col-lg-3 mb-4">
+    <div *ngFor="let clup of clups;let i = index" class="col-md-4 col-lg-3 mb-4">
         <app-clup-card 
+        [clupIndex]="i"
+        (favoriteLoaing)="favoriteLoadingStatus($event)"
+        (changefavStatus)="changeFavStatus($event)"
+        [heartStatus]='clup.favorite'
+        [clupId]="clup.id"
+        [show_heart]="isLogin()"
         [location_count]="clup.location_count"
         [route]="'/clup/'+clup.id"
         [name]="clup.name"
@@ -16,3 +22,8 @@
     </p>
 </div>
 </ng-template>
+<div 
+*ngIf="favoriteLoading"
+style="position:fixed;top:0;z-index: 1111;bottom:0;right:0;left:0;display:flex;justify-content: center;align-items: center;background-color: rgba(224, 221, 221, 0.5);">
+<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>

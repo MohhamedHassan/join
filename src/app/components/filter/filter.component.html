@@ -9,6 +9,11 @@
                 <accordion [isAnimated]="true">
                     <accordion-group
                     heading="{{'Interests'|translate}}">
+                        <div class="text-center">
+                          <i 
+                          *ngIf="homeService?.interistsLoading"
+                          class="fas fa-circle-notch fa-spin"></i>
+                        </div>
                         <ul 
                         class="list-unstyled p-0"
                         *ngFor="let item of interst">
@@ -20,12 +25,17 @@
                             </span>
                             <ul class="list-unstyled p-0 mx-2">
                               <li 
-                              class="mb-2"
-                              *ngFor="let sub of item?.sub_interests">
-                                <input type="checkbox">
-                                <label class="mx-2">
+                              class="mb-2 d-flex"
+                              *ngFor="let sub of item?.sub_interests;let i = index">
+                                <input
+                                [id]="sub?.sub_interests_name+i"
+                                [(ngModel)]="sub.selected"
+                                type="checkbox">
+                                <label 
+                                [for]="sub?.sub_interests_name+i"
+                                class="mx-2">
                                   {{sub?.sub_interests_name}}
-                                </label>
+                                </label>                           
                               </li>
                             </ul>
                           </li>
@@ -41,6 +51,11 @@
                 <accordion [isAnimated]="true">
                     <accordion-group
                     heading="{{'area'|translate}}">
+                    <div class="text-center">
+                      <i 
+                      *ngIf="authService?.arealoading"
+                      class="fas fa-circle-notch fa-spin"></i>
+                    </div>
                         <ul 
                         class="list-unstyled p-0"
                         *ngFor="let item of areas">
@@ -53,9 +68,14 @@
                             <ul class="list-unstyled p-0 mx-2">
                               <li 
                               class="mb-2"
-                              *ngFor="let sub of item?.areas">
-                                <input type="checkbox">
-                                <label class="mx-2">
+                              *ngFor="let sub of item?.areas;let i = index">
+                                <input 
+                                [id]="sub?.name+i"
+                                [(ngModel)]="sub.selected"
+                                type="checkbox">
+                                <label 
+                                [for]="sub?.name+i"
+                                class="mx-2">
                                   {{sub?.name}}
                                 </label>
                               </li>
@@ -74,12 +94,22 @@
                 <accordion [isAnimated]="true">
                     <accordion-group
                     heading="{{'members'|translate}}">
+                    <div class="text-center">
+                      <i 
+                      *ngIf="membersservice?.membersLoading"
+                      class="fas fa-circle-notch fa-spin"></i>
+                    </div>
                     <ul class="list-unstyled p-0">
                       <li 
                       class="mb-2"
-                      *ngFor="let item of members">
-                        <input type="checkbox">
-                        <label class="mx-2">
+                      *ngFor="let item of members;let i = index">
+                        <input 
+                        [id]="item?.child_name+i"
+                        [(ngModel)]="item.selected"
+                        type="checkbox">
+                        <label 
+                        [for]="item?.child_name+i"
+                        class="mx-2">
                           {{item?.child_name}}
                         </label>
                       </li>
@@ -134,7 +164,9 @@
         </div>
         <!--  -->
     </div>
-    <button class="orangebtn">
+    <button 
+    (click)="doneFilter()"
+    class="orangebtn">
         {{'search'|translate}}
     </button>
 </div>

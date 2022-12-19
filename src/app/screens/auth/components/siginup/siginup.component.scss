@@ -3,3 +3,13 @@
         width: 100% !important;
     }
 }
+@media only screen and (min-width: 992px) {
+    .signup.heightc {
+        height:100vh;overflow: auto
+    }
+}
+@media only screen and (max-width: 992px) {
+    .signup.heightc {
+        height:auto !important
+    }
+}

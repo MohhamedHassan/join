@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService, signup } from '../../services/auth.service';
-import { SearchCountryField, CountryISO, PhoneNumberFormat } from 'ngx-intl-tel-input';
-import { GlopalService } from 'src/app/services/glopal.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import  firebase from 'firebase/compat/app'
+import 'firebase/firestore'
+import 'firebase/auth'
+import {AngularFireAuth} from '@angular/fire/compat/auth'
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-siginup',
   templateUrl: './siginup.component.html',
@@ -10,20 +14,51 @@ import { GlopalService } from 'src/app/services/glopal.service';
 })
 export class SiginupComponent implements OnInit {
   signupForm:FormGroup= new FormGroup({})
-  separateDialCode = false;
-	SearchCountryField = SearchCountryField;
-	CountryISO = CountryISO;
-  PhoneNumberFormat = PhoneNumberFormat;
-	preferredCountries: CountryISO[] = [CountryISO.Kuwait];
   submited:boolean=false
   loading:boolean=false
   areas:any[]=[]
+  showVerificationpopup=false
+  verifiedCodeControl:any = new FormControl('',Validators.required)
+  captchaVerifier:any
+  verificationId:any
+  verifyoading=false
+  counterId=1
   constructor(private fb:FormBuilder,
-    private authService:AuthService
+    private router:Router,
+    private authService:AuthService,
+    private toastr:ToastrService
     ) { }
+    getOtp() {
+      this.loading=true
+      this.counterId+=1
+      let child = document.createElement('div')
+      child.setAttribute('id',`captchaid${this.counterId}`)
+      document.body.appendChild(child)
+      this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
+      firebase.auth().signInWithPhoneNumber(this.signupForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
+        console.log(res)
+        this.showVerificationpopup=true
+        this.verificationId = res?.verificationId
+        this.loading=false
 
+      }).catch((err) => {
+        this.toastr.error(err?.message||'Something wnt wrong')  
+        this.loading=false
+
+      })
+    }
   ngOnInit(): void {
+    firebase.initializeApp({
+      apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
+      authDomain: "joinapp-515e6.firebaseapp.com",
+      databaseURL: "https://joinapp-515e6.firebaseio.com",
+      projectId: "joinapp-515e6",
+      storageBucket: "joinapp-515e6.appspot.com",
+      messagingSenderId: "794053292456",
+      appId: "1:794053292456:web:36878b6a9a02cff3"
+    })
     this.returnsignupForm()
+    this.authService.getAllAreas()
       this.authService.areas.subscribe(
         (res:any) => {
           this.areas=res
@@ -40,7 +75,8 @@ export class SiginupComponent implements OnInit {
       password:['',Validators.required],
       device_type:['W'],
       area_id:['',Validators.required],
-      email:['',[Validators.required,Validators.email]],
+      gender:['',Validators.required],
+      email:['',[Validators.required,Validators.email,Validators.pattern(/.com$/)]],
       device_token:['_']
     })
   }
@@ -52,12 +88,66 @@ export class SiginupComponent implements OnInit {
 
   }
   signUp(formValue:any) {
-    let x = new FormData()
-    for(let i in formValue) x.append(i,formValue[i])
-    this.authService.signupu(x).subscribe(
-      res => console.log(res)
-    )
+    this.submited=true
+    console.log(this.signupForm)
+    if(this.signupForm.valid) {
+      this.getOtp()
+    }
+
   }
   get lang() {return localStorage.getItem('lang')||'en'}
-
+  verifyCode() {
+    if(this.verificationId) {
+      this.verifyoading=true
+      let credentials  = firebase.auth.PhoneAuthProvider.credential(
+        this.verificationId,
+        this.verifiedCodeControl?.value
+      )
+      firebase.auth().signInWithCredential(credentials).then(
+        res =>  {
+          console.log(res)
+          this.verifyoading=false
+          let frmdata = new FormData()
+          let value = this.signupForm.value
+          frmdata.append('fname',value.fname)
+          frmdata.append('lname',value.lname)       
+          frmdata.append('dob',value.dob)
+          frmdata.append('password',value.password) 
+          frmdata.append('device_type','W')
+          frmdata.append('area_id',value.area_id) 
+          frmdata.append('gender',value.gender) 
+          frmdata.append('email',value.email)
+          frmdata.append('device_token','_') 
+          let mobile = value?.mobile?.e164Number.slice(1)
+          frmdata.append('mobile',mobile) 
+          this.authService.signupu(frmdata).subscribe(
+            (res:any) => {
+              if(res?.code) {
+                this.authService.logIn({
+                  mobile:mobile,
+                  password:value.password
+                }).subscribe(
+                  res => {
+                    this.loading=false
+                    if(res?.code) {
+                      this.toastr.success(localStorage.getItem('lang')=='ar'?'تم انشاء حسابك بنجاج':'Account successfully created');
+                      localStorage.setItem('joinToken',res?.payload?.auth_token)
+                      this.authService.getUserProfile()
+                      this.router.navigate(['/'])
+                    } else {
+                    }
+                  }
+                )
+              } else {
+                this.showVerificationpopup=false
+              }
+            }
+          )
+        }
+      ).catch((err) => {
+        this.toastr.error(err?.message||'Something wnt wrong') 
+        this.verifyoading=false 
+      })
+    }
+  }
 }

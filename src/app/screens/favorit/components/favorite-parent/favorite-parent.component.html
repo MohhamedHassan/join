@@ -1,0 +1,16 @@
+<app-shared-header header="favorite"></app-shared-header>
+<!--  -->
+<div class="container">
+    <app-categories-list
+    [listData]="tabs"   
+    (chosenTab)="chosenTabFromChild($event)"     
+    ></app-categories-list>
+<!--  -->
+<section 
+style="min-height: 50vh;"
+>
+   <app-favorite-activities [hidden]="chosenTab!=1"></app-favorite-activities>
+   <app-favorite-clups [hidden]="chosenTab!=2"></app-favorite-clups>
+</section>
+<!--  -->
+</div>

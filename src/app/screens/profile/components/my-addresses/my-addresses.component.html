@@ -16,10 +16,11 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;">
     <app-laoding *ngIf="authservice.addressesLoading"></app-laoding>
     <p    
     class="text-secondary fw-bold text-center"
-    *ngIf="!addresses?.length&&!loading">
+    *ngIf="!addresses?.length&&!authservice.addressesLoading">
        {{'no_data'|translate}}
     </p>
     <div 
+    *ngIf="!authservice.addressesLoading"
     class="adresss"
     style="overflow:auto">
         <div 

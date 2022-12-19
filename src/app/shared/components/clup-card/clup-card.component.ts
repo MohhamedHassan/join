@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FavoriteService } from 'src/app/services/favorite.service';
 
 @Component({
   selector: 'app-clup-card',
@@ -10,11 +11,27 @@ export class ClupCardComponent implements OnInit {
   @Input() name:string=''
   @Input() route:string=''
   @Input() location_count:string=''
-  constructor() { }
+  @Input() show_heart:boolean=false
+  @Input() heartStatus:string=''
+  @Input() clupId:string=''
+  @Output() favoriteLoaing = new EventEmitter()
+  @Output() changefavStatus = new EventEmitter()
+  @Input() clupIndex = -1
+  constructor(private foavoriteService:FavoriteService) { }
   ngOnInit(): void {
         
   }
   isLogin() {
     return !!localStorage.getItem("joinToken")
   }
+  addClupToFavorite() {
+    this.favoriteLoaing.emit(true)
+    this.foavoriteService.addClupToFavorite(this.clupId).subscribe(
+      res => {
+        this.favoriteLoaing.emit(false)
+        if(res?.code) this.changefavStatus.emit(this.clupIndex)
+      }
+    )
+  }
 }
+

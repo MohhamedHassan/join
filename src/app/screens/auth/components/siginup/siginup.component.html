@@ -1,4 +1,6 @@
-<section class="signup p-4">
+<section 
+
+class="signup heightc p-4">
     <h1>
         {{'Be_Part_Of_The_Adventure'|translate}}
     </h1>
@@ -13,6 +15,13 @@
                 <input 
                 formControlName="fname"
                 type="text" placeholder="{{'first_name'|translate}}">
+                <p 
+                *ngIf="(signupForm.controls['fname']?.errors!=null && signupForm.controls['fname'].touched) ||
+                (signupForm.controls['fname']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
             </div>
         </div>
         <!--  -->
@@ -21,32 +30,28 @@
                 <input 
                 formControlName="lname"
                 type="text" placeholder="{{'last_name'|translate}}">
+                <p 
+                *ngIf="(signupForm.controls['lname']?.errors!=null && signupForm.controls['lname'].touched) ||
+                (signupForm.controls['lname']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
             </div>
         </div>
         <!--  -->
         <div class="col-md-6 mb-3">
             <div class="form-group">
-                <ngx-intl-tel-input
-                [cssClass]="'custom'"
-                [preferredCountries]="preferredCountries"
-                [enableAutoCountrySelect]="true"
-                [enablePlaceholder]="true"
-                [searchCountryFlag]="true"
-                [searchCountryField]="[
-                  SearchCountryField.Iso2,
-                  SearchCountryField.Name
-                ]"
-                [selectFirstCountry]="false"
-                [selectedCountryISO]="CountryISO.Kuwait"
-                [maxLength]="15"
-                [phoneValidation]="false"
-                [separateDialCode]="separateDialCode"
-                [numberFormat]="PhoneNumberFormat.National"
-                [customPlaceholder]="lang ? 'Phone Number' : 'رقم الهاتف'"
-                name="mobile"
-                formControlName="mobile"
-              >
-              </ngx-intl-tel-input>
+                <app-phone-number
+                [inputname]="signupForm.get('mobile')"
+                ></app-phone-number>
+              <p 
+              *ngIf="(signupForm.controls['mobile']?.errors!=null && signupForm.controls['mobile'].touched) ||
+              (signupForm.controls['mobile']?.errors!=null && submited)
+              "
+              class="my-2 text-danger">
+                  {{'validphone'|translate}}
+              </p>
             </div>
         </div>
         <!--  -->
@@ -59,6 +64,13 @@
                 (change)="dateInputType(dobirth)"
                 (focus)="dobirth.type='date'"
                 type="text" placeholder="{{'dob'|translate}}">
+                <p 
+                *ngIf="(signupForm.controls['dob']?.errors!=null && signupForm.controls['dob'].touched) ||
+                (signupForm.controls['dob']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
             </div>
         </div>
         <!--  -->
@@ -77,6 +89,13 @@
                       [value]="item?.id">{{item?.name}}</option>
                     </optgroup>
                   </select>
+                  <p 
+                  *ngIf="(signupForm.controls['area_id']?.errors!=null && signupForm.controls['area_id'].touched) ||
+                  (signupForm.controls['area_id']?.errors!=null && submited)
+                  "
+                  class="my-2 text-danger">
+                      {{'required'|translate}}
+                  </p>
             </div>
         </div>
         <!--  -->
@@ -85,12 +104,62 @@
                 <input 
                 formControlName="email"
                 type="email" placeholder="{{'email'|translate}}">
+                <p 
+                *ngIf="(signupForm.controls['email']?.errors!=null && signupForm.controls['email'].touched) ||
+                (signupForm.controls['email']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'validemail'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <select 
+                style="box-shadow: none;"
+                formControlName="gender"
+                class="form-select" aria-label="Default select example">
+                    <option selected value="">{{'gender'|translate}}</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                <p 
+                *ngIf="(signupForm.controls['gender']?.errors!=null && signupForm.controls['gender'].touched) ||
+                (signupForm.controls['gender']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <input 
+                formControlName="password"
+                type="password" placeholder="{{'password'|translate}}">
+                <p
+                *ngIf="(signupForm.controls['password']?.errors!=null && signupForm.controls['password'].touched) ||
+                (signupForm.controls['password']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
             </div>
         </div>
         <!--  -->
         <div class="col-md-12 mb-3">
             <div>
-                <button class="mb-2">{{'signup'|translate}}</button>
+                <button 
+                [disabled]="loading"
+                class="mb-2">
+                {{'signup'|translate}}
+                <i 
+                *ngIf="loading"
+                class="fas fa-circle-notch fa-spin"></i>
+            </button>
             </div>
         </div>
         <div class="col-md-12 mb-3">
@@ -103,3 +172,56 @@
         </div>
     </form>
 </section>
+
+
+<div 
+[ngClass]="{
+    'd-flex':showVerificationpopup,
+    'd-none':!showVerificationpopup
+}"
+*ngIf="showVerificationpopup"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+        (click)="showVerificationpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mb-0 mt-2"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >
+            {{'please_enter_the_verification_code'|translate}}
+            {{signupForm.value?.mobile?.e164Number}}
+            </h2>
+            <div>
+                <input
+                [formControl]="verifiedCodeControl"
+                placeholder="{{'code'|translate}}"
+                type="text" class="form-control my-3">
+                <button 
+                (click)="verifyCode()"
+                [disabled]="verifiedCodeControl?.errors!=null||verifyoading"
+                class="orangebtn">
+                    {{'verify'|translate}}
+                    <i 
+                    *ngIf="verifyoading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+                <p
+                (click)="getOtp()"
+                style="cursor: pointer;"
+                *ngIf="!loading"
+                class="my text-primary">
+                    {{'Didnt_receive_the_code'|translate}}
+                </p>
+                <i 
+                *ngIf="loading"
+                class="fas fa-circle-notch fa-spin"></i>
+            </div>
+        </div>
+    </div>
+</div>

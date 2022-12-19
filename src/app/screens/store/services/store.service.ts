@@ -14,9 +14,16 @@ export class StoreService {
   getStoreTabs() {  
     return this.http.get<{payload:{data:Tabs[]}}>(`${this.glopalService.apiUrlTwo}categories`)
   }
-  getCategoryById(categoryId:string) {
-    return this.http.get<{payload:{data:Product[]}}>(`${this.glopalService.apiUrlTwo}category/${categoryId}/products`).pipe(
+  getCategoryById(categoryId:string,page:number) {
+    return this.http.get<{payload:{data:Product[]}}>(`${this.glopalService.apiUrlTwo}category/${categoryId}/products`,{
+      params:{page}
+    }).pipe(
       map(value => value?.payload?.data)
+    )
+  }
+  getProductDetails(id:any) {
+    return this.http.get<{payload:any}>(`${this.glopalService.apiUrlTwo}product/${id}`).pipe(
+      map(value => value?.payload)
     )
   }
 }

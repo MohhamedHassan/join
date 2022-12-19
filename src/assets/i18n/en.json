@@ -48,7 +48,7 @@
     "profile":"Profile",
     "profiledata":"Profile Data",
     "validphone":"Ente a valid phone number",
-    "validemail":"Ente a valid phone number",
+    "validemail":"Ente a valid Email",
     "myaddresses":"My Addresses",
     "title":"Title",
     "areaname":"Area Name",
@@ -87,5 +87,13 @@
     "myaccount":"My Account",
     "Filter":"Filter",
     "rating":"Rating",
-    "search":"Search"
+    "search":"Search",
+    "gender":"Gender",
+    "please_enter_the_verification_code":"Please enter the verification code that was sent to",
+    "verify":"Verify",
+    "code":"Code",
+    "favorite":"Favourite",
+    "Didnt_receive_the_code":"Didn't receive the code? Resend again",
+    "history":"History",
+    "mycart":"My Cart"
 }

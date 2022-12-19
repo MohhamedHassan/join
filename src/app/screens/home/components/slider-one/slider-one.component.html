@@ -11,7 +11,7 @@ style="direction: ltr;text-align:right"
 [navigation]="true"
 >
     <ng-template *ngFor="let item of sliderContent" data-swiper-autoplay="6000" swiperSlide>
-        <a>
+        <a [routerLink]="['/clup/',item?.club_id]">
             <img  alt="join" style="height:70vh;width: 100%" [src]="item?.photo_name">
         </a>
     </ng-template>

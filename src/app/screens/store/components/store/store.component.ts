@@ -13,6 +13,9 @@ export class StoreComponent implements OnInit {
   products: Product[] = []
   loading: boolean = true
   requestCompleted: boolean = false
+  showmore=true
+  currentPage=1
+  categoryid:any
   constructor(private storeSerive: StoreService) { }
 
   ngOnInit(): void {
@@ -24,9 +27,11 @@ export class StoreComponent implements OnInit {
         map(value => this.tabs = value?.payload?.data),
         switchMap((value: Tabs[]) => {
           if (this.tabs.length) {
-            return this.storeSerive.getCategoryById(this.tabs[0]?.id)
+            this.categoryid=this.tabs[0]?.id
+            return this.storeSerive.getCategoryById(this.tabs[0]?.id,1)
           }
-          return this.storeSerive.getCategoryById('0')
+          this.categoryid=0
+          return this.storeSerive.getCategoryById('0',1)
         })
       ).subscribe(
         res => {
@@ -36,15 +41,36 @@ export class StoreComponent implements OnInit {
         }
       )
   }
+  categoryIdFromParent(event:any) {
+    this.categoryid=event
+    this.currentPage=1
+    this.showmore=true
+    this.getCategoryById(event)
+  }
   getCategoryById(categoryId:string) {
     this.products=[]
     this.loading=true
     this.requestCompleted=false
-    this.storeSerive.getCategoryById(categoryId).subscribe(
+    this.storeSerive.getCategoryById(categoryId,1).subscribe(
       res => {
         this.loading = false
         this.requestCompleted = true
         if (Array.isArray(res)) this.products = res
+      }
+    )
+  }
+  showMore() {
+    this.currentPage+=1
+    this.loading=true
+    this.requestCompleted=false
+    this.storeSerive.getCategoryById(this.categoryid,this.currentPage).subscribe(
+      res => {
+        this.loading = false
+        this.requestCompleted = true
+        if (Array.isArray(res) && res?.length) this.products = [...this.products,...res]
+        else {
+          this.showmore=false
+        }
       }
     )
   }

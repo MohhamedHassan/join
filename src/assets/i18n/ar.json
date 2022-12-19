@@ -87,5 +87,13 @@
     "myaccount":"حسابي",
     "Filter":"فلتر",
     "rating":"تقييم",
-    "search":"بحث"
+    "search":"بحث",
+    "gender":"النوع",
+    "please_enter_the_verification_code":"الرجاء إدخال رمز التحقق المرسل الي",
+    "verify":"تحقق",
+    "code":"كود التحقق",
+    "favorite":"المفضلة",
+    "Didnt_receive_the_code":"لم تتلق الرمز ؟ اعادة الارسال مرة اخري",
+    "history":"الطلبات السابقة",
+    "mycart":"سلة المشتريات"
 }

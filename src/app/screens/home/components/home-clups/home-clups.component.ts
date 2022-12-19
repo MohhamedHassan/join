@@ -10,7 +10,7 @@ import { HomeService } from '../../services/home.service';
 export class HomeClupsComponent implements OnInit {
 
   clups:Clups[]=[]
-
+  favoriteLoading=false
   constructor(public homeService:HomeService) { }
 
   ngOnInit(): void {
@@ -20,5 +20,13 @@ export class HomeClupsComponent implements OnInit {
       }
     })
   }
-
+  isLogin():boolean {
+    return !!localStorage.getItem("joinToken")
+  }
+  favoriteLoadingStatus(event:boolean) {
+    this.favoriteLoading=event
+  }
+  changeFavStatus(index:any) {
+    this.clups[index].favorite =   this.clups[index].favorite == 'FAVORITE' ? '' : 'FAVORITE' 
+  }
 }

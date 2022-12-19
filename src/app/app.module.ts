@@ -20,7 +20,10 @@ import { FilterComponent } from './components/filter/filter.component';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
-
+import {AngularFireModule} from '@angular/fire/compat'
+import {AngularFireAuthModule} from '@angular/fire/compat/auth'
+import {AngularFirestoreModule} from '@angular/fire/compat/firestore'
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +37,17 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     NgxSliderModule,
     ReactiveFormsModule,
     FormsModule,
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp({
+      apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
+      authDomain: "joinapp-515e6.firebaseapp.com",
+      databaseURL: "https://joinapp-515e6.firebaseio.com",
+      projectId: "joinapp-515e6",
+      storageBucket: "joinapp-515e6.appspot.com",
+      messagingSenderId: "794053292456",
+      appId: "1:794053292456:web:36878b6a9a02cff3"
+    }),
     RatingModule .forRoot(),
     AccordionModule.forRoot() ,
     CommonModule,
@@ -41,6 +55,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
+    BsDropdownModule.forRoot(),
     TranslateModule.forRoot({
       defaultLanguage:'en',
       loader: {

@@ -1,0 +1,29 @@
+<app-laoding *ngIf="loading;else content"></app-laoding>
+<ng-template #content>
+
+<div class="row">
+    <div *ngFor="let clup of favoriteClups;let i = index" class="col-md-4 col-lg-3 mb-4">
+        <app-clup-card 
+        [clupIndex]="i"
+        (favoriteLoaing)="favoriteLoadingStatus($event)"
+        (changefavStatus)="changeFavStatus($event)"
+        [heartStatus]='clup.favorite'
+        [clupId]="clup.id"
+        [show_heart]="isLogin()"
+        [location_count]="clup.location_count"
+        [route]="'/clup/'+clup.id"
+        [name]="clup.name"
+        [imgSrc]="clup.logo"></app-clup-card>
+    </div>
+    <p    
+    class="text-secondary fw-bold text-center"
+    *ngIf="!favoriteClups?.length">
+       {{'no_data'|translate}}
+    </p>
+</div>
+</ng-template>
+<div 
+*ngIf="favoriteLoading"
+style="position:fixed;top:0;z-index: 1111;bottom:0;right:0;left:0;display:flex;justify-content: center;align-items: center;background-color: rgba(224, 221, 221, 0.5);">
+<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>

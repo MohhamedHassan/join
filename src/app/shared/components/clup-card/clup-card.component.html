@@ -1,7 +1,11 @@
 <article class="clup-cart glopal-cart position-relative">
     <div 
+    *ngIf="show_heart"
     class="d-flex justify-content-end p-2 heart">
-        <i class="fa-solid fa-heart"></i>
+        <i 
+        (click)=" addClupToFavorite()"
+        [class.active]="heartStatus=='FAVORITE'"
+        class="fa-solid fa-heart"></i>
     </div>
     <div class="imgPart">
         <img 

@@ -19,6 +19,7 @@ export interface login {
   providedIn: 'root'
 })
 export class AuthService {
+  arealoading=false
   addressesLoading=false
   userProfile:any= new BehaviorSubject(null)
   addresses:any= new BehaviorSubject(null)
@@ -49,10 +50,14 @@ export class AuthService {
     return this.http.post<any>(`${this.glopalService.apiUrlOne}user/updateProfile`,formvalue)
   }
   getAllAreas() {
+    this.arealoading=true
     return this.http.get<{payload:any[]}>(`${this.glopalService.apiUrlOne}areaList`).pipe(
       map(value => value.payload)
     ).subscribe(
-      res=>this.areas.next(res)
+      res=>{
+        this.areas.next(res)
+        this.arealoading=false
+      }
     )
   }
   getAddress(user_id:string) {

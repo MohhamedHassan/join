@@ -51,9 +51,14 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.userName.toUpperCase
+    this.authService.getUserProfile()
     this.authService.userProfile.subscribe((res:any)=>{
       if(res) {
-        this.userName = `${res?.fname.slice(0,1)}${res?.lname.slice(0,1)}`
+        let fn = ''
+        let ln = ''
+        if(res?.fname) fn = res?.fname.slice(0,1)
+        if(res?.lname) ln = res?.lname.slice(0,1)
+        this.userName = `${fn}${ln}`
       }
     })
     this.glopalService.hideNavbarAndFooter.subscribe(

@@ -20,4 +20,15 @@ export class SearchResultService {
       })
     )
   }
+  filter(body:any) {
+    return this.http.post(`${this.glopalService.apiUrlOne}getFiltersWeb`,body).pipe(
+      map((value:any) => {
+        if(Array.isArray(value.payload)) {
+          return value.payload
+        } else {
+          return []
+        }
+      })
+    )
+  }
 }

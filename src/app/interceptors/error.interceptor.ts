@@ -18,7 +18,9 @@ export class ErrorInterceptor implements HttpInterceptor {
       map((event: any) => {
         let body =  event?.body
         if(body?.code==0 && body?.message) {
-          this.toastr.error(body?.message)
+          this.toastr.error(body?.message,'', {
+            timeOut: 7000,
+          })
         }
       return event
   })

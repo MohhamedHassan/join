@@ -10,6 +10,9 @@ style="direction: ltr;text-align:right"
 
     <ng-container *ngFor="let item of popular;let i = index">
         <ng-template swiperSlide>
+            <a
+            class="text-dark"
+            [routerLink]="['/activity/',item?.id]">
                <div>
                 <div style="position: relative;height: 250px;box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
                 border: 1px solid #ebeef5;">
@@ -33,6 +36,7 @@ style="direction: ltr;text-align:right"
                     </p>
                 </div>
                </div>
+            </a>
         </ng-template>
     </ng-container>
 

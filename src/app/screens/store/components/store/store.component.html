@@ -8,12 +8,13 @@ class="store">
     style="min-height: 40vh;"
     class="container">
         <app-categories-list 
-        (chosenTab)="getCategoryById($event)"  
+        (chosenTab)="categoryIdFromParent($event)"  
         [listData]="tabs"></app-categories-list> 
         
         <section class="row">
             <div *ngFor="let product of products" class="col-md-4 col-lg-3 mb-4">
                 <app-store-card 
+                [id]="product.id"
                 [imgSrc]="product.image"
                 [name_ar]="product.name_ar"
                 [name_en]="product.name_en"
@@ -28,6 +29,17 @@ class="store">
            {{'no_data'|translate}}
         </p>
         <app-laoding *ngIf="loading"></app-laoding>
+        <div 
+        *ngIf="products?.length && showmore"
+        class="mb-4">
+            <div class="text-center">
+                <button 
+                (click)="showMore()"
+                class="showMore">
+                    {{'show_more'|translate}}
+                </button>
+            </div>
+        </div>
     </div>
 
 </section>

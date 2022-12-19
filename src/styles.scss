@@ -117,10 +117,10 @@ nav {
           }
      }
      .links {
-          li {
+          li:not(.drb) {
                transition: .5s;
                margin-bottom: 5px;
-               a {
+               a,.additionicons {
                     color: black;
                     transition: .5s;
                     padding: 7px 15px;
@@ -280,12 +280,15 @@ nav {
                     color: $mainColor;
                }
           }
+          i.active {
+               color: $mainColor;
+          }
      }
 
      img {
           width: 100%;
           height: 240px;
-          object-fit: cover;
+          //object-fit: cover;
      }
 
      
@@ -398,7 +401,6 @@ footer {
      .authBG {
           text-align: center;
           min-height: 100vh;
-
           background-size: cover;
           position: relative;
           display: flex;
@@ -460,7 +462,9 @@ footer {
           color: white;
           border-radius: 5px;
      }
-
+     button[disabled] {
+          background-color:#efc692;
+     }
      a {
           color: $mainColor;
           border-bottom: 1px solid $mainColor;
@@ -707,6 +711,9 @@ footer {
      border: none;
      padding: 10px;
      border-radius: 5px;
+ }
+ button.orangebtn[disabled] {
+     background-color:#efc692;
  }
 // end clup details
 .cstmpopup {

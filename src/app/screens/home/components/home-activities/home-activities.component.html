@@ -1,6 +1,11 @@
 <div class="row">
-    <div *ngFor="let activity of activities" class="col-md-4 col-lg-3 mb-4">
+    <div *ngFor="let activity of activities;let i = index" class="col-md-4 col-lg-3 mb-4">
         <app-cart-one 
+        [activityIndex]="i"
+        [show_heart]="isLogin()"
+        (favoriteLoaing)="favoriteLoadingStatus($event)"
+        (changefavStatus)="changeFavStatus($event)"
+        [heartStatus]='activity.favorite'
         [detailsPageRoute]="'/activity/'+activity.id"
         [title]="activity.title"
         [age_from]="activity.age_from"
@@ -8,6 +13,7 @@
         [price]="activity.location[0].price"
         [interests_name]="activity.interests_name"
         [location_count]="activity.location_count"
+        [activityId]="activity.id"
         [imgSrc]="activity.banner"></app-cart-one>
     </div>
     <p    
@@ -18,7 +24,7 @@
     <app-laoding *ngIf="homeService.activitiesLoading"></app-laoding>
     <div 
     *ngIf="activities?.length"
-    class="col-md-12">
+    class="col-md-12 mb-4">
         <div class="text-center">
             <button 
             (click)="showMore()"
@@ -27,4 +33,9 @@
             </button>
         </div>
     </div>
+</div>
+<div 
+*ngIf="favoriteLoading"
+style="position:fixed;top:0;z-index: 1111;bottom:0;right:0;left:0;display:flex;justify-content: center;align-items: center;background-color: rgba(224, 221, 221, 0.5);">
+<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 </div>

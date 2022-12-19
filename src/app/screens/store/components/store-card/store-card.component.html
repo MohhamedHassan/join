@@ -1,7 +1,7 @@
 <article class="cart-one glopal-cart position-relative">
-    <div class="d-flex justify-content-end p-2 heart">
+    <!-- <div class="d-flex justify-content-end p-2 heart">
         <i class="fa-solid fa-heart"></i>
-    </div>
+    </div> -->
     <div class="imgPart">
         <img 
         [src]="imgSrc"  alt="join">
@@ -21,7 +21,7 @@
             <i class="mx-2 fa-solid fa-arrow-up-right-from-square maincolor"></i>
             <a 
             class="maincolor"
-            routerLink="/details">
+            [routerLink]="['/product/',id]">
                 {{'view_details'|translate}}
             </a>
         </div>

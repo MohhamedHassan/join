@@ -3,5 +3,6 @@ export interface Product {
     name_en:string;
     pre_price:string;
     price:string;
+    id:string;
     image:string
 }

@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
           if(res?.code) {
             this.toastr.success(res?.message);
             localStorage.setItem('joinToken',res?.payload?.auth_token)
+            this.authService.getUserProfile()
             this.router.navigate(['/'])
           } else {
           }

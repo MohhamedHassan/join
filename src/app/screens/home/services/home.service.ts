@@ -18,7 +18,7 @@ export class HomeService {
   intersts:BehaviorSubject<Intersts[]> = new BehaviorSubject<Intersts[]>([])
   activitiesLoading=true
   clupsLoading=true
-  interistsLoading=true
+  interistsLoading=false
   ActivitiesRequestComplete:boolean=false
   constructor(private http:HttpClient,
     private glopalService:GlopalService) { }
@@ -85,6 +85,7 @@ export class HomeService {
 
 
   getClupsGuest() {
+    this.clupsLoading=true
     return this.http.post<{payload:Clups[]}>(`${this.glopalService.apiUrlOne}getClubListWeb`,{}).pipe(
       map(value => value.payload)
     ).subscribe(
@@ -96,6 +97,7 @@ export class HomeService {
     )
   }
   getClupsUser() {
+    this.clupsLoading=true
     return this.http.post<{payload:Clups[]}>(`${this.glopalService.apiUrlOne}user/getClubList`,{}).pipe(
       map(value => value.payload)
     ).subscribe(
@@ -109,6 +111,7 @@ export class HomeService {
 
 
   getIntersts() {
+    this.interistsLoading=true
     return this.http.get<{payload:Intersts[]}>(`${this.glopalService.apiUrlOne}interestsList`).pipe(
       map(value => value.payload)
     ).subscribe(

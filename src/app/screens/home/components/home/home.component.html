@@ -8,9 +8,9 @@
         ></app-categories-list>
     <!--  -->
     <section class="mrginBottom">
-       <app-home-activities *ngIf="chosenTab==1"></app-home-activities>
-       <app-home-clups *ngIf="chosenTab==2"></app-home-clups>
-       <app-home-intersts *ngIf="chosenTab==3"></app-home-intersts>
+       <app-home-activities [hidden]="chosenTab!=1"></app-home-activities>
+       <app-home-clups [hidden]="chosenTab!=2"></app-home-clups>
+       <app-home-intersts [hidden]="chosenTab!=3"></app-home-intersts>
     </section>
     <!--  -->
     <app-slider-two></app-slider-two>

@@ -32,6 +32,10 @@ const routes: Routes = [
     loadChildren:() => import('src/app/screens/clup-details/clup-details.module').then(m => m.ClupDetailsModule)
   },
   {
+    path:'product/:id',
+    loadChildren:() => import('src/app/screens/product-details/product-details.module').then(m => m.ProductDetailsModule)
+  },
+  {
     path:'search/:str',
     loadChildren:() => import('src/app/screens/search-result/search-result.module').then(m => m.SearchResultModule)
   },
@@ -40,12 +44,24 @@ const routes: Routes = [
     loadChildren:() => import('src/app/screens/profile/profile.module').then(m => m.ProfileModule)
   },
   {
+    path:'favorite',
+    loadChildren:() => import('src/app/screens/favorit/favorit.module').then(m => m.FavoritModule)
+  },
+  {
+    path:'history',
+    loadChildren:() => import('src/app/screens/history/history.module').then(m => m.HistoryModule)
+  },
+  {
     path:'members',
     loadChildren:() => import('src/app/screens/members/members.module').then(m => m.MembersModule)
   },
   {
     path:'notifications',
     loadChildren:() => import('src/app/screens/notifications/notifications.module').then(m => m.NotificationsModule)
+  },
+  {
+    path:'cart',
+    loadChildren:() => import('src/app/screens/cart/cart.module').then(m => m.CartModule)
   },
   {
     path:'**',

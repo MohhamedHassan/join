@@ -15,6 +15,7 @@ export class NotificationsComponent implements OnInit {
     private toastr:ToastrService) { }
 
   ngOnInit(): void {
+    this.notificationsService.getNotifications()
     this.notificationsService.notification.subscribe(
       (res:any) =>  {
         if(res) {

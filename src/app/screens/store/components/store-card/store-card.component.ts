@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class StoreCardComponent implements OnInit {
   @Input() imgSrc:string=''
+  @Input() id:string=''
   @Input() price:string=''
   @Input() pre_price:string=''
   @Input() name_ar:string=''

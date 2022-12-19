@@ -10,6 +10,7 @@ import { HomeService } from 'src/app/screens/home/services/home.service';
 export class ActivitiesComponent implements OnInit {
   activities:Activities[]=[]
   page:number=1
+  favoriteLoading=false
   constructor(public homeService:HomeService) { }
 
 
@@ -43,5 +44,13 @@ showMore() {
      this.homeService.getActivitiesGuest(this.page)
    }
 }
-
+isLogin():boolean {
+  return !!localStorage.getItem("joinToken")
+}
+favoriteLoadingStatus(event:boolean) {
+  this.favoriteLoading=event
+}
+changeFavStatus(index:any) {
+  this.activities[index].favorite =   this.activities[index].favorite == 'FAVORITE' ? '' : 'FAVORITE' 
+}
 }
