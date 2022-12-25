@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-reusable-footer-cart',
@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reusable-footer-cart.component.scss']
 })
 export class ReusableFooterCartComponent implements OnInit {
-
+  @Input() h2:string=''
+  @Input() p:string=''
+  @Input() src:string=''
+  @Input() li!:string[]
   constructor() { }
 
   ngOnInit(): void {

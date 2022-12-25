@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { PhoneNumberComponent } from './components/phone-number/phone-number.component';
+import { TofixednumberPipe } from '../pips/tofixednumber.pipe';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -22,7 +23,8 @@ import { PhoneNumberComponent } from './components/phone-number/phone-number.com
     SharedHeaderComponent,
     ClupCardComponent,
     LaodingComponent,
-    PhoneNumberComponent
+    PhoneNumberComponent,
+    TofixednumberPipe
   ],
   imports: [
     CommonModule,
@@ -57,7 +59,8 @@ import { PhoneNumberComponent } from './components/phone-number/phone-number.com
     FormsModule,
     NgxIntlTelInputModule,
     ToastrModule,
-    PhoneNumberComponent
+    PhoneNumberComponent,
+    TofixednumberPipe
   ]
 })
 export class SharedModule { }

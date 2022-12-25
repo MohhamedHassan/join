@@ -1,39 +1,150 @@
 <app-shared-header header="mycart"></app-shared-header>
-<div 
-style="min-height: 50vh;"
-class="container">
+<div style="min-height: 50vh;" class="container">
     <h2 class="mb-3" style="font-size: 25px;">{{'mycart'|translate}}</h2>
-    <p    
-    class="text-secondary fw-bold text-center"
-    *ngIf="!cartitems?.length">
-       {{'no_data'|translate}}
+    <p class="text-secondary fw-bold text-center" *ngIf="!cartitems?.length">
+        {{'no_data'|translate}}
     </p>
+    <div class="row" *ngFor="let item of cartitems;let i = index">
+        <div class="col-md-4 mb-3">
+            <div>
+                <img 
+                (click)="routeToDetailsPage(item)"
+                style="height: 180px;object-fit: cover;cursor: pointer;"
+                    [src]="item?.image" alt="join"
+                    class="w-100 rounded">
+            </div>
+        </div>
+        <div class="col-md-8 mb-3">
+            <div style="border:1px solid rgb(218 213 213)" class="rounded h-100 p-3">
+                <h2
+                (click)="routeToDetailsPage(item)"
+                style="font-size:large;cursor: pointer;" class="m-0">
+                    {{item?.name}}
+                </h2>
+                <div *ngIf="item?.cstmtype==2" class="plusminus my-3">
+                    <i 
+                    (click)="minusone(i)"
+                    class="fa-solid fa-minus"></i>
+                    <span class="mx-2 count">{{item?.countToBuy}}</span>
+                    <i 
+                    (click)="plusone(i)"
+                    class="fa-solid fa-plus"></i>
+                </div>
+                <p class="my-3 maincolor" *ngIf="item?.cstmtype==1">
+                    1 Activity For 1 Children
+                </p>
+                <p class="mb-3">
+
+                    <span class="maincolor">{{'price'|translate}} : </span>
+                    <span 
+                    *ngIf="item?.countToBuy"
+                    class="orangecolor">
+                        {{item?.price*item?.countToBuy|tofixednumber}} 
+                    </span>
+                    <span 
+                    *ngIf="!item?.countToBuy"
+                    class="orangecolor">
+                        {{item?.price|tofixednumber}} 
+                    </span>
+                </p>
+                <div style="cursor: pointer;" class="d-flex align-items-center justify-content-end   fw-bold">
+                    <ng-container *ngIf="item?.cstmtype==1">
+                        <p class="m-0 maincolor">
+                            <i class="fa-solid fa-pen"></i>
+                            {{'edit'|translate}}
+                        </p>
+                        <span class="mx-2"></span>
+                    </ng-container>
+
+                    <p
+                    (click)="showDeleteCArtitem=i"
+                    class="text-danger m-0">
+                        <i class="fa-solid fa-trash-can"></i>
+                        {{'remove'|translate}}
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        <hr class="d-md-none">
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-lg-4 mb-3">
+            <div 
+            class="p-3 rounded promcode"
+            style="border:1px solid rgb(218 213 213)">
+                <p>{{'promocode'|translate}}</p>
+                <p>{{'Enter_your_promocode'|translate}}</p>
+                <div class="d-flex flex-column flex-md-row">
+                    <input type="text" class="form-control" placeholder="{{'Enter_code'|translate}}">
+                    <span class="m-1"></span>
+                    <button class="orangebtn">{{'apply'|translate}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
     <div>
-        <div
-        class="row" 
-        *ngFor="let item of cartitems">
-                <div class="col-md-4 mb-3">
-                    <div>
-                        <img
-                        style="height: 180px;object-fit: cover;"
-                        src="https://app.join.com.kw/public/club_activity_image/club-1668955212.jpg" alt="join" class="w-100 rounded">
-                    </div>
-                </div>
-                <div class="col-md-8 mb-3">
-                    <div style="border:1px solid rgb(218 213 213)" class="rounded h-100 p-3">
-                        <h2 style="font-size:large;">Test</h2>
-                        <p class="maincolor">
-                            Quantity : 2
-                        </p>
-                        <p class="">
-                            
-                            <span class="maincolor">Price : </span>
-                            <span class="orangecolor">2.500 KWD</span>
-            
-                        </p>
-                    </div>
-                </div>
-                <hr class="d-md-none">
+        <p class="fw-bold d-flex justify-content-between align-items-centr">
+            <span>{{'price'|translate}}</span>
+            <span class="maincolor">
+                2.500
+                {{'kwd'|translate}}
+            </span>
+        </p>
+        <p class="fw-bold d-flex justify-content-between align-items-centr">
+            <span>{{'Shipping'|translate}}</span>
+            <span class="maincolor">
+                {{'free'|translate}}
+            </span>
+        </p>
+        <p class="rounded fw-bold d-flex justify-content-between align-items-centr">
+            <span>{{'total_price'|translate}}</span>
+            <span>
+                2.500
+                {{'kwd'|translate}}
+            </span>
+        </p>
+    </div>
+    <button class="my-3 orangebtn">
+        {{'confirm_pay'|translate}}
+    </button>
+</div>
+
+
+<div 
+[ngClass]="{
+    'd-flex':showDeleteCArtitem!=-1,
+    'd-none':showDeleteCArtitem==-1
+}"
+*ngIf="showDeleteCArtitem!=-1"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+      
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'deleteitem'|translate}}</h2>
+            <div class="mt-4">
+                <button 
+                (click)="deleteCartItem()"
+                class="btn btn-danger">
+                    {{'delete'|translate}}
+                </button>
+                <span class="mx-2"></span>
+                <button 
+                (click)="showDeleteCArtitem=-1"
+                class="btn btn-warning">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
         </div>
     </div>
 </div>

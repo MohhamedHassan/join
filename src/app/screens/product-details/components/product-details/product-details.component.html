@@ -1,5 +1,5 @@
 <app-laoding *ngIf="loading"></app-laoding>
-<section *ngIf="product_details" style="min-height: 100vh;" class="details-page">
+<section *ngIf="product_details&&!loading" style="min-height: 100vh;" class="details-page">
     <div class="cvr">
         <img [src]="product_details.image" alt="Join">
     </div>
@@ -14,15 +14,22 @@
                 </button>
                 <span class="mx-1"></span> -->
                 <button class="mb-2">
-                    <i class="fa-solid fa-share"></i>
-                    <span class="mx-1"></span>
-                    {{'share'|translate}}
+                    <!-- share details page not join web -->
+                    <a 
+                    target="_blank"
+                    class="text-white"
+                    href="https://www.facebook.com/sharer.php?u=http://localhost:4200/#/product/85"
+                    >
+                        <i class="fa-solid fa-share"></i>
+                        <span class="mx-1"></span>
+                        {{'share'|translate}}
+                    </a>
                 </button>
             </div>
         </div>
         <hr>
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 mb-4">
                 <div class="cash">
                     <div class="d-flex">
                         <p  class="maincolor">
@@ -35,8 +42,9 @@
                         </p>
                         <span class="mx-2"></span>
                         <p  class="orangecolor">
-                            {{product_details.pre_price}} 
+                           
                             <del>
+                                {{product_details.pre_price}} 
                                 {{'kwd'|translate}}
                             </del>
                         </p>
@@ -60,6 +68,7 @@
                     </div>
 
                 </div>
+          
             </div>
             <!--  -->
             <div class="col-lg-4 mb-4">
@@ -85,16 +94,46 @@
                         </p>
                         <span class="mx-2"></span>
                         <p  class="orangecolor">
-                            {{product_details.pre_price}} 
+                         
                             <del>
+                                {{product_details.pre_price}}
                                 {{'kwd'|translate}}
                             </del>
                         </p>
                     </div>
-                    <button class="w-100 mt-3 book">{{'book_now'|translate}}</button>
+                    <div  class="plusminus my-2 text-center">
+                        <i 
+                        (click)="minusone()"
+                        class="fa-solid fa-minus"></i>
+                        <span class="mx-2 count">
+                            {{countToBuy}}
+                        </span>
+                        <i 
+                        (click)="plusone()"
+                        class="fa-solid fa-plus"></i>
+                    </div>
+                    <button 
+                    (click)="addToCart()"
+                    class="w-100 mt-3 book">
+                        
+                        {{'addtocart'|translate}} 
+                        <span  *ngIf="countToBuy>0">
+                            |
+                        </span>
+                        {{product_details.price*countToBuy|tofixednumber}} 
+                       <span
+                       *ngIf="countToBuy>0"
+                       >
+                        {{'kwd'|translate}} 
+                       </span>
+                    </button>
                 </div>
             </div>
             <!--  -->
+            <div *ngIf="product_details?.related_products?.length">
+                <h2 class="my-2">{{'related_product'|translate}}</h2>
+                <app-related-products [relatedProducts]="product_details?.related_products"></app-related-products>
+            </div>
         </div>
     </div>
 </section>

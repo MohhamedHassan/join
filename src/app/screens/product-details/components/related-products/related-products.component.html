@@ -1,0 +1,26 @@
+<swiper  
+class="mrginBottom"
+style="direction: ltr;text-align:right"
+[config]="swpieroptions">
+
+    <ng-container *ngFor="let product of relatedProducts;let i = index">
+        <ng-template swiperSlide>
+            <div
+            [ngStyle]="{
+                'direction':lang=='ar'?'rtl':'ltr',
+                'text-align':lang=='ar'?'right':'left'
+            }"
+            >
+            <app-store-card  
+            [id]="product.id"
+            [imgSrc]="product.image"
+            [name_ar]="product.name_ar"
+            [name_en]="product.name_en"
+            [price]="product.price"
+            [pre_price]="product.pre_price"
+            ></app-store-card>
+            </div>
+        </ng-template>
+    </ng-container>
+
+</swiper>

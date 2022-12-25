@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { NotUserGuard } from './guards/not-user.guard';
+import { UserGuard } from './guards/user.guard';
 
 const routes: Routes = [
   {
@@ -9,6 +11,7 @@ const routes: Routes = [
   },
   {
     path:'auth',
+    canActivate:[UserGuard],
     loadChildren:() => import('src/app/screens/auth/auth.module').then(m => m.AuthModule)
   },
   {
@@ -41,22 +44,27 @@ const routes: Routes = [
   },
   {
     path:'profile',
+    canActivate:[NotUserGuard],
     loadChildren:() => import('src/app/screens/profile/profile.module').then(m => m.ProfileModule)
   },
   {
     path:'favorite',
+    canActivate:[NotUserGuard],
     loadChildren:() => import('src/app/screens/favorit/favorit.module').then(m => m.FavoritModule)
   },
   {
     path:'history',
+    canActivate:[NotUserGuard],
     loadChildren:() => import('src/app/screens/history/history.module').then(m => m.HistoryModule)
   },
   {
     path:'members',
+    canActivate:[NotUserGuard],
     loadChildren:() => import('src/app/screens/members/members.module').then(m => m.MembersModule)
   },
   {
     path:'notifications',
+    canActivate:[NotUserGuard],
     loadChildren:() => import('src/app/screens/notifications/notifications.module').then(m => m.NotificationsModule)
   },
   {

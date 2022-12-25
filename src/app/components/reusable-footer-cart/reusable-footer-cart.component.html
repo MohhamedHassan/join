@@ -1,26 +1,15 @@
 <article class="footerCart">
-    <img src="assets/images/car.53532650.svg" alt="join">
-    <h2>{{'lorem'|translate}}</h2>
-    <p>{{'loremlorem'|translate}}</p>
+    <img [src]="src" class="mb-2" alt="join">
+    <h2>{{h2|translate}}</h2>
+    <div style="min-height: 70px;">
+        <p>{{p|translate}}</p>
+    </div>
     <ul class="m-0 p-0 list-unstyled">
-        <li>
+        <li *ngFor="let item of li">
             <i class="fa-solid fa-circle-check"></i>
             <span class="mx-2">
-                {{'100'|translate}}
+                {{item|translate}}
             </span>
-        </li>
-        <li>
-            <i class="fa-solid fa-circle-check"></i>
-            <span class="mx-2">
-                {{'100'|translate}}
-            </span>
-        </li>
-        <li>
-            <i class="fa-solid fa-circle-check"></i>
-            <span class="mx-2">
-                {{'100'|translate}}
-            </span>
-            
         </li>
     </ul>
 </article>

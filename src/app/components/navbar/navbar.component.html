@@ -38,7 +38,7 @@
             'd-flex':openNavbar,
             'd-none':!openNavbar
         }"
-        class="links list-unstyled m-0 py-1 px-0  d-lg-flex flex-column flex-lg-row">
+        class="links main list-unstyled m-0 py-1 px-0  d-lg-flex align-items-lg-center flex-column flex-lg-row">
             <li><a
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}"
@@ -99,10 +99,12 @@
             *ngIf="isLogin()"
             class="lang">
                 <div class="additionicons">
-                    <a>
+                    <a routerLink="/cart">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
-                    <a routerLink="/favorite">
+                    <a 
+                    class="mx-2"
+                    routerLink="/favorite">
                         <i class="fa-solid fa-heart"></i>
                     </a>
                     <a  routerLink="/notifications">
@@ -110,46 +112,79 @@
                     </a>
                 </div>
             </li>
-            <li
+            <li 
             *ngIf="isLogin()"
-            class="d-none d-lg-block lang position-relative subparent">
-                <a 
-                class="username">
-                  {{userName|uppercase}}
-                </a>
-                <div
-                [ngStyle]="{
-                    'right':lang=='ar'?'auto':'0',
-                    'left':lang=='ar'?'0':'auto'
-                }"
-                class="submenu">
+            class="d-none d-lg-block lang position-relative subparent lang"> 
+                <div class="btn-group" dropdown>
                     <a 
-                    routerLink="/profile"
-                    >
-                        <i class="fa-regular fa-user maincolor"></i>
-                        {{'myaccount'|translate}}
+                    style="  -webkit-user-select: none; /* Safari */
+                    -ms-user-select: none; /* IE 10 and IE 11 */
+                    user-select: none; /* Standard syntax */"
+                    id="button-basic" dropdownToggle type="button" class="username"
+                            aria-controls="dropdown-basic">
+                            {{userName|uppercase}}
+                            <span class="caret"></span>
                     </a>
-                    <a
+                    <ul 
+                    id="dropdown-basic" *dropdownMenu class="dropdown-menu "
+                        role="menu" aria-labelledby="button-basic">
+                    <li role="menuitem">
+                        <img src="assets/images/bg.jpg" 
+                        style="height: 130px;object-fit: cover;"
+                        class="w-100" alt="join">
+                    </li>
+                    <li class="text-center first">
+                        <span class="maincolor d-block">
+                            {{userdata?.fname | titlecase}}  {{userdata?.lname | titlecase}}
+                        </span>
+                        <span class="text-secondary d-block" style="word-wrap: break-word;">
+                            {{userdata?.email}}
+                        </span>
+                    </li>
+                      <li role="menuitem" class='lang'>
+                        <a 
+                        routerLink="/profile"
+                        >
+                            <i class="fa-regular fa-user maincolor"></i>
+                            {{'myaccount'|translate}}
+                        </a>
+                      </li>
+                      <li role="menuitem" class='lang'>
+                        <a
                     routerLink="/notifications"
                     >
                         <i class="fa-solid fa-bell maincolor"></i>
                         {{'notifications'|translate}}
                     </a>
-                    <a
-                    routerLink="/favorite"
-                    >
-                    <i class="fa-solid fa-heart maincolor"></i>
-                        {{'favorite'|translate}}
-                    </a>
-                    <a
-                    routerLink="/history"
-                    >
-                    <i class="fa-regular fa-clock maincolor"></i>
-                        {{'history'|translate}}
-                    </a>
-                </div>
-            </li>
-      
+                      </li>
+                      <li role="menuitem" class='lang'>
+                        <a
+                        routerLink="/favorite"
+                        >
+                        <i class="fa-solid fa-heart maincolor"></i>
+                            {{'favorite'|translate}}
+                        </a>
+                      </li>
+                      <li role="menuitem" class='lang'>
+                        <a
+                        routerLink="/history"
+                        >
+                        <i class="fa-regular fa-clock maincolor"></i>
+                            {{'history'|translate}}
+                        </a>
+                      </li>
+                      <li role="menuitem" class='lang'>
+                        <a
+                        href="https://reach.link/Join_App"
+                        target="_blank"
+                        >
+                        <i class="fa-solid fa-headset maincolor"></i>
+                            {{'follow'|translate}}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+            </li>      
         </ul>
     </div>
 </nav>            

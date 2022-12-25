@@ -7,7 +7,7 @@ import { SiginupComponent } from './components/siginup/siginup.component';
 const routes: Routes = [
   {
     path:'',
-    redirectTo:'login',
+    redirectTo:'/auth/login',
     pathMatch:'full'
   },
   {

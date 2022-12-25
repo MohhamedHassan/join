@@ -7,11 +7,13 @@ import {
 } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-  constructor(private toastr:ToastrService) {}
+  constructor(private toastr:ToastrService,
+    private router :Router) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
@@ -21,9 +23,13 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.toastr.error(body?.message,'', {
             timeOut: 7000,
           })
+        } else if (body?.code==3) {
+          localStorage.removeItem('joinToken')
+          this.router.navigate(['/auth/login'])
         }
       return event
-  })
+  }),
+  
   );
   }
 }

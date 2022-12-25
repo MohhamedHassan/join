@@ -5,6 +5,6 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
-  cartitem = new BehaviorSubject(null)
+  cartitem:any[]=[]
   constructor() { }
 }

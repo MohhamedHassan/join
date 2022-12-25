@@ -31,7 +31,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     ReusableFooterCartComponent,
     NotfoundComponent,
     NavbarComponent,
-    FilterComponent
+    FilterComponent,
   ],
   imports: [
     NgxSliderModule,

@@ -16,6 +16,7 @@ export class NavbarComponent implements OnInit {
   hidenave:boolean=false
   userName=''
   filterPopup=false
+  userdata:any=null
   constructor(
     private authService:AuthService,
     private glopalService:GlopalService,
@@ -50,17 +51,21 @@ export class NavbarComponent implements OnInit {
  }
 
   ngOnInit(): void {
-    this.userName.toUpperCase
-    this.authService.getUserProfile()
-    this.authService.userProfile.subscribe((res:any)=>{
-      if(res) {
-        let fn = ''
-        let ln = ''
-        if(res?.fname) fn = res?.fname.slice(0,1)
-        if(res?.lname) ln = res?.lname.slice(0,1)
-        this.userName = `${fn}${ln}`
-      }
-    })
+    if(!!localStorage.getItem('joinToken')) {
+      this.userName.toUpperCase()
+      this.authService.getUserProfile()
+      this.authService.userProfile.subscribe((res:any)=>{
+        if(res) {
+          let fn = ''
+          let ln = ''
+          if(res?.fname) fn = res?.fname.slice(0,1)
+          if(res?.lname) ln = res?.lname.slice(0,1)
+          this.userName = `${fn}${ln}`
+          this.userdata=res
+        }
+      })
+    }
+
     this.glopalService.hideNavbarAndFooter.subscribe(
       res=> {
         this.hidenave=res

@@ -16,6 +16,8 @@ import { StoreCardComponent } from './components/store-card/store-card.component
     CommonModule,
     StoreRoutingModule,
     SharedModule
+  ],exports:[
+    StoreCardComponent
   ]
 })
 export class StoreModule { }
