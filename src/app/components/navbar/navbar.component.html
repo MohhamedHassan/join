@@ -44,11 +44,43 @@
                 [routerLinkActiveOptions]="{exact:true}"
                 (click)="openNavbar=!openNavbar"
                 routerLink="/">{{'home'|translate}}</a></li>
-            <li><a 
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{exact:true}"
+                <li
+                class="d-lg-none"
+                ><a
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact:true}"
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/store">{{'store'|translate}}</a></li>
+            <li 
+            class="btn-group d-none d-lg-block" dropdown>
+                <a 
                 (click)="openNavbar=!openNavbar"
-                routerLink="/store">{{'store'|translate}}</a></li>
+                id="button-basic" dropdownToggle type="button" 
+                aria-controls="dropdown-basic"
+            >{{'store'|translate}}</a>
+                <div 
+                id="dropdown-basic" *dropdownMenu class="dropdown-menu store "
+                    role="menu" aria-labelledby="button-basic">
+                    <div class="row p-3">
+                        <div class="col-md-12">
+                            <p class="fw-bold maincolor m-0">
+                                {{'categories'|translate}}
+                            </p>
+                            <hr>
+                        </div>
+                        <div 
+                        class="col-md-4 mb-3"
+                        *ngFor="let item of categories">
+                           <a
+                           routerLink="/store"
+                           [queryParams]="{id:item?.id}"
+                           class="p-0">
+                            {{lang == 'ar' ? item?.name_ar : item?.name_en}}
+                           </a>
+                        </div>
+                    </div>
+                </div>
+            </li>
             <li><a 
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}"
@@ -126,7 +158,7 @@
                             <span class="caret"></span>
                     </a>
                     <ul 
-                    id="dropdown-basic" *dropdownMenu class="dropdown-menu "
+                    id="dropdown-basic" *dropdownMenu class="dropdown-menu cstm"
                         role="menu" aria-labelledby="button-basic">
                     <li role="menuitem">
                         <img src="assets/images/bg.jpg" 

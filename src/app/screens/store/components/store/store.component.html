@@ -1,6 +1,8 @@
 <section 
+style="min-height: 100vh;"
 class="store">
     <app-shared-header
+    *ngIf="!loading"
     header="store"
     ></app-shared-header>
     <!--  -->
@@ -8,6 +10,7 @@ class="store">
     style="min-height: 40vh;"
     class="container">
         <app-categories-list 
+        [currentid]="categoryid"
         (chosenTab)="categoryIdFromParent($event)"  
         [listData]="tabs"></app-categories-list> 
         

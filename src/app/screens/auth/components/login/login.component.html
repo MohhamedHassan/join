@@ -9,33 +9,15 @@
     >
 
         <div class="form-group mb-3">
-                <ngx-intl-tel-input
-                [cssClass]="'custom'"
-                [preferredCountries]="preferredCountries"
-                [enableAutoCountrySelect]="true"
-                [enablePlaceholder]="true"
-                [searchCountryFlag]="true"
-                [searchCountryField]="[
-                  SearchCountryField.Iso2,
-                  SearchCountryField.Name
-                ]"
-                [selectFirstCountry]="false"
-                [selectedCountryISO]="CountryISO.Kuwait"
-                [maxLength]="15"
-                [phoneValidation]="false"
-                [separateDialCode]="separateDialCode"
-                [numberFormat]="PhoneNumberFormat.National"
-                name="mobile"
-                formControlName="mobile"
-                [customPlaceholder]="lang ? 'Phone Number' : 'رقم الهاتف'"
-              >
-              </ngx-intl-tel-input>
+            <app-phone-number
+            [inputname]="loginForm.get('mobile')"
+            ></app-phone-number>
               <p 
               *ngIf="(loginForm.controls['mobile']?.errors!=null && loginForm.controls['mobile'].touched) ||
               (loginForm.controls['mobile']?.errors!=null && submited)
               "
               class="my-2 text-danger">
-                  {{'required'|translate}}
+                  {{'validphone'|translate}}
               </p>
         </div> 
         <!--  -->
@@ -71,8 +53,8 @@
         <ul class="p-0 m-0 list-unstyled d-flex login-ways">
             <li><img src="assets/images/google.png" alt="join"></li>
             <span class="mx-2"></span>
-            <li><img src="assets/images/apple.png" alt="join"></li>
-            <span class="mx-2"></span>
+            <!-- <li><img src="assets/images/apple.png" alt="join"></li>
+            <span class="mx-2"></span> -->
             <li><img style="background-color: #425EAB;" src="assets/images/facebook.png" alt="join"></li>
         </ul>
     </form>

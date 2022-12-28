@@ -13,6 +13,7 @@ export class PhoneNumberComponent implements OnInit {
   PhoneNumberFormat = PhoneNumberFormat;
 	preferredCountries: CountryISO[] = [CountryISO.Kuwait];
   @Input() inputname:any
+  @Input() formcontrol:boolean=false
   constructor() { }
 
   ngOnInit(): void {

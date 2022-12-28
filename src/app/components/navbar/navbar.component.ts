@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from 'src/app/screens/auth/services/auth.service';
+import { StoreService } from 'src/app/screens/store/services/store.service';
 import { GlopalService } from 'src/app/services/glopal.service';
 
 @Component({
@@ -17,8 +18,10 @@ export class NavbarComponent implements OnInit {
   userName=''
   filterPopup=false
   userdata:any=null
+  categories:any = []
   constructor(
     private authService:AuthService,
+    private storeSerive:StoreService,
     private glopalService:GlopalService,
     private router:Router,
     public  translateService:TranslateService){
@@ -51,20 +54,24 @@ export class NavbarComponent implements OnInit {
  }
 
   ngOnInit(): void {
+    this.storeSerive.getStoreTabs().subscribe( 
+      value => this.categories = value?.payload?.data
+    )
     if(!!localStorage.getItem('joinToken')) {
       this.userName.toUpperCase()
       this.authService.getUserProfile()
-      this.authService.userProfile.subscribe((res:any)=>{
-        if(res) {
-          let fn = ''
-          let ln = ''
-          if(res?.fname) fn = res?.fname.slice(0,1)
-          if(res?.lname) ln = res?.lname.slice(0,1)
-          this.userName = `${fn}${ln}`
-          this.userdata=res
-        }
-      })
+
     }
+    this.authService.userProfile.subscribe((res:any)=>{
+      if(res) {
+        let fn = ''
+        let ln = ''
+        if(res?.fname) fn = res?.fname.slice(0,1)
+        if(res?.lname) ln = res?.lname.slice(0,1)
+        this.userName = `${fn}${ln}`
+        this.userdata=res
+      }
+    })
 
     this.glopalService.hideNavbarAndFooter.subscribe(
       res=> {

@@ -136,7 +136,7 @@ nav {
 
           li:not(.lang){
                &:hover {
-                    a {
+                > a {
                          color: $mainColor;
                          border-bottom: 2px solid $mainColor;
                     }
@@ -171,7 +171,7 @@ nav {
                }
           }
      }
-     .dropdown-menu {
+     .dropdown-menu.cstm {
           li:not(.first) {
                transition: none !important;
                a {
@@ -480,11 +480,16 @@ footer {
      input,select {
           border: none;
           padding: 10px 2px;
-          border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
           outline: none;
           width: 100%;
      }
-     select {color: rgb(168, 167, 167);}
+     select {color: rgb(168, 167, 167);
+      &:focus{
+          box-shadow: none !important;
+     
+          border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;}
+     }
      button {
           background-color: $orangeColor;
           border: none;
@@ -548,16 +553,16 @@ footer {
 // }
 @media only screen and (max-width: 600px) {
 
-     .signup,
-     .login {
-          input {
-               width: 90%;
-          }
-     }
+     // .signup,
+     // .login {
+     //      input {
+     //           width: 90%;
+     //      }
+     // }
 
-     .phonNumberParent {
-          width: 90% !important
-     }
+     // .phonNumberParent {
+     //      width: 90% !important
+     // }
 
      .auth-right-side {
           background-image: none !important;

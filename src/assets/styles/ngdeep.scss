@@ -19,14 +19,22 @@
         background-color: $orangeColor !important;
     }
 // end swiper arrows
-.dropdown-menu {
+.dropdown-menu.cstm {
     inset: 105% auto auto -270px !important;
     width: 300px;
     padding: 0 !important;
     border-radius: 0 !important;
 }
+.dropdown-menu.store {
+    min-width: 400px;
+    a {
+        &:hover {
+            color:$mainColor !important
+        }
+    }
+}
 .custom-rtl { 
-    .dropdown-menu {
+    .dropdown-menu.cstm {
         inset: 105% -270px auto 0 !important;
         width: 300px;
         direction: rtl;

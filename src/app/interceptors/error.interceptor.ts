@@ -24,6 +24,16 @@ export class ErrorInterceptor implements HttpInterceptor {
             timeOut: 7000,
           })
         } else if (body?.code==3) {
+          if(localStorage.getItem('lang')=='ar') {
+            this.toastr.error('يجب عليك  تسجيل الدخول مؤة اخري','', {
+              timeOut: 7000,
+            })
+          } else  {
+            this.toastr.error('You Have To Login Again','', {
+              timeOut: 7000,
+            })
+          }
+
           localStorage.removeItem('joinToken')
           this.router.navigate(['/auth/login'])
         }

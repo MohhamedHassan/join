@@ -13,6 +13,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./siginup.component.scss']
 })
 export class SiginupComponent implements OnInit {
+  intervalLoading=false
+  counter=60
+  setIntervalVariable:any
   signupForm:FormGroup= new FormGroup({})
   submited:boolean=false
   loading:boolean=false
@@ -29,24 +32,26 @@ export class SiginupComponent implements OnInit {
     private toastr:ToastrService
     ) { }
     getOtp() {
-      this.loading=true
-      this.counterId+=1
-      let child = document.createElement('div')
-      child.setAttribute('id',`captchaid${this.counterId}`)
-      document.body.appendChild(child)
-      this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
-      firebase.auth().signInWithPhoneNumber(this.signupForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
-        console.log(res)
-        this.showVerificationpopup=true
-        this.verificationId = res?.verificationId
-        this.loading=false
+if(!this.intervalLoading) {
+  this.loading=true
+  this.counterId+=1
+  let child = document.createElement('div')
+  child.setAttribute('id',`captchaid${this.counterId}`)
+  document.body.appendChild(child)
+  this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
+  firebase.auth().signInWithPhoneNumber(this.signupForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
+    console.log(res)
+    this.showVerificationpopup=true
+    this.verificationId = res?.verificationId
+    this.loading=false
+    this.counterToEnable()
+  }).catch((err) => {
+    this.toastr.error(err?.message||'Something wnt wrong')  
+    this.loading=false
 
-      }).catch((err) => {
-        this.toastr.error(err?.message||'Something wnt wrong')  
-        this.loading=false
-
-      })
-    }
+  })
+}
+     }
   ngOnInit(): void {
     firebase.initializeApp({
       apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
@@ -89,9 +94,12 @@ export class SiginupComponent implements OnInit {
   }
   signUp(formValue:any) {
     this.submited=true
-    console.log(this.signupForm)
-    if(this.signupForm.valid) {
+    console.log(this.signupForm.value)
+    if(this.signupForm.valid&&!this.intervalLoading) {
       this.getOtp()
+    } 
+    if(this.intervalLoading) {
+      this.showVerificationpopup=true 
     }
 
   }
@@ -109,6 +117,7 @@ export class SiginupComponent implements OnInit {
           this.verifyoading=false
           let frmdata = new FormData()
           let value = this.signupForm.value
+          console.log(value.mobile)
           frmdata.append('fname',value.fname)
           frmdata.append('lname',value.lname)       
           frmdata.append('dob',value.dob)
@@ -118,22 +127,23 @@ export class SiginupComponent implements OnInit {
           frmdata.append('gender',value.gender) 
           frmdata.append('email',value.email)
           frmdata.append('device_token','_') 
-          let mobile = value?.mobile?.e164Number.slice(1)
+          let mobile = this.signupForm.get('mobile')?.value.e164Number.replace(this.signupForm.get('mobile')?.value.dialCode,'')
           frmdata.append('mobile',mobile) 
           this.authService.signupu(frmdata).subscribe(
             (res:any) => {
-              if(res?.code) {
+              if(res?.code==1) {
                 this.authService.logIn({
                   mobile:mobile,
                   password:value.password
                 }).subscribe(
                   res => {
                     this.loading=false
-                    if(res?.code) {
+                    if(res?.code==1) {
                       this.toastr.success(localStorage.getItem('lang')=='ar'?'تم انشاء حسابك بنجاج':'Account successfully created');
                       localStorage.setItem('joinToken',res?.payload?.auth_token)
                       this.authService.getUserProfile()
                       this.router.navigate(['/'])
+                      window.location.reload();
                     } else {
                     }
                   }
@@ -148,6 +158,20 @@ export class SiginupComponent implements OnInit {
         this.toastr.error(err?.message||'Something wnt wrong') 
         this.verifyoading=false 
       })
+    }
+  }
+  counterToEnable() {
+    if(!this.intervalLoading) {
+      this.counter=60
+      this.intervalLoading=true
+     this.setIntervalVariable = setInterval(() => {
+        this.counter-=1
+        if(this.counter==0) {
+          this.counter=60
+          clearInterval(this.setIntervalVariable)
+          this.intervalLoading=false
+        }
+      },1000)
     }
   }
 }

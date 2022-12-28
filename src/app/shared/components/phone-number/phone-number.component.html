@@ -1,6 +1,6 @@
 <ngx-intl-tel-input
 [formControl]="inputname"
-[cssClass]="'custom form-control'"
+[cssClass]="formcontrol ? 'custom form-control' :   'custom'"
 [preferredCountries]="preferredCountries"
 [enableAutoCountrySelect]="true"
 [enablePlaceholder]="true"
@@ -16,7 +16,7 @@
 [separateDialCode]="separateDialCode"
 [numberFormat]="PhoneNumberFormat.National"
 
-[customPlaceholder]="lang ? 'Phone Number' : 'رقم الهاتف'"
+[customPlaceholder]="formcontrol ?   (lang=='ar' ? 'رقم الهاتف الجديد (اختياري)' :'New Phone Number (optional)' ) : (lang=='ar' ? 'رقم الهاتف' :'Phone Number' ) "
 >
 </ngx-intl-tel-input>
 <!-- name="mobile"

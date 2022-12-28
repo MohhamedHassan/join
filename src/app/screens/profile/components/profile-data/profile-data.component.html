@@ -40,26 +40,7 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;over
             </div>
         </div>
         <!--  -->
-        <div class="col-md-6 mb-3">
-            <div>
-                <!-- <app-phone-number
-                [inputname]="profilForm.get('mobile')"
-                ></app-phone-number> -->
-                <input 
-                formControlName="mobile"
-                type="text" 
-                placeholder="{{'phone_number'|translate}}"
-                class="form-control">
-                <p 
-                *ngIf="(profilForm.controls['mobile']?.errors!=null && profilForm.controls['mobile'].touched) ||
-                (profilForm.controls['mobile']?.errors!=null && submited)
-                "
-                class="my-2 text-danger">
-                    {{'required'|translate}}
-                </p>
-            </div>
-        </div>
-        <!--  -->
+
         <div class="col-md-6 mb-3">
             <div>
                 <input 
@@ -123,6 +104,61 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;over
         </div>
         <!--  -->
         <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <select 
+                style="box-shadow: none;"
+                formControlName="gender"
+                class="form-select" aria-label="Default select example">
+                    <option selected value="">{{'gender'|translate}}</option>
+                    <option value="BOY">{{'male'|translate}}</option>
+                    <option value="GIRL">{{'female'|translate}}</option>
+                  </select>
+                <p 
+                *ngIf="(profilForm.controls['gender']?.errors!=null && profilForm.controls['gender'].touched) ||
+                (profilForm.controls['gender']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+
+        <div class="col-md-6 mb-3">
+            <div class="form-group">
+                <app-phone-number
+                [formcontrol]="true"
+                [inputname]="profilForm.get('newmobile')"
+                ></app-phone-number>
+                <p 
+                *ngIf="(profilForm.controls['newmobile']?.errors!=null && profilForm.controls['newmobile'].touched) ||
+                (profilForm.controls['newmobile']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'validphone'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-6 mb-3">
+            <div>
+                <input 
+                formControlName="mobile"
+                [readonly]="true"
+                type="text" 
+                placeholder="{{'phone_number'|translate}}"
+                class="form-control">
+                <p 
+                *ngIf="(profilForm.controls['mobile']?.errors!=null && profilForm.controls['mobile'].touched) ||
+                (profilForm.controls['mobile']?.errors!=null && submited)
+                "
+                class="my-2 text-danger">
+                    {{'validphone'|translate}}
+                </p>
+            </div>
+        </div>
+        <!--  -->
+        <div class="col-md-12 mb-3">
             <div>
                 <button 
                 class="orangebtn"
@@ -138,4 +174,64 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;over
         </div>
         <!--  -->
     </form>
+</div>
+
+
+
+<div 
+[ngClass]="{
+    'd-flex':showVerificationpopup,
+    'd-none':!showVerificationpopup
+}"
+*ngIf="showVerificationpopup"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+        (click)="showVerificationpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mb-0 mt-2"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >
+            {{'please_enter_the_verification_code'|translate}}
+            {{profilForm.value?.newmobile?.e164Number}}
+            </h2>
+            <div>
+                <input
+                [formControl]="verifiedCodeControl"
+                placeholder="{{'code'|translate}}"
+                type="text" class="form-control my-3">
+                <button 
+                (click)="verifyCode()"
+                [disabled]="verifiedCodeControl?.errors!=null||verifyoading"
+                class="orangebtn">
+                    {{'verify'|translate}}
+                    <i 
+                    *ngIf="verifyoading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+                <p
+                (click)="getOtp()"
+                style="cursor: pointer;"
+                *ngIf="!loading&&!intervalLoading"
+                class="my text-primary">
+                    {{'Didnt_receive_the_code'|translate}}
+                  
+                </p>
+                <p 
+                class="text-primary my-2"
+                *ngIf="intervalLoading">
+                    {{counter}}
+                </p>
+                <i 
+                *ngIf="loading"
+                class="fas fa-circle-notch fa-spin"></i>
+            </div>
+        </div>
+    </div>
 </div>

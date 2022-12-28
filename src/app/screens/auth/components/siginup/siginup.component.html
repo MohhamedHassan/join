@@ -78,6 +78,7 @@ class="signup heightc p-4">
         <div class="col-md-6 mb-3">
             <div class="form-group">
                 <select 
+                class="form-select"
                 formControlName="area_id"
           >
                     <option value="" selected>{{'area'|translate}}</option>
@@ -121,9 +122,8 @@ class="signup heightc p-4">
                 formControlName="gender"
                 class="form-select" aria-label="Default select example">
                     <option selected value="">{{'gender'|translate}}</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    <option value="BOY">{{'male'|translate}}</option>
+                    <option value="GIRL">{{'female'|translate}}</option>
                   </select>
                 <p 
                 *ngIf="(signupForm.controls['gender']?.errors!=null && signupForm.controls['gender'].touched) ||
@@ -214,9 +214,15 @@ class="cstmpopup ">
                 <p
                 (click)="getOtp()"
                 style="cursor: pointer;"
-                *ngIf="!loading"
+                *ngIf="!loading&&!intervalLoading"
                 class="my text-primary">
                     {{'Didnt_receive_the_code'|translate}}
+                  
+                </p>
+                <p 
+                class="text-primary my-2"
+                *ngIf="intervalLoading">
+                    {{counter}}
                 </p>
                 <i 
                 *ngIf="loading"

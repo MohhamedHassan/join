@@ -38,9 +38,10 @@ export class ChangePasswodComponent implements OnInit {
       this.authService.resetPassword(value).subscribe(
         res => {
           this.loading=false
-          if(res?.code) {
+          if(res?.code==1) {
             this.toastr.success(res?.message);
             this.submited=false
+            this.changePasswordForm.reset()
             this.changePasswordForm.patchValue(
               {
                 old_password:'',
@@ -48,10 +49,13 @@ export class ChangePasswodComponent implements OnInit {
                 confirm_password:'',
               }
             )
+            this.changePasswordForm.reset()
           } else {
           }
         }
       )
+    } else {
+      console.log(this.changePasswordForm)
     }
    }
 }

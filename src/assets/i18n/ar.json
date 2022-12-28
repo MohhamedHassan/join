@@ -1,4 +1,6 @@
 {
+    "updatephonenumber":"تحديث رقم الهاتف",
+    "categories":"تصنيفات",
     "lets_explore":"دعنا نستكشف...",
     "home":"الرئيسية",
     "store":"المتجر",
@@ -135,5 +137,7 @@
     "fax":"فاكس:",
     "Follow_Us":"تابعنا",
     "Accepted_Payment_Methods":"طرق الدفع المقبولة",
-    "links":"الروابط"
+    "links":"الروابط",
+    "male":"ذكر",
+    "female":"انثي"
 }

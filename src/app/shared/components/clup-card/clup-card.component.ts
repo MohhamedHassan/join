@@ -29,7 +29,7 @@ export class ClupCardComponent implements OnInit {
     this.foavoriteService.addClupToFavorite(this.clupId).subscribe(
       res => {
         this.favoriteLoaing.emit(false)
-        if(res?.code) this.changefavStatus.emit(this.clupIndex)
+        if(res?.code==1) this.changefavStatus.emit(this.clupIndex)
       }
     )
   }

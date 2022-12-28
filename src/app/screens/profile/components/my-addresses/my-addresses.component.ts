@@ -80,7 +80,7 @@ addAddress(formvalue:any) {
         (res:any)=> {
           this.loading=false
           console.log(res)
-          if(res?.code) {
+          if(res?.code==1) {
             this.authservice.getAddress(this.userid)
             this.toastr.success(res?.message);
             this.showpopup=false
@@ -94,7 +94,7 @@ addAddress(formvalue:any) {
         (res:any)=> {
           this.loading=false
           console.log(res)
-          if(res?.code) {
+          if(res?.code==1) {
             this.authservice.getAddress(this.userid)
             this.toastr.success(res?.message);
             this.showpopup=false

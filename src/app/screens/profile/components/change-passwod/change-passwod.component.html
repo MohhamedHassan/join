@@ -10,7 +10,9 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;over
     [formGroup]="changePasswordForm"
     (ngSubmit)="changePassword(changePasswordForm.value)"
     >
-        <div class="form-group mb-3">
+        <div
+        [hidden]="true"
+        class="form-group mb-3">
             <input 
             readonly
             formControlName="mobile"

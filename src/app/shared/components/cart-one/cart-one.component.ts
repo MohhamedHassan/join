@@ -30,7 +30,7 @@ export class CartOneComponent implements OnInit {
     this.foavoriteService.addActivityToFavorite(this.activityId).subscribe(
       res => {
         this.favoriteLoaing.emit(false)
-        if(res?.code) this.changefavStatus.emit(this.activityIndex)
+        if(res?.code==1) this.changefavStatus.emit(this.activityIndex)
       }
     )
   }
