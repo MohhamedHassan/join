@@ -41,4 +41,67 @@
         text-align: right;
     }
 }
+// start accordion style
+
+.accordion-toggle[aria-expanded="true"]:after {
+    font-family: "Font Awesome 5 Free";
+content: "\f077";
+display: inline-block;
+padding-left: 3px;
+vertical-align: middle;
+font-weight: 900;
+position: absolute;
+color:$mainColor;
+right: 1rem;
+top: 1rem;
+  
 }
+.card {
+    background-color: transparent;
+    border: 1px solid #e7e7e7;
+    box-shadow: 0 8px 16px 0 rgb(0 0 0 / 5%);
+    margin-bottom: 10px;
+}
+.card-header{border-bottom:none;background-color: transparent;padding:10px 0}
+.accordion-toggle[aria-expanded="false"]:after {
+    font-family: "Font Awesome 5 Free";
+    content: "\f078";
+    color:$mainColor;
+    display: inline-block;
+    padding-left: 3px;
+    vertical-align: middle;
+    font-weight: 900;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    
+    
+}
+.btn-link {
+    font-weight: 500;
+    color: black ;
+    text-decoration: none;
+}
+.btn.focus, .btn:focus{box-shadow: none;}
+.btn-link:hover {
+   color:black;
+   text-decoration: none;
+}
+.custom-rtl { 
+    .accordion-toggle[aria-expanded="false"]:after {
+        left: 1rem;
+        right: auto;
+    }
+    .accordion-toggle[aria-expanded="true"]:after {
+        left: 1rem;
+        right: auto;
+    }
+}
+bs-datepicker-container, bs-daterangepicker-container {
+    z-index: 11111111111111111111111;
+}
+bs-datepicker-container {
+    top: -50% !important;
+}
+}
+

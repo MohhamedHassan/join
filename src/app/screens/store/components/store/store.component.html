@@ -10,11 +10,14 @@ class="store">
     style="min-height: 40vh;"
     class="container">
         <app-categories-list 
+        *ngIf="!loading"
         [currentid]="categoryid"
         (chosenTab)="categoryIdFromParent($event)"  
         [listData]="tabs"></app-categories-list> 
         
-        <section class="row">
+        <section 
+        *ngIf="!loading"
+        class="row">
             <div *ngFor="let product of products" class="col-md-4 col-lg-3 mb-4">
                 <app-store-card 
                 [id]="product.id"

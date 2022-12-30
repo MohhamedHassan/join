@@ -67,6 +67,16 @@
 a {
      text-decoration: none !important;
 }
+.form-check-input:checked {
+     background-color:$mainColor !important;
+     border-color: $mainColor !important;
+ }
+ .custom-rtl {
+     .form-check .form-check-input {
+          float: right !important;
+          margin-left: 0.5em !important;
+      }
+ }
 
 // end glopal
 nav {
@@ -681,7 +691,7 @@ footer {
      width: 64px;
      height: 64px;
      margin: 8px;
-     border: 8px solid $mainColor;
+     border: 2px solid $mainColor;
      border-radius: 50%;
      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
      border-color: $mainColor transparent transparent transparent;
@@ -767,7 +777,7 @@ footer {
      .content {
           background-color: white;
           width: 60%;
-          border-radius: 20px;
+          border-radius: 10px;
           padding: 20px;
           position: relative;
           .fa-x {

@@ -98,10 +98,37 @@
                             {{'kwd'|translate}}    
                         </small>
                     </div>
-                    <button class="w-100 mt-3 book">{{'book_now'|translate}}</button>
+                    <button 
+                    (click)="showpopup=true"
+                    class="w-100 mt-3 book">{{'book_now'|translate}}</button>
                 </div>
             </div>
             <!--  -->
         </div>
     </div>
 </section>
+<!-- start popup -->
+<div 
+
+*ngIf="showpopup"
+class="cstmpopup d-flex">
+    <div class="content add-member">
+        <i 
+        (click)="showpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <h2
+        class="mb-4"
+        style="font-weight: 400;font-size:20px;line-height: 30px;"
+        >{{'book_now'|translate}}</h2>
+        <div class="body">
+     
+           <app-book-now
+           [location]="activity_details?.location"
+           ></app-book-now>
+        </div>
+    </div>
+</div>

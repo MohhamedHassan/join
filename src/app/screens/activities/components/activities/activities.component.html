@@ -2,6 +2,7 @@
 style="min-height: 100vh;"
 class="activities-page mb-5 mrginBottom">
 <app-shared-header
+*ngIf="!homeService.activitiesLoading"
 header="activities"
 ></app-shared-header>
 <!--  -->

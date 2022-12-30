@@ -139,5 +139,9 @@
     "Accepted_Payment_Methods":"طرق الدفع المقبولة",
     "links":"الروابط",
     "male":"ذكر",
-    "female":"انثي"
+    "female":"انثي",
+    "select_location":"أختيار الموقع",
+    "select_Date":"أختيار التاريخ",
+    "select_time":" أختيار الوقت ",
+    "select_child":"أختيار العضو"
 }

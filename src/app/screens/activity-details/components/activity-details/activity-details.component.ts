@@ -11,6 +11,7 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
+  showpopup:boolean=false
   loading:boolean=true
   activity_details!: activity_details
   swpieroptions: any = {
@@ -43,6 +44,7 @@ export class ActivityDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.pipe(
       switchMap((params:any) => {
+        this.loading=true
         if(!!localStorage.getItem("joinToken")) return this.activitiesService.getActivityDetailsForUser(params?.id)
         else return this.activitiesService.getActivityDetailsForGuest(params?.id)
       })
@@ -53,5 +55,7 @@ export class ActivityDetailsComponent implements OnInit {
        }
     )
   }
-
+get lang() {
+  return localStorage.getItem('lang') || 'en'
+}
 }

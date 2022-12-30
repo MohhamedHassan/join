@@ -16,6 +16,8 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { ToastrModule } from 'ngx-toastr';
 import { PhoneNumberComponent } from './components/phone-number/phone-number.component';
 import { TofixednumberPipe } from '../pips/tofixednumber.pipe';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -29,6 +31,7 @@ import { TofixednumberPipe } from '../pips/tofixednumber.pipe';
   imports: [
     CommonModule,
     HttpClientModule,
+    AccordionModule.forRoot() ,
     RouterModule,
     SwiperModule,
     NgxStarRatingModule,
@@ -36,6 +39,7 @@ import { TofixednumberPipe } from '../pips/tofixednumber.pipe';
     FormsModule,
     NgxIntlTelInputModule,
     ToastrModule.forRoot(),
+    BsDatepickerModule.forRoot(),
     TranslateModule.forChild({
       defaultLanguage:'en',
       loader: {
@@ -60,7 +64,9 @@ import { TofixednumberPipe } from '../pips/tofixednumber.pipe';
     NgxIntlTelInputModule,
     ToastrModule,
     PhoneNumberComponent,
-    TofixednumberPipe
+    TofixednumberPipe,
+    AccordionModule,
+    BsDatepickerModule
   ]
 })
 export class SharedModule { }

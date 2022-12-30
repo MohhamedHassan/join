@@ -139,6 +139,9 @@
     "Accepted_Payment_Methods":"Accepted Payment Methods",
     "links":"Links",
     "male":"Male",
-    "female":"Female"
-    
+    "female":"Female",
+    "select_location":"Select Location",
+    "select_Date":"Select Date",
+    "select_time":"Select Time",
+    "select_child":"Select Child"
 }
