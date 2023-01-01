@@ -52,6 +52,21 @@
                     <p [innerHTML]="savedHtml(product_details.description)" class="mt-3"></p>
                     <hr>
                     <div 
+                    *ngIf="product_details?.product_colors?.length"
+                    class="my-3 colorsContainer">
+                        <h2 class="mb-3">{{'colors'|translate}}</h2>
+                        <ul class="d-flex flex-wrap list-unstyled p-0 m-0">
+                            <li 
+                            (click)="selectedColor=color"
+                            [class.active]="selectedColor?.name==color?.name"
+                            *ngFor="let color of product_details?.product_colors">
+                                <span
+                                [style.background]="color?.name"
+                                ></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div 
                     style="border: 1px solid #e3e3e3;
                     border-radius: 5px;
                     padding: 20px;"

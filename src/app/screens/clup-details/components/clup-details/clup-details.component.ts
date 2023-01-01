@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ClupDetailsService, clup_details } from '../../services/clup-details.service';
@@ -36,6 +36,7 @@ export class ClupDetailsComponent implements OnInit {
   }
   constructor(private activatedRoute:ActivatedRoute,
     private _sanitizer:DomSanitizer,
+    private router:Router,
     private clupsService:ClupDetailsService) { }
     savedHtml(content:string) {
       return this._sanitizer.bypassSecurityTrustHtml(content)
@@ -50,6 +51,8 @@ export class ClupDetailsComponent implements OnInit {
        res => {
         this.loading=false
         this.clup_details=res
+       } , err =>  {
+        this.router.navigate(['/'])
        }
     )
   }

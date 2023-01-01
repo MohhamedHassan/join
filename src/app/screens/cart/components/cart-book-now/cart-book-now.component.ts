@@ -5,11 +5,12 @@ import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
 
 @Component({
-  selector: 'app-book-now',
-  templateUrl: './book-now.component.html',
-  styleUrls: ['./book-now.component.scss']
+  selector: 'app-cart-book-now',
+  templateUrl: './cart-book-now.component.html',
+  styleUrls: ['./cart-book-now.component.scss']
 })
-export class BookNowComponent implements OnInit {
+export class CartBookNowComponent implements OnInit {
+
   @Input() location:any
   @Output() patchActivityToParent = new EventEmitter()
   members:any
@@ -185,17 +186,16 @@ confirmAddActivity() {
   }
   let valid = false
   if(!!localStorage.getItem('joinToken') && this.selectedMembers?.length) {
-     valid=true
-  } else  {
-    if(this.notUserMembersCount>0)  valid = true
-  }
+    valid=true
+ } else  {
+   if(this.notUserMembersCount>0)  valid = true
+ }
   if( 
-    this.selectedLocation && 
-    this.selectedDate && 
-    this.selectedTime && 
+    this.selectedLocation &&
+    this.selectedDate &&
+    this.selectedTime   &&
     this.notuserForm.valid && valid) {
-
-    let selectedData:any = {
+    let selectedData = {
       selectedMembers:this.selectedMembers,
       selectedLocation:this.selectedLocation,
       selectedDate:this.selectedDate,
@@ -213,13 +213,13 @@ confirmAddActivity() {
     }
   }
 }
-isLogin():boolean {
-  return !!localStorage.getItem("joinToken")
-}
 plusOne() {
   if(this.notUserMembersCount<this.avialbeMembers) this.notUserMembersCount+=1
 }
 minusOne() {
   if(this.notUserMembersCount>1) this.notUserMembersCount-=1
+}
+isLogin():boolean {
+  return !!localStorage.getItem("joinToken")
 }
 }

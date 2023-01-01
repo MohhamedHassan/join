@@ -12,7 +12,7 @@ export class AllMembersComponent implements OnInit {
   constructor(public membersservice:MembersService) { }
 
   ngOnInit(): void {
-
+    this.membersservice.getAllMembers()
     this.membersservice.members.subscribe(
       (res:any)=>{
         this.members=res

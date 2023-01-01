@@ -143,5 +143,16 @@
     "select_location":"Select Location",
     "select_Date":"Select Date",
     "select_time":"Select Time",
-    "select_child":"Select Child"
+    "select_child":"Select Child",
+    "available":"Available",
+    "confirm":"Confirm",
+    "Fill_in_all_data":"Fill in all data",
+    "delete_activity_message":"Your cart contains activities from a different club. Would you like to reset your cart before adding activities from this club ?",
+    "yes":"Yes",
+    "no":"No",
+    "booking_for_one_member":"Booking For",
+    "member":"member",
+    "number_of_members":"Number of members",
+    "i_confirm":"I confirm that age anf gender are compatible with booked activity",
+    "colors":"Colors"
 }

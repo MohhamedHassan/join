@@ -1,5 +1,5 @@
 <app-laoding *ngIf="loading"></app-laoding>
-<section *ngIf="activity_details" style="min-height: 100vh;" class="details-page">
+<section *ngIf="activity_details && !loading" style="min-height: 100vh;" class="details-page">
     <div class="cvr">
         <img [src]="activity_details.banner" alt="">
     </div>
@@ -99,7 +99,7 @@
                         </small>
                     </div>
                     <button 
-                    (click)="showpopup=true"
+                    (click)="checkCartItems()"
                     class="w-100 mt-3 book">{{'book_now'|translate}}</button>
                 </div>
             </div>
@@ -107,7 +107,7 @@
         </div>
     </div>
 </section>
-<!-- start popup -->
+<!-- start add activity popup -->
 <div 
 
 *ngIf="showpopup"
@@ -124,11 +124,47 @@ class="cstmpopup d-flex">
         class="mb-4"
         style="font-weight: 400;font-size:20px;line-height: 30px;"
         >{{'book_now'|translate}}</h2>
-        <div class="body">
+
      
            <app-book-now
+           (patchActivityToParent)="selectedDataFromPopup($event)"
            [location]="activity_details?.location"
            ></app-book-now>
+
+    </div>
+</div>
+<!--  end add activity popup -->
+<!-- confirm delete activities from the cart popup -->
+<div 
+
+*ngIf="showDeleteCartActivities"
+class="cstmpopup d-flex">
+    <div class="content small">
+        <i 
+        (click)="showDeleteCartActivities=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mt-2"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'delete_activity_message'|translate}}</h2>
+            <div class="mt-4">
+                <button 
+                (click)="acceptDeleteActivity()"
+                class="btn btn-warning">
+                    {{'yes'|translate}}
+                </button>
+                <span class="mx-2"></span>
+                <button 
+                (click)="showDeleteCartActivities=false"
+                class="btn btn-warning">
+                    {{'no'|translate}}
+                </button>
+            </div>
         </div>
     </div>
 </div>

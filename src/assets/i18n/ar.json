@@ -60,7 +60,7 @@
     "floor":"الدور",
     "apartment":"الشقة",
     "additional_direction":"اتجاهات اخري",
-    "avenue":"Avenue",
+    "avenue":"الجادة",
     "addAddress":"اضافة عنوان",
     "deleteaddress":"تأكيد حذف العنوان ؟",
     "deletemember":"تأكيد حذف هذا العضو ؟",
@@ -143,5 +143,16 @@
     "select_location":"أختيار الموقع",
     "select_Date":"أختيار التاريخ",
     "select_time":" أختيار الوقت ",
-    "select_child":"أختيار العضو"
+    "select_child":"أختيار العضو",
+    "available":"المتاح",
+    "confirm":"تأكيد",
+    "Fill_in_all_data":"قم بلمئ جميع البيانات",
+    "delete_activity_message":"تم اضافة انشطة من نادي اخر بالسلة . هل ترغب بحذف اختيارك السابق واعادة  تعبئة السلة بانشطة النادي هذا ؟",
+    "yes":"نعم",
+    "no":"لا",
+    "booking_for_one_member":"تم الحجز لـ",
+    "member":"عضو",
+    "number_of_members":"عدد الاعضاء",
+    "i_confirm":"أقر بأن العمر وشروط النشاط التي تم اختياره مطابقة للمشتركين",
+    "colors":"الألوان"
 }

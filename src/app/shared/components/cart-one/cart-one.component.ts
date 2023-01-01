@@ -25,6 +25,7 @@ export class CartOneComponent implements OnInit {
   get lang() {return localStorage.getItem('lang') || 'en'}
   ngOnInit(): void {
   }
+  test(){console.log('test')}
   addActivityToFavorite() {
     this.favoriteLoaing.emit(true)
     this.foavoriteService.addActivityToFavorite(this.activityId).subscribe(

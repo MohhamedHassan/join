@@ -31,6 +31,7 @@ searchResult:any[]=[]
     this.activatedRoute.params.subscribe(
       (params:any) => {
         if(params?.str==-1) {
+          this.loading=true
           this.activatedRoute.queryParamMap.subscribe(
             (res:any) => {
               console.log(res)
@@ -59,6 +60,7 @@ searchResult:any[]=[]
             }
           )
         } else {
+          this.loading=true
           this.serachService.getSearchResult(params?.str).subscribe(res=> {
               this.searchResult=res
               this.loading=false

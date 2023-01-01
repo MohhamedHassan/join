@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class ShoppingCartComponent implements OnInit {
   cartitems:any[]=[]
   showDeleteCArtitem=-1
+  showpopup=-1
   constructor(private router:Router) { }
 
   ngOnInit(): void {
@@ -50,4 +51,15 @@ export class ShoppingCartComponent implements OnInit {
   get lang() {
     return localStorage.getItem('lang') || 'en'
   }
+  selectedDataFromPopup(index,event) {
+  this.cartitems[index].selectedMembers=event.selectedMembers
+  this.cartitems[index].selectedLocation=event.selectedLocation,
+  this.cartitems[index].selectedDate=event.selectedDate
+  this.cartitems[index].selectedTime=event.selectedTime
+  this.cartitems[index].cstmtype=1 
+  this.cartitems[index].type=event.type
+  this.cartitems[index].notUserMembersCount =event.notUserMembersCount
+  localStorage.setItem('joincart',JSON.stringify(this.cartitems))
+  this.showpopup=-1
+}
 }

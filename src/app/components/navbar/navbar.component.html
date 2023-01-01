@@ -122,26 +122,27 @@
                 style="cursor:pointer"
                 (click)="selectLang(lang=='ar'?'en':'ar');openNavbar=!openNavbar"
                 > {{lang=='ar'?'en':'ar'}}</a></li>
+      
             <li 
-            *ngIf="!isLogin()"
-            class="lang signinbtn"><a 
-                (click)="openNavbar=!openNavbar"
-                routerLink="/auth/login">{{'signin'|translate}}</a></li>
-            <li 
-            *ngIf="isLogin()"
+   
             class="lang">
                 <div class="additionicons">
                     <a routerLink="/cart">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
-                    <a 
-                    class="mx-2"
-                    routerLink="/favorite">
-                        <i class="fa-solid fa-heart"></i>
-                    </a>
-                    <a  routerLink="/notifications">
-                        <i class="fa-solid fa-bell"></i>
-                    </a>
+                    <ng-container
+                    *ngIf="isLogin()"
+                    >
+                        <a 
+                        class="mx-2"
+                        routerLink="/favorite">
+                            <i class="fa-solid fa-heart"></i>
+                        </a>
+                        <a  routerLink="/notifications">
+                            <i class="fa-solid fa-bell"></i>
+                        </a>
+                    </ng-container>
+                    
                 </div>
             </li>
             <li 
@@ -216,7 +217,12 @@
                       </li>
                     </ul>
                   </div>
-            </li>      
+            </li>  
+            <li 
+            *ngIf="!isLogin()"
+            class="lang signinbtn"><a 
+                (click)="openNavbar=!openNavbar"
+                routerLink="/auth/login">{{'signin'|translate}}</a></li>    
         </ul>
     </div>
 </nav>            

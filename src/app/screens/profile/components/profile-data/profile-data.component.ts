@@ -173,8 +173,13 @@ export class ProfileDataComponent implements OnInit {
                 this.toastr.success(res?.message);
                 window.location.reload();
               } else {
-                
+               for(let i = 1 ; i < this.counterId ; i++ ) {
+                console.log(    document.getElementById(`captchaid${this.counterId}`))
+                document.getElementById(`captchaid${this.counterId}`).remove()
+               }
               }
+            } ,err => {
+          
             }
           )
     
@@ -185,5 +190,11 @@ export class ProfileDataComponent implements OnInit {
         this.verifyoading=false 
       })
     }
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    console.log(    document.getElementById(`captchaid${this.counterId}`))
+    document.getElementById(`captchaid${this.counterId}`).remove()
   }
 }

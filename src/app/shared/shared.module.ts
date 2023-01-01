@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -67,6 +67,9 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     TofixednumberPipe,
     AccordionModule,
     BsDatepickerModule
+  ],
+  providers: [
+    DatePipe
   ]
 })
 export class SharedModule { }

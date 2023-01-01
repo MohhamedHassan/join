@@ -11,7 +11,8 @@ import { StoreService } from 'src/app/screens/store/services/store.service';
   styleUrls: ['./product-details.component.scss']
 })
 export class ProductDetailsComponent implements OnInit {
-
+  selectedColor=null
+  selectedSize=null
   loading:boolean=true
   product_details:any
   countToBuy=0
@@ -42,6 +43,9 @@ export class ProductDetailsComponent implements OnInit {
        (res:any) => {
         this.loading=false
         this.product_details=res
+        if(this.product_details?.product_colors?.length) {
+          this.selectedColor=this.product_details?.product_colors[0]
+        }
         this.availableCount=this.product_details?.qty
         console.log(this.product_details)
  

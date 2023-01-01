@@ -777,6 +777,8 @@ footer {
      .content {
           background-color: white;
           width: 60%;
+          max-height: 90vh;
+          overflow: auto;
           border-radius: 10px;
           padding: 20px;
           position: relative;
@@ -786,8 +788,9 @@ footer {
                cursor: pointer;
           } 
           .body {
-               max-height: 70vh;
+               max-height: 50vh;
                overflow: auto;
+               margin-bottom: 10px;
           }
      }
      .content.small {
@@ -923,6 +926,38 @@ footer {
           font-weight: bold;
           color:$mainColor;
           box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);
+     }
+ }
+ .colorsContainer {
+     li {
+          text-align: center;
+          margin-right: 10px;
+          margin-bottom: 5px;
+          padding: 10px;
+          border-radius: 10px;
+          display: flex;
+          span {
+               display: inline-block;
+               width: 25px;
+               height: 25px;
+               border-radius: 50%;
+               cursor: pointer;
+           }
+     }
+     li.active {
+          background-color: white;
+          box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);
+        
+     }
+     
+ }
+ .custom-rtl {
+     .colorsContainer {
+         li {
+             margin-right: 0 !important;
+             margin-left: 10px;
+         }
+     
      }
  }
 @import "~bootstrap/scss/bootstrap";

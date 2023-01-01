@@ -3,7 +3,8 @@
     <!--  -->
     <div class="container">
         <app-categories-list
-        [listData]="tabs"   
+        [listData]="tabs"  
+        [currentid]="0" 
         (chosenTab)="chosenTabFromChild($event)"     
         ></app-categories-list>
     <!--  -->

@@ -84,5 +84,11 @@ export class NavbarComponent implements OnInit {
       this.router.navigate([`/search/${value}`])
     }
   }
-
+get cartitemsCount() {
+  let cart = localStorage.getItem('joincart')
+  if(cart)  {
+      cart=JSON.parse(cart)
+  }
+  return cart?.length
+}
 }

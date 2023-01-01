@@ -10,7 +10,7 @@
                 <img 
                 (click)="routeToDetailsPage(item)"
                 style="height: 180px;object-fit: cover;cursor: pointer;"
-                    [src]="item?.image" alt="join"
+                    [src]="item?.image||item?.banner" alt="join"
                     class="w-100 rounded">
             </div>
         </div>
@@ -19,7 +19,7 @@
                 <h2
                 (click)="routeToDetailsPage(item)"
                 style="font-size:large;cursor: pointer;" class="m-0">
-                    {{item?.name}}
+                    {{item?.name||item?.title}}
                 </h2>
                 <div *ngIf="item?.cstmtype==2" class="plusminus my-3">
                     <i 
@@ -30,8 +30,11 @@
                     (click)="plusone(i)"
                     class="fa-solid fa-plus"></i>
                 </div>
-                <p class="my-3 maincolor" *ngIf="item?.cstmtype==1">
-                    1 Activity For 1 Children
+                <p class="my-3 maincolor" *ngIf="item?.cstmtype==1&&item?.type==1">
+                    {{'booking_for_one_member'|translate}}  {{item?.selectedMembers?.length}} {{'member'|translate}}
+                </p>
+                <p class="my-3 maincolor" *ngIf="item?.cstmtype==1&&item?.type==0">
+                    {{'booking_for_one_member'|translate}}  {{item?.notUserMembersCount}} {{'member'|translate}}
                 </p>
                 <p class="mb-3">
 
@@ -46,10 +49,22 @@
                     class="orangecolor">
                         {{item?.price|tofixednumber}} 
                     </span>
+                    <span 
+                    *ngIf="item?.cstmtype==1&&item?.type==1"
+                    class="orangecolor">
+                        {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}} 
+                    </span>
+                    <span 
+                    *ngIf="item?.cstmtype==1&&item?.type==0"
+                    class="orangecolor">
+                        {{item?.selectedLocation.price*item?.notUserMembersCount|tofixednumber}} 
+                    </span>
                 </p>
                 <div style="cursor: pointer;" class="d-flex align-items-center justify-content-end   fw-bold">
                     <ng-container *ngIf="item?.cstmtype==1">
-                        <p class="m-0 maincolor">
+                        <p
+                        (click)="showpopup=i"
+                        class="m-0 maincolor">
                             <i class="fa-solid fa-pen"></i>
                             {{'edit'|translate}}
                         </p>
@@ -148,3 +163,29 @@ class="cstmpopup ">
         </div>
     </div>
 </div>
+<div 
+
+*ngIf="showpopup!=-1"
+class="cstmpopup d-flex">
+    <div class="content add-member">
+        <i 
+        (click)="showpopup=-1"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <h2
+        class="mb-4"
+        style="font-weight: 400;font-size:20px;line-height: 30px;"
+        >{{'book_now'|translate}}</h2>
+
+     
+           <app-cart-book-now
+           (patchActivityToParent)="selectedDataFromPopup(showpopup,$event)"
+           [location]="cartitems[showpopup]?.location"
+           ></app-cart-book-now>
+
+    </div>
+</div>
+<!--  end add activity popup -->
