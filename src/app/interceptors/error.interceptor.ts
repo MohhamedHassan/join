@@ -33,7 +33,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               timeOut: 7000,
             })
           }
-
+          localStorage.removeItem('joincart')
           localStorage.removeItem('joinToken')
           this.router.navigate(['/auth/login'])
         }

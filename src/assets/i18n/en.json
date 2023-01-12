@@ -1,4 +1,7 @@
 {
+    "sizes":"Sizes",
+    "size":"Size",
+    "not_eligible":"Not Eligible",
     "updatephonenumber":"Update Phone Number",
     "categories":"Categories",
     "lets_explore":"let's explore...",
@@ -154,5 +157,18 @@
     "member":"member",
     "number_of_members":"Number of members",
     "i_confirm":"I confirm that age anf gender are compatible with booked activity",
-    "colors":"Colors"
+    "colors":"Colors",
+    "color":"Color",
+    "select_address":"Select Address",
+    "select_payment_method":"Select Payment Method",
+    "order_id":"Order id",
+    "order_details":"Order Details",
+    "date":"Date",
+    "numbers_of_activities":"Number of activities",
+    "numbers_of_products":"Number of products",
+    "products":"Products",
+    "qty":"Quantity",
+    "activity_total":"Activity Total",
+    "products_total":"Products Total",
+    "logout":"Logout"
 }

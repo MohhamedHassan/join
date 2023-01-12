@@ -40,6 +40,7 @@
                             {{product_details.price}} 
                             {{'kwd'|translate}}
                         </p>
+                       <ng-container *ngIf="product_details.pre_price!=product_details.price">
                         <span class="mx-2"></span>
                         <p  class="orangecolor">
                            
@@ -48,6 +49,8 @@
                                 {{'kwd'|translate}}
                             </del>
                         </p>
+                       </ng-container>
+                       
                     </div>
                     <p [innerHTML]="savedHtml(product_details.description)" class="mt-3"></p>
                     <hr>
@@ -63,6 +66,21 @@
                                 <span
                                 [style.background]="color?.name"
                                 ></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr *ngIf="product_details?.product_sizes?.length && product_details?.product_colors?.length">
+                    <div 
+                    *ngIf="product_details?.product_sizes?.length"
+                    class="my-3 colorsContainer">
+                        <h2 class="mb-3">{{'sizes'|translate}}</h2>
+                        <ul class="d-flex flex-wrap list-unstyled p-0 m-0">
+                            <li 
+                            style="cursor: pointer;"
+                            (click)="selectSize(size)"
+                            [class.active]="selectedSize?.name==size?.name"
+                            *ngFor="let size of product_details?.product_sizes">
+                                {{size?.name}}
                             </li>
                         </ul>
                     </div>
@@ -107,14 +125,17 @@
                             {{product_details.price}} 
                             {{'kwd'|translate}}
                         </p>
-                        <span class="mx-2"></span>
-                        <p  class="orangecolor">
-                         
-                            <del>
-                                {{product_details.pre_price}}
-                                {{'kwd'|translate}}
-                            </del>
-                        </p>
+                        <ng-container *ngIf="product_details.pre_price!=product_details.price">
+                            <span class="mx-2"></span>
+                            <p  class="orangecolor">
+                             
+                                <del>
+                                    {{product_details.pre_price}}
+                                    {{'kwd'|translate}}
+                                </del>
+                            </p>
+                        </ng-container>
+                        
                     </div>
                     <div  class="plusminus my-2 text-center">
                         <i 

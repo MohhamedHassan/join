@@ -1,0 +1,142 @@
+<app-shared-header 
+*ngIf="!loading"
+header="order_details"></app-shared-header>
+<section 
+
+class="container"
+style="min-height: 100vh;">
+<ng-container *ngIf="!loading">
+    <table class="mb-3">
+        <tr>
+            <td>{{'order_id'|translate}} :</td>
+            <td>{{historyDetails?.order_id}}</td>
+        </tr>
+        <tr>
+            <td>{{'date'}} :</td>
+            <td>{{historyDetails?.created_at|date}}</td>
+        </tr>
+       </table>
+    <div
+    *ngIf="historyDetails?.booked_activity?.length"
+    class="row mb-4">
+     <div class="col-md-12 mb-3">
+        <div>
+            <h3>
+                {{'activities'|translate}}
+            </h3>
+        </div>
+     </div>
+        <div 
+        *ngFor="let item of historyDetails?.booked_activity"
+        class="col-md-4 mb-3">
+            <div 
+            class="rounded p-3"
+            style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);">
+                    <a 
+                    style="color: black;"
+                    [routerLink]="'/activity/'+item?.activity_id">
+                        <img 
+                        style="height: 240px;"
+                        [src]="item?.activity_image" alt="join" class="w-100 mb-2">
+                <h5>{{item?.activity_name}}</h5>
+                <p class="maincolor my-2">
+                    <img 
+                    style="width: 20px;"
+                    src="assets/images/cash.svg" alt="Join"> 
+                    {{item?.booking_amount|tofixednumber}}
+                    {{'kwd'|translate}}
+                </p>
+                <p class="m-0">
+                    {{'booking_for_one_member'|translate}} 
+                    {{item?.child_count}}
+                </p>
+                    </a>
+            </div>
+        </div>
+    </div>
+    <div
+    *ngIf="historyDetails?.booked_products?.length"
+    class="row mb-4">
+     <div class="col-md-12 mb-3">
+        <div>
+            <h3>
+                {{'products'|translate}}
+            </h3>
+        </div>
+     </div>
+        <div 
+        *ngFor="let item of historyDetails?.booked_products"
+        class="col-md-4 mb-3">
+            <div 
+            class="rounded p-3"
+            style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);">
+                    <a 
+                    style="color: black;"
+                    [routerLink]="'/product/'+item?.product_id">
+                <img 
+                style="height: 240px;"
+                [src]="item?.club_logo" alt="join" class="w-100 mb-2">
+                <h5>{{item?.product_name}}</h5>
+                <p 
+                class="d-flex mb-1"
+                *ngIf="item?.color_name">
+                    {{'color'|translate}} : 
+                    <span class="mx-1"></span> 
+                    <span
+                    [style.background]="item?.color_name"
+                    style="    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;"
+                    ></span>
+                </p>
+                <p 
+                class="mb-1"
+                *ngIf="item?.size_name">
+                {{'size'|translate}} : 
+                    {{item?.size_name}}
+                </p>
+                <p 
+                class="mb-1"
+                *ngIf="item?.qty">
+                {{'qty'|translate}} : 
+                    {{item?.qty}}
+                </p>
+                <p class="maincolor m-0">
+                    <img 
+                    style="width: 20px;"
+                    src="assets/images/cash.svg" alt="Join"> 
+                    {{item?.booking_amount|tofixednumber}}
+                    {{'kwd'|translate}}
+                </p>
+                    </a>
+            </div>
+        </div>
+    </div>
+    <p 
+    *ngIf="getPrice(historyDetails?.prices,'Activity Total')"
+    class="d-flex justify-content-between align-items-center">
+        <span>{{'activity_total'|translate}} </span>
+        <span>{{(getPrice(historyDetails?.prices,'Activity Total')|tofixednumber)||0}}</span>
+    </p>
+    <p 
+    *ngIf="getPrice(historyDetails?.prices,'Store Total')"
+    class="d-flex justify-content-between align-items-center">
+        <span>{{'products_total'|translate}} </span>
+        <span>{{(getPrice(historyDetails?.prices,'Store Total')|tofixednumber)||0}}</span>
+    </p>
+    <p 
+    *ngIf="getPrice(historyDetails?.prices,'Delivery Charges')"
+    class="d-flex justify-content-between align-items-center">
+        <span>{{'Shipping'|translate}} </span>
+        <span>{{(getPrice(historyDetails?.prices,'Delivery Charges')|tofixednumber)||0}}</span>
+    </p>
+    <p 
+    *ngIf="getPrice(historyDetails?.prices,'Total Amount')"
+    class="d-flex justify-content-between align-items-center fw-bold">
+        <span>{{'total_price'|translate}} </span>
+        <span>{{(getPrice(historyDetails?.prices,'Total Amount')|tofixednumber)||0}}</span>
+    </p>
+</ng-container>
+
+</section>

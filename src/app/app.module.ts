@@ -24,6 +24,7 @@ import {AngularFireModule} from '@angular/fire/compat'
 import {AngularFireAuthModule} from '@angular/fire/compat/auth'
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { StringToNumberPipe } from './pips/string-to-number.pipe';
 @NgModule({
   declarations: [
     AppComponent,

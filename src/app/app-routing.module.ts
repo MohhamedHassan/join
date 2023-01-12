@@ -63,6 +63,10 @@ const routes: Routes = [
     loadChildren:() => import('src/app/screens/members/members.module').then(m => m.MembersModule)
   },
   {
+    path:'contact',
+    loadChildren:() => import('src/app/screens/contact/contact.module').then(m => m.ContactModule)
+  },
+  {
     path:'notifications',
     canActivate:[NotUserGuard],
     loadChildren:() => import('src/app/screens/notifications/notifications.module').then(m => m.NotificationsModule)

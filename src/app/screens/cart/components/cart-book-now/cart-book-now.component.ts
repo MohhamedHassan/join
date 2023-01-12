@@ -10,7 +10,8 @@ import { MembersService } from 'src/app/screens/members/services/members.service
   styleUrls: ['./cart-book-now.component.scss']
 })
 export class CartBookNowComponent implements OnInit {
-
+  @Input() ageFrom:any
+  @Input() ageTo:any
   @Input() location:any
   @Output() patchActivityToParent = new EventEmitter()
   members:any

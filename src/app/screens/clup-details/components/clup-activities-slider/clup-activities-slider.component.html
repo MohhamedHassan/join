@@ -1,4 +1,6 @@
-<h2 class="mb-2">{{'activities'|translate}}</h2>
+<h2 
+*ngIf="activities?.length"
+class="mb-2">{{'activities'|translate}}</h2>
 <swiper  
 class="mb-3"
 style="direction: ltr;text-align:right"

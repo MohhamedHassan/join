@@ -9,11 +9,7 @@
                 <accordion [isAnimated]="true">
                     <accordion-group
                     heading="{{'Interests'|translate}}">
-                        <div class="text-center">
-                          <i 
-                          *ngIf="homeService?.interistsLoading"
-                          class="fas fa-circle-notch fa-spin"></i>
-                        </div>
+                    
                         <ul 
                         class="list-unstyled p-0"
                         *ngFor="let item of interst">
@@ -40,6 +36,11 @@
                             </ul>
                           </li>
                         </ul>
+                        <div class="text-center">
+                          <i 
+                          *ngIf="homeService?.interistsLoading"
+                          class="fas fa-circle-notch fa-spin"></i>
+                        </div>
                     </accordion-group>
                   </accordion>
             </div>
@@ -51,11 +52,7 @@
                 <accordion [isAnimated]="true">
                     <accordion-group
                     heading="{{'area'|translate}}">
-                    <div class="text-center">
-                      <i 
-                      *ngIf="authService?.arealoading"
-                      class="fas fa-circle-notch fa-spin"></i>
-                    </div>
+                 
                         <ul 
                         class="list-unstyled p-0"
                         *ngFor="let item of areas">
@@ -82,6 +79,11 @@
                             </ul>
                           </li>
                         </ul>
+                        <div class="text-center">
+                          <i 
+                          *ngIf="authService?.arealoading"
+                          class="fas fa-circle-notch fa-spin"></i>
+                        </div>
                     </accordion-group>
                   </accordion>
             </div>
@@ -94,11 +96,7 @@
                 <accordion [isAnimated]="true">
                     <accordion-group
                     heading="{{'members'|translate}}">
-                    <div class="text-center">
-                      <i 
-                      *ngIf="membersservice?.membersLoading"
-                      class="fas fa-circle-notch fa-spin"></i>
-                    </div>
+                   
                     <ul class="list-unstyled p-0">
                       <li 
                       class="mb-2"
@@ -114,6 +112,11 @@
                         </label>
                       </li>
                     </ul>
+                    <div class="text-center">
+                      <i 
+                      *ngIf="membersservice?.membersLoading"
+                      class="fas fa-circle-notch fa-spin"></i>
+                    </div>
                     </accordion-group>
                   </accordion>
             </div>

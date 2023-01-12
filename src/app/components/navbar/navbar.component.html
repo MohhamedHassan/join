@@ -102,6 +102,15 @@
                     routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact:true}"
                     (click)="openNavbar=!openNavbar"
+                    routerLink="/history">{{'history'|translate}}</a></li>
+                <!--  -->
+                <li
+                
+                class="d-lg-none"
+                ><a 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact:true}"
+                    (click)="openNavbar=!openNavbar"
                     routerLink="/notifications">{{'notifications'|translate}}</a></li>
                 <!--  -->
                 <li
@@ -112,11 +121,28 @@
                     (click)="openNavbar=!openNavbar"
                     routerLink="/favorite">{{'favorite'|translate}}</a></li>
                 <!--  -->
+                <li
+                class="d-lg-none"
+                ><a 
+                href="https://reach.link/Join_App"
+                target="_blank"
+                  >{{'follow'|translate}}</a></li>
+                <!--  -->
+                <li
+                class="d-lg-none"
+                ><a 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact:true}"
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/contact">{{'contactus'|translate}}</a></li>
+                <!--  -->
+ 
             </ng-container>
             
-            <li><a 
+            <!-- <li><a 
                 (click)="openNavbar=!openNavbar"
-                routerLink="/store">{{'aboutus'|translate}}</a></li>
+                routerLink="/store">{{'aboutus'|translate}}</a></li> -->
+         
             <li class="lang">
                 <a 
                 style="cursor:pointer"
@@ -127,8 +153,11 @@
    
             class="lang">
                 <div class="additionicons">
-                    <a routerLink="/cart">
+                    <a routerLink="/cart" class="position-relative">
                         <i class="fa-solid fa-cart-shopping"></i>
+                        <span 
+                        *ngIf="cartitemsCount"
+                        class="cartcount">{{cartitemsCount}}</span>
                     </a>
                     <ng-container
                     *ngIf="isLogin()"
@@ -159,6 +188,7 @@
                             <span class="caret"></span>
                     </a>
                     <ul 
+                    style="max-height: 90vh;overflow: auto;"
                     id="dropdown-basic" *dropdownMenu class="dropdown-menu cstm"
                         role="menu" aria-labelledby="button-basic">
                     <li role="menuitem">
@@ -184,6 +214,15 @@
                       </li>
                       <li role="menuitem" class='lang'>
                         <a
+                        routerLink="/history"
+                        >
+                        <i class="fa-regular fa-clock maincolor"></i>
+                            {{'history'|translate}}
+                        </a>
+                      </li>
+                      <!--  -->
+                      <li role="menuitem" class='lang'>
+                        <a
                     routerLink="/notifications"
                     >
                         <i class="fa-solid fa-bell maincolor"></i>
@@ -198,14 +237,7 @@
                             {{'favorite'|translate}}
                         </a>
                       </li>
-                      <li role="menuitem" class='lang'>
-                        <a
-                        routerLink="/history"
-                        >
-                        <i class="fa-regular fa-clock maincolor"></i>
-                            {{'history'|translate}}
-                        </a>
-                      </li>
+
                       <li role="menuitem" class='lang'>
                         <a
                         href="https://reach.link/Join_App"
@@ -215,14 +247,41 @@
                             {{'follow'|translate}}
                         </a>
                       </li>
+                      <li role="menuitem" class='lang'>
+                        <a
+                        routerLink="/contact"
+                        >
+                        <i class="fa-solid fa-phone maincolor"></i>
+                            {{'contactus'|translate}}
+                        </a>
+                      </li>
+                      <li role="menuitem" class='lang'>
+                        <a
+                        style="cursor: pointer;"
+                        (click)="logout()"
+                        >
+                        <i class="fa-solid fa-arrow-right-from-bracket maincolor"></i>
+                            {{'logout'|translate}}
+                        </a>
+                      </li>
                     </ul>
                   </div>
             </li>  
-            <li 
-            *ngIf="!isLogin()"
-            class="lang signinbtn"><a 
-                (click)="openNavbar=!openNavbar"
-                routerLink="/auth/login">{{'signin'|translate}}</a></li>    
+        
+                <li
+                *ngIf="isLogin()"
+                style="cursor: pointer;"
+                class="d-lg-none"
+                ><a 
+     
+                    (click)="logout()"
+           >{{'logout'|translate}}</a></li>
+                <!--  --> 
+                <li 
+                *ngIf="!isLogin()"
+                class="lang signinbtn"><a 
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/auth/login">{{'signin'|translate}}</a></li>  
         </ul>
     </div>
 </nav>            

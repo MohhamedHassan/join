@@ -11,6 +11,8 @@ import { MembersService } from 'src/app/screens/members/services/members.service
 })
 export class BookNowComponent implements OnInit {
   @Input() location:any
+  @Input() ageFrom:any
+  @Input() ageTo:any
   @Output() patchActivityToParent = new EventEmitter()
   members:any
   selectedLocation:any
@@ -222,4 +224,5 @@ plusOne() {
 minusOne() {
   if(this.notUserMembersCount>1) this.notUserMembersCount-=1
 }
+
 }

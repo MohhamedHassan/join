@@ -41,24 +41,58 @@ export class ProductDetailsComponent implements OnInit {
       })
     ).subscribe(
        (res:any) => {
+        console.log(res)
         this.loading=false
-        this.product_details=res
+        this.product_details=res?.payload
         if(this.product_details?.product_colors?.length) {
           this.selectedColor=this.product_details?.product_colors[0]
         }
-        this.availableCount=this.product_details?.qty
+
+        if(this.product_details?.product_sizes?.length) {
+          this.availableCount=this.product_details?.product_sizes[0]?.qty
+          this.selectedSize=this.product_details?.product_sizes[0]
+        } else {
+          this.availableCount=this.product_details?.qty
+        }
+    
         console.log(this.product_details)
  
         if(this.cartitems?.length) {
           for(let i = 0 ; i <this.cartitems?.length;i++) {
             if(this.cartitems[i]?.id==this.product_details?.id&&this.cartitems[i]?.cstmtype==2) {
-              if(this.product_details?.qty< this.cartitems[i]?.countToBuy) {
-                this.countToBuy=1
-                this.cartitems[i].countToBuy=1
-                localStorage.setItem('joincart',JSON.stringify(this.cartitems))
-              } else {
-                this.availableCount=     this.product_details?.qty-this.cartitems[i]?.countToBuy
-              }
+
+
+              // if(this.product_details?.product_sizes?.length) {
+              //   let sizeIndex = this.product_details?.product_sizes.findIndex(item =>  {
+              //     return item?.id == this.cartitems[i]?.selectedSize?.id
+              //   })
+              //   console.log(sizeIndex)
+              //   this.availableCount=this.product_details?.product_sizes[sizeIndex]?.qty
+              //   this.selectedSize=this.product_details?.product_sizes[sizeIndex]
+              //   if(this.product_details?.product_sizes[sizeIndex]?.qty< this.cartitems[i]?.countToBuy) {
+              //     this.countToBuy=1
+              //     this.cartitems[i].countToBuy=1
+              //     localStorage.setItem('joincart',JSON.stringify(this.cartitems))
+              //   } else {
+              //     this.availableCount=     this.product_details?.product_sizes[sizeIndex]?.qty-this.cartitems[i]?.countToBuy
+              //   }
+
+
+              // } 
+              // else {
+                // if(!this.product_details?.product_sizes?.length) {
+                //   if(this.product_details?.qty< this.cartitems[i]?.countToBuy) {
+                //     this.countToBuy=1
+                //     this.cartitems[i].countToBuy=1
+                //     localStorage.setItem('joincart',JSON.stringify(this.cartitems))
+                //   } 
+                //   else {
+                //     this.availableCount=     this.product_details?.qty-this.cartitems[i]?.countToBuy
+                //   }
+                // }
+             
+            //  }
+           
               break
             }
           }
@@ -66,9 +100,16 @@ export class ProductDetailsComponent implements OnInit {
         if(this.availableCount>0) {
           this.countToBuy=1
         }
+       
         if(res?.code==0) this.router.navigate(['/'])
        } 
     )
+  }
+  selectSize(size) {
+    this.selectedSize=size
+    this.availableCount=size?.qty
+    if(this.countToBuy>this.availableCount) this.countToBuy=1
+
   }
   addToCart() {
     if(this.availableCount<1) this.toastrError() 
@@ -76,11 +117,15 @@ export class ProductDetailsComponent implements OnInit {
       if(this.countToBuy>0) {
         let itemExistincart = false
         this.product_details.cstmtype=2
+        this.product_details.selectedColor=this.selectedColor
+        this.product_details.selectedSize=this.selectedSize
         if(this.cartitems?.length) {    
          
           for(let i = 0 ; i <this.cartitems?.length;i++) {
             if(this.cartitems[i]?.id==this.product_details?.id&&this.cartitems[i]?.cstmtype==2) {
-              this.cartitems[i].countToBuy+=this.countToBuy
+              this.cartitems[i].countToBuy=this.countToBuy
+              this.cartitems[i].selectedColor=this.selectedColor
+              this.cartitems[i].selectedSize=this.selectedSize
               itemExistincart=true
               break
             }
@@ -97,20 +142,15 @@ export class ProductDetailsComponent implements OnInit {
     }
   }
   plusone() {
-    if(this.availableCount<1) this.toastrError() 
-    else {
-      if(this.countToBuy<this.availableCount) {
-        this.countToBuy+=1
-      }
+    if(this.availableCount==this.countToBuy) this.toastrError() 
+    if(this.countToBuy<this.availableCount) {
+      this.countToBuy+=1
     }
   }
   minusone() {
-    if(this.availableCount<1) this.toastrError() 
-    else {
-      if(this.countToBuy>0) {
-        this.countToBuy-=1
-      } 
-    }
+    if(this.countToBuy>0) {
+      this.countToBuy-=1
+    } 
   }
 
   toastrError() 

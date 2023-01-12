@@ -77,7 +77,15 @@ a {
           margin-left: 0.5em !important;
       }
  }
-
+.cartcount {
+     background-color: $orangeColor;
+     color: white;
+     padding: 3px 7px;
+     border-radius: 50%;
+     position: absolute;
+     top: -13px;
+     right: -8px;
+}
 // end glopal
 nav {
      border-top: 5px solid $mainColor;
@@ -154,10 +162,7 @@ nav {
                }
         
           }
-          a.active {
-               color: $mainColor;     
-               border-bottom: 2px solid $mainColor; 
-          }  
+ 
 
       
 
@@ -198,6 +203,10 @@ nav {
                }
           }
      }
+     a.active {
+          color: $mainColor !important;     
+          border-bottom: 2px solid $mainColor !important; 
+     } 
 }
 
 .custom-rtl {
@@ -757,6 +766,7 @@ footer {
      padding: 10px;
      border-radius: 5px;
  }
+ button.withmaincolor {background-color: $mainColor !important;}
  button.orangebtn[disabled] {
      background-color:#efc692;
  }

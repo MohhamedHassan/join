@@ -194,7 +194,7 @@ export class ProfileDataComponent implements OnInit {
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    console.log(    document.getElementById(`captchaid${this.counterId}`))
-    document.getElementById(`captchaid${this.counterId}`).remove()
+    //console.log(    document.getElementById(`captchaid${this.counterId}`))
+//    document.getElementById(`captchaid${this.counterId}`).remove()
   }
 }

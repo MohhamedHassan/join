@@ -19,5 +19,7 @@ export class AllHistoryComponent implements OnInit {
       }
     )
   }
-
+getTotal(pricies:any[]) {
+  return pricies.find(i => i?.key=='Total Amount')?.value
+}
 }

@@ -1,4 +1,6 @@
 {
+    "sizes":"المقاسات",
+    "not_eligible":"غير مؤهل",
     "updatephonenumber":"تحديث رقم الهاتف",
     "categories":"تصنيفات",
     "lets_explore":"دعنا نستكشف...",
@@ -154,5 +156,19 @@
     "member":"عضو",
     "number_of_members":"عدد الاعضاء",
     "i_confirm":"أقر بأن العمر وشروط النشاط التي تم اختياره مطابقة للمشتركين",
-    "colors":"الألوان"
+    "colors":"الألوان",
+    "color":"اللون",
+    "size":"المقاس",
+    "select_address":"أختر عنوان",
+    "select_payment_method":"أختر طريقة الدفع",
+    "order_id":"رقم الطلب",
+    "order_details":"تفاصيل الطلب",
+    "date":"التاريخ",
+    "numbers_of_activities":"عدد الانشطة",
+    "numbers_of_products":"عدد المنتجات",
+    "products":"المنتجات",
+    "qty":"الكمية",
+    "activity_total":"اجمالي الانشطة",
+    "products_total":"اجمالي النتجات",
+    "logout":"تسجيل الخروج"
 }

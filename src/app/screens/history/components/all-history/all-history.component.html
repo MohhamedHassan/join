@@ -1,8 +1,10 @@
-<app-shared-header header="history"></app-shared-header>
+<app-shared-header 
+*ngIf="!loading"
+header="history"></app-shared-header>
 <div 
 style="min-height: 50vh;"
 class="container">
-    <h2 class="mb-3" style="font-size: 25px;">{{'history'|translate}}</h2>
+    <!-- <h2 class="mb-3" style="font-size: 25px;">{{'history'|translate}}</h2> -->
     <app-laoding *ngIf="loading"></app-laoding>
     <p    
     class="text-secondary fw-bold text-center"
@@ -14,25 +16,35 @@ class="container">
         <div
         class="row" 
         *ngFor="let item of history">
-                <div class="col-md-4 mb-3">
-                    <div>
-                        <img
-                        style="height: 180px;object-fit: cover;"
-                        src="https://app.join.com.kw/public/club_activity_image/club-1668955212.jpg" alt="join" class="w-100 rounded">
-                    </div>
-                </div>
-                <div class="col-md-8 mb-3">
+                <div class="col-md-12 mb-3">
                     <div style="border:1px solid rgb(218 213 213)" class="rounded h-100 p-3">
-                        <h2 style="font-size:large;">Test</h2>
-                        <p class="maincolor">
-                            Quantity : 2
-                        </p>
-                        <p class="">
-                            
-                            <span class="maincolor">Price : </span>
-                            <span class="orangecolor">2.500 KWD</span>
-            
-                        </p>
+                        <a 
+                        style="color:black"
+                        [routerLink]="['/history/order_details',item?.order_id]" >
+                           <table>
+                            <tr>
+                                <td>{{'order_id'|translate}} :</td>
+                                <td>{{item?.order_id}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'date'}} :</td>
+                                <td>{{item?.created_at|date}}</td>
+                            </tr>
+                            <tr *ngIf="item?.booked_activity?.length">
+                                <td>{{'numbers_of_activities'|translate}} :</td>
+                                <td>{{item?.booked_activity?.length}}</td>
+                            </tr>
+                            <tr *ngIf="item?.booked_products?.length">
+                                <td>{{'numbers_of_products'|translate}} :</td>
+                                <td>{{item?.booked_products?.length}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{'total_price'|translate}} :</td>
+                                <td>{{(getTotal(item?.prices)|tofixednumber )|| 0}}</td>
+                            </tr>
+                           </table>
+                        </a>
+                     
                     </div>
                 </div>
                 <hr class="d-md-none">

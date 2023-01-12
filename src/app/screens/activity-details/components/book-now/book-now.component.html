@@ -62,12 +62,22 @@
           *ngFor="let item of members;let i = index"
           class="form-check mb-2">
             <input 
-            [disabled]="item?.disabled"
+            [disabled]="item?.disabled || (item?.child_age|stringToNumber)>(ageTo|stringToNumber) || (item?.child_age|stringToNumber)<(ageFrom|stringToNumber)"
             [(ngModel)]="item.selected"
             (change)="selectMembers()"
             class="form-check-input" type="checkbox"  [id]="item?.child_name+i">
             <label class="form-check-label" [for]="item?.child_name+i">
               {{item?.child_name}}
+              <ng-container
+              *ngIf="(item?.child_age|stringToNumber)>(ageTo|stringToNumber)|| (item?.child_age|stringToNumber)<(ageFrom|stringToNumber)"
+              >
+                <span class="mx-1"></span>
+                <span 
+
+                class="orangecolor fw-bold">{{'not_eligible'|translate}}</span>
+              </ng-container>
+              
+      
             </label>
           </div>
         </ng-container>

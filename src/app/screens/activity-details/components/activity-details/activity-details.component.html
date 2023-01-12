@@ -127,6 +127,8 @@ class="cstmpopup d-flex">
 
      
            <app-book-now
+           [ageFrom]="activity_details?.age_from"
+           [ageTo]="activity_details?.age_to"
            (patchActivityToParent)="selectedDataFromPopup($event)"
            [location]="activity_details?.location"
            ></app-book-now>

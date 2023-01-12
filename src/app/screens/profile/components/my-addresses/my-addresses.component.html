@@ -20,7 +20,7 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;">
        {{'no_data'|translate}}
     </p>
     <div 
-    *ngIf="!authservice.addressesLoading"
+    *ngIf="!authservice.addressesLoading&&addresses?.length"
     class="adresss"
     style="overflow:auto">
         <div 

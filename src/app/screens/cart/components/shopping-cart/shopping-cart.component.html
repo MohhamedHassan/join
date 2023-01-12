@@ -1,9 +1,12 @@
-<app-shared-header header="mycart"></app-shared-header>
-<div style="min-height: 50vh;" class="container">
+<app-shared-header 
+*ngIf="!loading"
+header="mycart"></app-shared-header>
+<app-laoding *ngIf="loading"></app-laoding>
+<div 
+*ngIf="!loading&&cartitems?.length"
+style="min-height: 50vh;" class="container">
     <h2 class="mb-3" style="font-size: 25px;">{{'mycart'|translate}}</h2>
-    <p class="text-secondary fw-bold text-center" *ngIf="!cartitems?.length">
-        {{'no_data'|translate}}
-    </p>
+
     <div class="row" *ngFor="let item of cartitems;let i = index">
         <div class="col-md-4 mb-3">
             <div>
@@ -21,6 +24,24 @@
                 style="font-size:large;cursor: pointer;" class="m-0">
                     {{item?.name||item?.title}}
                 </h2>
+                <p
+                class="my-2"
+                style="display: flex;align-items: center;"
+                *ngIf="item?.selectedColor?.name">
+                    {{'color'|translate}} 
+                    <span class="mx-1"></span> 
+                    <span
+                    [style.background]="item?.selectedColor?.name"
+                    style="    display: inline-block;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;"
+                    ></span>
+                </p>
+                <p *ngIf="item?.selectedSize?.name">
+                    {{'size'|translate}}  
+                    {{item?.selectedSize?.name}}
+                </p>
                 <div *ngIf="item?.cstmtype==2" class="plusminus my-3">
                     <i 
                     (click)="minusone(i)"
@@ -36,7 +57,9 @@
                 <p class="my-3 maincolor" *ngIf="item?.cstmtype==1&&item?.type==0">
                     {{'booking_for_one_member'|translate}}  {{item?.notUserMembersCount}} {{'member'|translate}}
                 </p>
-                <p class="mb-3">
+                <p 
+                *ngIf="item?.disc==0"
+                class="mb-3">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
                     <span 
@@ -60,6 +83,30 @@
                         {{item?.selectedLocation.price*item?.notUserMembersCount|tofixednumber}} 
                     </span>
                 </p>
+
+
+                <p 
+                *ngIf="item?.disc!=0"
+                class="mb-3">
+
+                    <span class="maincolor">{{'price'|translate}} : </span>
+                    <del 
+                    *ngIf="item?.cstmtype==1&&item?.type==1"
+                    class="orangecolor">
+                        {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}} 
+                    </del>
+                    <del 
+                    *ngIf="item?.cstmtype==1&&item?.type==0"
+                    class="orangecolor">
+                        {{item?.selectedLocation.price*item?.notUserMembersCount|tofixednumber}} 
+                    </del>
+                    <span class="mx-2"></span>
+                    <span  class="orangecolor">
+                        {{item?.disc|tofixednumber}} 
+                    </span>
+                </p>
+
+
                 <div style="cursor: pointer;" class="d-flex align-items-center justify-content-end   fw-bold">
                     <ng-container *ngIf="item?.cstmtype==1">
                         <p
@@ -83,50 +130,127 @@
         </div>
         <hr class="d-md-none">
     </div>
+    <ng-container>
+
+    </ng-container>
+    
     <hr>
     <div class="row">
         <div class="col-lg-4 mb-3">
             <div 
             class="p-3 rounded promcode"
-            style="border:1px solid rgb(218 213 213)">
-                <p>{{'promocode'|translate}}</p>
+            style="border:1px solid rgb(218 213 213);min-height:100%">
+                <h5>{{'promocode'|translate}}</h5>
                 <p>{{'Enter_your_promocode'|translate}}</p>
                 <div class="d-flex flex-column flex-md-row">
-                    <input type="text" class="form-control" placeholder="{{'Enter_code'|translate}}">
+                    <input 
+                    [readonly]="promocodedisabled"
+                    #promocodeValue
+                    (input)="checkPromoCodeInputLength(promocodeValue.value)"
+                    type="text" class="form-control" placeholder="{{'Enter_code'|translate}}">
                     <span class="m-1"></span>
-                    <button class="orangebtn">{{'apply'|translate}}</button>
+                    <button 
+                    [disabled]="checkPromoCodeInputLength(promocodeValue.value) || promoCodeLoading || promocodedisabled"
+                    (click)="getpromoCode(promocodeValue.value)"
+                    class="orangebtn">{{'apply'|translate}}</button>
                 </div>
             </div>
         </div>
+        <!--  -->
+        <div class="col-lg-4 mb-3">
+            <div 
+            class="p-3 rounded"
+            style="border:1px solid rgb(218 213 213);min-height:100%">
+                <h5>{{'select_address'|translate}}</h5>
+            <i
+            class="fas fa-circle-notch fa-spin"
+            *ngIf="authservice?.addressesLoading"
+            ></i>
+            <select 
+            #addressSelect
+            (change)="selectAddress(addressSelect?.value)"
+            class="form-select mb-3 " aria-label="Default select example">
+                <option selected>{{'select_address'|translate}}</option>
+                <option
+                *ngFor="let address of addresses"
+                [value]="address?.id">{{address?.title}}</option>
+              </select>
+              <button 
+              (click)="addAddressPopup=true;addressForm.reset();pathcharea();submited=false"
+              class="orangebtn mb-2">
+                {{'addAddress'|translate}}
+              </button>
+              <p style="word-break:break-all;">
+                {{selectedAddress?.title}}
+              </p>
+            </div>
+
+        </div>
+        <!--  -->
+        <div class="col-lg-4 mb-3">
+            <div 
+            class="p-3 rounded"
+            style="border:1px solid rgb(218 213 213);;min-height:100%">
+            <h5>{{'select_payment_method'|translate}}</h5>
+            <div 
+            class="form-check mb-2">
+              <input 
+              checked
+              class="form-check-input" type="radio" name="flexRadioDefault" id="i">
+              <label 
+              class="form-check-label" for="i">
+                KNET
+              </label>
+            </div>
+            <div 
+            class="form-check mb-2">
+              <input 
+              class="form-check-input" type="radio" name="flexRadioDefault" id="ii">
+              <label 
+              class="form-check-label" for="ii">
+                Master / Visa
+              </label>
+            </div>
+            </div>
+        </div>
+        <!--  -->
     </div>
     <hr>
     <div>
         <p class="fw-bold d-flex justify-content-between align-items-centr">
             <span>{{'price'|translate}}</span>
             <span class="maincolor">
-                2.500
+                {{total|tofixednumber}} 
                 {{'kwd'|translate}}
             </span>
         </p>
         <p class="fw-bold d-flex justify-content-between align-items-centr">
             <span>{{'Shipping'|translate}}</span>
-            <span class="maincolor">
-                {{'free'|translate}}
+            <span>
+                {{(shipingCharge|tofixednumber)||0}}
             </span>
         </p>
         <p class="rounded fw-bold d-flex justify-content-between align-items-centr">
             <span>{{'total_price'|translate}}</span>
             <span>
-                2.500
+               {{total +shipingCharge|tofixednumber}}
                 {{'kwd'|translate}}
             </span>
         </p>
     </div>
-    <button class="my-3 orangebtn">
+    <button 
+    (click)="checkOut()"
+    class="my-3 orangebtn">
         {{'confirm_pay'|translate}}
     </button>
 </div>
-
+<div *ngIf="!cartitems?.length"
+style="min-height: 50vh;"
+>
+    <p class="text-secondary fw-bold text-center" >
+        {{'no_data'|translate}}
+    </p>
+</div>
 
 <div 
 [ngClass]="{
@@ -182,6 +306,8 @@ class="cstmpopup d-flex">
 
      
            <app-cart-book-now
+           [ageFrom]="cartitems[showpopup]?.age_from"
+           [ageTo]="cartitems[showpopup]?.age_to"
            (patchActivityToParent)="selectedDataFromPopup(showpopup,$event)"
            [location]="cartitems[showpopup]?.location"
            ></app-cart-book-now>
@@ -189,3 +315,171 @@ class="cstmpopup d-flex">
     </div>
 </div>
 <!--  end add activity popup -->
+<!--  -->
+<!--  -->
+<!--  -->
+<div 
+[ngClass]="{
+    'd-flex':addAddressPopup,
+    'd-none':!addAddressPopup
+}"
+class="cstmpopup">
+    <div class="content">
+        <i 
+        (click)="addAddressPopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'addAddress'|translate}}</h2>
+            <form  
+            (ngSubmit)="addAddress(addressForm.value)"
+            [formGroup]="addressForm"
+            class="row body py-2">
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'title'|translate}}"
+                        formControlName="title"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['title']?.errors!=null && addressForm.controls['title'].touched) ||
+                        (addressForm.controls['title']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <!-- <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'areaname'|translate}}"
+                        formControlName="area_name"
+                        type="text" class="form-control">
+                    </div>
+                </div> -->
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div class="form-group">
+                        <select 
+                        formControlName="area_id"
+                        class="form-control"
+                        >
+                            <option value="" selected>{{'area'|translate}}</option>
+                            <optgroup 
+                            *ngFor="let area of areas"
+                            [label]="area?.gov">
+                              <option 
+                              *ngFor="let item of area?.areas"
+                              [value]="item?.id">{{item?.name}}</option>
+                            </optgroup>
+                          </select>
+                          <p 
+                          *ngIf="(addressForm.controls['area_id']?.errors!=null&& addressForm.controls['area_id'].touched) ||
+                          (addressForm.controls['area_id']?.errors!=null && submited)
+                          "
+                          class="my-2 text-danger">
+                              {{'required'|translate}}
+                          </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'block'|translate}}"
+                        formControlName="block"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['block']?.errors!=null && addressForm.controls['block'].touched) ||
+                        (addressForm.controls['block']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'street'|translate}}"
+                        formControlName="street"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['street']?.errors!=null && addressForm.controls['street'].touched) ||
+                        (addressForm.controls['street']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'building'|translate}}"
+                        formControlName="building"
+                        type="text" class="form-control">
+                        <p 
+                        *ngIf="(addressForm.controls['building']?.errors!=null && addressForm.controls['building'].touched) ||
+                        (addressForm.controls['building']?.errors!=null && submited)
+                        "
+                        class="my-2 text-danger">
+                            {{'required'|translate}}
+                        </p>
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'floor'|translate}}"
+                        formControlName="floor"
+                        type="text" class="form-control">
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'apartment'|translate}}"
+                        formControlName="apartment"
+                        type="text" class="form-control">
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-6 mb-3">
+                    <div>
+                        <input 
+                        placeholder="{{'avenue'|translate}}"
+                        formControlName="avenue"
+                        type="text" class="form-control">
+                    </div>
+                </div>
+                <!--  -->
+                <div class="col-md-12">
+                    <div>
+                        <button 
+                        type="submit"
+                        class="orangebtn"
+                        [disabled]="addressloading"
+                        >
+                            {{'save'|translate}}
+                            <i 
+                            *ngIf="addressloading"
+                            class="fas fa-circle-notch fa-spin"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

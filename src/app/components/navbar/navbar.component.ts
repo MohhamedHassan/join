@@ -59,7 +59,7 @@ export class NavbarComponent implements OnInit {
     )
     if(!!localStorage.getItem('joinToken')) {
       this.userName.toUpperCase()
-      this.authService.getUserProfile()
+     // this.authService.getUserProfile()
 
     }
     this.authService.userProfile.subscribe((res:any)=>{
@@ -85,10 +85,17 @@ export class NavbarComponent implements OnInit {
     }
   }
 get cartitemsCount() {
-  let cart = localStorage.getItem('joincart')
+  let cart:any = localStorage.getItem('joincart')
   if(cart)  {
       cart=JSON.parse(cart)
+  } else {
+    cart = []
   }
   return cart?.length
+}
+logout() {
+  localStorage.removeItem('joincart')
+  localStorage.removeItem('joinToken')
+  this.router.navigate(['/'])
 }
 }

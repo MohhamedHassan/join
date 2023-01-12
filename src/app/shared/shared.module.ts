@@ -18,6 +18,7 @@ import { PhoneNumberComponent } from './components/phone-number/phone-number.com
 import { TofixednumberPipe } from '../pips/tofixednumber.pipe';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { StringToNumberPipe } from '../pips/string-to-number.pipe';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -26,7 +27,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     ClupCardComponent,
     LaodingComponent,
     PhoneNumberComponent,
-    TofixednumberPipe
+    TofixednumberPipe,
+    StringToNumberPipe
   ],
   imports: [
     CommonModule,
@@ -66,7 +68,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
     PhoneNumberComponent,
     TofixednumberPipe,
     AccordionModule,
-    BsDatepickerModule
+    BsDatepickerModule,
+    StringToNumberPipe
   ],
   providers: [
     DatePipe

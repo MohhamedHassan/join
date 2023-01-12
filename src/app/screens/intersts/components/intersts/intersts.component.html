@@ -1,6 +1,7 @@
+<div *ngIf="!loading">
+    <app-shared-header header="Interests"></app-shared-header>
 <section class="container">
-    <h2 class="mainColorHeading mt-4">{{'Interests'|translate}}</h2>
-    <div class="custom-line"></div>
+
     <div class="row">
         <div *ngFor="let activity of activities" class="col-md-4 col-lg-3 mb-4">
             <app-cart-one 
@@ -18,7 +19,9 @@
         *ngIf="!activities?.length&&requestComplete">
            {{'no_data'|translate}}
         </p>
-        <app-laoding *ngIf="loading"></app-laoding>
+        
     </div>
     
 </section>
+</div>
+<app-laoding *ngIf="loading"></app-laoding>

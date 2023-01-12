@@ -22,8 +22,11 @@ export class StoreService {
     )
   }
   getProductDetails(id:any) {
-    return this.http.get<{payload:any}>(`${this.glopalService.apiUrlTwo}product/${id}`).pipe(
-      map(value => value?.payload)
+    return this.http.get<any>(`${this.glopalService.apiUrlTwo}product/${id}`).pipe(
+      map(response => ({
+        code: response.code,
+        payload: response.payload
+    }))
     )
   }
 }
