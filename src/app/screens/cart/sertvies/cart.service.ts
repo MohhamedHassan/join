@@ -22,6 +22,6 @@ export class CartService {
     return this.http.post<any>(`${this.glopalService.apiUrlOne}user/createBooking_2`,body)
   }
   paymentRequest(body) {
-    return this.http.post<any>(` https://apitest.myfatoorah.com/v2/ExecutePayment`,body)
+    return this.http.post<any>(`https://api.myfatoorah.com/v2/ExecutePayment`,body)
   }
 }
