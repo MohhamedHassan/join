@@ -1,4 +1,6 @@
 {
+    "The_request_being_saved":"جار حفظ الطلب",
+    "Payment_failed":"فشلت عملية الدفع",
     "sizes":"المقاسات",
     "not_eligible":"غير مؤهل",
     "updatephonenumber":"تحديث رقم الهاتف",
@@ -170,5 +172,7 @@
     "qty":"الكمية",
     "activity_total":"اجمالي الانشطة",
     "products_total":"اجمالي النتجات",
-    "logout":"تسجيل الخروج"
+    "logout":"تسجيل الخروج",
+    "These_items_are_not_available":"هذه العناصر غير متوفرة",
+    "address_is_required":"حقل العنوان مطلوب"
 }

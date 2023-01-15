@@ -27,6 +27,7 @@
 }
 .dropdown-menu.store {
     min-width: 400px;
+    inset: 100% auto auto -200px !important;
     a {
         &:hover {
             color:$mainColor !important
@@ -34,11 +35,17 @@
     }
 }
 .custom-rtl { 
+
     .dropdown-menu.cstm {
         inset: 105% -270px auto 0 !important;
         width: 300px;
         direction: rtl;
         text-align: right;
+    }
+    .dropdown-menu.store {
+        inset: 100% -200px auto auto !important;
+        text-align: right;
+        direction: rtl;
     }
 }
 // start accordion style
