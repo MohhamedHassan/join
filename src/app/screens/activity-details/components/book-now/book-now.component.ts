@@ -156,6 +156,7 @@ onDateCange(value:any) {
     }
     this.availableTime.map(i=>i.checked=false)
   }
+  console.log(this.availableTime)
 }
 selectTime(time:any) {
   time.checked=true

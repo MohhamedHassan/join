@@ -6,7 +6,7 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import {AngularFireAuth} from '@angular/fire/compat/auth'
 import { ToastrService } from 'ngx-toastr';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-siginup',
   templateUrl: './siginup.component.html',
@@ -28,6 +28,7 @@ export class SiginupComponent implements OnInit {
   counterId=1
   constructor(private fb:FormBuilder,
     private router:Router,
+    private activatedRoute:ActivatedRoute,
     private authService:AuthService,
     private toastr:ToastrService
     ) { }
@@ -37,6 +38,7 @@ if(!this.intervalLoading) {
   this.counterId+=1
   let child = document.createElement('div')
   child.setAttribute('id',`captchaid${this.counterId}`)
+  child.setAttribute('class','d-none')
   document.body.appendChild(child)
   this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
   firebase.auth().signInWithPhoneNumber(this.signupForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
@@ -69,6 +71,28 @@ if(!this.intervalLoading) {
           this.areas=res
         }
       )
+    this.activatedRoute.queryParamMap.subscribe(
+      (res:any) =>  {
+        if(res?.params?.type) {
+          this.signupForm.patchValue({
+            fname:res?.params?.given_name,
+            lname:res?.params?.family_name,
+            email:res?.params?.email
+          })
+          if(res?.params?.type==1) {
+            this.signupForm.patchValue({
+              google_id:res?.params?.id
+           
+            }) 
+            console.log(this.signupForm.value)        
+          } else if(res?.params?.type==2) {
+            this.signupForm.patchValue({
+              facebook_id:res?.params?.id
+            })
+          } 
+        } 
+      }
+    )
   }
 
   returnsignupForm() {
@@ -82,7 +106,9 @@ if(!this.intervalLoading) {
       area_id:['',Validators.required],
       gender:['',Validators.required],
       email:['',[Validators.required,Validators.email,Validators.pattern(/.com$/)]],
-      device_token:['_']
+      device_token:['_'],
+      facebook_id:[''],
+      google_id:['']
     })
   }
   dateInputType(value:any) {
@@ -126,6 +152,8 @@ if(!this.intervalLoading) {
           frmdata.append('area_id',value.area_id) 
           frmdata.append('gender',value.gender) 
           frmdata.append('email',value.email)
+          if(value?.google_id)  frmdata.append('google_id',value.google_id)
+          if(value?.facebook_id)  frmdata.append('facebook_id',value.facebook_id)
           frmdata.append('device_token','_') 
           let mobile = this.signupForm.get('mobile')?.value.e164Number.replace(this.signupForm.get('mobile')?.value.dialCode,'')
           frmdata.append('mobile',mobile) 

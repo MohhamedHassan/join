@@ -35,6 +35,7 @@ export class ProfileDataComponent implements OnInit {
         this.counterId+=1
         let child = document.createElement('div')
         child.setAttribute('id',`captchaid${this.counterId}`)
+        child.setAttribute('class','d-none')
         document.body.appendChild(child)
         this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
         firebase.auth().signInWithPhoneNumber(this.profilForm.value?.newmobile?.e164Number,this.captchaVerifier).then((res) => {
@@ -171,12 +172,12 @@ export class ProfileDataComponent implements OnInit {
               this.loading=false
               if(res?.code==1) {
                 this.toastr.success(res?.message);
-                window.location.reload();
+              //  window.location.reload();
               } else {
-               for(let i = 1 ; i < this.counterId ; i++ ) {
-                console.log(    document.getElementById(`captchaid${this.counterId}`))
-                document.getElementById(`captchaid${this.counterId}`).remove()
-               }
+              //  for(let i = 1 ; i < this.counterId ; i++ ) {
+              //   console.log(    document.getElementById(`captchaid${this.counterId}`))
+              //   document.getElementById(`captchaid${this.counterId}`).remove()
+              //  }
               }
             } ,err => {
           

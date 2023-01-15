@@ -157,7 +157,9 @@ style="min-height: 50vh;" class="container">
             </div>
         </div>
         <!--  -->
-        <div class="col-lg-4 mb-3">
+        <div 
+        *ngIf="addressRequired"
+        class="col-lg-4 mb-3">
             <div 
             class="p-3 rounded"
             style="border:1px solid rgb(218 213 213);min-height:100%">
@@ -183,6 +185,8 @@ style="min-height: 50vh;" class="container">
               <p style="word-break:break-all;">
                 {{selectedAddress?.title}}
               </p>
+
+           
             </div>
 
         </div>
@@ -196,6 +200,8 @@ style="min-height: 50vh;" class="container">
             class="form-check mb-2">
               <input 
               checked
+              value="1"
+              [(ngModel)]="chosenPayment"
               class="form-check-input" type="radio" name="flexRadioDefault" id="i">
               <label 
               class="form-check-label" for="i">
@@ -205,10 +211,12 @@ style="min-height: 50vh;" class="container">
             <div 
             class="form-check mb-2">
               <input 
+              value="2"
+              [(ngModel)]="chosenPayment"
               class="form-check-input" type="radio" name="flexRadioDefault" id="ii">
               <label 
               class="form-check-label" for="ii">
-                Master / Visa
+                Master / Visa 
               </label>
             </div>
             </div>
@@ -239,11 +247,26 @@ style="min-height: 50vh;" class="container">
         </p>
     </div>
     <button 
-    (click)="checkOut()"
+    [disabled]="checkoutLoading"
+   (click)="checkout() "
     class="my-3 orangebtn">
         {{'confirm_pay'|translate}}
+        <i 
+        *ngIf="checkoutLoading"
+        class="fas fa-circle-notch fa-spin"></i>
     </button>
+    <p 
+    *ngIf="submitedCheckout&&!selectedAddress&&addressRequired"
+    class="py-2 text-danger">
+          {{'address_is_required'|translate}}
+    </p>
+    <p 
+*ngIf="notAvailableitems"
+class="my-3 alert alert-danger">
+    {{'These_items_are_not_available'|translate}} : {{notAvailableitems}}
+</p>
 </div>
+
 <div *ngIf="!cartitems?.length"
 style="min-height: 50vh;"
 >
@@ -261,7 +284,7 @@ style="min-height: 50vh;"
 class="cstmpopup ">
     <div class="content small">
         <i 
-      
+        (click)="showDeleteCArtitem=-1"
         [ngStyle]="{
             left:lang=='ar'?'20px':'auto',
             right:lang=='ar'?'auto':'20px'
@@ -287,6 +310,65 @@ class="cstmpopup ">
         </div>
     </div>
 </div>
+
+
+
+
+<div 
+[ngClass]="{
+    'd-flex':paymentFaild,
+    'd-none':!paymentFaild
+}"
+*ngIf="paymentFaild"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+        (click)="paymentFaild=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'Payment_failed'|translate}}</h2>
+           
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div 
+[ngClass]="{
+    'd-flex':paymenSuccess,
+    'd-none':!paymenSuccess
+}"
+*ngIf="paymenSuccess"
+class="cstmpopup ">
+    <div class="content small">
+
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'The_request_being_saved'|translate}}
+            <i 
+            class="fas fa-circle-notch fa-spin maincolor"></i>
+            </h2>
+           
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
 <div 
 
 *ngIf="showpopup!=-1"
@@ -479,6 +561,68 @@ class="cstmpopup">
                         </button>
                     </div>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--  -->
+<!--  -->
+<!--  -->
+<div 
+[ngClass]="{
+    'd-flex':notUserDataPopup,
+    'd-none':!notUserDataPopup
+}"
+class="cstmpopup">
+    <div class="content">
+        <i 
+        (click)="notUserDataPopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <!-- <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'addAddress'|translate}}</h2> -->
+            <form  
+            (ngSubmit)="addnotuserData()"
+            [formGroup]="notUserDataForm"
+            class=" body p-2">
+            <div class="form-group mb-3">
+                <label>{{'name'|translate}}</label>
+                <input 
+                formControlName="name"
+                type="text" class="form-control">
+             </div>
+             <div class="form-group mb-3">
+              <label>{{'phone_number'|translate}}</label>
+              <input 
+              formControlName="phone"
+              type="text" class="form-control">
+           </div>
+           <div class="form-group mb-3">
+            <label>{{'email'|translate}}</label>
+            <input 
+            formControlName="email"
+            type="text" class="form-control">
+         </div>
+                <div class="">
+                    <div>
+                        <button 
+                        type="submit"
+                        class="orangebtn"
+                        >
+                            {{'save'|translate}}
+                        </button>
+                    </div>
+                </div>
+                <p 
+                *ngIf="notuserdataSubmited && !notUserDataForm.valid"
+                class="my-2 text-danger">
+                    {{'Fill_in_all_data'|translate}}
+                </p>
             </form>
         </div>
     </div>

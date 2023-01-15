@@ -1,4 +1,6 @@
 {
+    "The_request_being_saved":"The request is being saved",
+    "Payment_failed":"Payment failed",
     "sizes":"Sizes",
     "size":"Size",
     "not_eligible":"Not Eligible",
@@ -170,5 +172,7 @@
     "qty":"Quantity",
     "activity_total":"Activity Total",
     "products_total":"Products Total",
-    "logout":"Logout"
+    "logout":"Logout",
+    "These_items_are_not_available":"These items are not available",
+    "address_is_required":"Address is required"
 }

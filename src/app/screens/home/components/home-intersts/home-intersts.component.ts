@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Intersts } from '../../models/intersts';
 import { HomeService } from '../../services/home.service';
 
@@ -10,12 +10,14 @@ import { HomeService } from '../../services/home.service';
 export class HomeInterstsComponent implements OnInit {
 
   intersts:Intersts[]=[]
-  constructor(public homeService:HomeService) { }
+  constructor(public homeService:HomeService,
+    private cd:ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.homeService.getIntersts()
     this.homeService.intersts.subscribe((res) => {
       if(Array.isArray(res)) {
+        this.cd.detectChanges()
         this.intersts=[...this.intersts,...res]
       }
     })
