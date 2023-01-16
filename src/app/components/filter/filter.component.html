@@ -64,7 +64,7 @@
                             </span>
                             <ul class="list-unstyled p-0 mx-2">
                               <li 
-                              class="mb-2"
+                              class="mb-2 d-flex"
                               *ngFor="let sub of item?.areas;let i = index">
                                 <input 
                                 [id]="sub?.name+i"
@@ -99,7 +99,7 @@
                    
                     <ul class="list-unstyled p-0">
                       <li 
-                      class="mb-2"
+                      class="mb-2 d-flex"
                       *ngFor="let item of members;let i = index">
                         <input 
                         [id]="item?.child_name+i"

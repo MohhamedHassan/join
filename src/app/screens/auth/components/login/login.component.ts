@@ -7,6 +7,8 @@ import { FirebaseApp, initializeApp } from 'firebase/app';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import {Auth, FacebookAuthProvider, GoogleAuthProvider} from "firebase/auth" ;
 import {AngularFireAuth } from '@angular/fire/compat/auth' ;
+import { NotificationsService } from 'src/app/screens/notifications/services/notifications.service';
+import { MembersService } from 'src/app/screens/members/services/members.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,6 +21,8 @@ export class LoginComponent implements OnInit {
   app: FirebaseApp;
   constructor(private authService:AuthService,
     private angularFireAuth: AngularFireAuth,
+    private notficationsService:NotificationsService,
+    private membersservice:MembersService,
     private router:Router,
     private toastr:ToastrService,
     private fb:FormBuilder) { }
@@ -52,6 +56,8 @@ export class LoginComponent implements OnInit {
           if(res?.code==1) {
             this.toastr.success(res?.message);
             localStorage.setItem('joinToken',res?.payload?.auth_token)
+            this.notficationsService.getNotifications()
+            this.membersservice.getAllMembers()
             this.authService.getUserProfile()
             this.router.navigate(['/'])
           } else {
@@ -85,6 +91,8 @@ export class LoginComponent implements OnInit {
               this.toastr.success(res?.message);
               localStorage.setItem('joinToken',res?.payload?.auth_token)
               this.authService.getUserProfile()
+              this.notficationsService.getNotifications()
+              this.membersservice.getAllMembers()
               this.router.navigate(['/'])
             } else {
               this.router.navigate(['/auth/signup'],{queryParams : {

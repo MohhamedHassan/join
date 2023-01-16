@@ -416,6 +416,9 @@ createBooking() {
                activity_data.booking_amount = '200'
                activity_data.booking_discount =  '10'
               activity_data.booking_payment = '300'
+              activity_data.booked_seats= "1",
+                 activity_data.number_of_child=1
+                 activity_data.shipping_charge=1.25
             requestBody.activity_data.push(activity_data)
 
           //  end activity_data
@@ -435,6 +438,9 @@ createBooking() {
                   booking_session.club_activity_location_id= this.cartitems[i]?.selectedLocation?.id
                   booking_session.activity_id=this.cartitems[i]?.id
                   booking_session.child_id=element?.child_id
+                  booking_session.booking_session="890"
+                  booking_session.max_seats="5"
+                  booking_session.selected_date="2022-02-11"
                   requestBody.booking_session.push(booking_session)
                   // end booking_session
               });
@@ -467,6 +473,10 @@ createBooking() {
  
     }
   }
+////////////////////
+
+
+
 
   let formdata = new FormData()
   for (let i in requestBody) {

@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   constructor(private homeService:HomeService) { }
 
   ngOnInit(): void {
-  //  localStorage.setItem('joinToken','user_CjA4eqhtP9Ke2re')
+
     if(!!localStorage.getItem("joinToken")) {
      this.homeService.getClupsUser()
      this.homeService.getActivitiesUser(1)
@@ -34,9 +34,9 @@ export class HomeComponent implements OnInit {
     this.chosenTab=chosenTab
   }
   ngOnDestroy(): void {
-    this.homeService.activities.next([])
-    this.homeService.intersts.next([])
-    this.homeService.clups.next([])
+    // this.homeService.activities.next([])
+    // this.homeService.intersts.next([])
+    // this.homeService.clups.next([])
     this.homeService.activitiesLoading=false
     this.homeService.ActivitiesRequestComplete=false
   }

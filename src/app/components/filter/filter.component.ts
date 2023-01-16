@@ -33,11 +33,11 @@ export class FilterComponent implements OnInit {
     public authService:AuthService) { }
 
   ngOnInit(): void {
-    if(!!localStorage.getItem('joinToken')) {
-      this.membersservice.getAllMembers()
-    }
-    this.homeService.getIntersts()
-    this.authService.getAllAreas()
+    // if(!!localStorage.getItem('joinToken')) {
+    //   this.membersservice.getAllMembers()
+    // }
+    //this.homeService.getIntersts()
+    // this.authService.getAllAreas()
     this.homeService.intersts.subscribe(
       res => {
         this.interst=res

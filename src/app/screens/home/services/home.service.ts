@@ -64,6 +64,7 @@ export class HomeService {
     )
   }
   getActivitiesUser(page:number) {
+    this.activities.next([])
     this.ActivitiesRequestComplete=false
     this.activitiesLoading=true
     let bodyParams:GetActivitiesParams = {

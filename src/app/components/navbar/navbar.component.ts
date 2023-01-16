@@ -97,5 +97,6 @@ logout() {
   localStorage.removeItem('joincart')
   localStorage.removeItem('joinToken')
   this.router.navigate(['/'])
+  location.reload()
 }
 }

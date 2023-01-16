@@ -36,6 +36,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           localStorage.removeItem('joincart')
           localStorage.removeItem('joinToken')
           this.router.navigate(['/auth/login'])
+          location.reload()
         }
       return event
   }),

@@ -7,6 +7,8 @@ import 'firebase/auth'
 import {AngularFireAuth} from '@angular/fire/compat/auth'
 import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationsService } from 'src/app/screens/notifications/services/notifications.service';
+import { MembersService } from 'src/app/screens/members/services/members.service';
 @Component({
   selector: 'app-siginup',
   templateUrl: './siginup.component.html',
@@ -28,6 +30,8 @@ export class SiginupComponent implements OnInit {
   counterId=1
   constructor(private fb:FormBuilder,
     private router:Router,
+    private notficationsService:NotificationsService,
+    private membersservice:MembersService,
     private activatedRoute:ActivatedRoute,
     private authService:AuthService,
     private toastr:ToastrService
@@ -65,7 +69,7 @@ if(!this.intervalLoading) {
       appId: "1:794053292456:web:36878b6a9a02cff3"
     })
     this.returnsignupForm()
-    this.authService.getAllAreas()
+    //this.authService.getAllAreas()
       this.authService.areas.subscribe(
         (res:any) => {
           this.areas=res
@@ -170,6 +174,8 @@ if(!this.intervalLoading) {
                       this.toastr.success(localStorage.getItem('lang')=='ar'?'تم انشاء حسابك بنجاج':'Account successfully created');
                       localStorage.setItem('joinToken',res?.payload?.auth_token)
                       this.authService.getUserProfile()
+                      this.notficationsService.getNotifications()
+                      this.membersservice.getAllMembers()
                       this.router.navigate(['/'])
                       window.location.reload();
                     } else {

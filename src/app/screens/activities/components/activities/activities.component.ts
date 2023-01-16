@@ -16,7 +16,7 @@ export class ActivitiesComponent implements OnInit {
 
 
   ngOnDestroy(): void {
-    this.homeService.activities.next([])
+    //this.homeService.activities.next([])
     this.homeService.ActivitiesRequestComplete=false
   }
 

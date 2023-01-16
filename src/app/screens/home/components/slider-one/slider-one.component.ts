@@ -15,7 +15,6 @@ export class SliderOneComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    // localStorage.setItem('joinToken','user_9NOQYdF35R4UrTn')
     if(!!localStorage.getItem("joinToken")) {
       this.homeService.getTopSliderUser().subscribe(
         (res:TopSlider[]) => {
