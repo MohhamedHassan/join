@@ -107,6 +107,13 @@
       <input 
       formControlName="email"
       type="text" class="form-control">
+      <p 
+      *ngIf="(notuserForm.controls['email']?.errors!=null && notuserForm.controls['email'].touched) ||
+      (notuserForm.controls['email']?.errors!=null && submited)
+      "
+      class="my-2 text-danger">
+          {{'validemail'|translate}}
+      </p>
    </div>
    <div class="mb-3">
     <label >{{"number_of_members"|translate}}</label> <br>

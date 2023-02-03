@@ -35,7 +35,7 @@ class="store">
         </p>
         <app-laoding *ngIf="loading"></app-laoding>
         <div 
-        *ngIf="products?.length && showmore &&!loading"
+        *ngIf="products?.length && showmore &&!loading && products?.length > 7"
         class="mb-4">
             <div class="text-center">
                 <button 

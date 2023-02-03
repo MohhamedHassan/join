@@ -94,17 +94,24 @@ export class ShoppingCartComponent implements OnInit {
       })
     }
   ngOnInit(): void {
+    this.notUserData=JSON.parse(localStorage.getItem('not_user_data'))
     this.activatedRoute.queryParamMap.subscribe((res:any) => {
+      
       console.log(res?.params?.type)
       let cart = localStorage.getItem('joincart')
       if(cart)  {
         this.cartitems=JSON.parse(cart)
       }
+      if(this.cartitems?.length) {
+        this.cartitems.map(i => i.disc=0)
+      }
+      this.getTotal()
       if(this.cartitems?.length&&res?.params?.type==0) {
         this.paymentFaild=true
       } 
       if(this.cartitems?.length&&res?.params?.type==1) {
         this.paymenSuccess=true
+
         this.createBooking()
       } 
     })
@@ -143,22 +150,15 @@ export class ShoppingCartComponent implements OnInit {
             this.authservice.addresses.subscribe(
               (addresses:any)=> {
                 console.log(addresses)
-                if(addresses) this.addresses=addresses
+                if(Array.isArray(addresses)) this.addresses=addresses
               }
             )
           }
         }
       )
     } 
-    let cart = localStorage.getItem('joincart')
-    if(cart)  {
-      this.cartitems=JSON.parse(cart)
-    }
-    if(this.cartitems?.length) {
-      this.cartitems.map(i => i.disc=0)
-    }
-    this.getTotal() 
-    console.log(this.cartitems)
+
+ 
    
   }
  
@@ -178,9 +178,12 @@ export class ShoppingCartComponent implements OnInit {
           }
         } else if (i?.cstmtype==1&&i?.type==0) {
           if(i?.disc==0) {
-            this.total += i?.selectedLocation.price*i?.notUserMembersCount
+            console.log(Number(i?.selectedLocation.price)*(i?.notUserMembersCount))
+            this.total += Number(i?.selectedLocation.price)*Number(i?.notUserMembersCount)
+            console.log(this.total)
           } else {
             this.total += i?.disc
+            console.log(i?.disc)
           }
          
         }
@@ -202,6 +205,7 @@ export class ShoppingCartComponent implements OnInit {
         this.addressRequired=1
       }    
     }
+    console.log(this.total)
   }
   deleteCartItem() {
     this.cartitems.splice(this.showDeleteCArtitem,1)
@@ -370,11 +374,11 @@ checkPromoCodeInputLength(value:string) {
   else return false
 }
 createBooking() {
-  console.log(this.cartitems)
+  console.log( this.total,(this.shipingCharge))
   let requestBody = {
     activity_data:[],
     child_id:[], 
-    booking_txn:'',
+    booking_txn:'test',
     payment_method:'PRICE',
     total:this.total+this.shipingCharge,
     booking_session:[],

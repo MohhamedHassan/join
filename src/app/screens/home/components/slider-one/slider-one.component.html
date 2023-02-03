@@ -1,4 +1,5 @@
 <div 
+*ngIf="sliderContent?.length"
 class="mb-4"
 style="min-height: 70vh;box-shadow: 0 0 20px rgb(0 0 0 / 25%);">
     <swiper 
@@ -17,3 +18,4 @@ style="direction: ltr;text-align:right"
     </ng-template>
 </swiper>
 </div>
+<div class="my-2" *ngIf="!sliderContent?.length"></div>

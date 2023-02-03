@@ -10,6 +10,7 @@ import { MembersService } from 'src/app/screens/members/services/members.service
   styleUrls: ['./book-now.component.scss']
 })
 export class BookNowComponent implements OnInit {
+  submited=false
   @Input() location:any
   @Input() ageFrom:any
   @Input() ageTo:any
@@ -50,7 +51,7 @@ export class BookNowComponent implements OnInit {
     } else {
       this.notuserForm.get('name').setValidators([Validators.required]);
       this.notuserForm.get('name').updateValueAndValidity();
-      this.notuserForm.get('email').setValidators([Validators.required]);
+      this.notuserForm.get('email').setValidators([Validators.required,Validators.email,,Validators.pattern(/.com$/)]);
       this.notuserForm.get('email').updateValueAndValidity();
       this.notuserForm.get('phone').setValidators([Validators.required]);
       this.notuserForm.get('phone').updateValueAndValidity();
@@ -162,6 +163,11 @@ selectTime(time:any) {
   time.checked=true
   this.selectedTime=time
   this.avialbeMembers=time?.available_seats
+  if(this.avialbeMembers>0) {
+    this.notUserMembersCount=1
+  } else  {
+    this.notUserMembersCount=0
+  }
   if(this.members?.length) {
     this.members.map(member => {
       member.selected=false
@@ -183,6 +189,7 @@ selectMembers() {
   }
 }
 confirmAddActivity() {
+  this.submited=true
   if(this.members?.length) {
     this.selectedMembers = this.members.filter(item => item.selected)
   }

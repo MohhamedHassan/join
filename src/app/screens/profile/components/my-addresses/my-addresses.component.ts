@@ -36,7 +36,7 @@ pathcharea() {
           this.authservice.addresses.subscribe(
             (addresses:any)=> {
               console.log(addresses)
-              this.addresses=addresses
+              if(Array.isArray(addresses)) this.addresses=addresses
             }
           )
         }

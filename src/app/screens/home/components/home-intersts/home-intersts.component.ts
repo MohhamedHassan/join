@@ -18,7 +18,7 @@ export class HomeInterstsComponent implements OnInit {
     this.homeService.intersts.subscribe((res) => {
       if(Array.isArray(res)) {
         this.cd.detectChanges()
-        this.intersts=[...this.intersts,...res]
+        this.intersts=res
       }
     })
   }

@@ -211,6 +211,9 @@ nav {
 }
 
 .custom-rtl {
+     .form-select {
+          background-position: left 0.75rem center !important;
+     }
      nav {
           .logo {
 
@@ -761,7 +764,9 @@ footer {
  }
  button.orangebtn {
      background-color: $orangeColor;
-     width: 100%;
+     min-width: 200px;
+     margin: auto;
+     display: block;
      color: white;
      border: none;
      padding: 10px;

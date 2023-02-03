@@ -42,7 +42,7 @@ if(!this.intervalLoading) {
   this.counterId+=1
   let child = document.createElement('div')
   child.setAttribute('id',`captchaid${this.counterId}`)
-  child.setAttribute('class','d-none')
+  //child.setAttribute('class','d-none')
   document.body.appendChild(child)
   this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
   firebase.auth().signInWithPhoneNumber(this.signupForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
@@ -110,6 +110,8 @@ if(!this.intervalLoading) {
       area_id:['',Validators.required],
       gender:['',Validators.required],
       email:['',[Validators.required,Validators.email,Validators.pattern(/.com$/)]],
+      confirm_email:[''],
+      confirm_password:[''],
       device_token:['_'],
       facebook_id:[''],
       google_id:['']
@@ -125,7 +127,10 @@ if(!this.intervalLoading) {
   signUp(formValue:any) {
     this.submited=true
     console.log(this.signupForm.value)
-    if(this.signupForm.valid&&!this.intervalLoading) {
+    if(this.signupForm.valid&&!this.intervalLoading&&
+      this.signupForm.get('password').value==this.signupForm.get('confirm_password').value &&
+      this.signupForm.get('email').value==this.signupForm.get('confirm_email').value
+      ) {
       this.getOtp()
     } 
     if(this.intervalLoading) {

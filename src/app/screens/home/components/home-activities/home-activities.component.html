@@ -23,7 +23,7 @@
     </p>
     <app-laoding *ngIf="homeService.activitiesLoading"></app-laoding>
     <div 
-    *ngIf="activities?.length"
+    *ngIf="activities?.length&&activities?.length>7"
     class="col-md-12 mb-4">
         <div class="text-center">
             <button 
