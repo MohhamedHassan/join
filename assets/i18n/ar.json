@@ -1,4 +1,9 @@
 {
+    "age_range":"العمر",
+    "email_mismatch":"البريد الألكتروني غير متطابق",
+    "password_mismatch":"كلمة المرور غير متطابقة",
+    "confirm_email":"تأكيد  البريد الألكتروني",
+    "confirm_password":"تأكيد كلمة الرور",
     "The_request_being_saved":"جار حفظ الطلب",
     "Payment_failed":"فشلت عملية الدفع",
     "sizes":"المقاسات",
@@ -150,7 +155,7 @@
     "select_child":"أختيار العضو",
     "available":"المتاح",
     "confirm":"تأكيد",
-    "Fill_in_all_data":"قم بلمئ جميع البيانات",
+    "Fill_in_all_data":"قم بملئ جميع البيانات",
     "delete_activity_message":"تم اضافة انشطة من نادي اخر بالسلة . هل ترغب بحذف اختيارك السابق واعادة  تعبئة السلة بانشطة النادي هذا ؟",
     "yes":"نعم",
     "no":"لا",

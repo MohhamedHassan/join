@@ -1,6 +1,8 @@
 @import '/src/assets//styles/colors.scss';
 ::ng-deep {
-
+.country-dropdown {
+    max-width: 300px !important; 
+}
     .swiper-button-next,
     .swiper-button-prev  {    
         background: $orangeColor !important;
