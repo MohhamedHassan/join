@@ -6,22 +6,37 @@ class="reviews">
     class="list-unstyled p-0 m-0 review-list">
         <li 
         *ngFor="let item of reviews"
-        class="d-flex mb-3">
-            <div class="userImage">
-                <img src="assets/images/useravatar.png" alt="join">
-            </div>
-            <div class="mx-2"></div>
-            <div class="content">
-                <h3>{{item.user_name}}</h3>
-                <div class="stars">
-                    <ngx-star-rating  
-                    [(ngModel)]="item.review_rating"
-                    [disabled]="true"></ngx-star-rating>
+        class="mb-3">
+        <div class="d-flex  justify-content-between align-items-start">
+            <div class="d-flex ">
+                <div class="userImage">
+                    <img src="assets/images/useravatar.png" alt="join">
                 </div>
-                <p> 
-                    {{item.review_desc}}
-                </p>
+                <div class="mx-2"></div>
+                <div class="content">
+                    <h3>{{item.user_name}}</h3>
+                    <div class="stars">
+                        <ngx-star-rating  
+                        [(ngModel)]="item.review_rating"
+                        [disabled]="true"></ngx-star-rating>
+                    </div>
+                    <p class="mb-1">  
+                        {{item.review_desc}}
+                    </p>
+                    <p 
+                    style="font-size: medium;"
+                    class="text-secondary m-0 d-md-none">
+                        {{item?.created_at|date}}
+                    </p>
+                </div>      
             </div>
+            <p 
+            style="font-size: medium;"
+            class="text-secondary m-0 d-md-block d-none">
+            {{item?.created_at|date}}
+            </p>
+        </div>
+
         </li>
     </ul>
     <div class="row">
