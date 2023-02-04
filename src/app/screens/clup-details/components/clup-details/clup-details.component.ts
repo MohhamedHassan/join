@@ -9,6 +9,15 @@ import { ClupDetailsService, clup_details } from '../../services/clup-details.se
   styleUrls: ['./clup-details.component.scss']
 })
 export class ClupDetailsComponent implements OnInit {
+  center: google.maps.LatLngLiteral;
+  options: google.maps.MapOptions = {
+    mapTypeId: 'hybrid',
+    zoomControl: false,
+    scrollwheel: false,
+    disableDoubleClickZoom: true,
+    maxZoom: 15,
+    minZoom: 8,
+  };
   active:number=0
   loading:boolean=true
   clup_details!:clup_details
@@ -34,6 +43,8 @@ export class ClupDetailsComponent implements OnInit {
     }
   
   }
+  products=[]
+  markers=[]
   constructor(private activatedRoute:ActivatedRoute,
     private _sanitizer:DomSanitizer,
     private router:Router,
@@ -51,6 +62,27 @@ export class ClupDetailsComponent implements OnInit {
        res => {
         this.loading=false
         this.clup_details=res
+        this.products=res?.products ?  res?.products : []
+        if(this.clup_details?.club_branch?.length) {
+          this.center = {
+            lat: Number(this.clup_details?.club_branch[0]?.latitude),
+            lng: Number(this.clup_details?.club_branch[0]?.longitude)
+          };
+          console.log({
+            lat: Number(this.clup_details?.club_branch[0]?.latitude),
+            lng: Number(this.clup_details?.club_branch[0]?.longitude)
+          })
+          this.clup_details?.club_branch.forEach(i =>  {
+            this.markers.push({
+              position: {
+                lat: Number(i?.latitude),
+                lng: Number(i?.longitude)
+              },
+              options: { animation: google.maps.Animation.BOUNCE }
+            })
+          })
+
+        }
        } , err =>  {
         this.router.navigate(['/'])
        }

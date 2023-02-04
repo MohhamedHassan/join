@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Activities } from '../../models/activities';
 import { HomeService } from '../../services/home.service';
 
@@ -11,10 +12,11 @@ export class HomeActivitiesComponent implements OnInit {
   activities:Activities[]=[]
   page:number=1
   favoriteLoading=false
+  subscription:Subscription
   constructor(public homeService:HomeService) { }
 
   ngOnInit(): void {
-    this.homeService.activities.subscribe((res) => {
+    this.subscription= this.homeService.activities.subscribe((res) => {
       if(Array.isArray(res)) {
         this.activities=[...this.activities,...res]
       }
@@ -36,5 +38,12 @@ favoriteLoadingStatus(event:boolean) {
 }
 changeFavStatus(index:any) {
   this.activities[index].favorite =   this.activities[index].favorite == 'FAVORITE' ? '' : 'FAVORITE' 
+}
+ngOnDestroy(): void {
+  //Called once, before the instance is destroyed.
+  //Add 'implements OnDestroy' to the class.
+  this.homeService.activities.next([])
+ if(this.subscription)this.subscription.unsubscribe() 
+
 }
 }

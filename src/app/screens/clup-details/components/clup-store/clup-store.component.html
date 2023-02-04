@@ -1,0 +1,26 @@
+<h2 
+*ngIf="store?.length"
+class="mb-2">
+<i 
+style="font-size:25px"
+class="fa-solid fa-store maincolor"></i>
+{{'store'|translate}}</h2>
+<swiper  
+class="mb-3"
+style="direction: ltr;text-align:right"
+[config]="swpieroptions">
+
+    <ng-container *ngFor="let item of store;let i = index">
+        <ng-template swiperSlide>
+            <app-store-card 
+            [id]="item.id"
+            [imgSrc]="item.image"
+            [name_ar]="item.name_ar"
+            [name_en]="item.name_en"
+            [price]="item.price"
+            [pre_price]="item.pre_price"
+            ></app-store-card>
+        </ng-template>
+    </ng-container>
+
+</swiper>

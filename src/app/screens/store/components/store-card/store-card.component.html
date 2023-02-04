@@ -1,4 +1,9 @@
-<article class="cart-one glopal-cart position-relative">
+<article 
+[ngStyle]="{
+    'textAlign':lang=='ar'?'right':'left',
+    'direction':lang=='ar'?'rtl':'ltr'
+}"
+class="cart-one glopal-cart position-relative">
     <!-- <div class="d-flex justify-content-end p-2 heart">
         <i class="fa-solid fa-heart"></i>
     </div> -->

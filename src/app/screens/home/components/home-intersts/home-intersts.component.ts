@@ -14,7 +14,7 @@ export class HomeInterstsComponent implements OnInit {
     private cd:ChangeDetectorRef) { }
 
   ngOnInit(): void {
-    this.homeService.getIntersts()
+    //this.homeService.getIntersts()
     this.homeService.intersts.subscribe((res) => {
       if(Array.isArray(res)) {
         this.cd.detectChanges()

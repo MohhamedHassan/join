@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { GlopalService } from 'src/app/services/glopal.service';
 import {map} from 'rxjs'
 export interface clup_details {
+  products:any
+  avg_rate:any;
   banner?:string;
   club_branch?:any[];
   logo?:string;

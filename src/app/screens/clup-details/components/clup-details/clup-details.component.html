@@ -1,5 +1,8 @@
 <app-laoding *ngIf="loading"></app-laoding>
 <section *ngIf="clup_details" style="min-height: 100vh;" class="clup-details details-page">
+   
+
+
     <div 
     style="box-shadow: 0 0 20px rgb(0 0 0 / 25%);"
     class="cvr">
@@ -20,11 +23,16 @@
                 <div class="col md-6 my-3 ">
                     <div>
                         <h2 class="mb-2">{{clup_details.name}}</h2>
+                        <ngx-stars [readonly]="true" [maxStars]="5" [initialStars]="clup_details?.avg_rate"
+                        color="#F89416"
+                        ></ngx-stars>
                         <table>
                             <tr>
                                 <td 
                                 class="text-center py-2">
-                                    <small class="d-block">{{'activities'|translate}}</small>
+                                    <small class="d-block">
+                                        
+                                        {{'activities'|translate}}</small>
                                     <small class="text-secondary">{{clup_details.activity_count}}</small>
                                 </td>
                                 <td>
@@ -75,7 +83,7 @@
                 <span class="mx-1"></span>
                 <a 
                 target="_blank" rel="noreferrer"
-                [href]="'https://www.facebook.com/sharer.php?u=https://eltimeseg.com/main/details/'+clup_details?.id"
+                [href]="'https://www.facebook.com/sharer.php?u=https://mohhamedhassan.github.io/join/#/clup/'+clup_details?.id"
                 >
                     <i class="fa-solid fa-share-nodes maincolor"></i>
                 </a>
@@ -84,6 +92,29 @@
         <p class="my-3" [innerHTML]="savedHtml(clup_details.description)"></p>
         <hr>
         <app-clup-activities-slider [clupid]="clup_details.id"></app-clup-activities-slider>
+        <hr>
+        <app-clup-store [store]="products"></app-clup-store>
+        <h2 
+        class="mb-2">
+        <i 
+        style="font-size:25px"
+        class="maincolor fa-solid fa-location-dot"></i>
+        {{'find_us'|translate}}</h2>
+        <google-map
+        height="300px"
+        width="100%"
+        [zoom]="12"
+        [center]="center"
+        [options]="options"
+        >
+        <map-marker
+        *ngFor="let marker of markers"
+        [position]="marker.position"
+        [options]="marker.options"
+      >
+      </map-marker>
+        </google-map>
+        <div class="my-2"></div>
         <ul class="list-unstyled p-0  d-flex clup-details-list">
             <li 
             (click)="gallaryOrReviews(0)"

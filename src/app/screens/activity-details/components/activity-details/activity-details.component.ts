@@ -12,6 +12,16 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
+  markers=[]
+  center: google.maps.LatLngLiteral;
+  options: google.maps.MapOptions = {
+    mapTypeId: 'hybrid',
+    zoomControl: false,
+    scrollwheel: false,
+    disableDoubleClickZoom: true,
+    maxZoom: 15,
+    minZoom: 8,
+  };
   showDeleteCartActivities=false
   cartitems:any=[]
   showpopup:boolean=false
@@ -60,6 +70,23 @@ export class ActivityDetailsComponent implements OnInit {
     ).subscribe(
        res => {
         this.activity_details=res
+        if(this.activity_details?.location?.length) {
+          this.center = {
+            lat: Number(this.activity_details?.location[0]?.branch?.latitude),
+            lng: Number(this.activity_details?.location[0]?.branch?.longitude)
+          };
+
+          this.activity_details?.location.forEach(i =>  {
+            this.markers.push({
+              position: {
+                lat: Number(i?.branch?.latitude),
+                lng: Number(i?.branch?.longitude)
+              },
+              options: { animation: google.maps.Animation.BOUNCE }
+            })
+          })
+
+        }
         this.loading=false
        }
     )

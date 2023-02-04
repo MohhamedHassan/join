@@ -16,7 +16,7 @@ export class HomeClupsComponent implements OnInit {
   ngOnInit(): void {
     this.homeService.clups.subscribe((res) => {
       if(Array.isArray(res)) {
-        this.clups=[...this.clups,...res]
+        this.clups=res
       }
     })
   }

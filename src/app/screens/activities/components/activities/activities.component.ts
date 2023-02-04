@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Activities } from 'src/app/screens/home/models/activities';
 import { HomeService } from 'src/app/screens/home/services/home.service';
 
@@ -11,13 +12,15 @@ export class ActivitiesComponent implements OnInit {
   activities:Activities[]=[]
   page:number=1
   favoriteLoading=false
+  subscription:Subscription
   constructor(public homeService:HomeService) { }
 
 
 
   ngOnDestroy(): void {
-    //this.homeService.activities.next([])
+    this.homeService.activities.next([])
     this.homeService.ActivitiesRequestComplete=false
+    if(this.subscription)this.subscription.unsubscribe() 
   }
 
 
@@ -27,7 +30,7 @@ export class ActivitiesComponent implements OnInit {
      }  else  {
        this.homeService.getActivitiesGuest(1)
      }
-    this.homeService.activities.subscribe((res) => {
+  this.subscription=  this.homeService.activities.subscribe((res) => {
       if(Array.isArray(res)) {
         this.activities=[...this.activities,...res]
       }
@@ -53,4 +56,5 @@ favoriteLoadingStatus(event:boolean) {
 changeFavStatus(index:any) {
   this.activities[index].favorite =   this.activities[index].favorite == 'FAVORITE' ? '' : 'FAVORITE' 
 }
+
 }

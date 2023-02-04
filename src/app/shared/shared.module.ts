@@ -19,6 +19,9 @@ import { TofixednumberPipe } from '../pips/tofixednumber.pipe';
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { StringToNumberPipe } from '../pips/string-to-number.pipe';
+import { RatingModule } from 'ngx-bootstrap/rating';
+import { NgxStarsModule } from 'ngx-stars';
+import { GoogleMapsModule } from '@angular/google-maps'
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -31,8 +34,11 @@ import { StringToNumberPipe } from '../pips/string-to-number.pipe';
     StringToNumberPipe
   ],
   imports: [
+    GoogleMapsModule,
+    NgxStarsModule,
     CommonModule,
     HttpClientModule,
+    RatingModule.forRoot(),
     AccordionModule.forRoot() ,
     RouterModule,
     SwiperModule,
@@ -52,6 +58,9 @@ import { StringToNumberPipe } from '../pips/string-to-number.pipe';
     })
   ],
   exports:[
+    GoogleMapsModule,
+    NgxStarsModule,
+    RatingModule,
     SwiperModule,
     SharedHeaderComponent,
     CategoriesListComponent,

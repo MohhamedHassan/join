@@ -112,6 +112,7 @@ export class HomeService {
 
 
   getIntersts() {
+    this.intersts.next([])
     this.interistsLoading=true
     return this.http.get<{payload:Intersts[]}>(`${this.glopalService.apiUrlOne}interestsList`).pipe(
       map(value => value.payload)
