@@ -25,6 +25,7 @@ import {AngularFireAuthModule} from '@angular/fire/compat/auth'
 import {AngularFirestoreModule} from '@angular/fire/compat/firestore'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { StringToNumberPipe } from './pips/string-to-number.pipe';
+import { NgxStarsModule } from 'ngx-stars';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,6 +36,7 @@ import { StringToNumberPipe } from './pips/string-to-number.pipe';
     FilterComponent,
   ],
   imports: [
+    NgxStarsModule,
     NgxSliderModule,
     ReactiveFormsModule,
     FormsModule,

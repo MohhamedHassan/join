@@ -127,9 +127,18 @@
             <div>
                 <accordion [isAnimated]="true">
                     <accordion-group
+                    
                     heading="{{'rating'|translate}}">
                     <div class="text-center">
-                      <rating [(ngModel)]="rate"  [max]="5" ></rating>
+                      <!-- <rating [(ngModel)]="rate"  [max]="5" ></rating> -->
+                      <div style="display: flex; align-items: center;justify-content:center">
+                        <ngx-stars 
+                        [readonly]="false" 
+                        [size]="5" [maxStars]="5"
+                        customSize="20px"
+                        color="#F89416" 
+                        (ratingOutput)="onRatingSet($event)"></ngx-stars>
+                      </div>
                     </div>
                     </accordion-group>
                   </accordion>

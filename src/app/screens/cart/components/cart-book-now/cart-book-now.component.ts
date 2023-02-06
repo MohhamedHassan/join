@@ -10,13 +10,14 @@ import { MembersService } from 'src/app/screens/members/services/members.service
   styleUrls: ['./cart-book-now.component.scss']
 })
 export class CartBookNowComponent implements OnInit {
+  @Input() selectedActivityToEdit:any
   @Input() ageFrom:any
   @Input() ageTo:any
   @Input() location:any
   @Output() patchActivityToParent = new EventEmitter()
   members:any
   selectedLocation:any
-  selectedDate=null
+  selectedDate
   selectedTime=null
   selectedMembers:any[]=[]
   minDate: Date;
@@ -26,6 +27,8 @@ export class CartBookNowComponent implements OnInit {
   avialbeMembers=0
   notUserMembersCount=0
   notuserForm:FormGroup
+  patchDate
+  first=true
   constructor(public membersservice:MembersService,
     private fb:FormBuilder,
     private toastr:ToastrService,
@@ -67,16 +70,33 @@ export class CartBookNowComponent implements OnInit {
         phone:notuserData?.phone
       })
     }
+    this.selectedLocation=this.selectedActivityToEdit?.selectedLocation
+    this.patchDate=this.datePipe.transform(this.selectedActivityToEdit?.selectedDate, 'MM/dd/yyy')
+    this.selectedDate=this.selectedActivityToEdit?.selectedDate
+      this.selectedTime=this.selectedActivityToEdit?.selectedTime
     this.membersservice.members.subscribe(res =>  {
       if(res) {
+        console.log(res)
         this.members=res
         this.members.map(member => {
           member.selected=false
           member.disabled=true
+          if(this.selectedActivityToEdit?.selectedMembers?.length) {
+            this.selectedActivityToEdit?.selectedMembers.forEach(element => {
+              if(element?.child_id==member?.child_id) {
+                member.selected=true
+              }
+            });
+          }
+          
         })
       }
 
     })
+    console.log(this.selectedActivityToEdit)
+
+    console.log(this.selectedDate)
+
   }
 selectLocation(item:any) {
   this.selectedDate=null
@@ -86,6 +106,13 @@ selectLocation(item:any) {
     this.members.map(member => {
       member.selected=false
       member.disabled=false
+      if(this.selectedActivityToEdit?.selectedMembers?.length) {
+        this.selectedActivityToEdit?.selectedMembers.forEach(element => {
+          if(element?.child_id==member?.child_id) {
+            member.selected=true
+          }
+        });
+      }
     })
   }
   this.selectedLocation=item
@@ -127,17 +154,25 @@ checkTodayDate(item) {
   else return false
 }
 onDateCange(value:any) {
-  this.selectedDate=null
   this.selectedTime=null
   this.avialbeMembers=0
+
+  this.availableTime=[]
+  this.selectedDate=value
+ 
   if(this.members?.length) {
     this.members.map(member => {
       member.selected=false
       member.disabled=false
+      if(this.selectedActivityToEdit?.selectedMembers?.length) {
+        this.selectedActivityToEdit?.selectedMembers.forEach(element => {
+          if(element?.child_id==member?.child_id) {
+            member.selected=true
+          }
+        });
+      }
     })
   }
-  this.availableTime=[]
-  this.selectedDate=value
   if(this.selectedLocation?.dates_times?.length) {
     for (let i = 0 ; i < this.selectedLocation?.dates_times?.length;i++) {
       let from = new Date(this.selectedLocation?.dates_times[i]?.from_date)
@@ -154,8 +189,15 @@ onDateCange(value:any) {
             });
         }
     }
-    this.availableTime.map(i=>i.checked=false)
+    this.availableTime.map(i=>{
+      if(i?.id==this.selectedActivityToEdit?.selectedTime?.id) {
+        i.checked=true
+        this.selectedTime=this.selectedActivityToEdit?.selectedTime
+      }
+      else i.checked=false
+    })
   }
+  console.log(this.selectedTime)
 }
 selectTime(time:any) {
   time.checked=true
@@ -165,6 +207,13 @@ selectTime(time:any) {
     this.members.map(member => {
       member.selected=false
       member.disabled=false
+      // if(this.selectedActivityToEdit?.selectedMembers?.length) {
+      //   this.selectedActivityToEdit?.selectedMembers.forEach(element => {
+      //     if(element?.child_id==member?.child_id) {
+      //       member.selected=true
+      //     }
+      //   });
+      // }
     })
   }
   console.log(this.avialbeMembers)

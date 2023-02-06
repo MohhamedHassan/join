@@ -1,15 +1,18 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/screens/auth/services/auth.service';
 import { HomeService } from 'src/app/screens/home/services/home.service';
 import { MembersService } from 'src/app/screens/members/services/members.service';
 import { Options } from '@angular-slider/ngx-slider';
 import { Router } from '@angular/router';
+import { NgxStarsComponent } from 'ngx-stars';
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent implements OnInit {
+  @ViewChild(NgxStarsComponent)
+  starsComponent: NgxStarsComponent;
   interst:any=[]
   areas:any=[]
   members:any=[]
@@ -31,7 +34,20 @@ export class FilterComponent implements OnInit {
     private router:Router,
     public membersservice:MembersService,
     public authService:AuthService) { }
-
+    ratingDisplay: number;
+  
+    onRatingSet(rating: number): void {
+     
+ 
+      if(this.rate==0.5&&rating==0.5) {
+        this.rate=0
+        this.starsComponent.setRating(0);
+      } else {
+        this.rate = rating;
+      }
+      
+      console.log(this.rate)
+    }
   ngOnInit(): void {
     // if(!!localStorage.getItem('joinToken')) {
     //   this.membersservice.getAllMembers()
