@@ -4,5 +4,6 @@ export interface Product {
     pre_price:string;
     price:string;
     id:string;
-    image:string
+    image:string;
+    discount_percent:string
 }

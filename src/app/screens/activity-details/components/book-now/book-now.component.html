@@ -64,7 +64,7 @@
             <input 
             [disabled]="item?.disabled || (item?.child_age|stringToNumber)>(ageTo|stringToNumber) || (item?.child_age|stringToNumber)<(ageFrom|stringToNumber)"
             [(ngModel)]="item.selected"
-            (change)="selectMembers()"
+            (change)="selectMembers(item?.child_id)"
             class="form-check-input" type="checkbox"  [id]="item?.child_name+i">
             <label class="form-check-label" [for]="item?.child_name+i">
               {{item?.child_name}}
@@ -80,8 +80,14 @@
       
             </label>
           </div>
+          <p 
+          (click)="showpopup=true"
+          style="cursor: pointer;"
+          class="maincolor">
+            {{'add_members'|translate}}
+          </p>
         </ng-container>
-        
+             
   
       </accordion-group>
       <!--  -->
@@ -145,4 +151,31 @@
       class="orangebtn my-2">
           {{'confirm'|translate}}
       </button>
+</div>
+
+<div 
+[ngClass]="{
+    'd-flex':showpopup,
+    'd-none':!showpopup
+}"
+*ngIf="showpopup"
+class="cstmpopup">
+    <div class="content add-member">
+        <i 
+        (click)="showpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <h2
+        style="font-weight: 400;font-size:20px;line-height: 30px;"
+        >{{'add_member'|translate}}</h2>
+        <div class="container ">
+     
+            <app-add-members
+            (closePopUp)="showpopup=false"
+            ></app-add-members>
+        </div>
+    </div>
 </div>

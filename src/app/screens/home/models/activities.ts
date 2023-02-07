@@ -7,6 +7,7 @@ export interface Activities {
     location_count:string;
     interests_name:string;
     id:string;
-    favorite:string
+    favorite:string;
+    categories:[]
 }
 

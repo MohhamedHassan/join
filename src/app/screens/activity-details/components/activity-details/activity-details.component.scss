@@ -1,1 +1,6 @@
 @import '/src/assets/styles/ngdeep.scss';
+@media only screen and (min-width: 600px) {
+    .cstm75 {
+        width: 75% !important;
+    }
+}

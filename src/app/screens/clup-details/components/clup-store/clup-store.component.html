@@ -13,6 +13,7 @@ style="direction: ltr;text-align:right"
     <ng-container *ngFor="let item of store;let i = index">
         <ng-template swiperSlide>
             <app-store-card 
+            [discount_percent]="item?.discount_percent"
             [id]="item.id"
             [imgSrc]="item.image"
             [name_ar]="item.name_ar"

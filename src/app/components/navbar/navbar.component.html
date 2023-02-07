@@ -69,9 +69,13 @@
                             <hr>
                         </div>
                         <div 
+                    
                         class="col-md-4 mb-3"
                         *ngFor="let item of categories">
                            <a
+                           style="     white-space: nowrap;
+                           overflow: hidden;
+                           text-overflow: ellipsis;display: block;"
                            routerLink="/store"
                            [queryParams]="{id:item?.id}"
                            class="p-0">
@@ -126,7 +130,7 @@
                 ><a 
                 href="https://reach.link/Join_App"
                 target="_blank"
-                  >{{'follow'|translate}}</a></li>
+                  >{{'Follow_Us'|translate}}</a></li>
                 <!--  -->
                 <li
                 class="d-lg-none"

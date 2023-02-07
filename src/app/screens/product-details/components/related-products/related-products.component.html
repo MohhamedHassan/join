@@ -12,6 +12,7 @@ style="direction: ltr;text-align:right"
             }"
             >
             <app-store-card  
+            [discount_percent]="product?.discount_percent"
             [id]="product.id"
             [imgSrc]="product.image"
             [name_ar]="product.name_ar"

@@ -7,9 +7,19 @@ class="cart-one glopal-cart position-relative">
     <!-- <div class="d-flex justify-content-end p-2 heart">
         <i class="fa-solid fa-heart"></i>
     </div> -->
-    <div class="imgPart">
+    <div class="imgPart position-relative">
         <img 
+        *ngIf="imgSrc"
         [src]="imgSrc"  alt="join">
+        <img 
+        *ngIf="discount_percent&&discount_percent!='0.0 %'"
+        style="width:90px;height:60px;position: absolute;top: 0;left:10px"
+        src="assets/images/discount.svg" alt="" >
+        <span 
+        *ngIf="discount_percent&&discount_percent!='0.0 %'"
+        style="color:white;position: absolute;top: 0;left:33px;font-size: small;">
+            {{discount_percent}}
+        </span>
     </div>
     <div class="detasils px-3 py-4">
         <h2>{{lang == 'ar' ? name_ar : name_en}}</h2>

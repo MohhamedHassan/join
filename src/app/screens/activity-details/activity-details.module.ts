@@ -5,6 +5,7 @@ import { ActivityDetailsRoutingModule } from './activity-details-routing.module'
 import { ActivityDetailsComponent } from './components/activity-details/activity-details.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { BookNowComponent } from './components/book-now/book-now.component';
+import { MembersModule } from '../members/members.module';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { BookNowComponent } from './components/book-now/book-now.component';
   imports: [
     CommonModule,
     ActivityDetailsRoutingModule,
-    SharedModule 
+    SharedModule ,
+    MembersModule
   ] 
 })
 export class ActivityDetailsModule { }

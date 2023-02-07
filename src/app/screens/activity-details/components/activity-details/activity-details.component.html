@@ -14,10 +14,32 @@
             <div class="col-lg-8">
                 <div class="cash">
                     <div class="flex-column flex-md-row  d-flex justify-content-between align-items-md-center">
-                        <h2 *ngIf="activity_details.location.length" class="mb-1">
-                            {{activity_details.location[0].branch.area_name}}
-                            | {{ activity_details.age_from + '-' + activity_details.age_to }} {{'years'|translate}} |
-                        </h2>
+                        <div class="cstm75">
+                            <h2 *ngIf="activity_details.location.length" class="mb-1">
+                                {{activity_details.location[0].branch.area_name}}
+                                | {{ activity_details.age_from + '-' + activity_details.age_to }} {{'years'|translate}} |
+                            </h2>
+                            <p class="mb-1">
+                                <span *ngFor="let category of activity_details?.categories;let l = last">
+                                    {{lang=='ar' ? category?.name_ar : category?.name_en}}
+                                    <span *ngIf="!l">,</span>
+                                </span>
+                            </p>
+                            <ul 
+                            *ngIf="isLogin()"
+                            class="list-unstyled p-0 d-flex mb-0 mt-2 flex-wrap">
+                                <li 
+                                [class.d-none]="(member?.child_age|stringToNumber)>(activity_details?.age_to|stringToNumber)|| (member?.child_age|stringToNumber)<(activity_details?.age_from|stringToNumber)"
+                                style="color:#F89416;padding:7px 10px;border-radius: 30px;border:1px solid #F89416;margin-bottom:5px"
+                                [ngStyle]="{
+                                    'marginRight': lang=='ar' ? '0' : '5px',
+                                    'marginLeft': lang=='ar' ? '5px' : '0'
+                            }"
+                                *ngFor="let member of members">
+                                    {{member?.child_name}}
+                                </li>
+                            </ul>
+                        </div>
                         <p *ngIf="activity_details.location.length" class="orangecolor mb-1">
                             <img 
                             style="width: 30px;"
@@ -59,7 +81,7 @@
                     <hr>
                     <h2 class="mb-1 mt-3">{{'about'|translate}}</h2>
                     <p [innerHTML]="savedHtml(activity_details.description)" class="mt-3"></p>
-
+                    <hr>
                     <div class="Schedule">
                         <h2 class="mb-1">{{'Schedule'|translate}}</h2>
                         <p class="text-center" [innerHTML]="savedHtml(activity_details.schedule)"></p>

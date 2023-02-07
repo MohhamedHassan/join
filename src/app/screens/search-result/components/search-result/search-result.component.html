@@ -26,6 +26,17 @@ class="row">
                         {{item?.title||item?.name}} 
                     </span>
                 </a>
+                <span class="my-2 d-block"></span>
+                <span
+                *ngIf="item?.type=='ACTIVITY'"
+                class="d-block">
+                    {{'activity'|translate}} 
+                </span>
+                <span
+                *ngIf="item?.type=='CLUB'"
+                class="d-block">
+                    {{'club'|translate}} 
+                </span>
             </h2>
         </div>
     </article>

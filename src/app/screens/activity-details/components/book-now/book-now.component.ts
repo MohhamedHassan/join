@@ -10,6 +10,7 @@ import { MembersService } from 'src/app/screens/members/services/members.service
   styleUrls: ['./book-now.component.scss']
 })
 export class BookNowComponent implements OnInit {
+  showpopup=false
   submited=false
   @Input() location:any
   @Input() ageFrom:any
@@ -27,6 +28,7 @@ export class BookNowComponent implements OnInit {
   avialbeMembers=0
   notUserMembersCount=0
   notuserForm:FormGroup
+  selectedIds=[]
   constructor(public membersservice:MembersService,
     private fb:FormBuilder,
     private toastr:ToastrService,
@@ -73,8 +75,22 @@ export class BookNowComponent implements OnInit {
         this.members=res
         this.members.map(member => {
           member.selected=false
-          member.disabled=true
+          member.disabled=false
+          this.selectedIds.forEach(item =>  {
+            if(item==member?.child_id)   member.selected=true
+          })
         })
+        let selectedMemberscount = this.members.filter(item => item.selected)
+        if(selectedMemberscount?.length==this.avialbeMembers) {
+          this.members.map(item =>  {
+            if(!item?.selected) item.disabled=true
+          })
+        } else {
+          this.members.map(item =>  {
+            if(!item?.selected) item.disabled=false
+          })
+        }
+        console.log(this.members)
       }
 
     })
@@ -84,6 +100,7 @@ selectLocation(item:any) {
   this.selectedTime=null
   this.avialbeMembers=0
   if(this.members?.length) {
+    this.selectedIds=[]
     this.members.map(member => {
       member.selected=false
       member.disabled=false
@@ -132,6 +149,7 @@ onDateCange(value:any) {
   this.selectedTime=null
   this.avialbeMembers=0
   if(this.members?.length) {
+    this.selectedIds=[]
     this.members.map(member => {
       member.selected=false
       member.disabled=false
@@ -169,6 +187,7 @@ selectTime(time:any) {
     this.notUserMembersCount=0
   }
   if(this.members?.length) {
+    this.selectedIds=[]
     this.members.map(member => {
       member.selected=false
       member.disabled=false
@@ -176,7 +195,8 @@ selectTime(time:any) {
   }
   console.log(this.avialbeMembers)
 }
-selectMembers() { 
+selectMembers(child_id) { 
+  this.selectedIds.push(child_id)
   let selectedMemberscount = this.members.filter(item => item.selected)
   if(selectedMemberscount?.length==this.avialbeMembers) {
     this.members.map(item =>  {
@@ -232,5 +252,7 @@ plusOne() {
 minusOne() {
   if(this.notUserMembersCount>1) this.notUserMembersCount-=1
 }
-
+get lang() {
+  return localStorage.getItem('lang') || 'en'
+}
 }

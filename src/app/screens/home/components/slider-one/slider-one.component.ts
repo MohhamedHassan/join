@@ -9,29 +9,40 @@ SwiperCore.use([Navigation,Autoplay]);
   styleUrls: ['./slider-one.component.scss']
 })
 export class SliderOneComponent implements OnInit {
-  sliderContent: TopSlider[]=[];
+  sliderContent: any[]=[];
   constructor(
     private homeService:HomeService
     ) { }
 
   ngOnInit(): void {
+    this.sliderContent=[]
     if(!!localStorage.getItem("joinToken")) {
       this.homeService.getTopSliderUser().subscribe(
-        (res:TopSlider[]) => {
-          if(Array.isArray(res)) {
-            this.sliderContent=res
-          }
+        (res) => {
+          this.makeData(res)
         }
       )
     }  else  {
       this.homeService.getTopSliderGuest().subscribe(
-        (res:TopSlider[]) => {
-          if(Array.isArray(res)) {
-            this.sliderContent=res
-          }
+        (res) => {
+          this.makeData(res)
         }
       )
     }
   }
+makeData(res) {
 
+  if(Array.isArray(res?.store)) {
+    this.sliderContent=[...this.sliderContent,...res?.store]
+  }
+  if(Array.isArray(res?.payload)) {
+     this.sliderContent=[...this.sliderContent,...res?.payload]
+   }
+}
+checkRouting(item):any {
+  if(item?.product_id) return `/product/${item?.product_id}`
+  else if(item?.activity_id) return `/activity/${item?.activity_id}`
+  else if(item?.club_id) return `/clup/${item?.club_id}`
+  else if(item?.interests_id) return `/interests/${item?.interests_id}`
+}
 }

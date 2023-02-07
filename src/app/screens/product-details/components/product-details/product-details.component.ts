@@ -26,6 +26,7 @@ export class ProductDetailsComponent implements OnInit {
     savedHtml(content:string) {
       return this._sanitizer.bypassSecurityTrustHtml(content)
     }
+    get lang() {return localStorage.getItem('lang')||'en'}
   ngOnInit(): void {
     let cart = localStorage.getItem('joincart')
     if(cart)  {

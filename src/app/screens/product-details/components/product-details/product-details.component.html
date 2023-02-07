@@ -1,6 +1,8 @@
 <app-laoding *ngIf="loading"></app-laoding>
 <section *ngIf="product_details&&!loading" style="min-height: 100vh;" class="details-page">
-    <div class="cvr">
+    <div
+    *ngIf="product_details.image"
+    class="cvr">
         <img [src]="product_details.image" alt="Join">
     </div>
     <div class="container">
@@ -52,8 +54,10 @@
                        </ng-container>
                        
                     </div>
+                  <ng-container *ngIf="product_details.description">
                     <p [innerHTML]="savedHtml(product_details.description)" class="mt-3"></p>
                     <hr>
+                  </ng-container>
                     <div 
                     *ngIf="product_details?.product_colors?.length"
                     class="my-3 colorsContainer">
@@ -85,6 +89,7 @@
                         </ul>
                     </div>
                     <div 
+                    *ngIf="product_details.delivery_notes"
                     style="border: 1px solid #e3e3e3;
                     border-radius: 5px;
                     padding: 20px;"
@@ -95,9 +100,14 @@
                             class="fa-solid fa-truck maincolor"></i>
                         </div>
                         <span class="mx-3"></span>
+                       <div>
+                        <p class="maincolor mb-1">
+                            {{'delivery_notes'|translate}}
+                        </p>
                         <p 
                         class="m-0 delivery_notes"
                         [innerHTML]="savedHtml(product_details.delivery_notes)"></p>
+                       </div>
                     </div>
 
                 </div>
@@ -105,7 +115,22 @@
             </div>
             <!--  -->
             <div class="col-lg-4 mb-4">
-                <div class="book-now bg-white p-3 rounded">
+                <div class="book-now bg-white p-3 rounded position-relative">
+                    <div
+                    [ngStyle]="{
+                        'left': lang=='ar' ? '10px' : 'auto',
+                        'right': lang=='ar' ? 'auto' : '10px'
+                    }"
+                    *ngIf="product_details?.discount_percent&&product_details?.discount_percent!='0.0 %'"
+                    style="width:90px;height:60px;position: absolute;top: 0;">            
+                        <img 
+                        style="width:90px;height:60px;position: absolute;top: 0;left:10px"
+                        src="assets/images/discount.svg" alt="" >
+                        <span 
+                        style="color:white;position: absolute;top: 0;left:33px;font-size: small;">
+                            {{product_details?.discount_percent}}
+                        </span>
+                    </div>
                     <p class="maincolor" style="margin-bottom: 2px">
                         {{'special_order'|translate}}
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

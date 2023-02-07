@@ -19,6 +19,9 @@ import { HomeModule } from '../home/home.module';
     CommonModule,
     MembersRoutingModule,
     SharedModule
+  ],
+  exports: [
+    AddMembersComponent
   ]
 })
 export class MembersModule { }

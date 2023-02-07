@@ -10,6 +10,8 @@ import { MembersService } from 'src/app/screens/members/services/members.service
   styleUrls: ['./cart-book-now.component.scss']
 })
 export class CartBookNowComponent implements OnInit {
+  showpopup=false
+  selectedIds=[]
   @Input() selectedActivityToEdit:any
   @Input() ageFrom:any
   @Input() ageTo:any
@@ -80,7 +82,7 @@ export class CartBookNowComponent implements OnInit {
         this.members=res
         this.members.map(member => {
           member.selected=false
-          member.disabled=true
+          member.disabled=false
           if(this.selectedActivityToEdit?.selectedMembers?.length) {
             this.selectedActivityToEdit?.selectedMembers.forEach(element => {
               if(element?.child_id==member?.child_id) {
@@ -88,7 +90,19 @@ export class CartBookNowComponent implements OnInit {
               }
             });
           }
-          
+          this.selectedIds.forEach(item =>  {
+            if(item==member?.child_id)   member.selected=true
+          })
+          let selectedMemberscount = this.members.filter(item => item.selected)
+          if(selectedMemberscount?.length==this.avialbeMembers) {
+            this.members.map(item =>  {
+              if(!item?.selected) item.disabled=true
+            })
+          } else {
+            this.members.map(item =>  {
+              if(!item?.selected) item.disabled=false
+            })
+          }
         })
       }
 
@@ -103,6 +117,7 @@ selectLocation(item:any) {
   this.selectedTime=null
   this.avialbeMembers=0
   if(this.members?.length) {
+    this.selectedIds=[]
     this.members.map(member => {
       member.selected=false
       member.disabled=false
@@ -161,6 +176,7 @@ onDateCange(value:any) {
   this.selectedDate=value
  
   if(this.members?.length) {
+    this.selectedIds=[]
     this.members.map(member => {
       member.selected=false
       member.disabled=false
@@ -204,6 +220,7 @@ selectTime(time:any) {
   this.selectedTime=time
   this.avialbeMembers=time?.available_seats
   if(this.members?.length) {
+    this.selectedIds=[]
     this.members.map(member => {
       member.selected=false
       member.disabled=false
@@ -218,7 +235,8 @@ selectTime(time:any) {
   }
   console.log(this.avialbeMembers)
 }
-selectMembers() { 
+selectMembers(child_id) { 
+  this.selectedIds.push(child_id)
   let selectedMemberscount = this.members.filter(item => item.selected)
   if(selectedMemberscount?.length==this.avialbeMembers) {
     this.members.map(item =>  {
@@ -271,5 +289,8 @@ minusOne() {
 }
 isLogin():boolean {
   return !!localStorage.getItem("joinToken")
+}
+get lang() {
+  return localStorage.getItem('lang') || 'en'
 }
 }

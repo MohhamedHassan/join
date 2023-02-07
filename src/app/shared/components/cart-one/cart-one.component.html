@@ -25,6 +25,14 @@ class="cart-one glopal-cart position-relative">
             </span>
         </small>
         <!--  -->
+        <small class="d-block mb-1 location gray">
+            <span
+            class="gray"
+            *ngFor="let category of categories;let l = last">
+                {{lang=='ar' ? category?.name_ar : category?.name_en}}
+                <span *ngIf="!l">,</span>
+            </span>
+        </small>
        <div class="price">
             <small class="maincolor">{{'price'|translate}}:</small>
             <span class="mx-1"></span>

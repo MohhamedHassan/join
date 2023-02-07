@@ -5,6 +5,7 @@ import { ActivitiesService, activity_details } from '../../services/activities.s
 import SwiperCore, { Navigation,Pagination } from 'swiper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
+import { MembersService } from 'src/app/screens/members/services/members.service';
 SwiperCore.use([Navigation,Pagination]);
 @Component({
   selector: 'app-activity-details',
@@ -12,6 +13,7 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
+  members:any[]=[]
   markers=[]
   center: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
@@ -49,6 +51,7 @@ export class ActivityDetailsComponent implements OnInit {
   
   }
   constructor(private activatedRoute:ActivatedRoute,
+    private membersservice:MembersService,
     private router:Router,
     private _sanitizer:DomSanitizer,
     private activitiesService:ActivitiesService) { }
@@ -87,8 +90,19 @@ export class ActivityDetailsComponent implements OnInit {
           })
 
         }
+        if(!!localStorage.getItem("joinToken")) {
+          this.membersservice.members.subscribe(
+            (res:any) =>  {
+               if(res)  {
+                this.members=res
+                console.log(this.members)
+               }
+            }
+         )
+        }
         this.loading=false
        }
+
     )
   }
 get lang() {
@@ -142,5 +156,8 @@ acceptDeleteActivity() {
   localStorage.setItem('joincart',JSON.stringify(this.cartitems))
   this.showDeleteCartActivities=false
   this.showpopup=true
+}
+isLogin():boolean {
+  return !!localStorage.getItem("joinToken")
 }
 }

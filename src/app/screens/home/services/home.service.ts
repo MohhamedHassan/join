@@ -23,26 +23,10 @@ export class HomeService {
   constructor(private http:HttpClient,
     private glopalService:GlopalService) { }
   getTopSliderGuest() {
-    return this.http.post<{payload:TopSlider[]}>(`${this.glopalService.apiUrlOne}promoBannerOpen`,{}).pipe(
-      map(value => {
-        if(Array.isArray(value.payload)) {
-          return value.payload
-        } else {
-          return []
-        }
-      })
-    )
+    return this.http.post<any>(`${this.glopalService.apiUrlOne}promoBannerOpen`,{})
   }
   getTopSliderUser() {
-    return this.http.post<{payload:TopSlider[]}>(`${this.glopalService.apiUrlOne}user/promoBanner`,{}).pipe(
-      map(value => {
-        if(Array.isArray(value.payload)) {
-          return value.payload
-        } else {
-          return []
-        }
-      })
-    )
+    return this.http.post<any>(`${this.glopalService.apiUrlOne}user/promoBanner`,{})
   }
   getActivitiesGuest(page:number) {
     this.activitiesLoading=true

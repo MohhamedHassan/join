@@ -10,7 +10,7 @@ export class FavoriteParentComponent implements OnInit {
   tabs:Tabs[] = 
   [
     {name_ar:'أنشطة',name_en:'Activities',id:'1'},
-    {name_ar:'الاندية',name_en:'Clups',id:'2'},
+    {name_ar:'الاندية',name_en:'Clubs',id:'2'},
 ]
   chosenTab:number=1
   constructor() { }

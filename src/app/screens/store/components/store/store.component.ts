@@ -33,8 +33,17 @@ export class StoreComponent implements OnInit {
         this.products=[]
         this.storeSerive.getStoreTabs()
         .pipe(
-          map(value => this.tabs = value?.payload?.data),
+          map(value => {
+            this.tabs = value?.payload?.data
+            this.tabs.unshift({
+              id:'0',
+              name_ar:"الكل",
+              name_en:'All' 
+            })
+            return this.tabs 
+          }),
           switchMap((value: Tabs[]) => {
+            console.log(this.tabs)
             if(this.categoryid==0) {
               if (this.tabs.length) {
                 this.categoryid=this.tabs[0]?.id

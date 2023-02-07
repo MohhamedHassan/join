@@ -12,6 +12,7 @@ export class StoreCardComponent implements OnInit {
   @Input() pre_price:string=''
   @Input() name_ar:string=''
   @Input() name_en:string=''
+  @Input() discount_percent:string=''
   constructor() { }
 
   ngOnInit(): void {

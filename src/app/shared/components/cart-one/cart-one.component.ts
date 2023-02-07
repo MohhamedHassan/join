@@ -18,6 +18,7 @@ export class CartOneComponent implements OnInit {
   @Input() show_heart:boolean=false
   @Input() heartStatus:string=''
   @Input() activityId:string=''
+  @Input() categories:any
   @Output() favoriteLoaing = new EventEmitter()
   @Output() changefavStatus = new EventEmitter()
   @Input() activityIndex = -1

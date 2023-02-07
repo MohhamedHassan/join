@@ -169,11 +169,12 @@ nav {
 
 
           .lang.signinbtn:last-of-type {
-               background-color: $mainColor;
-               border-radius: 5px;
+              
 
                a {
                     color: white;
+                    background-color: $mainColor;
+                    border-radius: 5px;
                }
           }
      }
@@ -344,7 +345,9 @@ nav {
           //object-fit: cover;
      }
 
-     
+     .imgPart {
+          height: 240px;
+     }
    
 }
 // end glopal cart
