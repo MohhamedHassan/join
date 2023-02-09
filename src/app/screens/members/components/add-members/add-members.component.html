@@ -30,7 +30,7 @@ class="gender">
 [hidden]="step!=2"
 class="general-info">
     <div class="memberimg text-center position-relative">
-            <img
+            <img appImgs
             [src]="imgUrl"  alt="">
             <div class="fileinput">
                 <input
@@ -102,7 +102,7 @@ class="general-info">
             (click)="selectInters(item,i)"
             class="clup-cart glopal-cart position-relative rounded">
                 <div class="imgPart">
-                    <img 
+                    <img appImgs 
                     [src]="item?.photo_name"  alt="join">
                 </div>
                 <div 

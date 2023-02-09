@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MembersService } from 'src/app/screens/members/services/members.service';
 import { FavoriteService } from 'src/app/services/favorite.service';
 
 @Component({
@@ -22,9 +23,21 @@ export class CartOneComponent implements OnInit {
   @Output() favoriteLoaing = new EventEmitter()
   @Output() changefavStatus = new EventEmitter()
   @Input() activityIndex = -1
-  constructor(private foavoriteService:FavoriteService) { }
+  members:any[]=[]
+  constructor(private foavoriteService:FavoriteService,
+    private membersservice:MembersService) { }
   get lang() {return localStorage.getItem('lang') || 'en'}
   ngOnInit(): void {
+    if(!!localStorage.getItem("joinToken")) {
+      this.membersservice.members.subscribe(
+        (res:any) =>  {
+           if(res)  {
+            this.members=res
+            console.log(this.members)
+           }
+        }
+     )
+    }
   }
   test(){console.log('test')}
   addActivityToFavorite() {
@@ -35,5 +48,8 @@ export class CartOneComponent implements OnInit {
         if(res?.code==1) this.changefavStatus.emit(this.activityIndex)
       }
     )
+  }
+  isLogin():boolean {
+    return !!localStorage.getItem("joinToken")
   }
 }

@@ -107,6 +107,13 @@
         <input 
         formControlName="phone"
         type="text" class="form-control">
+        <p 
+        *ngIf="(notuserForm.controls['phone']?.errors!=null && notuserForm.controls['phone'].touched) ||
+        (notuserForm.controls['phone']?.errors!=null && submited)
+        "
+        class="my-2 text-danger">
+            {{'validphone'|translate}}
+        </p>
      </div>
      <div class="form-group mb-3">
       <label>{{'email'|translate}}</label>

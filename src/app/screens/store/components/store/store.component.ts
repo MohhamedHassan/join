@@ -17,6 +17,7 @@ export class StoreComponent implements OnInit {
   showmore=true
   currentPage=1
   categoryid:any=0
+  showLess=false
   constructor(private storeSerive: StoreService,
     private activatedroute:ActivatedRoute) { }
 
@@ -61,6 +62,7 @@ export class StoreComponent implements OnInit {
             this.loading = false
             this.requestCompleted = true
             if (Array.isArray(res)) this.products = res
+
           }
         )
       }
@@ -82,6 +84,7 @@ export class StoreComponent implements OnInit {
         this.loading = false
         this.requestCompleted = true
         if (Array.isArray(res)) this.products = res
+
       }
     )
   }
@@ -89,13 +92,22 @@ export class StoreComponent implements OnInit {
     this.currentPage+=1
     this.loading=true
     this.requestCompleted=false
+    if(this.showLess) {
+      this.products=[]
+      window.scroll(0,0)
+    }
+    this.showLess=false
     this.storeSerive.getCategoryById(this.categoryid,this.currentPage).subscribe(
       res => {
         this.loading = false
         this.requestCompleted = true
         if (Array.isArray(res) && res?.length) this.products = [...this.products,...res]
         else {
-          this.showmore=false
+          //this.showmore=false
+        }
+        if(this.currentPage>1&&res?.length==0) {
+          this.currentPage=0
+          this.showLess=true
         }
       }
     )

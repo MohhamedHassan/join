@@ -55,7 +55,8 @@ export class BookNowComponent implements OnInit {
       this.notuserForm.get('name').updateValueAndValidity();
       this.notuserForm.get('email').setValidators([Validators.required,Validators.email,,Validators.pattern(/.com$/)]);
       this.notuserForm.get('email').updateValueAndValidity();
-      this.notuserForm.get('phone').setValidators([Validators.required]);
+      this.notuserForm.get('phone').setValidators([Validators.required,
+        Validators.pattern(/^[569]\d{7}$/)]);
       this.notuserForm.get('phone').updateValueAndValidity();
       this.notuserForm.get('iconfirm').setValidators([Validators.required]);
       this.notuserForm.get('iconfirm').updateValueAndValidity();

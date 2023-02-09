@@ -7,7 +7,7 @@ export class TofixednumberPipe implements PipeTransform {
 
   transform(value:any): any {
     console.log(value)
-    if(value) return Number(value).toFixed(2)
+    if(value||value==0) return Number(value).toFixed(2)
     return ;
   }
 

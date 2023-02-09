@@ -21,7 +21,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { StringToNumberPipe } from '../pips/string-to-number.pipe';
 import { RatingModule } from 'ngx-bootstrap/rating';
 import { NgxStarsModule } from 'ngx-stars';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from '@angular/google-maps';
+import { ImgsDirective } from './directives/imgs.directive'
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -31,7 +32,8 @@ import { GoogleMapsModule } from '@angular/google-maps'
     LaodingComponent,
     PhoneNumberComponent,
     TofixednumberPipe,
-    StringToNumberPipe
+    StringToNumberPipe,
+    ImgsDirective
   ],
   imports: [
     GoogleMapsModule,
@@ -78,7 +80,8 @@ import { GoogleMapsModule } from '@angular/google-maps'
     TofixednumberPipe,
     AccordionModule,
     BsDatepickerModule,
-    StringToNumberPipe
+    StringToNumberPipe,
+    ImgsDirective
   ],
   providers: [
     DatePipe

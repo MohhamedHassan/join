@@ -15,7 +15,7 @@ style="direction: ltr;text-align:right"
         <div style="height:70vh;">
             <a          
             [routerLink]="checkRouting(item)">
-                <img  alt="join" style="height:70vh;width: 100%" [src]="item?.photo_name||item?.image">
+                <img appImgs  alt="join" style="height:70vh;width: 100%" [src]="item?.photo_name||item?.image">
             </a>
         </div>
     </ng-template>

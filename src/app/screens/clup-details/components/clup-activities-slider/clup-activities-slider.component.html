@@ -13,6 +13,12 @@ style="direction: ltr;text-align:right"
     <ng-container *ngFor="let item of activities;let i = index">
         <ng-template swiperSlide>
             <app-cart-one 
+            [activityIndex]="i"
+            [show_heart]="isLogin()"
+            (favoriteLoaing)="favoriteLoadingStatus($event)"
+            (changefavStatus)="changeFavStatus($event)"
+            [heartStatus]='item.favorite'
+            [activityId]="item.id"
             [categories]="item.categories"
             [detailsPageRoute]="'/activity/'+item.id"
             [title]="item.title"
@@ -26,3 +32,8 @@ style="direction: ltr;text-align:right"
     </ng-container>
 
 </swiper>
+<div 
+*ngIf="favoriteLoading"
+style="position:fixed;top:0;z-index: 1111;bottom:0;right:0;left:0;display:flex;justify-content: center;align-items: center;background-color: rgba(224, 221, 221, 0.5);">
+<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>

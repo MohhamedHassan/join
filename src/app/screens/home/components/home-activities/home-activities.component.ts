@@ -13,6 +13,7 @@ export class HomeActivitiesComponent implements OnInit {
   page:number=1
   favoriteLoading=false
   subscription:Subscription
+  showLess=false
   constructor(public homeService:HomeService) { }
 
   ngOnInit(): void {
@@ -20,15 +21,25 @@ export class HomeActivitiesComponent implements OnInit {
       if(Array.isArray(res)) {
         this.activities=[...this.activities,...res]
       }
+      if(this.page>1&&res?.length==0) {
+        this.page=0
+        this.showLess=true
+      }
     })
   }
 showMore() {
   this.page+=1
+  if(this.showLess) {
+    this.activities=[]
+    window.scroll(0,0)
+  }
+  this.showLess=false
   if(!!localStorage.getItem("joinToken")) {
     this.homeService.getActivitiesUser(this.page)
    }  else  {
      this.homeService.getActivitiesGuest(this.page)
    }
+  
 }
 isLogin():boolean {
   return !!localStorage.getItem("joinToken")

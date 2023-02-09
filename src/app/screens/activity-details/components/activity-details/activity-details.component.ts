@@ -6,6 +6,7 @@ import SwiperCore, { Navigation,Pagination } from 'swiper';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
+import { FavoriteService } from 'src/app/services/favorite.service';
 SwiperCore.use([Navigation,Pagination]);
 @Component({
   selector: 'app-activity-details',
@@ -50,7 +51,10 @@ export class ActivityDetailsComponent implements OnInit {
     }
   
   }
+  favLoading=false
+  activityId
   constructor(private activatedRoute:ActivatedRoute,
+    private foavoriteService:FavoriteService,
     private membersservice:MembersService,
     private router:Router,
     private _sanitizer:DomSanitizer,
@@ -66,6 +70,7 @@ export class ActivityDetailsComponent implements OnInit {
     console.log(this.cartitems)
     this.activatedRoute.params.pipe(
       switchMap((params:any) => {
+        this.activityId=params?.id
         this.loading=true
         if(!!localStorage.getItem("joinToken")) return this.activitiesService.getActivityDetailsForUser(params?.id)
         else return this.activitiesService.getActivityDetailsForGuest(params?.id)
@@ -160,4 +165,16 @@ acceptDeleteActivity() {
 isLogin():boolean {
   return !!localStorage.getItem("joinToken")
 }
+addActivityToFavorite() {
+  this.favLoading=true
+  this.foavoriteService.addActivityToFavorite(this.activityId).subscribe(
+    (res:any) => {
+      if(res?.code==1) {
+        this.activity_details.favorite = this.activity_details.favorite=='FAVORITE' ? 'UNFAVORITE' : 'FAVORITE'
+        this.favLoading=false
+      }
+    }
+  )
+}
+
 }

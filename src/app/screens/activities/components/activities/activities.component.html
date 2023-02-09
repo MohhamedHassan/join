@@ -47,7 +47,12 @@ header="activities"
                     <button 
                     (click)="showMore()"
                     class="showMore">
+                    <span *ngIf="!showLess">
                         {{'show_more'|translate}}
+                    </span>
+                    <span *ngIf="showLess">
+                        {{'show_less'|translate}}
+                    </span>
                     </button>
                 </div>
             </div>

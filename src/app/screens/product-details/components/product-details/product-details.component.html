@@ -1,10 +1,30 @@
 <app-laoding *ngIf="loading"></app-laoding>
 <section *ngIf="product_details&&!loading" style="min-height: 100vh;" class="details-page">
     <div
-    *ngIf="product_details.image"
+    *ngIf="product_details.image&&!product_details.images"
     class="cvr">
-        <img [src]="product_details.image" alt="Join">
+        <img appImgs [src]="product_details.image" alt="Join">
     </div>
+    <div
+    *ngIf="product_details.images"
+    class="cvr">
+        <swiper 
+        style="direction: ltr;text-align:right" 
+        [loop]="false" 
+        [autoHeight]="true" 
+        [allowTouchMove]="true"
+        [autoplay]="{ delay: 1000, disableOnInteraction: false }" 
+        [pagination]="{ clickable: true }" 
+        [navigation]="true"
+        >
+            <ng-template *ngFor="let item of product_details.images" data-swiper-autoplay="6000" swiperSlide>
+                <div style="height:70vh;">
+                    <img appImgs  alt="join" [src]="item?.path">
+                </div>
+            </ng-template>
+        </swiper>
+    </div>
+
     <div class="container">
         <div class="header mt-3 flex-column flex-md-row  d-flex justify-content-between align-items-md-center">
             <h2 class="mb-2">{{product_details.name}}</h2>
@@ -35,7 +55,7 @@
                 <div class="cash">
                     <div class="d-flex">
                         <p  class="maincolor">
-                            <img 
+                            <img appImgs 
                             style="width: 30px;"
                             src="assets/images/cash.svg" alt="Join">
                             <span class="mx-1"></span>
@@ -123,7 +143,7 @@
                     }"
                     *ngIf="product_details?.discount_percent&&product_details?.discount_percent!='0.0 %'"
                     style="width:90px;height:60px;position: absolute;top: 0;">            
-                        <img 
+                        <img appImgs 
                         style="width:90px;height:60px;position: absolute;top: 0;left:10px"
                         src="assets/images/discount.svg" alt="" >
                         <span 
@@ -143,7 +163,7 @@
                     <p class="m-0">{{product_details.name}}</p>
                     <div class="d-flex">
                         <p  class="maincolor">
-                            <img 
+                            <img appImgs 
                             style="width: 30px;"
                             src="assets/images/cash.svg" alt="Join">
                             <span class="mx-1"></span>

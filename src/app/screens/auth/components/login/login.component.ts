@@ -15,6 +15,7 @@ import { MembersService } from 'src/app/screens/members/services/members.service
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  showpopup=false
   loginForm : FormGroup=new FormGroup({})
   submited:boolean=false
   loading:boolean=false

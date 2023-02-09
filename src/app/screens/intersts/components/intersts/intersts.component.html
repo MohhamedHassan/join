@@ -3,10 +3,16 @@
 <section class="container">
 
     <div class="row">
-        <div *ngFor="let activity of activities" class="col-md-4 col-lg-3 mb-4">
+        <div *ngFor="let activity of activities;let i = index" class="col-md-4 col-lg-3 mb-4">
             <app-cart-one 
+            [activityIndex]="i"
+            [show_heart]="isLogin()"
+            (favoriteLoaing)="favoriteLoadingStatus($event)"
+            (changefavStatus)="changeFavStatus($event)"
+            [heartStatus]='activity.favorite'
             [categories]="activity.categories"
             [detailsPageRoute]="'/activity/'+activity.id"
+            [activityId]="activity.id"
             [title]="activity.title"
             [age_from]="activity.age_from"
             [age_to]="activity.age_to"
@@ -26,3 +32,8 @@
 </section>
 </div>
 <app-laoding *ngIf="loading"></app-laoding>
+<div 
+*ngIf="favoriteLoading"
+style="position:fixed;top:0;z-index: 1111;bottom:0;right:0;left:0;display:flex;justify-content: center;align-items: center;background-color: rgba(224, 221, 221, 0.5);">
+<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>

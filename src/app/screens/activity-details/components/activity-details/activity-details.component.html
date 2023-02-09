@@ -1,7 +1,7 @@
 <app-laoding *ngIf="loading"></app-laoding>
 <section *ngIf="activity_details && !loading" style="min-height: 100vh;" class="details-page">
     <div class="cvr">
-        <img [src]="activity_details.banner" alt="">
+        <img appImgs [src]="activity_details.banner" alt="">
     </div>
     <div class="container">
         <div class="header mt-3 flex-column flex-md-row  d-flex justify-content-between align-items-md-center">
@@ -41,7 +41,7 @@
                             </ul>
                         </div>
                         <p *ngIf="activity_details.location.length" class="orangecolor mb-1">
-                            <img 
+                            <img appImgs 
                             style="width: 30px;"
                             src="assets/images/cash.svg" alt="">
                             <span class="mx-1"></span>
@@ -51,7 +51,7 @@
                     </div>
                     <hr>
                     <div class="clup-details d-md-flex align-items-md-center">
-                        <img style="width:120px" class="mb-1" [src]="activity_details.club_details.logo" alt="join">
+                        <img appImgs style="width:120px" class="mb-1" [src]="activity_details.club_details.logo" alt="join">
                         <span class="mx-2"></span>
                         <div>
                             <h3 class="maincolor mb-1" style="font-size: 20px;">{{activity_details.club_details.name}}</h3>
@@ -75,6 +75,13 @@
                                 >
                                     <i class="fa-solid fa-share-nodes maincolor"></i>
                                 </a>
+                                <span class="mx-1"></span>
+                                <i 
+                                style="font-size: 25px;cursor: pointer;"
+                                *ngIf="isLogin()"
+                                (click)=" addActivityToFavorite()"
+                                [ngStyle]="{'color': activity_details?.favorite=='FAVORITE' ? '#00DCDC' : 'lightgray'}"
+                                class="fa-solid fa-heart"></i>
                             </div>
                         </div>
                     </div>
@@ -117,7 +124,7 @@
                                 <ng-template swiperSlide>
                                     <div>
                                         <div style="position: relative;height: 400px;box-shadow: 0 0 20px rgb(0 0 0 / 25%);border: 1px solid #ebeef5;">
-                                            <img style="height: 100%;" class="w-100" [src]="item.photo_name" alt="join">
+                                            <img appImgs style="height: 100%;" class="w-100" [src]="item.photo_name" alt="join">
                                         </div>
                                     </div>
                                 </ng-template>
@@ -226,4 +233,9 @@ class="cstmpopup d-flex">
             </div>
         </div>
     </div>
+</div>
+<div 
+*ngIf="favLoading"
+style="position:fixed;top:0;z-index: 1111;bottom:0;right:0;left:0;display:flex;justify-content: center;align-items: center;background-color: rgba(224, 221, 221, 0.5);">
+<div class="lds-ring"><div></div><div></div><div></div><div></div></div>
 </div>

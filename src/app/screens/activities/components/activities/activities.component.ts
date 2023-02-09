@@ -13,6 +13,7 @@ export class ActivitiesComponent implements OnInit {
   page:number=1
   favoriteLoading=false
   subscription:Subscription
+  showLess=false
   constructor(public homeService:HomeService) { }
 
 
@@ -34,6 +35,10 @@ export class ActivitiesComponent implements OnInit {
       if(Array.isArray(res)) {
         this.activities=[...this.activities,...res]
       }
+      if(this.page>1&&res?.length==0) {
+        this.page=0
+        this.showLess=true
+      }
     })
   }
   track(index: number) {
@@ -41,6 +46,11 @@ export class ActivitiesComponent implements OnInit {
   }
 showMore() {
   this.page+=1
+  if(this.showLess) {
+    this.activities=[]
+    window.scroll(0,0)
+  }
+  this.showLess=false
   if(!!localStorage.getItem("joinToken")) {
     this.homeService.getActivitiesUser(this.page)
    }  else  {

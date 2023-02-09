@@ -111,7 +111,6 @@ export class ShoppingCartComponent implements OnInit {
       } 
       if(this.cartitems?.length&&res?.params?.type==1) {
         this.paymenSuccess=true
-
         this.createBooking()
       } 
     })
@@ -158,7 +157,7 @@ export class ShoppingCartComponent implements OnInit {
       )
     } 
 
- 
+    console.log(this.cartitems)
    
   }
  

@@ -206,6 +206,11 @@ class="cstmpopup ">
                 [formControl]="verifiedCodeControl"
                 placeholder="{{'code'|translate}}"
                 type="text" class="form-control my-3">
+                <p 
+                *ngIf="verifiedCodeControl?.errors!=null && verifiedCodeControl?.touched"
+                class="text-danger">
+                    Enter the five-digit verification code
+                </p>
                 <button 
                 (click)="verifyCode()"
                 [disabled]="verifiedCodeControl?.errors!=null||verifyoading"

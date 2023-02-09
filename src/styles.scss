@@ -767,7 +767,8 @@ footer {
  }
  button.orangebtn {
      background-color: $orangeColor;
-     min-width: 200px;
+     width: 200px;
+     max-width: 100%;
      margin: auto;
      display: block;
      color: white;
@@ -819,7 +820,7 @@ footer {
 @media only screen and (max-width: 768px) {
      .cstmpopup {
           .content , .content.small {
-               width: 90% !important;
+               width: 100% !important;
           }
      }
 }
@@ -978,6 +979,9 @@ footer {
          }
      
      }
+ }
+ .fa-share-nodes,.fa-comment {
+     font-size: 25px
  }
 @import "~bootstrap/scss/bootstrap";
 

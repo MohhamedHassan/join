@@ -31,6 +31,7 @@ export class ClupActivitiesSliderComponent implements OnInit {
     }
   
   }
+  favoriteLoading=false
   constructor(private clupsService:ClupDetailsService) { }
 
   ngOnInit(): void {
@@ -45,5 +46,13 @@ export class ClupActivitiesSliderComponent implements OnInit {
       )
     }
   }
-
+  isLogin():boolean {
+    return !!localStorage.getItem("joinToken")
+  }
+  favoriteLoadingStatus(event:boolean) {
+    this.favoriteLoading=event
+  }
+  changeFavStatus(index:any) {
+    this.activities[index].favorite =   this.activities[index].favorite == 'FAVORITE' ? '' : 'FAVORITE' 
+  }
 }

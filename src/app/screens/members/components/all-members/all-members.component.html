@@ -29,7 +29,7 @@
         [routerLink]="['/members/details',member?.child_id]">
             <article class="member-card text-center p-2 rounded">
                 <div style="height: 148px;" class="mb-1">
-                    <img [src]="child_photo(member)" alt="" class="img-fluid" style="max-height: 148px;">
+                    <img appImgs [src]="child_photo(member)" alt="" class="img-fluid" style="max-height: 148px;">
                 </div>
                 <h3 
                 style="font-size: 15px;"

@@ -10,7 +10,7 @@ style="min-height: 50vh;" class="container">
     <div class="row" *ngFor="let item of cartitems;let i = index">
         <div class="col-md-4 mb-3">
             <div>
-                <img 
+                <img appImgs 
                 (click)="routeToDetailsPage(item)"
                 style="height: 180px;object-fit: cover;cursor: pointer;"
                     [src]="item?.image||item?.banner" alt="join"
@@ -25,7 +25,7 @@ style="min-height: 50vh;" class="container">
                     {{item?.name||item?.title}}
                 </h2>
                 <p
-                class="my-2"
+                class="my-1"
                 style="display: flex;align-items: center;"
                 *ngIf="item?.selectedColor?.name">
                     {{'color'|translate}} 
@@ -42,7 +42,7 @@ style="min-height: 50vh;" class="container">
                     {{'size'|translate}}  
                     {{item?.selectedSize?.name}}
                 </p>
-                <div *ngIf="item?.cstmtype==2" class="plusminus my-3">
+                <div *ngIf="item?.cstmtype==2" class="plusminus my-2">
                     <i 
                     (click)="minusone(i)"
                     class="fa-solid fa-minus"></i>
@@ -51,15 +51,15 @@ style="min-height: 50vh;" class="container">
                     (click)="plusone(i)"
                     class="fa-solid fa-plus"></i>
                 </div>
-                <p class="my-3 maincolor" *ngIf="item?.cstmtype==1&&item?.type==1">
+                <p class="my-q maincolor" *ngIf="item?.cstmtype==1&&item?.type==1">
                     {{'booking_for_one_member'|translate}}  {{item?.selectedMembers?.length}} {{'member'|translate}}
                 </p>
-                <p class="my-3 maincolor" *ngIf="item?.cstmtype==1&&item?.type==0">
+                <p class="my-1 maincolor" *ngIf="item?.cstmtype==1&&item?.type==0">
                     {{'booking_for_one_member'|translate}}  {{item?.notUserMembersCount}} {{'member'|translate}}
                 </p>
                 <p 
                 *ngIf="item?.disc==0"
-                class="mb-3">
+                class="mb-1">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
                     <span 
@@ -87,7 +87,7 @@ style="min-height: 50vh;" class="container">
 
                 <p 
                 *ngIf="item?.disc!=0"
-                class="mb-3">
+                class="mb-1">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
                     <del 
@@ -105,8 +105,16 @@ style="min-height: 50vh;" class="container">
                         {{item?.disc|tofixednumber}} 
                     </span>
                 </p>
-
-
+                <p 
+                class="mb-1"
+                *ngIf="item?.selectedDate">
+                    {{item?.selectedDate|date}}
+                </p>
+                <p 
+                *ngIf="item?.selectedTime"
+                >
+                    {{item?.selectedTime?.from_time}} - {{item?.selectedTime?.to_time}}
+                </p>
                 <div style="cursor: pointer;" class="d-flex align-items-center justify-content-end   fw-bold">
                     <ng-container *ngIf="item?.cstmtype==1">
                         <p

@@ -8,10 +8,10 @@ class="cart-one glopal-cart position-relative">
         <i class="fa-solid fa-heart"></i>
     </div> -->
     <div class="imgPart position-relative">
-        <img 
-        *ngIf="imgSrc"
+        <img appImgs 
+        
         [src]="imgSrc"  alt="join">
-        <img 
+        <img appImgs 
         *ngIf="discount_percent&&discount_percent!='0.0 %'"
         style="width:90px;height:60px;position: absolute;top: 0;left:10px"
         src="assets/images/discount.svg" alt="" >

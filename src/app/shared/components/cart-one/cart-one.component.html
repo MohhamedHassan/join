@@ -13,7 +13,8 @@ class="cart-one glopal-cart position-relative">
         class="fa-solid fa-heart"></i>
     </div>
     <div class="imgPart">
-        <img 
+        <img appImgs 
+        
         [src]="imgSrc"  alt="join">
     </div>
     <div class="detasils px-3 py-4">
@@ -40,6 +41,31 @@ class="cart-one glopal-cart position-relative">
                 {{price}} 
                 {{'kwd'|translate}}
             </small>
+       </div>
+
+       <div 
+       *ngIf="isLogin()"
+       style="min-height: 45px;overflow-x: scroll;"
+       class=" name">
+            <table>
+                <tr>
+                    <td 
+                
+                    *ngFor="let member of members"
+                    >
+                        <span
+                        [class.d-none]="(member?.child_age|stringToNumber)>(age_to|stringToNumber)|| (member?.child_age|stringToNumber)<(age_from|stringToNumber)"
+                        style="color:#F89416;padding:5px;border-radius: 30px;border:1px solid #F89416;margin-bottom:5px;display: block;font-size: small;"
+                        [ngStyle]="{
+                            'marginRight': lang=='ar' ? '0' : '1px',
+                            'marginLeft': lang=='ar' ? '1px' : '0'
+                    }"
+                        >
+                            {{member?.child_name}}
+                        </span>
+                    </td>
+                </tr>
+            </table>
        </div>
         <div class="d-flex justify-content-end mt-3 align-items-center viewDetails">
             <i class="mx-2 fa-solid fa-arrow-up-right-from-square maincolor"></i>

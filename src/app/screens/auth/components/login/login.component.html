@@ -32,6 +32,11 @@
             class="my-2 text-danger">
                 {{'required'|translate}}
             </p>
+            <p 
+            (click)="showpopup=true"
+            style="cursor: pointer;" class="my-2">
+                Forget Password? 
+            </p>
         </div>
         <!--  -->
         <div class="mb-3 d-flex flex-column flex-md-row ">
@@ -53,13 +58,41 @@
         <ul class="p-0 m-0 list-unstyled d-flex login-ways">
             <li
             (click)="GoogleAuth()"
-            ><img src="assets/images/google.png" alt="join"></li>
+            ><img appImgs src="assets/images/google.png" alt="join"></li>
             <span class="mx-2"></span>
-            <!-- <li><img src="assets/images/apple.png" alt="join"></li>
+            <!-- <li><img appImgs src="assets/images/apple.png" alt="join"></li>
             <span class="mx-2"></span> -->
             <li
             (click)="facebookAuth() "
-            ><img style="background-color: #425EAB;" src="assets/images/facebook.png" alt="join"></li>
+            ><img appImgs style="background-color: #425EAB;" src="assets/images/facebook.png" alt="join"></li>
         </ul>
     </form>
 </section>
+<div 
+[ngClass]="{
+    'd-flex':showpopup,
+    'd-none':!showpopup
+}"
+*ngIf="showpopup"
+class="cstmpopup">
+    <div
+    style="min-height: 70vh;"
+    class="content add-member">
+        <i 
+        (click)="showpopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        
+        <div class="">
+            <h2
+        style="font-weight: 400;font-size:20px;line-height: 30px;"
+        >Forgot Password</h2>
+            <app-forget-password
+            (closePopup)="showpopup=false"
+            ></app-forget-password>
+        </div>
+    </div>
+</div>

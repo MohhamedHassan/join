@@ -8,6 +8,6 @@ export interface Activities {
     interests_name:string;
     id:string;
     favorite:string;
-    categories:[]
+    categories:[];
 }
 

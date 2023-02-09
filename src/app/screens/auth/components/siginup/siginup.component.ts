@@ -21,13 +21,14 @@ export class SiginupComponent implements OnInit {
   signupForm:FormGroup= new FormGroup({})
   submited:boolean=false
   loading:boolean=false
+  counterId=1
   areas:any[]=[]
   showVerificationpopup=false
-  verifiedCodeControl:any = new FormControl('',Validators.required)
+  verifiedCodeControl:any = new FormControl('',[Validators.required,Validators.pattern(/^\d{6}$/)])
   captchaVerifier:any
   verificationId:any
   verifyoading=false
-  counterId=1
+
   constructor(private fb:FormBuilder,
     private router:Router,
     private notficationsService:NotificationsService,
@@ -196,7 +197,12 @@ if(!this.intervalLoading) {
           )
         }
       ).catch((err) => {
-        this.toastr.error(err?.message||'Something wnt wrong') 
+        console.log(err)
+        if(err?.message=='Firebase: The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code sms and be sure to use the verification code provided by the user. (auth/invalid-verification-code).') {
+          this.toastr.error('Invalid Code') 
+        } else {
+          this.toastr.error(err?.message||'Something wnt wrong') 
+        }
         this.verifyoading=false 
       })
     }

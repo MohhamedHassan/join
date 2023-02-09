@@ -6,7 +6,7 @@
             <a 
             (click)="openNavbar=!openNavbar"
             routerLink="/">
-                <img src="assets/images/mainlogo.png" alt="join">
+                <img appImgs src="assets/images/mainlogo.png" alt="join">
             </a>
             <span class="d-none d-lg-block mx-2"></span>
             <div class="position-relative">
@@ -45,13 +45,12 @@
                 (click)="openNavbar=!openNavbar"
                 routerLink="/">{{'home'|translate}}</a></li>
                 <li
-                class="d-lg-none"
                 ><a
                     routerLinkActive="active"
                     [routerLinkActiveOptions]="{exact:true}"
                     (click)="openNavbar=!openNavbar"
                     routerLink="/store">{{'store'|translate}}</a></li>
-            <li 
+            <!-- <li 
             class="btn-group d-none d-lg-block" dropdown>
                 <a 
                 (click)="openNavbar=!openNavbar"
@@ -84,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-            </li>
+            </li> -->
             <li><a 
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{exact:true}"
@@ -196,7 +195,7 @@
                     id="dropdown-basic" *dropdownMenu class="dropdown-menu cstm"
                         role="menu" aria-labelledby="button-basic">
                     <li role="menuitem">
-                        <img src="assets/images/bg.jpg" 
+                        <img appImgs src="assets/images/bg.jpg" 
                         style="height: 130px;object-fit: cover;"
                         class="w-100" alt="join">
                     </li>

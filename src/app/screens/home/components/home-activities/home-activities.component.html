@@ -1,4 +1,5 @@
-<div class="row">
+<div
+class="row">
     <div *ngFor="let activity of activities;let i = index" class="col-md-4 col-lg-3 mb-4">
         <app-cart-one 
         [activityIndex]="i"
@@ -15,7 +16,8 @@
         [location_count]="activity.location_count"
         [activityId]="activity.id"
         [categories]="activity.categories"
-        [imgSrc]="activity.banner"></app-cart-one>
+        [imgSrc]="activity.banner"
+        ></app-cart-one>
     </div>
     <p    
     class="text-secondary fw-bold text-center"
@@ -24,13 +26,18 @@
     </p>
     <app-laoding *ngIf="homeService.activitiesLoading"></app-laoding>
     <div 
-    *ngIf="activities?.length&&activities?.length>7"
+    *ngIf="activities?.length&&activities?.length>7&&!homeService.activitiesLoading"
     class="col-md-12 mb-4">
         <div class="text-center">
             <button 
             (click)="showMore()"
             class="showMore">
-                {{'show_more'|translate}}
+                <span *ngIf="!showLess">
+                    {{'show_more'|translate}}
+                </span>
+                <span *ngIf="showLess">
+                    {{'show_less'|translate}}
+                </span>
             </button>
         </div>
     </div>

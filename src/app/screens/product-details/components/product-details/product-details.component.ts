@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs';
 import { StoreService } from 'src/app/screens/store/services/store.service';
-
+import SwiperCore, { Autoplay, Navigation } from 'swiper';
+SwiperCore.use([Navigation,Autoplay]); 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
