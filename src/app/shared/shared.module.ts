@@ -23,6 +23,7 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { NgxStarsModule } from 'ngx-stars';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ImgsDirective } from './directives/imgs.directive'
+import { CalendarModule } from 'primeng/calendar';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -57,9 +58,11 @@ import { ImgsDirective } from './directives/imgs.directive'
         useFactory:createTranslateLoader,
         deps:[HttpClient]
       }
-    })
+    }),
+    CalendarModule
   ],
   exports:[
+    CalendarModule,
     GoogleMapsModule,
     NgxStarsModule,
     RatingModule,

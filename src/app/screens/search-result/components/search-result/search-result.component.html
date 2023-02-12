@@ -14,7 +14,7 @@ class="row">
     <article class="clup-cart glopal-cart position-relative">
         <div class="imgPart">
             <img appImgs 
-            [src]="item?.banner"  alt="join">
+            [src]="item?.banner||item?.image"  alt="join">
         </div>
         <div 
         class="detasils px-3 py-4">
@@ -36,6 +36,11 @@ class="row">
                 *ngIf="item?.type=='CLUB'"
                 class="d-block">
                     {{'club'|translate}} 
+                </span>
+                <span
+                *ngIf="item?.type=='PRODUCT'"
+                class="d-block maincolor">
+                   {{item?.pre_price}}
                 </span>
             </h2>
         </div>

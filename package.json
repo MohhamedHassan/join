@@ -32,6 +32,7 @@
     "ngx-star-rating": "^2.1.0",
     "ngx-stars": "^1.6.0",
     "ngx-toastr": "^11.3.3",
+    "primeng": "^13.0.0",
     "rxjs": "~7.5.0",
     "swiper": "^8.4.4",
     "tslib": "^2.3.0",

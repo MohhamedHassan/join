@@ -35,7 +35,7 @@
             <p 
             (click)="showpopup=true"
             style="cursor: pointer;" class="my-2">
-                Forget Password? 
+                {{'forget_password'|translate}}
             </p>
         </div>
         <!--  -->
@@ -89,7 +89,9 @@ class="cstmpopup">
         <div class="">
             <h2
         style="font-weight: 400;font-size:20px;line-height: 30px;"
-        >Forgot Password</h2>
+        >
+            {{'forget_password'|translate}}
+        </h2>
             <app-forget-password
             (closePopup)="showpopup=false"
             ></app-forget-password>

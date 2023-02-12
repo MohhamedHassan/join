@@ -168,7 +168,7 @@ nav {
       
 
 
-          .lang.signinbtn:last-of-type {
+          .lang.signinbtn {
               
 
                a {
@@ -739,7 +739,7 @@ footer {
 
 .clup-details {
      table {
-         td {
+         td:not(.not) {
              display: inline-block;
              margin-right: 10px;
              margin-left: 0;
@@ -816,11 +816,22 @@ footer {
      .content.small {
           width: 50% ;
      }
+     .images {
+          width: 500px ;
+          height: 90vh !important;
+     }
 }
 @media only screen and (max-width: 768px) {
      .cstmpopup {
           .content , .content.small {
                width: 100% !important;
+          }
+     }
+}
+@media only screen and (max-width: 600px) {
+     .cstmpopup {
+          .images {
+               width: 90% !important;
           }
      }
 }

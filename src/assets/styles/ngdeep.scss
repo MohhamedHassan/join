@@ -1,5 +1,8 @@
 @import '/src/assets//styles/colors.scss';
 ::ng-deep {
+    .p-datepicker {
+        width: 100% !important;
+    } 
 .country-dropdown {
     max-width: 300px !important; 
 }

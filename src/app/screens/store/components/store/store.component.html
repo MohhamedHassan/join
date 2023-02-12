@@ -12,7 +12,7 @@ class="store">
         <app-categories-list 
         *ngIf="!loading"
         [currentid]="categoryid"
-        (chosenTab)="categoryIdFromParent($event)"  
+        (chosenTab)="clubid='-1';categoryIdFromParent($event)"  
         [listData]="tabs"></app-categories-list> 
         
         <section 
@@ -22,8 +22,8 @@ class="store">
                 [discount_percent]="product.discount_percent"
                 [id]="product.id"
                 [imgSrc]="product.image"
-                [name_ar]="product.name_ar"
-                [name_en]="product.name_en"
+                [name_ar]="product.name_ar||product.name"
+                [name_en]="product.name_en||product.name"
                 [price]="product.price"
                 [pre_price]="product.pre_price"
                 ></app-store-card>
@@ -36,7 +36,7 @@ class="store">
         </p>
         <app-laoding *ngIf="loading"></app-laoding>
         <div 
-        *ngIf="products?.length && showmore &&!loading && products?.length > 7"
+        *ngIf="products?.length && showmore &&!loading && products?.length > 7 && clubid == '-1'"
         class="mb-4">
             <div class="text-center">
                 <button 

@@ -4,6 +4,7 @@ import { StoreService } from '../../services/store.service';
 import { map, switchMap } from 'rxjs';
 import { Product } from '../../models/product';
 import { ActivatedRoute } from '@angular/router';
+import { ClupDetailsService } from 'src/app/screens/clup-details/services/clup-details.service';
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
@@ -18,7 +19,9 @@ export class StoreComponent implements OnInit {
   currentPage=1
   categoryid:any=0
   showLess=false
+  clubid='-1'
   constructor(private storeSerive: StoreService,
+    private clupsService:ClupDetailsService,
     private activatedroute:ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -28,6 +31,7 @@ export class StoreComponent implements OnInit {
     this.activatedroute.queryParamMap.subscribe(
       (res:any) =>  { 
         if (res?.params?.id) this.categoryid=res?.params?.id
+        if (res?.params?.clubid) this.clubid=res?.params?.clubid
         else this.categoryid=0
         this.loading=true
         this.requestCompleted=false
@@ -45,24 +49,30 @@ export class StoreComponent implements OnInit {
           }),
           switchMap((value: Tabs[]) => {
             console.log(this.tabs)
-            if(this.categoryid==0) {
-              if (this.tabs.length) {
-                this.categoryid=this.tabs[0]?.id
-                return this.storeSerive.getCategoryById(this.tabs[0]?.id,1)
-              }
-              this.categoryid=0
-              return this.storeSerive.getCategoryById('0',1)
+            if(this.clubid!='-1') {
+              if(!!localStorage.getItem("joinToken")) return this.clupsService.getClupDetailsForUser(this.clubid)
+              else return this.clupsService.getClupDetailsForGuest(this.clubid)
             } else {
-              return this.storeSerive.getCategoryById(this.categoryid,1)
+              if(this.categoryid==0) {
+                if (this.tabs.length) {
+                  this.categoryid=this.tabs[0]?.id
+                  return this.storeSerive.getCategoryById(this.tabs[0]?.id,1)
+                }
+                this.categoryid=0
+                return this.storeSerive.getCategoryById('0',1)
+              } else {
+                return this.storeSerive.getCategoryById(this.categoryid,1)
+              }
             }
+
           
           })
         ).subscribe(
-          res => {
+          (res:any) => {
             this.loading = false
             this.requestCompleted = true
-            if (Array.isArray(res)) this.products = res
-
+            if (Array.isArray(res)&&this.clubid=='-1') this.products = res
+            else    this.products=res?.products ?  res?.products : []
           }
         )
       }

@@ -10,6 +10,8 @@ import { NotificationsService } from './screens/notifications/services/notificat
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  bsInlineValue = new Date();
+ 
   constructor(
     private notficationsService:NotificationsService,
     private membersservice:MembersService,
@@ -25,5 +27,6 @@ export class AppComponent {
     }
     this.authService.getAllAreas()
     this.homeService.getIntersts()
+
   }
 }

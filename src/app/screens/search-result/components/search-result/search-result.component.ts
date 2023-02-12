@@ -61,11 +61,29 @@ searchResult:any[]=[]
           )
         } else {
           this.loading=true
-          this.serachService.getSearchResult(params?.str).subscribe(res=> {
+          if(params?.page!=3) {
+            this.serachService.getSearchResult(params?.str).subscribe(res=> {
               this.searchResult=res
+              if(params?.page==2)  {
+                this.searchResult= this.searchResult.filter(i => i?.type=='ACTIVITY')
+              }
               this.loading=false
+              
               console.log(res)
             })
+          } else  if(params?.page==3){
+            this.serachService.productsSearch(params?.str).subscribe(res=> {
+              this.searchResult=res
+              this.searchResult.map(
+                item =>  {
+                  item.type='PRODUCT'
+                }
+              )
+              this.loading=false
+              
+              console.log(res)
+            })
+          }
         }
       }
     )
@@ -73,6 +91,7 @@ searchResult:any[]=[]
   routeToDEtailsPage(item:any) {
     if(item?.type=='ACTIVITY') return `/activity/${item?.id}`
     else if(item?.type=='CLUB') return `/clup/${item?.id}`
+    else if(item?.type=='PRODUCT') return `/product/${item?.id}`
     else return '/notfound'
   }
 }

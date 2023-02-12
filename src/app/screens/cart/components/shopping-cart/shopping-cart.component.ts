@@ -169,23 +169,30 @@ export class ShoppingCartComponent implements OnInit {
       let productCharg = []
       let activityCharg = []
       this.cartitems.forEach(i =>  {
-        if(i?.cstmtype==1&&i?.type==1) {
-          if(i?.disc==0) {
-            this.total += i?.selectedLocation.price*i?.selectedMembers?.length
-          } else {
-            this.total += i?.disc
+        if(i?.selectedLocation?.price_type!='PAY_AT_PLACE') {
+          if(i?.cstmtype==1&&i?.type==1) {
+            if(i?.disc==0) {
+              if(!i?.member_is_optional) {
+                this.total += i?.selectedLocation.price*i?.selectedMembers?.length
+              } else {
+                this.total += i?.selectedLocation.price*1
+              }
+            } else {
+              this.total += i?.disc
+            }
+          } else if (i?.cstmtype==1&&i?.type==0) {
+            if(i?.disc==0) {
+              console.log(Number(i?.selectedLocation.price)*(i?.notUserMembersCount))
+              this.total += Number(i?.selectedLocation.price)*Number(i?.notUserMembersCount)
+              console.log(this.total)
+            } else {
+              this.total += i?.disc
+              console.log(i?.disc)
+            }
+           
           }
-        } else if (i?.cstmtype==1&&i?.type==0) {
-          if(i?.disc==0) {
-            console.log(Number(i?.selectedLocation.price)*(i?.notUserMembersCount))
-            this.total += Number(i?.selectedLocation.price)*Number(i?.notUserMembersCount)
-            console.log(this.total)
-          } else {
-            this.total += i?.disc
-            console.log(i?.disc)
-          }
-         
         }
+
         if(i?.cstmtype==2) {
           this.total += i?.price*i?.countToBuy
           if(!productCharg.some(item => i.id == item.id))  productCharg.push(i)
@@ -290,7 +297,7 @@ getpromoCode(promocode:string) {
                     if(selectedPromoCode?.type=='Percentage') {
                       let Percentage = selectedPromoCode?.value/100
                       if(item?.type==1 ) {        
-                        let currentPrice = item?.selectedLocation.price*item?.selectedMembers?.length
+                        let currentPrice = item?.member_is_optional ? item?.selectedLocation.price*1 : item?.selectedLocation.price*item?.selectedMembers?.length
                         item.disc = (currentPrice) - (currentPrice*Percentage)
                       } else if (item?.type==0) {
                         let currentPrice = item?.selectedLocation.price*item?.notUserMembersCount
@@ -298,7 +305,7 @@ getpromoCode(promocode:string) {
                       }
                     } else if (selectedPromoCode?.type=='Fixed') {
                       if(item?.type==1 ) {        
-                        let currentPrice = item?.selectedLocation.price*item?.selectedMembers?.length
+                        let currentPrice = item?.member_is_optional ? item?.selectedLocation.price*1 :  item?.selectedLocation.price*item?.selectedMembers?.length
                         item.disc = (currentPrice) - selectedPromoCode?.value
                       } else if (item?.type==0) {
                         let currentPrice = item?.selectedLocation.price*item?.notUserMembersCount
@@ -311,7 +318,7 @@ getpromoCode(promocode:string) {
                     if(selectedPromoCode?.type=='Percentage') {
                       let Percentage = selectedPromoCode?.value/100
                       if(item?.type==1 ) {        
-                        let currentPrice = item?.selectedLocation.price*item?.selectedMembers?.length
+                        let currentPrice = item?.member_is_optional ? item?.selectedLocation.price*1 : item?.selectedLocation.price*item?.selectedMembers?.length
                         item.disc = (currentPrice) - (currentPrice*Percentage)
                       } else if (item?.type==0) {
                         let currentPrice = item?.selectedLocation.price*item?.notUserMembersCount
@@ -319,7 +326,7 @@ getpromoCode(promocode:string) {
                       }
                     } else if (selectedPromoCode?.type=='Fixed') {
                       if(item?.type==1 ) {        
-                        let currentPrice = item?.selectedLocation.price*item?.selectedMembers?.length
+                        let currentPrice = item?.member_is_optional ? item?.selectedLocation.price*1 :  item?.selectedLocation.price*item?.selectedMembers?.length
                         item.disc = (currentPrice) - selectedPromoCode?.value
                       } else if (item?.type==0) {
                         let currentPrice = item?.selectedLocation.price*item?.notUserMembersCount
@@ -332,7 +339,7 @@ getpromoCode(promocode:string) {
                    if(selectedPromoCode?.type=='Percentage') {
                      let Percentage = selectedPromoCode?.value/100
                      if(item?.type==1 ) {        
-                       let currentPrice = item?.selectedLocation.price*item?.selectedMembers?.length
+                       let currentPrice = item?.member_is_optional ? item?.selectedLocation.price*1 :  item?.selectedLocation.price*item?.selectedMembers?.length
                        item.disc = (currentPrice) - (currentPrice*Percentage)
                      } else if (item?.type==0) {
                        let currentPrice = item?.selectedLocation.price*item?.notUserMembersCount
@@ -340,7 +347,7 @@ getpromoCode(promocode:string) {
                      }
                    } else if (selectedPromoCode?.type=='Fixed') {
                      if(item?.type==1 ) {        
-                       let currentPrice = item?.selectedLocation.price*item?.selectedMembers?.length
+                       let currentPrice = item?.member_is_optional ? item?.selectedLocation.price*1 :  item?.selectedLocation.price*item?.selectedMembers?.length
                        item.disc = (currentPrice) - selectedPromoCode?.value
                      } else if (item?.type==0) {
                        let currentPrice = item?.selectedLocation.price*item?.notUserMembersCount

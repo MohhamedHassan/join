@@ -26,6 +26,9 @@ import {AngularFirestoreModule} from '@angular/fire/compat/firestore'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { StringToNumberPipe } from './pips/string-to-number.pipe';
 import { NgxStarsModule } from 'ngx-stars';
+import { AboutJoinComponent } from './components/about-join/about-join.component';
+import { SharedModule } from './shared/shared.module';
+import { TermsComponent } from './components/terms/terms.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,8 +37,11 @@ import { NgxStarsModule } from 'ngx-stars';
     NotfoundComponent,
     NavbarComponent,
     FilterComponent,
+    AboutJoinComponent,
+    TermsComponent,
   ],
   imports: [
+    SharedModule,
     NgxStarsModule,
     NgxSliderModule,
     ReactiveFormsModule,

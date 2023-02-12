@@ -1,34 +1,28 @@
 <article class="clup-cart glopal-cart position-relative">
-    <div 
-    *ngIf="show_heart"
-    class="d-flex justify-content-end p-2 heart">
-        <i 
-        (click)=" addClupToFavorite()"
-        [class.active]="heartStatus=='FAVORITE'"
-        class="fa-solid fa-heart"></i>
+    <div *ngIf="show_heart" class="d-flex justify-content-end p-2 heart">
+        <ng-container 
+        *ngIf="has_products"
+        >
+            <a routerLink="/store" [queryParams]="{clubid:clupId}">
+                <i class="fa-solid fa-store active"></i>
+            </a>
+            <span class="mx-1"></span>
+        </ng-container>
+        <i (click)=" addClupToFavorite()" [class.active]="heartStatus=='FAVORITE'" class="fa-solid fa-heart"></i>
     </div>
     <div class="imgPart">
-        <img appImgs 
-        
-        
-        [src]="imgSrc"  alt="join">
+        <img appImgs [src]="imgSrc" alt="join">
     </div>
-    <div 
-    class="detasils px-3 py-4">
-                <h2 
-            style="font-weight: 400;padding:10px 0;margin:0"
-            class="text-center clup-card">
+    <div class="detasils px-3 py-4">
+        <h2 style="font-weight: 400;padding:10px 0;margin:0" class="text-center clup-card">
             <a [routerLink]="route">
                 <span class="d-block">
-                    {{name}} 
+                    {{name}}
                 </span>
-               <span 
-               class="d-block mt-2"
-               *ngIf="isLogin()&&location_count">
-                <i 
-                class="maincolor fa-solid fa-location-dot"></i>
-                {{location_count}}
-               </span>
+                <span class="d-block mt-2" *ngIf="isLogin()&&location_count">
+                    <i class="maincolor fa-solid fa-location-dot"></i>
+                    {{location_count}}
+                </span>
             </a>
         </h2>
     </div>

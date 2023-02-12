@@ -3,5 +3,6 @@ export interface Clups {
         logo:string;
         id:string;
         location_count:string;
-        favorite:string
+        favorite:string;
+        has_products:boolean
 }

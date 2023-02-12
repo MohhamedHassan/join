@@ -90,8 +90,9 @@
                 (click)="openNavbar=!openNavbar"
                 routerLink="/activities">{{'activities'|translate}}</a></li>
                 <!--  -->
-            <ng-container *ngIf="isLogin()">
+            <ng-container >
                 <li
+                *ngIf="isLogin()"
                 class="d-lg-none"
                 ><a 
                     routerLinkActive="active"
@@ -108,7 +109,7 @@
                     routerLink="/history">{{'history'|translate}}</a></li>
                 <!--  -->
                 <li
-                
+                *ngIf="isLogin()"
                 class="d-lg-none"
                 ><a 
                     routerLinkActive="active"
@@ -117,6 +118,7 @@
                     routerLink="/notifications">{{'notifications'|translate}}</a></li>
                 <!--  -->
                 <li
+                *ngIf="isLogin()"
                 class="d-lg-none"
                 ><a 
                     routerLinkActive="active"
@@ -139,7 +141,51 @@
                     (click)="openNavbar=!openNavbar"
                     routerLink="/contact">{{'contactus'|translate}}</a></li>
                 <!--  -->
- 
+                <li
+                class="d-lg-none"
+                ><a 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact:true}"
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/about">{{'about_join'|translate}}</a></li>
+                <!--  -->
+                <li
+                class="d-lg-none"
+                ><a 
+                    routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact:true}"
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/terms">{{'terms'|translate}}</a></li>
+                <!--  -->
+                <li 
+                *ngIf="isLogin()"
+                role="menuitem" class=' d-lg-none'>
+                  <a
+                  style="cursor: pointer;"
+                  >
+                      {{'delete_account'|translate}}
+                  </a>
+                </li>
+                <!--  -->
+                <li 
+                *ngIf="isLogin()"
+                role="menuitem" class=' d-lg-none'>
+                  <a
+                  style="cursor: pointer;"
+                  (click)="logout()"
+                  >
+    
+                      {{'logout'|translate}}
+                  </a>
+                </li>
+                <li 
+                class="d-lg-none"
+                *ngIf="!isLogin()"
+             ><a 
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/auth/login">{{'signin'|translate}}
+                </a>
+                </li> 
             </ng-container>
             
             <!-- <li><a 
@@ -178,7 +224,6 @@
                 </div>
             </li>
             <li 
-            *ngIf="isLogin()"
             class="d-none d-lg-block lang position-relative subparent lang"> 
                 <div class="btn-group" dropdown>
                     <a 
@@ -187,11 +232,16 @@
                     user-select: none; /* Standard syntax */"
                     id="button-basic" dropdownToggle type="button" class="username"
                             aria-controls="dropdown-basic">
+                          <span *ngIf="isLogin()">
                             {{userName|uppercase}}
+                          </span>
+                          <span *ngIf="!isLogin()">
+                             {{'guest'|translate}}
+                          </span>
                             <span class="caret"></span>
                     </a>
                     <ul 
-                    style="max-height: 90vh;overflow: auto;"
+                    style="max-height: 70vh;overflow: auto;"
                     id="dropdown-basic" *dropdownMenu class="dropdown-menu cstm"
                         role="menu" aria-labelledby="button-basic">
                     <li role="menuitem">
@@ -199,7 +249,9 @@
                         style="height: 130px;object-fit: cover;"
                         class="w-100" alt="join">
                     </li>
-                    <li class="text-center first">
+                    <li 
+                    *ngIf="isLogin()"
+                    class="text-center first">
                         <span class="maincolor d-block">
                             {{userdata?.fname | titlecase}}  {{userdata?.lname | titlecase}}
                         </span>
@@ -207,7 +259,9 @@
                             {{userdata?.email}}
                         </span>
                     </li>
-                      <li role="menuitem" class='lang'>
+                      <li 
+                      *ngIf="isLogin()"
+                      role="menuitem" class='lang'>
                         <a 
                         routerLink="/profile"
                         >
@@ -224,7 +278,9 @@
                         </a>
                       </li>
                       <!--  -->
-                      <li role="menuitem" class='lang'>
+                      <li 
+                      *ngIf="isLogin()"
+                      role="menuitem" class='lang'>
                         <a
                     routerLink="/notifications"
                     >
@@ -232,7 +288,9 @@
                         {{'notifications'|translate}}
                     </a>
                       </li>
-                      <li role="menuitem" class='lang'>
+                      <li 
+                      *ngIf="isLogin()"
+                      role="menuitem" class='lang'>
                         <a
                         routerLink="/favorite"
                         >
@@ -247,7 +305,7 @@
                         target="_blank"
                         >
                         <i class="fa-solid fa-headset maincolor"></i>
-                            {{'follow'|translate}}
+                            {{'Follow_Us'|translate}}
                         </a>
                       </li>
                       <li role="menuitem" class='lang'>
@@ -260,6 +318,34 @@
                       </li>
                       <li role="menuitem" class='lang'>
                         <a
+                        routerLink="/about"
+                        >
+                        <i class="fa-solid fa-question maincolor"></i>
+                            {{'about_join'|translate}}
+                        </a>
+                      </li>
+                      <li role="menuitem" class='lang'>
+                        <a
+                        routerLink="/terms"
+                        >
+                        <i class="fa-solid fa-exclamation maincolor"></i>
+                            {{'terms'|translate}}
+                        </a>
+                      </li>
+                      <li 
+                      *ngIf="isLogin()"
+                      role="menuitem" class='lang'>
+                        <a
+                        style="cursor: pointer;"
+                        >
+                        <i class="fa-solid fa-trash maincolor"></i>
+                            {{'delete_account'|translate}}
+                        </a>
+                      </li>
+                      <li 
+                      *ngIf="isLogin()"
+                      role="menuitem" class='lang'>
+                        <a
                         style="cursor: pointer;"
                         (click)="logout()"
                         >
@@ -267,24 +353,29 @@
                             {{'logout'|translate}}
                         </a>
                       </li>
+ 
+                      <li 
+                      *ngIf="!isLogin()"
+                      class="lang "><a 
+                          (click)="openNavbar=!openNavbar"
+                          routerLink="/auth/login">
+                          <i class="fa-solid fa-arrow-right-from-bracket maincolor"></i>
+                          {{'signin'|translate}}</a>
+                        </li> 
                     </ul>
                   </div>
             </li>  
         
-                <li
+                <!-- <li
                 *ngIf="isLogin()"
                 style="cursor: pointer;"
                 class="d-lg-none"
                 ><a 
      
                     (click)="logout()"
-           >{{'logout'|translate}}</a></li>
+           >{{'logout'|translate}}</a></li> -->
                 <!--  --> 
-                <li 
-                *ngIf="!isLogin()"
-                class="lang signinbtn"><a 
-                    (click)="openNavbar=!openNavbar"
-                    routerLink="/auth/login">{{'signin'|translate}}</a></li>  
+ 
         </ul>
     </div>
 </nav>            
@@ -306,5 +397,63 @@ class="cstmpopup">
         }"
         class="fa-solid fa-x"></i>
                 <app-filter (closefilterpopup)="filterPopup=false"></app-filter>
+    </div>
+</div>
+<div 
+[ngClass]="{
+    'd-flex':showPopup,
+    'd-none':!showPopup
+}"
+*ngIf="showPopup"
+class="cstmpopup">
+    <div 
+    style="overflow: hidden;"
+    class="content images">
+        <i 
+        style="z-index: 111111111111;"
+        (click)="showPopup=false;test()"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+
+        <swiper 
+        style="direction: ltr;text-align:right;height:99%;" 
+        [loop]="false" 
+        [autoHeight]="true" 
+        [allowTouchMove]="true"
+        [autoplay]="{ delay: 1000, disableOnInteraction: false }" 
+        [pagination]="{ clickable: true }" 
+        [navigation]="true"
+        >
+
+        <ng-container
+        *ngFor="let item of sliderContent" 
+        >
+            <ng-template
+            *ngIf="item?.image_url" 
+            style="height:90%"
+      data-swiper-autoplay="6000" swiperSlide>
+                <div 
+               
+                style="margin: 25px 0;height:90vh">
+
+                    <a 
+                    (click)="showPopup=false"
+                    [routerLink]="checkRouting(item)"
+                    >
+                        <img 
+                        style="height:99%;"
+                        class="w-100 "            
+                        [src]="item?.image_url" alt="">
+                    </a>
+                    
+                </div>
+            </ng-template>
+        </ng-container>
+        
+
+        </swiper>
     </div>
 </div>

@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,NavigationEnd, NavigationStart  } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { filter } from 'rxjs';
 import { AuthService } from 'src/app/screens/auth/services/auth.service';
 import { StoreService } from 'src/app/screens/store/services/store.service';
 import { GlopalService } from 'src/app/services/glopal.service';
-
+import SwiperCore, { Autoplay, Navigation } from 'swiper';
+SwiperCore.use([Navigation,Autoplay]); 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -12,6 +14,7 @@ import { GlopalService } from 'src/app/services/glopal.service';
 
 })
 export class NavbarComponent implements OnInit {
+  sliderContent
   openNavbar:boolean=false
   currentLang:string=''
   hidenave:boolean=false
@@ -19,6 +22,11 @@ export class NavbarComponent implements OnInit {
   filterPopup=false
   userdata:any=null
   categories:any = []
+  showpopUpFirstTime=true
+  showPopup=false
+  test() {
+    console.log(this.showPopup)
+  }
   constructor(
     private authService:AuthService,
     private storeSerive:StoreService,
@@ -52,8 +60,24 @@ export class NavbarComponent implements OnInit {
   get  lang() {
    return localStorage.getItem('lang') || 'en'
  }
-
+pagetype=-1
   ngOnInit(): void {
+    
+
+    this. router.events.subscribe((val:any) => {
+      // see also 
+      if(val instanceof NavigationEnd)  {
+        console.log(val)
+        if(val?.url=='/activites') this.pagetype=2
+        if(val?.url=='/store') this.pagetype=3
+        if(val?.url!='/auth/login' && val?.url!='/auth/sginup' && this.showpopUpFirstTime) {
+          this.getsliderContent()
+          this.showpopUpFirstTime=false
+          
+          console.log(this.showPopup,this.showpopUpFirstTime)
+        }
+      }
+  });
     this.storeSerive.getStoreTabs().subscribe( 
       value => this.categories = value?.payload?.data
     )
@@ -81,7 +105,7 @@ export class NavbarComponent implements OnInit {
   }
   inputSearch(value:string) {
     if(value.trim().length>0) {
-      this.router.navigate([`/search/${value}`])
+      this.router.navigate([`/search/${value}/${this.pagetype}`])
     }
   }
 get cartitemsCount() {
@@ -98,5 +122,19 @@ logout() {
   localStorage.removeItem('joinToken')
   this.router.navigate(['/'])
   location.reload()
+}
+getsliderContent() {
+  this.authService.getpopupbannerdata().subscribe(
+    res =>  {
+      this.showPopup=true
+      this.sliderContent=res?.data
+    }
+  )
+}
+checkRouting(item):any {
+  if(item?.type=='product') return `/product/${item?.id}`
+  else if(item?.type=='activity') return `/activity/${item?.id}`
+  else if(item?.type=='club') return `/clup/${item?.id}`
+  else if(item?.type=='interest') return `/interests/${item?.id}`
 }
 }

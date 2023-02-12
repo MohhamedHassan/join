@@ -28,7 +28,8 @@ export class InterstsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.pipe(
       switchMap((params:any) => {
-         return this.intersService.category_activitiesWeb(params?.id)
+        if(!!localStorage.getItem("joinToken")) return this.intersService.category_activitiesUser(params?.id)
+        else return this.intersService.category_activitiesWeb(params?.id)
       })
     ).subscribe(
       res => {

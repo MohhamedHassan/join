@@ -1,34 +1,37 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
-
+import { Calendar } from 'primeng/calendar';
 @Component({
   selector: 'app-book-now',
   templateUrl: './book-now.component.html',
   styleUrls: ['./book-now.component.scss']
 })
 export class BookNowComponent implements OnInit {
+  @ViewChild('calendar') calendar?: Calendar;
   showpopup=false
   submited=false
   @Input() location:any
   @Input() ageFrom:any
   @Input() ageTo:any
+  @Input() member_is_optional:any
   @Output() patchActivityToParent = new EventEmitter()
   members:any
   selectedLocation:any
   selectedDate=null
   selectedTime=null
   selectedMembers:any[]=[]
-  minDate: Date;
-  maxDate: Date;
+  minDate: Date=new Date();
+  maxDate: Date=new Date();
   daysDisabled:any[]=[]
   availableTime:any[]=[]
   avialbeMembers=0
   notUserMembersCount=0
   notuserForm:FormGroup
   selectedIds=[]
+  date = new Date();
   constructor(public membersservice:MembersService,
     private fb:FormBuilder,
     private toastr:ToastrService,
@@ -58,8 +61,10 @@ export class BookNowComponent implements OnInit {
       this.notuserForm.get('phone').setValidators([Validators.required,
         Validators.pattern(/^[569]\d{7}$/)]);
       this.notuserForm.get('phone').updateValueAndValidity();
-      this.notuserForm.get('iconfirm').setValidators([Validators.required]);
-      this.notuserForm.get('iconfirm').updateValueAndValidity();
+      if(!this.member_is_optional) {
+        this.notuserForm.get('iconfirm').setValidators([Validators.required]);
+        this.notuserForm.get('iconfirm').updateValueAndValidity();
+      }
     }
     let notuserData:any = localStorage.getItem('not_user_data')
 
@@ -113,10 +118,15 @@ selectLocation(item:any) {
   let from = new Date(item?.from_date)
   if(today > from) {
     this.minDate  = new Date()
+    this.date  = new Date()
+    console.log(this.minDate,this.minDate.getMonth())
   } else {
     this.minDate = new Date(item?.from_date)
+    this.date = new Date(item?.from_date)
+    console.log(this.date)
   }
   this.maxDate = new Date(item?.to_date)
+  console.log(this.maxDate)
   let days = [0,1,2,3,4,5,6]
   let days_for_activity = item?.days_for_activity.split(',')
   days_for_activity = days_for_activity.map((element:any) => {
@@ -217,9 +227,15 @@ confirmAddActivity() {
   let valid = false
   if(!!localStorage.getItem('joinToken') && this.selectedMembers?.length) {
      valid=true
-  } else  {
-    if(this.notUserMembersCount>0)  valid = true
+  } else if(this.member_is_optional) {
+    valid=true
+ } else if (!!localStorage.getItem('joinToken')==false&&this.notUserMembersCount>0) {
+   valid = true
   }
+if(!!localStorage.getItem('joinToken')==false&&this.member_is_optional) {
+  this.notUserMembersCount=1
+}
+
   if( 
     this.selectedLocation && 
     this.selectedDate && 
@@ -236,7 +252,15 @@ confirmAddActivity() {
     }
     localStorage.setItem('not_user_data',JSON.stringify(this.notuserForm.value))
     this.patchActivityToParent.emit(selectedData)
-  } else {
+  } 
+  console.log(this.notuserForm)
+  if(this.notuserForm.valid && (
+    !this.selectedLocation ||
+    !this.selectedDate ||
+    !this.selectedTime || 
+    !this.notuserForm.valid ||
+    ! valid
+  )) {
     if(localStorage.getItem('lang')=='ar') {
       this.toastr.error("قم بلمئ جميع البيانات")
     } else  {
@@ -255,5 +279,30 @@ minusOne() {
 }
 get lang() {
   return localStorage.getItem('lang') || 'en'
+}
+checkYear(date: { month: number; year: number }) {
+  if (this.calendar) {
+    console.log(date.month,this.minDate.getMonth(),date.year , this.minDate.getFullYear())
+    if (date.year < this.minDate.getFullYear()) {
+      this.calendar.onModelTouched();
+      this.date = new Date(this.minDate);
+      console.log(date.month,this.minDate.getMonth())
+    }
+    if (date.year > this.maxDate.getFullYear()) {
+      this.calendar.onModelTouched();
+      this.date = new Date(this.maxDate);
+      console.log(this.maxDate)
+    }
+    if (date.year == this.minDate.getFullYear() && date.month-1 < this.minDate.getMonth()) {
+      this.calendar.onModelTouched();
+      this.date = new Date(this.minDate);
+      console.log(date.month,this.minDate.getMonth())
+    }
+    if (date.year == this.maxDate.getFullYear() && date.month > this.maxDate.getMonth()) {
+      this.calendar.onModelTouched();
+      this.date = new Date(this.maxDate);
+      console.log(date.month,this.minDate.getMonth())
+    }
+  }
 }
 }

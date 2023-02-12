@@ -36,7 +36,6 @@ export class ForgetPasswordComponent implements OnInit {
       mobile: ['', Validators.required]
     })
    this.newPasswordForm = this.fb.group({
-      mobile:[''],
       password:['',Validators.required],
       confirm_password:['']
     })
@@ -111,14 +110,22 @@ export class ForgetPasswordComponent implements OnInit {
     if(this.newPasswordForm.valid && 
       this.newPasswordForm.get('password').value==this.newPasswordForm.get('confirm_password').value) {
         this.stepThreeLoading=true
-        this.newPasswordForm.patchValue({
-          mobile:this.forgetPasswordForm.get('mobile')?.value.e164Number.replace(this.forgetPasswordForm.get('mobile')?.value.dialCode,'')
-        })
-        this.authService.resetPassword(this.newPasswordForm.value).subscribe(
-          res => {
-            if(res?.code==1) {
-              this.closePopup.emit('')
-              this.toastr.success(res?.message);
+        let mobile=this.forgetPasswordForm.get('mobile')?.value.e164Number.replace(this.forgetPasswordForm.get('mobile')?.value.dialCode,'')
+        this.authService.sendForgetPasswordToken(mobile).subscribe(
+          res1 => {
+            if(res1?.code==1) {
+
+            this.authService.verifyOtpForgot({
+              mobile:mobile,
+              otp:res1?.payload?.otp,
+              new_password:this.newPasswordForm.get('password').value
+            }).subscribe(res =>  {
+              if(res?.code==1) {
+                this.closePopup.emit('')
+                this.toastr.success(res?.message);
+              }
+            })
+
             } else {
               this.stepThreeLoading=false
             }

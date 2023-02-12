@@ -20,6 +20,17 @@ export class SearchResultService {
       })
     )
   }
+  productsSearch(str:string) {
+    return this.http.get(`${this.glopalService.apiUrlTwo}product-search?str=${str}&page=1`).pipe(
+      map((value:any) => {
+        if(Array.isArray(value.payload)) {
+          return value.payload
+        } else {
+          return []
+        }
+      })
+    )
+  }
   filter(body:any) {
     return this.http.post(`${this.glopalService.apiUrlOne}getFiltersWeb`,body).pipe(
       map((value:any) => {

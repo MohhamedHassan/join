@@ -17,4 +17,11 @@ export class InterstsService {
         map(value => value.payload)
       )
     }
+    category_activitiesUser(interests_id:string) {
+      return this.http.post<{payload:Activities[]}>(`${this.glopalService.apiUrlOne}user/category_activities`,{
+        interests_id
+      }).pipe(
+        map(value => value.payload)
+      )
+    }
 }

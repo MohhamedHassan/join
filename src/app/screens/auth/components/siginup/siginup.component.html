@@ -204,7 +204,10 @@ class="signup heightc p-4">
 </section>
 
 
+
+
 <div 
+
 [ngClass]="{
     'd-flex':showVerificationpopup,
     'd-none':!showVerificationpopup
@@ -229,9 +232,11 @@ class="cstmpopup ">
             </h2>
             <div>
                 <input
+                onKeyPress="if(this.value.length==6) return false;console.log(this.value)"
+                type="number"
                 [formControl]="verifiedCodeControl"
                 placeholder="{{'code'|translate}}"
-                type="text" class="form-control my-3">
+                class="form-control my-3">
                 <p 
                 *ngIf="verifiedCodeControl?.errors!=null && verifiedCodeControl?.touched"
                 class="text-danger">

@@ -81,4 +81,16 @@ export class AuthService {
   resetPassword(formvalue:any) {
     return this.http.post<any>(`${this.glopalService.apiUrlOne}resetPassword`,formvalue)
   }
+  sendForgetPasswordToken(mobile) {
+    return this.http.post<any>(`${this.glopalService.apiUrlOne}sendForgetPasswordToken`,{
+      mobile
+    })
+  }
+  verifyOtpForgot(body) {
+    return this.http.post<any>(`${this.glopalService.apiUrlOne}verifyOtpForgot`,body)
+  }
+  getpopupbannerdata() {
+    return this.http.get<any>(`${this.glopalService.apiUrlOne}getpopupbannerdata`)
+  }
+  
 }

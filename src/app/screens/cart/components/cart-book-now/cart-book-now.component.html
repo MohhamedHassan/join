@@ -1,6 +1,6 @@
 <div 
 >
-    <div class="body p-2">
+    <div class=" p-2">
       <accordion
       [isAnimated]="true"
       [closeOthers]="true">
@@ -22,16 +22,26 @@
         <accordion-group heading="{{'select_Date'|translate}}">
           <div 
           *ngIf="selectedLocation&&checkTodayDate(selectedLocation)"
-          style="overflow: auto;display: flex;justify-content: center;"
-          class="my-2"
+          class="my-2 d-flex justify-content-center"
           >
-          <input
+          <p-calendar
+          #calendar
+          [inline]="true"
+          [(ngModel)]="date"
+          [minDate]="minDate"
+          [maxDate]="maxDate"
+          [disabledDays]="daysDisabled"
+          (onSelect)="onDateCange($event)"
+          (onYearChange)="checkYear($event)"
+          (onMonthChange)="checkYear($event)"
+          ></p-calendar>
+          <!-- <input
           [(ngModel)]="patchDate"
           (bsValueChange)="onDateCange($event)"
           class="form-control" placeholder="Datepicker" bsDatepicker
           [minDate]="minDate"
           [maxDate]="maxDate"
-          [daysDisabled]="daysDisabled">
+          [daysDisabled]="daysDisabled"> -->
           </div>
         </accordion-group>
         <!--  -->
@@ -52,7 +62,7 @@
         </accordion-group>
         <!--  -->
         <accordion-group 
-        *ngIf="isLogin()"
+        *ngIf="isLogin()&&!member_is_optional"
         heading="{{'select_child'|translate}}">
           <div
           *ngIf="membersservice.membersLoading"
@@ -128,9 +138,11 @@
            {{'validemail'|translate}}
        </p>
     </div>
-    <div class="mb-3">
+    <div 
+    *ngIf="!member_is_optional"
+    class="mb-3">
      <label >{{"number_of_members"|translate}}</label> <br>
-     <label class="mb-2">( {{"available"|translate}} {{avialbeMembers}} )</label>
+     <!-- <label class="mb-2">( {{"available"|translate}} {{avialbeMembers}} )</label> -->
      <div  class="plusminus ">
        <i 
        (click)="minusOne()"
@@ -141,7 +153,9 @@
        class="fa-solid fa-plus"></i>
    </div>
     </div>
-    <div class="mb-3">
+    <div 
+    *ngIf="!member_is_optional"
+    class="mb-3">
      <div class="form-check">
        <input 
        formControlName="iconfirm"
@@ -149,6 +163,13 @@
        <label class="form-check-label" for="iconfirm">
          {{'i_confirm'|translate}}
        </label>
+       <p 
+       *ngIf="(notuserForm.controls['iconfirm']?.errors!=null && notuserForm.controls['iconfirm'].touched) ||
+       (notuserForm.controls['iconfirm']?.errors!=null && submited)
+       "
+       class="my-2 text-danger">
+           {{'required'|translate}}
+       </p>
      </div>
     </div>
      </form>

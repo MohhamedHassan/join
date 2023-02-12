@@ -33,7 +33,6 @@ export class CartOneComponent implements OnInit {
         (res:any) =>  {
            if(res)  {
             this.members=res
-            console.log(this.members)
            }
         }
      )

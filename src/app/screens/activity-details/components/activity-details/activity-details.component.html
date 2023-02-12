@@ -26,7 +26,7 @@
                                 </span>
                             </p>
                             <ul 
-                            *ngIf="isLogin()"
+                            *ngIf="isLogin() && !activity_details?.member_is_optional"
                             class="list-unstyled p-0 d-flex mb-0 mt-2 flex-wrap">
                                 <li 
                                 [class.d-none]="(member?.child_age|stringToNumber)>(activity_details?.age_to|stringToNumber)|| (member?.child_age|stringToNumber)<(activity_details?.age_from|stringToNumber)"
@@ -191,6 +191,7 @@ class="cstmpopup d-flex">
 
      
            <app-book-now
+           [member_is_optional]="activity_details?.member_is_optional"
            [ageFrom]="activity_details?.age_from"
            [ageTo]="activity_details?.age_to"
            (patchActivityToParent)="selectedDataFromPopup($event)"

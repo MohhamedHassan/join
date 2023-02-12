@@ -121,6 +121,6 @@ export class FilterComponent implements OnInit {
     if(element?.selected) body[0].child_id.push(element?.child_id)
 });
     this.closefilterpopup.emit(true)
-   this.router.navigate(['/search/-1'],{queryParams : {filterbody:JSON.stringify(body)}})
+   this.router.navigate(['/search/-1/-1'],{queryParams : {filterbody:JSON.stringify(body)}})
   }
 }
