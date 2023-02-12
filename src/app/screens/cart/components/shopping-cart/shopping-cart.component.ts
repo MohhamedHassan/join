@@ -95,9 +95,6 @@ export class ShoppingCartComponent implements OnInit {
     }
   ngOnInit(): void {
     this.notUserData=JSON.parse(localStorage.getItem('not_user_data'))
-    this.activatedRoute.queryParamMap.subscribe((res:any) => {
-      
-      console.log(res?.params?.type)
       let cart = localStorage.getItem('joincart')
       if(cart)  {
         this.cartitems=JSON.parse(cart)
@@ -106,14 +103,15 @@ export class ShoppingCartComponent implements OnInit {
         this.cartitems.map(i => i.disc=0)
       }
       this.getTotal()
-      if(this.cartitems?.length&&res?.params?.type==0) {
-        this.paymentFaild=true
-      } 
-      if(this.cartitems?.length&&res?.params?.type==1) {
-        this.paymenSuccess=true
-        this.createBooking()
-      } 
-    })
+      // if(this.cartitems?.length&&res?.params?.type==0) {
+      //   this.paymentFaild=true
+      // } 
+      // if(this.cartitems?.length&&res?.params?.type==1) {
+      //   this.paymenSuccess=true
+      //   this.createBooking()
+      // } 
+      //this.activatedRoute.queryParamMap.subscribe((res:any) => {
+    // })
     setTimeout(() => {
       this.loading=false
     },1000)
@@ -423,13 +421,13 @@ createBooking() {
              // not available value from down
               activity_data.booking_status = 'SUCCESS'
               activity_data.booking_amount_type = 'PRICE'
-               activity_data.booking_amount = '200'
-               activity_data.booking_discount =  '10'
+              activity_data.booking_amount = '200'
+              activity_data.booking_discount =  '10'
               activity_data.booking_payment = '300'
               activity_data.booked_seats= "1",
-                 activity_data.number_of_child=1
-                 activity_data.shipping_charge=1.25
-            requestBody.activity_data.push(activity_data)
+              activity_data.number_of_child=1
+              activity_data.shipping_charge=1.25
+              requestBody.activity_data.push(activity_data)
 
           //  end activity_data
             if(this.cartitems[i]?.selectedMembers?.length) {
@@ -593,28 +591,30 @@ checkAvailableSeats() {
       }
       else if(!res?.payload?.items&&res?.type=='SUCCESS') {
         this.notAvailableitems = ''
-      this.cartService.paymentRequest({
-        "PaymentMethodId": Number(this.chosenPayment),
-        "CustomerName": this.profileData?.fname || this.notUserData?.name,
-        "DisplayCurrencyIso": "KWD",
-        "MobileCountryCode": "+965",
-        "CustomerMobile": this.profileData?.mobile || this.notUserData?.phone,
-        "CustomerEmail": this.profileData?.email || this.notUserData?.email,
-        "InvoiceValue": Number(this.total+this.shipingCharge),
-        "Language": "Ar",
-        "CallBackUrl": "http://localhost:4200/#/cart?type=1",
-        "ErrorUrl": "http://localhost:4200/#/cart?type=0",
-      }).subscribe(
-        res =>  {
-          console.log(res)
-          if(res?.IsSuccess) {
-            window.open(res?.Data?.PaymentURL, '_blank');
-            this.checkoutLoading=false
+          if(!Number(this.total+this.shipingCharge)) {
+            this.createBooking()
+          } else {       
+            this.cartService.paymentRequest({
+              "user_name": this.notUserData?.name || '',
+              "user_phone":  this.notUserData?.phone || '',
+              "user_email":  this.notUserData?.email || '',
+              "amount": Number(this.total+this.shipingCharge),
+            }).subscribe(
+              response =>  {
+                console.log(response)
+                if(response?.message) {
+                  window.open(response?.message,'_top')
+                  this.cartitems.map(i => {
+                    i.invoice_id=response?.invoice_id
+                  })
+                  localStorage.setItem('joincart',JSON.stringify(this.cartitems))
+                  console.log(this.cartitems)
+                }
+              },err => {
+                this.checkoutLoading=false
+              }
+            )
           }
-        },err => {
-          this.checkoutLoading=false
-        }
-      )
       }
     } 
   )

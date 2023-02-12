@@ -24,9 +24,6 @@ export class NavbarComponent implements OnInit {
   categories:any = []
   showpopUpFirstTime=true
   showPopup=false
-  test() {
-    console.log(this.showPopup)
-  }
   constructor(
     private authService:AuthService,
     private storeSerive:StoreService,
@@ -70,7 +67,10 @@ pagetype=-1
         console.log(val)
         if(val?.url=='/activites') this.pagetype=2
         if(val?.url=='/store') this.pagetype=3
-        if(val?.url!='/auth/login' && val?.url!='/auth/sginup' && this.showpopUpFirstTime) {
+        if(val?.url!='/auth/login' && val?.url!='/auth/sginup' 
+        && val?.url!='/payment_suuccess' 
+        && val?.url!='/payment_failed' 
+        && this.showpopUpFirstTime) {
           this.getsliderContent()
           this.showpopUpFirstTime=false
           

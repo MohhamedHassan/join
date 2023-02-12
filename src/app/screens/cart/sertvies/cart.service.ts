@@ -22,6 +22,9 @@ export class CartService {
     return this.http.post<any>(`${this.glopalService.apiUrlOne}user/createBooking_2`,body)
   }
   paymentRequest(body) {
-    return this.http.post<any>(`https://api.myfatoorah.com/v2/ExecutePayment`,body)
+    return this.http.post<any>(`${this.glopalService.apiUrlOne}payment/generate_link`,body)
+  }
+  get_details(invoiceid) {
+    return this.http.post<{payload:any}>(`${this.glopalService.apiUrlOne}payment/${invoiceid}/get_details`,{})
   }
 }

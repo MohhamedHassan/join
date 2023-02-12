@@ -10,6 +10,7 @@ export class PaymentFailedComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }
