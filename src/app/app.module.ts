@@ -29,6 +29,8 @@ import { NgxStarsModule } from 'ngx-stars';
 import { AboutJoinComponent } from './components/about-join/about-join.component';
 import { SharedModule } from './shared/shared.module';
 import { TermsComponent } from './components/terms/terms.component';
+import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { PaymentFailedComponent } from './components/payment-failed/payment-failed.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +41,8 @@ import { TermsComponent } from './components/terms/terms.component';
     FilterComponent,
     AboutJoinComponent,
     TermsComponent,
+    PaymentSuccessComponent,
+    PaymentFailedComponent,
   ],
   imports: [
     SharedModule,
