@@ -1,4 +1,6 @@
 {
+    "failed":"Failed!",
+    "success":"Success!",
     "enter":"Enter the five-digit verification code",
     "forget_password":"Forget Password?",
     "guest":"Guest",
