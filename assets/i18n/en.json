@@ -1,4 +1,10 @@
 {
+    "enter":"Enter the five-digit verification code",
+    "forget_password":"Forget Password?",
+    "guest":"Guest",
+    "delete_account":"Delete Account",
+    "terms":"Terms & Conditions",
+    "about_join":"About Join",
     "show_less":"Show Less",
     "delivery_notes":"Delivery Notes",
     "activity":"ACTIVITY",
