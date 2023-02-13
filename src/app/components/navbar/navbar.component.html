@@ -161,6 +161,7 @@
                 *ngIf="isLogin()"
                 role="menuitem" class=' d-lg-none'>
                   <a
+                  (click)="openNavbar=!openNavbar;showDeleteAccountPopup=1"
                   style="cursor: pointer;"
                   >
                       {{'delete_account'|translate}}
@@ -336,6 +337,7 @@
                       *ngIf="isLogin()"
                       role="menuitem" class='lang'>
                         <a
+                        (click)="showDeleteAccountPopup=1"
                         style="cursor: pointer;"
                         >
                         <i class="fa-solid fa-trash maincolor"></i>
@@ -399,6 +401,7 @@ class="cstmpopup">
                 <app-filter (closefilterpopup)="filterPopup=false"></app-filter>
     </div>
 </div>
+<!--  -->
 <div 
 [ngClass]="{
     'd-flex':showPopup,
@@ -455,5 +458,43 @@ class="cstmpopup">
         
 
         </swiper>
+    </div>
+</div>
+<!--  -->
+<div 
+[ngClass]="{
+    'd-flex':showDeleteAccountPopup!=-1,
+    'd-none':showDeleteAccountPopup==-1
+}"
+class="cstmpopup ">
+    <div class="content small">
+        <i 
+        (click)="showDeleteAccountPopup=-1"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'delete_account_confirm'|translate}}</h2>
+            <div class="mt-4">
+                <button 
+                (click)="deleteMyAccount()"
+                class="btn btn-danger">
+                    {{'delete'|translate}}
+                    <i 
+                    *ngIf="deleteAccountLoading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+                <span class="mx-2"></span>
+                <button 
+                (click)="showDeleteAccountPopup=-1"
+                class="btn btn-warning">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
+        </div>
     </div>
 </div>

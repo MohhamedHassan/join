@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router,NavigationEnd, NavigationStart  } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { filter } from 'rxjs';
 import { AuthService } from 'src/app/screens/auth/services/auth.service';
 import { StoreService } from 'src/app/screens/store/services/store.service';
@@ -14,6 +15,7 @@ SwiperCore.use([Navigation,Autoplay]);
 
 })
 export class NavbarComponent implements OnInit {
+  showDeleteAccountPopup=-1
   sliderContent
   openNavbar:boolean=false
   currentLang:string=''
@@ -24,11 +26,13 @@ export class NavbarComponent implements OnInit {
   categories:any = []
   showpopUpFirstTime=true
   showPopup=false
+  deleteAccountLoading=false
   constructor(
     private authService:AuthService,
     private storeSerive:StoreService,
     private glopalService:GlopalService,
     private router:Router,
+    private toastr:ToastrService,
     public  translateService:TranslateService){
     this.currentLang=localStorage.getItem('lang') || 'en'
     this.translateService.use(this.currentLang)
@@ -38,6 +42,19 @@ export class NavbarComponent implements OnInit {
     else  {
       document.body.classList.remove("custom-rtl")
     }
+  }
+  deleteMyAccount() {
+    this.deleteAccountLoading=true
+    this.authService.deleteMyAccount().subscribe(
+      res =>  {
+        if(res?.code) {
+          this.deleteAccountLoading=false
+          this.showDeleteAccountPopup=-1
+          this.toastr.success(res?.message)
+          this.logout()
+        }
+      }
+    )
   }
   isLogin():boolean {
     return !!localStorage.getItem("joinToken")
@@ -70,6 +87,9 @@ pagetype=-1
         if(val?.url!='/auth/login' && val?.url!='/auth/sginup' 
         && val?.url!='/payment_suuccess' 
         && val?.url!='/payment_failed' 
+        && val?.url!='/cart?type=0'
+        && val?.url!='/cart?type=1' 
+        && val?.url!='/cart'
         && this.showpopUpFirstTime) {
           this.getsliderContent()
           this.showpopUpFirstTime=false

@@ -20,6 +20,6 @@ export class AllHistoryComponent implements OnInit {
     )
   }
 getTotal(pricies:any[]) {
-  return pricies.find(i => i?.key=='Total Amount')?.value
+  return pricies.find(i => i?.key=='Total Amount' || i?.key=='المبلغ الإجمالي')?.value
 }
 }

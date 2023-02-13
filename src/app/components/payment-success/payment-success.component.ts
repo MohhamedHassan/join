@@ -9,6 +9,9 @@ import { CartService } from 'src/app/screens/cart/sertvies/cart.service';
 })
 export class PaymentSuccessComponent implements OnInit {
   cartitems:any[]=[]
+  total=0
+  shipingCharge=0
+  promocode=''
   constructor(
     private cartService:CartService,
     private router:Router,
@@ -16,10 +19,11 @@ export class PaymentSuccessComponent implements OnInit {
 
   ngOnInit(): void {
         let cart = localStorage.getItem('joincart')
+        let cart2 
     if(cart)  {
-      this.cartitems=JSON.parse(cart)
+      cart2=JSON.parse(cart)
     }
-    if(this.cartitems?.length) {
+    if(cart2?.length) {
       this.cartitems = this.cartitems.filter(i => i.invoice_id)
     }
     if(this.cartitems?.length) {

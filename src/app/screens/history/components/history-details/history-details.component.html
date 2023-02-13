@@ -114,28 +114,28 @@ style="min-height: 100vh;">
         </div>
     </div>
     <p 
-    *ngIf="getPrice(historyDetails?.prices,'Activity Total')"
+    *ngIf="getPrice(historyDetails?.prices,(lang=='en' ?  'Activity Total' : 'إجمالي الأنشطة'))"
     class="d-flex justify-content-between align-items-center">
         <span>{{'activity_total'|translate}} </span>
-        <span>{{(getPrice(historyDetails?.prices,'Activity Total')|tofixednumber)||0}}</span>
+        <span>{{(getPrice(historyDetails?.prices,(lang=='en' ?  'Activity Total' : 'إجمالي الأنشطة'))|tofixednumber)||0}}</span>
     </p>
     <p 
-    *ngIf="getPrice(historyDetails?.prices,'Store Total')"
+    *ngIf="getPrice(historyDetails?.prices,(lang=='en' ? 'Store Total':'إجمالي المنتجات'))"
     class="d-flex justify-content-between align-items-center">
         <span>{{'products_total'|translate}} </span>
-        <span>{{(getPrice(historyDetails?.prices,'Store Total')|tofixednumber)||0}}</span>
+        <span>{{(getPrice(historyDetails?.prices,(lang=='en' ? 'Store Total':'إجمالي المنتجات'))|tofixednumber)||0}}</span>
     </p>
     <p 
-    *ngIf="getPrice(historyDetails?.prices,'Delivery Charges')"
+    *ngIf="getPrice(historyDetails?.prices,(lang=='en' ?'Delivery Charges':'رسوم التوصيل'))"
     class="d-flex justify-content-between align-items-center">
         <span>{{'Shipping'|translate}} </span>
-        <span>{{(getPrice(historyDetails?.prices,'Delivery Charges')|tofixednumber)||0}}</span>
+        <span>{{(getPrice(historyDetails?.prices,(lang=='en' ?'Delivery Charges':'رسوم التوصيل'))|tofixednumber)||0}}</span>
     </p>
     <p 
-    *ngIf="getPrice(historyDetails?.prices,'Total Amount')"
+    *ngIf="getPrice(historyDetails?.prices,(lang=='en' ?'Total Amount':'المبلغ الإجمالي'))"
     class="d-flex justify-content-between align-items-center fw-bold">
         <span>{{'total_price'|translate}} </span>
-        <span>{{(getPrice(historyDetails?.prices,'Total Amount')|tofixednumber)||0}}</span>
+        <span>{{(getPrice(historyDetails?.prices,(lang=='en' ?'Total Amount':'المبلغ الإجمالي'))|tofixednumber)||0}}</span>
     </p>
 </ng-container>
 

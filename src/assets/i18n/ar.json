@@ -1,4 +1,5 @@
 {
+    "delete_account_confirm":"تأكيد حذف الحساب؟",
     "failed":"فشلت عملية الدفع",
     "success":"تمت عملية الدفع",
     "enter":"أدخل كود التحقق الصحيح المكون من خمس أرقام ",
@@ -192,7 +193,7 @@
     "products":"المنتجات",
     "qty":"الكمية",
     "activity_total":"اجمالي الانشطة",
-    "products_total":"اجمالي النتجات",
+    "products_total":"اجمالي المنتجات",
     "logout":"تسجيل الخروج",
     "These_items_are_not_available":"هذه العناصر غير متوفرة",
     "address_is_required":"حقل العنوان مطلوب"

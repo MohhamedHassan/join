@@ -103,15 +103,6 @@ export class ShoppingCartComponent implements OnInit {
         this.cartitems.map(i => i.disc=0)
       }
       this.getTotal()
-      // if(this.cartitems?.length&&res?.params?.type==0) {
-      //   this.paymentFaild=true
-      // } 
-      // if(this.cartitems?.length&&res?.params?.type==1) {
-      //   this.paymenSuccess=true
-      //   this.createBooking()
-      // } 
-      //this.activatedRoute.queryParamMap.subscribe((res:any) => {
-    // })
     setTimeout(() => {
       this.loading=false
     },1000)
@@ -155,6 +146,31 @@ export class ShoppingCartComponent implements OnInit {
       )
     } 
 
+      this.activatedRoute.queryParamMap.subscribe((res:any) => {
+        if(this.cartitems?.length&&res?.params?.type==0) {
+              this.paymentFaild=true
+            } 
+            if(this.cartitems?.length&&res?.params?.type==1) {
+
+                this.cartitems = this.cartitems.filter(i => i.invoice_id)
+              if(this.cartitems?.length) {
+               this.loading=true
+                this.cartService.get_details(this.cartitems[0]?.invoice_id).subscribe(
+                  (res:any) =>  {
+                    console.log(res)
+                    this.loading=false
+                    if(res?.status=='Pending') {
+                     // this.router.navigate(['/'])
+                    } else if(res?.status=='Paid') {   
+                      this.paymenSuccess=true   
+                      this.createBooking()
+                    }
+                  }
+                )
+              }
+              
+            } 
+          })
     console.log(this.cartitems)
    
   }
@@ -382,7 +398,7 @@ createBooking() {
   let requestBody = {
     activity_data:[],
     child_id:[], 
-    booking_txn:'test',
+    booking_txn:'_',
     payment_method:'PRICE',
     total:this.total+this.shipingCharge,
     booking_session:[],
@@ -405,11 +421,13 @@ createBooking() {
     building:this.selectedAddress?.building||'',
     floor:this.selectedAddress?.floor||'',
     apartment:this.selectedAddress?.apartment||'',
+    club_id:''
   }
 
   if(this.cartitems?.length) {
     for (let i = 0 ; i < this.cartitems?.length;i++) {
         if(this.cartitems[i]?.cstmtype==1) {
+          requestBody.club_id=this.cartitems[i]?.club_id
           let activity_data:any = {}
           activity_data.frequency = this.cartitems[i]?.selectedLocation?.frequency
           activity_data.promo_code = this.promocode
@@ -420,13 +438,44 @@ createBooking() {
           activity_data.activity_id = this.cartitems[i]?.id
              // not available value from down
               activity_data.booking_status = 'SUCCESS'
-              activity_data.booking_amount_type = 'PRICE'
-              activity_data.booking_amount = '200'
-              activity_data.booking_discount =  '10'
-              activity_data.booking_payment = '300'
+              activity_data.booking_amount_type = this.cartitems[i]?.selectedLocation?.price_type
+              if(this.cartitems[i]?.selectedLocation?.price_type!='PAY_AT_PLACE') {
+                if(this.cartitems[i]?.cstmtype==1&&this.cartitems[i]?.type==1) {
+                  if(this.cartitems[i]?.disc==0) {
+                    activity_data.booking_discount =  0
+                    if(!this.cartitems[i]?.member_is_optional) {
+                      activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price*this.cartitems[i]?.selectedMembers?.length          
+                      activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price*this.cartitems[i]?.selectedMembers?.length
+                    } else {
+                      activity_data.booking_amount += this.cartitems[i]?.selectedLocation.price*1
+                      activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price*this.cartitems[i]?.selectedMembers?.length
+                    }
+                  } else {                
+                    activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price*this.cartitems[i]?.selectedMembers?.length          
+                    activity_data.booking_discount = (this.cartitems[i]?.selectedLocation.price*this.cartitems[i]?.selectedMembers?.length) - this.cartitems[i]?.disc
+                    activity_data.booking_payment =  this.cartitems[i]?.disc
+                  }
+                  activity_data.number_of_child=this.cartitems[i]?.selectedMembers?.length
+                } else if (this.cartitems[i]?.cstmtype==1&&this.cartitems[i]?.type==0) {
+                  if(this.cartitems[i]?.disc==0) {
+                    activity_data.booking_amount = Number(this.cartitems[i]?.selectedLocation.price)*Number(this.cartitems[i]?.notUserMembersCount)        
+                    activity_data.booking_discount = 0
+                    activity_data.booking_payment =  Number(this.cartitems[i]?.selectedLocation.price)*Number(this.cartitems[i]?.notUserMembersCount)
+                  } else {
+                    this.total += this.cartitems[i]?.disc
+                    activity_data.booking_amount = Number(this.cartitems[i]?.selectedLocation.price)*Number(this.cartitems[i]?.notUserMembersCount)        
+                    activity_data.booking_payment =  this.cartitems[i]?.disc
+                    activity_data.booking_discount = (Number(this.cartitems[i]?.selectedLocation.price)*Number(this.cartitems[i]?.notUserMembersCount)) - this.cartitems[i]?.disc
+                  
+                  }
+                  activity_data.number_of_child=this.cartitems[i]?.notUserMembersCount
+                }
+              }
+               
+             
               activity_data.booked_seats= "1",
-              activity_data.number_of_child=1
-              activity_data.shipping_charge=1.25
+             
+              activity_data.shipping_charge=Number(this.cartitems[i]?.club_details?.shipping_charge)
               requestBody.activity_data.push(activity_data)
 
           //  end activity_data
@@ -440,7 +489,7 @@ createBooking() {
                         //  end child_id
                   let booking_session:any = {};
                   booking_session.branch_id= this.cartitems[i]?.selectedLocation?.branch_id
-                  booking_session.no_of_session= '' //// what value ????
+                  booking_session.no_of_session= '' 
                   booking_session.from_time= this.cartitems[i]?.selectedTime?.from_time
                   booking_session.to_time= this.cartitems[i]?.selectedTime?.to_time
                   booking_session.club_activity_location_id= this.cartitems[i]?.selectedLocation?.id
@@ -448,7 +497,7 @@ createBooking() {
                   booking_session.child_id=element?.child_id
                   booking_session.booking_session="890"
                   booking_session.max_seats="5"
-                  booking_session.selected_date="2022-02-11"
+                  booking_session.selected_date=this.cartitems[i]?.selectedDate
                   requestBody.booking_session.push(booking_session)
                   // end booking_session
               });
@@ -474,7 +523,7 @@ createBooking() {
           storeItem.qty=this.cartitems[i]?.countToBuy,
           storeItem.color=this.cartitems[i]?.selectedColor?.id || '',
           storeItem.size=this.cartitems[i]?.selectedSize?.id || '',
-          storeItem.booking_status="PENDING",
+          storeItem.booking_status="SUCCESS",
           requestBody.store.push(storeItem)
           // end store
         }
@@ -495,6 +544,9 @@ createBooking() {
     res =>  {
       if(res?.type=="SUCCESS") {
         this.toastr.success(localStorage.getItem('lang')=='ar'?'تم تنفيذ طلبك بنجاح':'Your request has been successfully processed');
+        if(!!localStorage.getItem('joinToken')==false) {
+          this.cartService.notUserHistory=this.cartitems
+        }
         localStorage.setItem('joincart',JSON.stringify([]))
         this.router.navigate(['/history'])
       }
@@ -530,6 +582,7 @@ checkAvailableSeats() {
                activity_data.booking_amount = '0.0'
                activity_data.booking_discount =  '0.0'
               activity_data.booking_payment = '0.0'
+           //   availableSeatsRequestBody.club_id=this.cartitems[i]?.club_id
               availableSeatsRequestBody.activity_data.push(activity_data)
 
           //////////// end activity_data
@@ -546,7 +599,7 @@ checkAvailableSeats() {
 
                 let booking_session:any = {};
                 booking_session.branch_id= this.cartitems[i]?.selectedLocation?.branch_id
-                booking_session.no_of_session= '' //// what value ????
+                booking_session.no_of_session= '_' //// what value ????
                 booking_session.from_time= this.cartitems[i]?.selectedTime?.from_time
                 booking_session.to_time= this.cartitems[i]?.selectedTime?.to_time
                 booking_session.club_activity_location_id= this.cartitems[i]?.selectedLocation?.id
@@ -569,7 +622,7 @@ checkAvailableSeats() {
           storeItem.qty=this.cartitems[i]?.countToBuy,
           storeItem.color=this.cartitems[i]?.selectedColor?.id || '',
           storeItem.size=this.cartitems[i]?.selectedSize?.id || '',
-          storeItem.booking_status="PENDING",
+          storeItem.booking_status="SUCCESS",
           storeItem.price=this.cartitems[i]?.price,
           storeItem.price_type="PRICE",
           storeItem.booking_discount="0.0",
@@ -603,11 +656,12 @@ checkAvailableSeats() {
               response =>  {
                 console.log(response)
                 if(response?.message) {
-                  window.open(response?.message,'_top')
+              
                   this.cartitems.map(i => {
                     i.invoice_id=response?.invoice_id
                   })
                   localStorage.setItem('joincart',JSON.stringify(this.cartitems))
+                  window.open(response?.message,'_top')
                   console.log(this.cartitems)
                 }
               },err => {

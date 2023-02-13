@@ -8,6 +8,7 @@ import { GlopalService } from 'src/app/services/glopal.service';
 })
 export class CartService {
   cartitem:any[]=[]
+  notUserHistory=[]
   constructor(private http:HttpClient,
     private glopalService:GlopalService) { }
   getPromoCode() {
@@ -27,4 +28,5 @@ export class CartService {
   get_details(invoiceid) {
     return this.http.post<{payload:any}>(`${this.glopalService.apiUrlOne}payment/${invoiceid}/get_details`,{})
   }
+
 }

@@ -27,4 +27,7 @@ export class HistoryDetailsComponent implements OnInit {
   getPrice(pricies:any[],key:string) {
     return pricies.find(i => i?.key==key)?.value
   }
+  get lang() {
+    return localStorage.getItem('lang') || 'en'
+  }
 }

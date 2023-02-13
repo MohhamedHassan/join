@@ -92,5 +92,7 @@ export class AuthService {
   getpopupbannerdata() {
     return this.http.get<any>(`${this.glopalService.apiUrlOne}getpopupbannerdata`)
   }
-  
+  deleteMyAccount() {
+    return this.http.post<any>(`${this.glopalService.apiUrlOne}delete_my_account`,{})
+  }
 }
