@@ -52,24 +52,14 @@ import { PaymentFailedComponent } from './components/payment-failed/payment-fail
     FormsModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
-    // AngularFireModule.initializeApp({
-    //   apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
-    //   authDomain: "joinapp-515e6.firebaseapp.com",
-    //   databaseURL: "https://joinapp-515e6.firebaseio.com",
-    //   projectId: "joinapp-515e6",
-    //   storageBucket: "joinapp-515e6.appspot.com",
-    //   messagingSenderId: "794053292456",
-    //   appId: "1:794053292456:web:36878b6a9a02cff3"
-    // }),
     AngularFireModule.initializeApp({
-      apiKey: "AIzaSyAVcz-PeZz1_y1x7uPn2UnnknYxaWH0oz0",
-      authDomain: "thegiftery-bfeaa.firebaseapp.com",
-      databaseURL: "https://thegiftery-bfeaa.firebaseio.com",
-      projectId: "thegiftery-bfeaa",
-      storageBucket: "thegiftery-bfeaa.appspot.com",
-      messagingSenderId: "632406993731",
-      appId: "1:632406993731:web:addd943dc159312ad4ddf6",
-      measurementId: "G-V620V69RF3"
+      apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
+      authDomain: "joinapp-515e6.firebaseapp.com",
+      databaseURL: "https://joinapp-515e6.firebaseio.com",
+      projectId: "joinapp-515e6",
+      storageBucket: "joinapp-515e6.appspot.com",
+      messagingSenderId: "794053292456",
+      appId: "1:794053292456:web:36878b6a9a02cff3"
     }),
     RatingModule .forRoot(),
     AccordionModule.forRoot() ,
