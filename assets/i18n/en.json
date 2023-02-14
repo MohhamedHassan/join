@@ -1,4 +1,5 @@
 {
+    "delete_account_confirm":"Are You sure You want to delete account?",
     "failed":"Failed!",
     "success":"Success!",
     "enter":"Enter the five-digit verification code",
@@ -20,7 +21,7 @@
     "password_mismatch":"Password mismatch",
     "confirm_email":"Confirm Email",
     "confirm_password":"Confirm Password",
-    "The_request_being_saved":"The request is being saved",
+    "The_request_being_saved":"Your request is being saved",
     "Payment_failed":"Payment failed",
     "sizes":"Sizes",
     "size":"Size",
