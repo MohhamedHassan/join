@@ -78,10 +78,11 @@ export class LoginComponent implements OnInit {
   AuthLogin(provider:any,type) {
     return this.angularFireAuth
       .signInWithPopup(provider)
-      .then((result) => {
+      .then((result:any) => {
         console.log(result)
         this.loading=true
         let loginData:any = result?.additionalUserInfo?.profile
+        let email = result?.user?.multiFactor?.user?.email
         let body:any = {}
         if(type==1) body.google_id=loginData?.id
         else if(type==2) body.facebook_id=loginData?.id
@@ -100,7 +101,7 @@ export class LoginComponent implements OnInit {
                 id:loginData?.id,
                 family_name:loginData?.family_name, 
                 given_name:loginData?.given_name,
-                email:loginData?.email,
+                email:email||'user@gmail.com',
                 type:type
               }})
             }

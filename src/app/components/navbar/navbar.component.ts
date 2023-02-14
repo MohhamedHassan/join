@@ -84,7 +84,9 @@ pagetype=-1
         console.log(val)
         if(val?.url=='/activites') this.pagetype=2
         if(val?.url=='/store') this.pagetype=3
-        if(val?.url!='/auth/login' && val?.url!='/auth/sginup' 
+        if(val?.url!='/auth/login' 
+        && val?.url!='/auth/sginup'
+        && val?.url.includes('/auth/sginup')  
         && val?.url!='/payment_suuccess' 
         && val?.url!='/payment_failed' 
         && val?.url!='/cart?type=0'

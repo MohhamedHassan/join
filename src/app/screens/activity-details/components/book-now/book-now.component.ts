@@ -18,6 +18,7 @@ export class BookNowComponent implements OnInit {
   @Input() ageTo:any
   @Input() member_is_optional:any
   @Output() patchActivityToParent = new EventEmitter()
+  @Output() sendLocationToParent = new EventEmitter()
   members:any
   selectedLocation:any
   selectedDate=null
@@ -59,7 +60,7 @@ export class BookNowComponent implements OnInit {
       this.notuserForm.get('email').setValidators([Validators.required,Validators.email,,Validators.pattern(/.com$/)]);
       this.notuserForm.get('email').updateValueAndValidity();
       this.notuserForm.get('phone').setValidators([Validators.required,
-        Validators.pattern(/^[569]\d{7}$/)]);
+        Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]);
       this.notuserForm.get('phone').updateValueAndValidity();
       if(!this.member_is_optional) {
         this.notuserForm.get('iconfirm').setValidators([Validators.required]);
@@ -100,6 +101,7 @@ export class BookNowComponent implements OnInit {
       }
 
     })
+
   }
 selectLocation(item:any) {
   this.selectedDate=null

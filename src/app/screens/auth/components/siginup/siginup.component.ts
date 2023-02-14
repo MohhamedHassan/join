@@ -28,7 +28,7 @@ export class SiginupComponent implements OnInit {
   captchaVerifier:any
   verificationId:any
   verifyoading=false
-
+  hideEmailAndPassword=false
   constructor(private fb:FormBuilder,
     private router:Router,
     private notficationsService:NotificationsService,
@@ -53,8 +53,12 @@ if(!this.intervalLoading) {
     this.loading=false
     this.counterToEnable()
   }).catch((err) => {
-    this.toastr.error(err?.message||'Something wnt wrong')  
-    this.loading=false
+    if(err?.message=='reCAPTCHA has already been rendered in this element') {
+      this.getOtp()
+    } else {
+      this.toastr.error(err?.message || 'Something wnt wrong')
+      this.loading = false
+    }
 
   })
 }
@@ -79,10 +83,18 @@ if(!this.intervalLoading) {
     this.activatedRoute.queryParamMap.subscribe(
       (res:any) =>  {
         if(res?.params?.type) {
+          this.signupForm.get('password').clearValidators();
+          this.signupForm.get('password').updateValueAndValidity();
+          this.signupForm.get('email').clearValidators();
+          this.signupForm.get('email').updateValueAndValidity();
+          this.hideEmailAndPassword=true
           this.signupForm.patchValue({
             fname:res?.params?.given_name,
             lname:res?.params?.family_name,
-            email:res?.params?.email
+            email:res?.params?.email ? res?.params?.email : 'user@gmail.com',
+            password:'-',
+            confirm_email:res?.params?.email ? res?.params?.email : 'user@gmail.com',
+            confirm_password:'-',
           })
           if(res?.params?.type==1) {
             this.signupForm.patchValue({
@@ -95,7 +107,13 @@ if(!this.intervalLoading) {
               facebook_id:res?.params?.id
             })
           } 
-        } 
+        } else {
+          this.signupForm.get('password').setValidators([Validators.required]);
+          this.signupForm.get('password').updateValueAndValidity();
+          this.signupForm.get('email').setValidators([Validators.required,Validators.email,,Validators.pattern(/.com$/)]);
+          this.signupForm.get('email').updateValueAndValidity();
+          this.hideEmailAndPassword=false
+        }
       }
     )
   }
@@ -106,11 +124,11 @@ if(!this.intervalLoading) {
       lname:['',Validators.required],
       mobile:['',Validators.required],
       dob:['',Validators.required],
-      password:['',Validators.required],
+      password:[''],
       device_type:['W'],
       area_id:['',Validators.required],
       gender:['',Validators.required],
-      email:['',[Validators.required,Validators.email,Validators.pattern(/.com$/)]],
+      email:[''],
       confirm_email:[''],
       confirm_password:[''],
       device_token:['_'],
@@ -128,6 +146,11 @@ if(!this.intervalLoading) {
   signUp(formValue:any) {
     this.submited=true
     console.log(this.signupForm.value)
+    console.log(
+      this.signupForm.valid,this.intervalLoading,
+      this.signupForm.get('password').value==this.signupForm.get('confirm_password').value ,
+      this.signupForm.get('email').value==this.signupForm.get('confirm_email').value
+    )
     if(this.signupForm.valid&&!this.intervalLoading&&
       this.signupForm.get('password').value==this.signupForm.get('confirm_password').value &&
       this.signupForm.get('email').value==this.signupForm.get('confirm_email').value

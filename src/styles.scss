@@ -24,7 +24,8 @@
 .mainColorHeading {
      color: $mainColor;
      display: inline-block;
-     margin-bottom: 10px;
+     padding-bottom: 5px;
+     border-bottom:1px solid $mainColor;
      font-size: 30px;
      font-weight: 300;
 }

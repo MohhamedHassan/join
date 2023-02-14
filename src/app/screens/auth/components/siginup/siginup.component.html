@@ -120,66 +120,72 @@ class="signup heightc p-4">
             </div>
         </div>
         <!--  -->
-        <div class="col-md-6 mb-3">
-            <div class="form-group">
-                <input 
-                formControlName="email"
-                type="email" placeholder="{{'email'|translate}}">
-                <p 
-                *ngIf="(signupForm.controls['email']?.errors!=null && signupForm.controls['email'].touched) ||
-                (signupForm.controls['email']?.errors!=null && submited)
-                "
-                class="my-2 text-danger">
-                    {{'validemail'|translate}}
-                </p>
+        <ng-container
+        *ngIf="!hideEmailAndPassword"
+        >
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <input 
+                    formControlName="email"
+                    type="email" placeholder="{{'email'|translate}}">
+                    <p 
+                    *ngIf="(signupForm.controls['email']?.errors!=null && signupForm.controls['email'].touched) ||
+                    (signupForm.controls['email']?.errors!=null && submited)
+                    "
+                    class="my-2 text-danger">
+                        {{'validemail'|translate}}
+                    </p>
+                </div>
             </div>
-        </div>
-        <!--  -->
-        <div class="col-md-6 mb-3">
-            <div class="form-group">
-                <input 
-                formControlName="confirm_email"
-                type="email" placeholder="{{'confirm_email'|translate}}">
-                <p 
-                *ngIf="(signupForm.controls['email']?.value != signupForm.controls['confirm_email']?.value && signupForm.controls['confirm_email'].touched) ||
-                (signupForm.controls['email']?.value != signupForm.controls['confirm_email']?.value && submited)
-                "
-                class="my-2 text-danger">
-                    {{'email_mismatch'|translate}}
-                </p>
+            <!--  -->
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <input 
+                    formControlName="confirm_email"
+                    type="email" placeholder="{{'confirm_email'|translate}}">
+                    <p 
+                    *ngIf="(signupForm.controls['email']?.value != signupForm.controls['confirm_email']?.value && signupForm.controls['confirm_email'].touched) ||
+                    (signupForm.controls['email']?.value != signupForm.controls['confirm_email']?.value && submited)
+                    "
+                    class="my-2 text-danger">
+                        {{'email_mismatch'|translate}}
+                    </p>
+                </div>
             </div>
-        </div>
-        <!--  -->
-        <div class="col-md-6 mb-3">
-            <div class="form-group">
-                <input 
-                formControlName="password"
-                type="password" placeholder="{{'password'|translate}}">
-                <p
-                *ngIf="(signupForm.controls['password']?.errors!=null && signupForm.controls['password'].touched) ||
-                (signupForm.controls['password']?.errors!=null && submited)
-                "
-                class="my-2 text-danger">
-                    {{'required'|translate}}
-                </p>
+            <!--  -->
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <input 
+                    formControlName="password"
+                    type="password" placeholder="{{'password'|translate}}">
+                    <p
+                    *ngIf="(signupForm.controls['password']?.errors!=null && signupForm.controls['password'].touched) ||
+                    (signupForm.controls['password']?.errors!=null && submited)
+                    "
+                    class="my-2 text-danger">
+                        {{'required'|translate}}
+                    </p>
+                </div>
             </div>
-        </div>
-        <!--  -->
-        <div class="col-md-6 mb-3">
-            <div class="form-group">
-                <input 
-                formControlName="confirm_password"
-                type="password" placeholder="{{'confirm_password'|translate}}">
-                <p
-                *ngIf="(signupForm.controls['password']?.value != signupForm.controls['confirm_password']?.value && signupForm.controls['confirm_password'].touched) ||
-                (signupForm.controls['password']?.value != signupForm.controls['confirm_password']?.value && submited)
-                "
-                class="my-2 text-danger">
-                    {{'password_mismatch'|translate}}
-                </p>
+            <!--  -->
+            <div class="col-md-6 mb-3">
+                <div class="form-group">
+                    <input 
+                    formControlName="confirm_password"
+                    type="password" placeholder="{{'confirm_password'|translate}}">
+                    <p
+                    *ngIf="(signupForm.controls['password']?.value != signupForm.controls['confirm_password']?.value && signupForm.controls['confirm_password'].touched) ||
+                    (signupForm.controls['password']?.value != signupForm.controls['confirm_password']?.value && submited)
+                    "
+                    class="my-2 text-danger">
+                        {{'password_mismatch'|translate}}
+                    </p>
+                </div>
             </div>
-        </div>
-        <!--  -->
+            <!--  -->
+        </ng-container>
+        
+
         <div class="col-md-12 mb-3">
             <div>
                 <button 

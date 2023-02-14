@@ -4,7 +4,8 @@
       <accordion
       [isAnimated]="true"
       [closeOthers]="true">
-        <accordion-group heading="{{'select_location'|translate}}">
+        <accordion-group
+         [heading]="selectedLocation?.branch?.branch_name || 'select_location'|translate">
             <div 
             *ngFor="let item of location;let i = index"
             class="form-check mb-2">
@@ -19,7 +20,8 @@
             </div>
         </accordion-group>
         <!--  -->
-        <accordion-group heading="{{'select_Date'|translate}}">
+        <accordion-group 
+        [heading]="(selectedDate|date) || 'select_Date'|translate">
           <div 
           *ngIf="selectedLocation&&checkTodayDate(selectedLocation)"
           class="my-2 d-flex justify-content-center"
@@ -45,7 +47,9 @@
           </div>
         </accordion-group>
         <!--  -->
-        <accordion-group heading="{{'select_time'|translate}}" >
+        <accordion-group 
+        [heading]="selectedTime?.from_time ? (selectedTime?.from_time + ' - ' + selectedTime?.to_time) :'select_time'|translate" 
+        >
             <div 
             *ngFor="let item of availableTime;let i = index"
             class="form-check mb-2">

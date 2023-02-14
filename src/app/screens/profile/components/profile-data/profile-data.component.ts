@@ -45,8 +45,12 @@ export class ProfileDataComponent implements OnInit {
           this.loading=false
           this.counterToEnable()
         }).catch((err) => {
-          this.toastr.error(err?.message||'Something wnt wrong')  
-          this.loading=false
+          if(err?.message=='reCAPTCHA has already been rendered in this element') {
+            this.getOtp()
+          } else {
+            this.toastr.error(err?.message || 'Something wnt wrong')
+            this.loading = false
+          }
       
         })
       }

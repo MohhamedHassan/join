@@ -10,7 +10,7 @@ import { HomeService } from '../../services/home.service';
 export class HomeComponent implements OnInit {
   tabs:Tabs[] = 
   [
-    {name_ar:'أنشطة',name_en:'Activities',id:'1'},
+    {name_ar:'الأنشطة',name_en:'Activities',id:'1'},
     {name_ar:'الاندية',name_en:'Clubs',id:'2'},
   // {name:'Events',route:3},
   {name_ar:'الأهتمامات',name_en:'Interests',id:'3'}

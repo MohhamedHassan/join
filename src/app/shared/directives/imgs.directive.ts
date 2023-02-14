@@ -13,6 +13,6 @@ export class ImgsDirective {
 
   @HostListener('error')
   onError() {
-    this.src = 'http://argauto.lv/application/modules/themes/views/default/assets/images/image-placeholder.png'
+    this.src = 'assets/images/default.jpg'
   }
 }

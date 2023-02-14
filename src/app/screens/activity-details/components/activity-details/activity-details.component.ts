@@ -14,6 +14,7 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
+  selectedLocation
   members:any[]=[]
   markers=[]
   center: google.maps.LatLngLiteral;
@@ -106,9 +107,11 @@ export class ActivityDetailsComponent implements OnInit {
          )
         }
         this.loading=false
+        console.log(res)
        }
 
     )
+    
   }
 get lang() {
   return localStorage.getItem('lang') || 'en'
