@@ -202,7 +202,9 @@ class="signup heightc p-4">
             <div>
                 <p>
                     {{'Already_have_account'|translate}}
-                    <a routerLink="/auth/login">{{'signin'|translate}}</a>
+                    <a 
+                    class="sign"
+                    routerLink="/auth/login">{{'signin'|translate}}</a>
                 </p>
             </div>
         </div>
@@ -239,7 +241,7 @@ class="cstmpopup ">
             <div>
                 <input
                 onKeyPress="if(this.value.length==6) return false;console.log(this.value)"
-                type="number"
+                type="number" min="0"
                 [formControl]="verifiedCodeControl"
                 placeholder="{{'code'|translate}}"
                 class="form-control my-3">

@@ -1,5 +1,5 @@
 <article class="clup-cart glopal-cart position-relative">
-    <div *ngIf="show_heart" class="d-flex justify-content-end p-2 heart">
+    <div class="d-flex justify-content-end p-2 heart">
         <ng-container 
         *ngIf="has_products"
         >
@@ -8,7 +8,9 @@
             </a>
             <span class="mx-1"></span>
         </ng-container>
-        <i (click)=" addClupToFavorite()" [class.active]="heartStatus=='FAVORITE'" class="fa-solid fa-heart"></i>
+        <i 
+        *ngIf="show_heart" 
+        (click)=" addClupToFavorite()" [class.active]="heartStatus=='FAVORITE'" class="fa-solid fa-heart"></i>
     </div>
     <div class="imgPart">
         <img appImgs [src]="imgSrc" alt="join">

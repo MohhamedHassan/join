@@ -206,7 +206,7 @@ class="cstmpopup ">
                 [formControl]="verifiedCodeControl"
                 placeholder="{{'code'|translate}}"
                 onKeyPress="if(this.value.length==6) return false;console.log(this.value)"
-                type="number" 
+                type="number" min="0" 
                  class="form-control my-3">
                 <p 
                 *ngIf="verifiedCodeControl?.errors!=null && verifiedCodeControl?.touched"

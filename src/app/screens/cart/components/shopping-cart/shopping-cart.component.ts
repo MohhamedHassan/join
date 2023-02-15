@@ -473,7 +473,7 @@ export class ShoppingCartComponent implements OnInit {
           // not available value from down
           activity_data.booking_status = 'SUCCESS'
           activity_data.booking_amount_type = this.cartitems[i]?.selectedLocation?.price_type
-          if (this.cartitems[i]?.selectedLocation?.price_type != 'PAY_AT_PLACE') {
+          if (true) {
             if (this.cartitems[i]?.cstmtype == 1 && this.cartitems[i]?.type == 1) {
               if (this.cartitems[i]?.disc == 0) {
                 activity_data.booking_discount = 0
@@ -481,8 +481,8 @@ export class ShoppingCartComponent implements OnInit {
                   activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
                   activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
                 } else {
-                  activity_data.booking_amount += this.cartitems[i]?.selectedLocation.price * 1
-                  activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
+                  activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * 1
+                  activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * 1
                 }
               } else {
                 activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
@@ -507,8 +507,8 @@ export class ShoppingCartComponent implements OnInit {
             }
           }
 
-          activity_data.number_of_child = this.cartitems[i]?.notUserMembersCount||0
-          activity_data.booked_seats = this.cartitems[i]?.selectedMembers?.length||0, //// x
+          activity_data.number_of_child = !!localStorage.getItem('joinToken') ? 0 : this.cartitems[i]?.notUserMembersCount
+          activity_data.booked_seats = this.cartitems[i]?.selectedMembers?.length||0, 
             activity_data.booking_amount = Number(activity_data.booking_amount).toFixed(3)
             console.log()
           activity_data.booking_payment = Number(activity_data.booking_payment).toFixed(3)
@@ -526,15 +526,15 @@ export class ShoppingCartComponent implements OnInit {
               requestBody.child_id.push(child_id)
               //  end child_id
               let booking_session: any = {};
-              booking_session.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
+              booking_session.branch_id = String(this.cartitems[i]?.selectedLocation?.branch_id)
               booking_session.no_of_session = '1'
               booking_session.from_time = this.cartitems[i]?.selectedTime?.from_time
               booking_session.to_time = this.cartitems[i]?.selectedTime?.to_time
-              booking_session.club_activity_location_id = this.cartitems[i]?.selectedTime?.id
-              booking_session.activity_id = this.cartitems[i]?.id
-              booking_session.child_id = element?.child_id
-              booking_session.booking_session = this.cartitems[i]?.selectedLocation?.id
-              booking_session.max_seats = this.cartitems[i]?.selectedLocation?.max_seats
+              booking_session.club_activity_location_id = String(this.cartitems[i]?.selectedTime?.club_activity_location_id)
+              booking_session.activity_id = String(this.cartitems[i]?.id)
+              booking_session.child_id = String(element?.child_id)
+              booking_session.booking_session = String(this.cartitems[i]?.selectedLocation?.id)
+              booking_session.max_seats = String(this.cartitems[i]?.selectedLocation?.max_seats)
               booking_session.selected_date = this.datePipe.transform(this.cartitems[i]?.selectedDate, 'yyy-MM-dd')
               requestBody.booking_session.push(booking_session)
               // end booking_session
@@ -613,27 +613,24 @@ export class ShoppingCartComponent implements OnInit {
           activity_data.days_for_activity = this.cartitems[i]?.selectedLocation?.days_for_activity
           activity_data.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
           activity_data.max_seats = this.cartitems[i]?.selectedLocation?.max_seats
-          activity_data.selected_date = this.cartitems[i]?.selectedDate
-          activity_data.activity_id = this.cartitems[i]?.id
-          // not available value from down
+          activity_data.selected_date =  this.datePipe.transform(this.cartitems[i]?.selectedDate, 'yyy-MM-dd')
+          activity_data.activity_id = String(this.cartitems[i]?.id)
           activity_data.booking_status = 'SUCCESS'
           activity_data.booking_amount_type = 'PRICE'
-          //  activity_data.booking_amount = '345'
-          //  activity_data.booking_discount =  '45'
-          // activity_data.booking_payment = '300'
-          activity_data.shipping_charge = "3"
-          activity_data.number_of_child = 0,
-            activity_data.booked_seats = "1"
-          if (this.cartitems[i]?.selectedLocation?.price_type != 'PAY_AT_PLACE') {
+          activity_data.shipping_charge = this.cartitems[i]?.club_details?.shipping_charge
+          activity_data.number_of_child =!!localStorage.getItem('joinToken') ? 0 : this.cartitems[i]?.notUserMembersCount,
+          activity_data.booked_seats = this.cartitems[i]?.selectedMembers?.length||0
+          if (true) {
             if (this.cartitems[i]?.cstmtype == 1 && this.cartitems[i]?.type == 1) {
               if (this.cartitems[i]?.disc == 0) {
                 activity_data.booking_discount = 0
                 if (!this.cartitems[i]?.member_is_optional) {
                   activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
                   activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
+                  console.log(this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length)
                 } else {
-                  activity_data.booking_amount += this.cartitems[i]?.selectedLocation.price * 1
-                  activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
+                  activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * 1
+                  activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * 1
                 }
               } else {
                 activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
@@ -653,12 +650,12 @@ export class ShoppingCartComponent implements OnInit {
 
               }
 
-              activity_data.number_of_child = this.cartitems[i]?.notUserMembersCount
+              
             }
           }
-          activity_data.booking_amount = Number(activity_data.booking_amount).toFixed(2)
-          activity_data.booking_payment = Number(activity_data.booking_payment).toFixed(2)
-          activity_data.booking_discount = Number(activity_data.booking_discount).toFixed(2)
+          activity_data.booking_amount = Number(activity_data.booking_amount).toFixed(3)
+          activity_data.booking_payment = Number(activity_data.booking_payment).toFixed(3)
+          activity_data.booking_discount = Number(activity_data.booking_discount).toFixed(3)
           availableSeatsRequestBody.activity_data.push(activity_data)
 
           //////////// end activity_data
@@ -667,23 +664,23 @@ export class ShoppingCartComponent implements OnInit {
             this.cartitems[i]?.selectedMembers.forEach(element => {
               let child_id: any = {}
               child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
-              child_id.activity_id = this.cartitems[i]?.id
-              child_id.child_id = element?.child_id
+              child_id.activity_id = String(this.cartitems[i]?.id)
+              child_id.child_id = String(element?.child_id)
               availableSeatsRequestBody.child_id.push(child_id)
               //////////// end child_id
 
 
               let booking_session: any = {};
               booking_session.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
-              booking_session.no_of_session = '1' //// what value ????
+              booking_session.no_of_session = '1' 
               booking_session.from_time = this.cartitems[i]?.selectedTime?.from_time
               booking_session.to_time = this.cartitems[i]?.selectedTime?.to_time
-              booking_session.club_activity_location_id = this.cartitems[i]?.selectedLocation?.id
+              booking_session.club_activity_location_id = this.cartitems[i]?.selectedTime?.club_activity_location_id
               booking_session.activity_id = this.cartitems[i]?.id
               booking_session.child_id = element?.child_id
-              booking_session.selected_date = this.cartitems[i]?.selectedDate
+              booking_session.selected_date = this.datePipe.transform(this.cartitems[i]?.selectedDate, 'yyy-MM-dd')
               booking_session.max_seats = this.cartitems[i]?.selectedLocation?.max_seats
-              booking_session.booking_session = "902"
+              booking_session.booking_session = String(this.cartitems[i]?.selectedLocation?.id)
               availableSeatsRequestBody.booking_session.push(booking_session)
               //////////// end booking_session
 
@@ -759,7 +756,7 @@ export class ShoppingCartComponent implements OnInit {
                       i.apartment = this.selectedAddress?.apartment || ''
                   })
                   localStorage.setItem('joincart', JSON.stringify(this.cartitems))
-                  window.open(response?.message, '_blanket')
+                  window.open(response?.message, '_blank')
                   console.log(this.cartitems)
                 }
               }, err => {

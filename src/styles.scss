@@ -147,7 +147,7 @@ nav {
                     color: black;
                     transition: .5s;
                     padding: 7px 15px;
-                    display: inline-block;
+                    display:block;
                     border-bottom: 2px solid transparent;
                }
 
@@ -184,6 +184,7 @@ nav {
                padding-left: 0px !important;
                padding-right: 0px !important;
                transition: .5s;
+               display: inline-block !important;
                &:hover {
                     color:$mainColor !important;
                }
@@ -258,6 +259,19 @@ nav {
           }
      }
 }
+
+@media only screen and (max-width: 992px) {
+     nav {
+          .links {
+               li:not(.drb) {
+                    a {
+                         display:inline-block;
+                    }
+               }
+          }
+     }
+}
+
 
 // end navbar
 .categoriesList {
@@ -527,7 +541,7 @@ footer {
      button[disabled] {
           background-color:#efc692;
      }
-     a {
+     a.sign{
           color: $mainColor;
           border-bottom: 1px solid $mainColor;
      }
@@ -788,7 +802,7 @@ footer {
      bottom:0;
      right:0;
      left:0;
-     z-index: 11111;
+     z-index: 1111111111;
      background-color: rgba(0, 0, 0, 0.5);
      display: flex;
      align-items: center;

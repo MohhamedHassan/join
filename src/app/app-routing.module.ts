@@ -4,6 +4,7 @@ import { AboutJoinComponent } from './components/about-join/about-join.component
 import { NotfoundComponent } from './components/notfound/notfound.component';
 import { PaymentFailedComponent } from './components/payment-failed/payment-failed.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
+import { PromotionComponent } from './components/promotion/promotion.component';
 import { TermsComponent } from './components/terms/terms.component';
 import { NotUserGuard } from './guards/not-user.guard';
 import { UserGuard } from './guards/user.guard';
@@ -86,6 +87,10 @@ const routes: Routes = [
   {
     path:'terms',
     component:TermsComponent
+  },
+  {
+    path:'promotion',
+    component:PromotionComponent
   },
   {
     path:'payment_suuccess',

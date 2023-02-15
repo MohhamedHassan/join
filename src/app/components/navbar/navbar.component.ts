@@ -85,8 +85,8 @@ pagetype=-1
         if(val?.url=='/activites') this.pagetype=2
         if(val?.url=='/store') this.pagetype=3
         if(val?.url!='/auth/login' 
-        && val?.url!='/auth/sginup'
-        && val?.url.includes('/auth/sginup')  
+        && val?.url!='/auth/signup'
+        && !val?.url.includes('/auth/signup')  
         && val?.url!='/payment_suuccess' 
         && val?.url!='/payment_failed' 
         && val?.url!='/cart?type=0'
