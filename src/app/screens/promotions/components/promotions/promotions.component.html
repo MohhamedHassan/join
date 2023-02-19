@@ -1,0 +1,36 @@
+<section 
+style="min-height: 100vh;">
+    <app-shared-header
+    header="promotion"
+    ></app-shared-header>
+    <!--  -->
+    <div class="container">
+        <div
+        class="row">
+            <ng-container
+            *ngFor="let promotion of promotions;"
+            >
+                <div 
+                *ngIf="checkObjectLength(promotion?.activity_data)"
+                class="col-md-4 col-lg-3 mb-4">
+                    <app-cart-one 
+                    [location_count]="promotion?.activity_data?.location_count"
+                    [detailsPageRoute]="'/activity/'+promotion?.activity_data?.id"
+                    [title]="promotion?.activity_data?.title"
+                    [age_from]="promotion?.activity_data?.age_from"
+                    [age_to]="promotion?.activity_data?.age_to"
+                    [price]="promotion?.activity_data?.location[0].price"
+                    [interests_name]="promotion?.activity_data?.interests_name"
+                    [imgSrc]="promotion?.activity_data?.banner"
+                    ></app-cart-one>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+<p    
+class="text-secondary fw-bold text-center"
+*ngIf="!promotions?.length&&!loading">
+   {{'no_data'|translate}}
+</p>
+<app-laoding *ngIf="loading"></app-laoding>
+<section>

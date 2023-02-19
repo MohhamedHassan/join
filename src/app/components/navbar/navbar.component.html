@@ -501,21 +501,23 @@ class="cstmpopup ">
             <h2
             style="font-weight: 400;font-size:20px;line-height: 30px;"
             >{{'delete_account_confirm'|translate}}</h2>
-            <div class="mt-4">
-                <button 
-                (click)="deleteMyAccount()"
-                class="btn btn-danger">
-                    {{'delete'|translate}}
-                    <i 
-                    *ngIf="deleteAccountLoading"
-                    class="fas fa-circle-notch fa-spin"></i>
-                </button>
-                <span class="mx-2"></span>
-                <button 
-                (click)="showDeleteAccountPopup=-1"
-                class="btn btn-warning">
-                    {{'cancel'|translate}}
-                </button>
+            <div class="mt-4 d-flex justify-content-end  ">
+                <div>
+                    <button 
+                    (click)="deleteMyAccount()"
+                    class="btn btn-danger">
+                        {{'delete'|translate}}
+                        <i 
+                        *ngIf="deleteAccountLoading"
+                        class="fas fa-circle-notch fa-spin"></i>
+                    </button>
+                    <span class="mx-2"></span>
+                    <button 
+                    (click)="showDeleteAccountPopup=-1"
+                    class="btn btn-warning">
+                        {{'cancel'|translate}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -537,7 +539,7 @@ style="position: fixed;right:10px;bottom:10px;z-index: 11111;"
     href="" class="mb-2">
         <i 
         style="font-size: 25px;"
-        class="fa-brands fa-apple orangecolor"></i>
+        class="fa-brands fa-apple maincolor"></i>
     </a>
     <a 
     style="
@@ -553,6 +555,6 @@ style="position: fixed;right:10px;bottom:10px;z-index: 11111;"
     href="" >
     <i 
     style="font-size: 25px;"
-    class="fa-brands fa-google-play orangecolor"></i>
+    class="fa-brands fa-google-play maincolor"></i>
     </a>
 </div>

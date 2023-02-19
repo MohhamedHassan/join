@@ -21,7 +21,7 @@ class="gender">
         <button 
         [disabled]="!selectedGender"
         (click)="selectGEnderDone()"
-        class="btn btn-danger">
+        class="maincolorbtn">
             {{'next'|translate}}
         </button>
     </div>
@@ -44,7 +44,7 @@ class="general-info">
     (ngSubmit)="submitMemberForm(memberForm)"
     >
         <div class="form-group mb-2">
-            <label for="">{{'name'|translate}}</label>
+            <label for="">{{'first_name'|translate}}</label>
             <input 
             formControlName="name"
             type="text"  class="form-control">
@@ -55,6 +55,18 @@ class="general-info">
                 {{'required'|translate}}
             </p>
         </div>
+        <!-- <div class="form-group mb-2">
+            <label for="">{{'last_name'|translate}}</label>
+            <input 
+            formControlName="last_name"
+            type="text"  class="form-control">
+            <p 
+            *ngIf="(memberForm.controls['last_name']?.errors!=null && memberForm.controls['last_name'].touched) ||
+            (memberForm.controls['last_name']?.errors!=null && submited)"
+            class="my-1 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div> -->
         <div class="form-group mb-2">
             <label for="">{{'dob'|translate}}</label>
             <input 
@@ -70,14 +82,14 @@ class="general-info">
         <div class="d-flex justify-content-end">
             <button 
             [disabled]="memberForm.invalid"
-            class="btn btn-danger">
+            class="maincolorbtn">
                 {{'next'|translate}}
             </button>
             <span class="mx-2"></span>
             <button 
             type="button"
             (click)="step=1"
-            class="btn btn-danger">
+            class="maincolorbtn">
                 {{'back'|translate}}
             </button>
         </div>
@@ -114,6 +126,9 @@ class="general-info">
                             {{item?.name}} 
                         </a>
                     </h2>
+                    <p class="m-0">
+                        {{item?.sub_interests?.length}}/{{selectedInterist==i ? selectedSubInterists?.length : 0}}
+                    </p>
                 </div>
             </article>
         </div>
@@ -129,13 +144,13 @@ class="general-info">
         <button 
         [disabled]="selectedInterist==-1"
         (click)="interstNext()"
-        class="btn btn-danger">
+        class="maincolorbtn">
             {{'next'|translate}}
         </button>
         <span class="mx-2"></span>
         <button 
         (click)="step=2"
-        class="btn btn-danger">
+        class="maincolorbtn">
             {{'back'|translate}}
         </button>
     </div>
@@ -165,8 +180,8 @@ class="general-info">
         <button 
       [disabled]="!selectedSubInterists.length||addMemberLoading"
         (click)="createMember()"
-        class="btn btn-danger">
-            {{'finish'|translate}}
+        class="maincolorbtn">
+            {{'save'|translate}}
             <i 
             *ngIf="addMemberLoading"
             class="fas fa-circle-notch fa-spin"></i>
@@ -174,7 +189,7 @@ class="general-info">
         <span class="mx-2"></span>
         <button 
         (click)="step=3"
-        class="btn btn-danger">
+        class="maincolorbtn">
             {{'back'|translate}}
         </button>
     </div>

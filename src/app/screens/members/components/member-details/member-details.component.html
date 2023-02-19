@@ -68,21 +68,23 @@ class="cstmpopup ">
             <h2
             style="font-weight: 400;font-size:20px;line-height: 30px;"
             >{{'deletemember'|translate}}</h2>
-            <div class="mt-4">
-                <button 
-                (click)="deleteMember()"
-                class="btn btn-danger">
-                    {{'delete'|translate}}
-                    <i 
-                    *ngIf="deleteLoading"
-                    class="fas fa-circle-notch fa-spin"></i>
-                </button>
-                <span class="mx-2"></span>
-                <button 
-                (click)="showDeleteMemberpopup=false"
-                class="btn btn-warning">
-                    {{'cancel'|translate}}
-                </button>
+            <div class="mt-4 d-flex justify-content-end ">
+                <div>
+                    <button 
+                    (click)="deleteMember()"
+                    class="btn btn-danger">
+                        {{'delete'|translate}}
+                        <i 
+                        *ngIf="deleteLoading"
+                        class="fas fa-circle-notch fa-spin"></i>
+                    </button>
+                    <span class="mx-2"></span>
+                    <button 
+                    (click)="showDeleteMemberpopup=false"
+                    class="btn btn-warning">
+                        {{'cancel'|translate}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>

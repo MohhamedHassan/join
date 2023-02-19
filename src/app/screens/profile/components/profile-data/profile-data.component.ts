@@ -38,7 +38,7 @@ export class ProfileDataComponent implements OnInit {
         child.setAttribute('class','d-none')
         document.body.appendChild(child)
         this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
-        firebase.auth().signInWithPhoneNumber(this.profilForm.value?.newmobile?.e164Number,this.captchaVerifier).then((res) => {
+        firebase.auth().signInWithPhoneNumber(this.profilForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
           console.log(res)
           this.showVerificationpopup=true
           this.verificationId = res?.verificationId
@@ -86,6 +86,7 @@ export class ProfileDataComponent implements OnInit {
         fname:res?.fname,
         lname:res?.lname,
         mobile:res?.mobile,
+        // newmobile:res?.mobile,
         dob:res?.dob,
         area_id:res?.area_id,
         email:res?.email,
@@ -106,10 +107,9 @@ export class ProfileDataComponent implements OnInit {
       lname:['',Validators.required],
       mobile:['',Validators.required],
       dob:['',Validators.required],
-      area_id:['',Validators.required],
+      area_id:[''],
       gender:['',Validators.required],
       email:['',[Validators.required,Validators.email]],
-      newmobile:[''],
     })
   }
   dateInputType(value:any) {
@@ -120,10 +120,12 @@ export class ProfileDataComponent implements OnInit {
 
   }
   updateProfile(formvalue:any) {
+    console.log()
     this.submited=true
     console.log(this.profilForm.value)
     if(this.profilForm.valid) {
-    if(this.profilForm.get('newmobile')?.value) {
+      //this.profilForm.value?.mobile?.number != this.oldmobile
+    if(false) {
       if(!this.intervalLoading) {
         this.getOtp()
       } else {
@@ -164,7 +166,7 @@ export class ProfileDataComponent implements OnInit {
           console.log(res)
           this.verifyoading=false
           this.loading=true
-          let mobile = this.profilForm.get('newmobile')?.value.e164Number.replace(this.profilForm.get('newmobile')?.value.dialCode,'')
+          let mobile = this.profilForm.get('mobile')?.value.e164Number.replace(this.profilForm.get('mobile')?.value.dialCode,'')
           this.profilForm.patchValue({
             mobile:mobile
           })

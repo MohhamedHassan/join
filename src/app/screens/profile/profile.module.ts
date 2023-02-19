@@ -8,6 +8,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ProfileSidebarComponent } from './components/profile-sidebar/profile-sidebar.component';
 import { MyAddressesComponent } from './components/my-addresses/my-addresses.component';
 import { ChangePasswodComponent } from './components/change-passwod/change-passwod.component';
+import { SchduleComponent } from './components/schdule/schdule.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { ChangePasswodComponent } from './components/change-passwod/change-passw
     ProfileDataComponent,
     ProfileSidebarComponent,
     MyAddressesComponent,
-    ChangePasswodComponent
+    ChangePasswodComponent,
+    SchduleComponent
   ],
   imports: [
     CommonModule,

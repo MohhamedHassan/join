@@ -14,7 +14,7 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
-  selectedLocation
+  sharePopup=false
   members:any[]=[]
   markers=[]
   center: google.maps.LatLngLiteral;
@@ -94,7 +94,13 @@ export class ActivityDetailsComponent implements OnInit {
               options: { animation: google.maps.Animation.BOUNCE }
             })
           })
-
+          this.activity_details.selectedLocation=this.activity_details.location[0]
+          let today = new Date()
+          let from = new Date(this.activity_details.location[0]?.from_date)
+          this.activity_details.selectedDate=today>from ? today : from
+          if(this.activity_details.selectedLocation?.dates_times?.length) {
+            this.activity_details.selectedTime= this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+          }
         }
         if(!!localStorage.getItem("joinToken")) {
           this.membersservice.members.subscribe(

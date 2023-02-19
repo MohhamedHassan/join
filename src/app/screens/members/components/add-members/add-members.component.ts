@@ -55,6 +55,7 @@ export class AddMembersComponent implements OnInit {
     this.homeService.intersts.subscribe((res) => {
       if(Array.isArray(res)) {
         this.intersts=res
+        console.log(this.intersts)
       }
     })
 
@@ -97,11 +98,18 @@ export class AddMembersComponent implements OnInit {
 
 
 selectInters(item:any,index:any) {
-  this.selectedSubInterists=[]
   this.selectedInterist=index
   this.subInterst=item?.sub_interests
+  this.selectedSubInterists=[]
+  item?.sub_interests.forEach(element => {
+    let obj = {
+      interests_id:element?.sub_interests_id
+    }
+    this.selectedSubInterists.push(obj)
+  });
+  console.log(this.selectedSubInterists)
   this.subInterst.map(item => {
-    item.selected = false
+    item.selected = true
   })
 }
 interstNext() {

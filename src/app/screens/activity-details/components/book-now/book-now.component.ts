@@ -17,6 +17,9 @@ export class BookNowComponent implements OnInit {
   @Input() ageFrom:any
   @Input() ageTo:any
   @Input() member_is_optional:any
+  @Input() selectedLocationFromParent:any
+  @Input() selectedDateFromParent:any
+  @Input() selectedTimeFromParent:any
   @Output() patchActivityToParent = new EventEmitter()
   @Output() sendLocationToParent = new EventEmitter()
   members:any
@@ -101,7 +104,13 @@ export class BookNowComponent implements OnInit {
       }
 
     })
-
+    this.selectedLocation=this.selectedLocationFromParent
+    this.selectLocation(this.selectedLocation)
+    this.selectedDate=this.selectedDateFromParent
+    this.date=this.selectedDateFromParent
+    this.selectedTime=this.selectedTimeFromParent
+    this.onDateCange(this.date)
+    this.selectTime(this.selectedTimeFromParent)
   }
 selectLocation(item:any) {
   this.selectedDate=null
@@ -158,6 +167,7 @@ checkTodayDate(item) {
   else return false
 }
 onDateCange(value:any) {
+  console.log(value)
   this.selectedDate=null
   this.selectedTime=null
   this.avialbeMembers=0

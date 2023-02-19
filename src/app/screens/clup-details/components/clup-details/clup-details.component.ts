@@ -9,6 +9,7 @@ import { ClupDetailsService, clup_details } from '../../services/clup-details.se
   styleUrls: ['./clup-details.component.scss']
 })
 export class ClupDetailsComponent implements OnInit {
+  sharePopup=false
   center: google.maps.LatLngLiteral;
   options: google.maps.MapOptions = {
     mapTypeId: 'hybrid',

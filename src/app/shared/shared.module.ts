@@ -24,6 +24,7 @@ import { NgxStarsModule } from 'ngx-stars';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ImgsDirective } from './directives/imgs.directive'
 import { CalendarModule } from 'primeng/calendar';
+import { ShareComponent } from './components/share/share.component';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -34,7 +35,8 @@ import { CalendarModule } from 'primeng/calendar';
     PhoneNumberComponent,
     TofixednumberPipe,
     StringToNumberPipe,
-    ImgsDirective
+    ImgsDirective,
+    ShareComponent
   ],
   imports: [
     GoogleMapsModule,
@@ -84,7 +86,8 @@ import { CalendarModule } from 'primeng/calendar';
     AccordionModule,
     BsDatepickerModule,
     StringToNumberPipe,
-    ImgsDirective
+    ImgsDirective,
+    ShareComponent
   ],
   providers: [
     DatePipe

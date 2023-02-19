@@ -1,6 +1,18 @@
 
 @import '~swiper/swiper-bundle.css';
 @import '/src/assets//styles/colors.scss';
+.maincolorbtn {
+     border:none;
+     border-radius: 5px;
+     background-color: $mainColor;
+     color:white;
+     outline: none;
+     padding:10px
+}
+.maincolorbtn[disabled]
+{
+     background-color:   #9beded
+}
 %ellipsis {
      white-space: nowrap;
      overflow: hidden;

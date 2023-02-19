@@ -1,12 +1,11 @@
 <ngx-intl-tel-input
 [formControl]="inputname"
-[cssClass]="formcontrol ? 'custom form-control' :   'custom'"
+[cssClass]="formcontrol ? 'custom form-control' :   'form-control'"
 [preferredCountries]="preferredCountries"
 [enableAutoCountrySelect]="true"
 [enablePlaceholder]="true"
 [searchCountryFlag]="true"
 [searchCountryField]="[
-  SearchCountryField.Iso2,
   SearchCountryField.Name
 ]"
 [selectFirstCountry]="false"
@@ -15,7 +14,6 @@
 [phoneValidation]="true"
 [separateDialCode]="separateDialCode"
 [numberFormat]="PhoneNumberFormat.National"
-
 [customPlaceholder]="formcontrol ?   (lang=='ar' ? 'رقم الهاتف الجديد (اختياري)' :'New Phone Number (optional)' ) : (lang=='ar' ? 'رقم الهاتف' :'Phone Number' ) "
 >
 </ngx-intl-tel-input>

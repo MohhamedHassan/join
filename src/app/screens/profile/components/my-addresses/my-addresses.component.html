@@ -1,7 +1,7 @@
 <div 
 class="p-3 rounded my-1 profileaddress profilepages"
-style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;">
-    <div class="d-flex mb-3 mx-2 flex-column flex-md-row justify-content-between align-items-md-center">
+style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;overflow: hidden;">
+    <div class="d-flex mb-3 mx-2  justify-content-between align-items-md-center">
         <h2 style="font-weight: 400;font-size:20px" class="mb-2">{{'myaddresses'|translate}}</h2>
         <div>
             <i 
@@ -27,10 +27,16 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;">
         class="m-2"
         *ngFor="let address of addresses">
         <div
-        class="p-3"
+        class="p-3 flex-column  flex-md-row d-flex justify-content-between align-items-md-center" 
         style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;border-radius: 10px;overflow-x: hidden;"
         >
-            <div class="mb-3">
+        <div
+        class="mb-2 order-2 order-md-1 "
+        >
+            <p class="fw-bold mb-1">{{address?.title}}</p>
+            <p class="m-0">{{address?.area_name}}, {{address?.block}}, {{address?.street}}, {{address?.building}}</p>
+        </div>
+            <div class="mb-2 order-1 order-md-2">
                 <i 
                 style="cursor: pointer;"
                 (click)="showDeleteAddresspopup=address?.id"
@@ -41,8 +47,6 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;">
                 (click)="editAddress(address)"
                 class="fa-solid fa-pen-to-square maincolor"></i>
             </div>
-            <p class="fw-bold mb-1">{{address?.title}}</p>
-            <p class="m-0">{{address?.block}}, {{address?.street}}, {{address?.building}}</p>
         </div>
              
     
@@ -242,21 +246,23 @@ class="cstmpopup ">
             <h2
             style="font-weight: 400;font-size:20px;line-height: 30px;"
             >{{'deleteaddress'|translate}}</h2>
-            <div class="mt-4">
-                <button 
-                (click)="deleteAddress()"
-                class="btn btn-danger">
-                    {{'delete'|translate}}
-                    <i 
-                    *ngIf="deleteLoading"
-                    class="fas fa-circle-notch fa-spin"></i>
-                </button>
-                <span class="mx-2"></span>
-                <button 
-                (click)="showDeleteAddresspopup=-1"
-                class="btn btn-warning">
-                    {{'cancel'|translate}}
-                </button>
+            <div class="mt-4 d-flex justify-content-end  ">
+                    <div>
+                        <button 
+                        (click)="deleteAddress()"
+                        class="btn btn-danger">
+                            {{'delete'|translate}}
+                            <i 
+                            *ngIf="deleteLoading"
+                            class="fas fa-circle-notch fa-spin"></i>
+                        </button>
+                        <span class="mx-2"></span>
+                        <button 
+                        (click)="showDeleteAddresspopup=-1"
+                        class="btn btn-warning">
+                            {{'cancel'|translate}}
+                        </button>
+                    </div>
             </div>
         </div>
     </div>

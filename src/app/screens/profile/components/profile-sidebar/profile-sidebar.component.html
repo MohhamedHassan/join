@@ -19,6 +19,26 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;over
         </li>
         <li>
             <a 
+            [class.active]="openedTab==3"
+            (click)="emitToParent(3)"
+            >
+            <i class="fa-solid fa-key"></i>
+         
+                {{'changepassword'|translate}}
+            </a>
+        </li>
+        <li>
+            <a 
+            [class.active]="openedTab==5"
+            (click)="emitToParent(5)"
+            >
+            <i class="fa-regular fa-calendar-days"></i>
+         
+                {{'Schedule'|translate}}
+            </a>
+        </li>
+        <li>
+            <a 
             [class.active]="openedTab==4"
             (click)="openedTab=4"
             routerLink="/members"
@@ -36,24 +56,7 @@ style="box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);;border: 1px solid #ebebeb;over
                 {{'myaddresses'|translate}}
             </a>
         </li>
-        <li>
-            <a 
-            [class.active]="openedTab==3"
-            (click)="emitToParent(3)"
-            >
-            <i class="fa-solid fa-key"></i>
-         
-                {{'changepassword'|translate}}
-            </a>
-        </li>
-        <li>
-            <a 
-            routerLink="/history"
-            >
-            <i class="fa-regular fa-clock"></i>
-         
-                {{'history'|translate}}
-            </a>
-        </li>
+
+
     </ul>
 </div>

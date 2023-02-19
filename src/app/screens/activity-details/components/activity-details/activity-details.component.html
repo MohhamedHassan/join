@@ -76,12 +76,11 @@
                                     <i class="fa-solid fa-comment maincolor "></i>
                                 </a>
                                 <span class="mx-1"></span>
-                                <a 
-                                target="_blank" rel="noreferrer"
-                                [href]="'https://www.facebook.com/sharer.php?u=https://mohhamedhassan.github.io/join/#//activity/'+activity_details?.id"
-                                >
-                                    <i class="fa-solid fa-share-nodes maincolor"></i>
-                                </a>
+                                <i 
+                                (click)="sharePopup=true"
+                                style="cursor: pointer;"
+                                class="fa-solid fa-share-nodes maincolor"></i>
+                             
                             </div>
                         </div>
                     </div>
@@ -146,7 +145,7 @@
                                 d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z" />
                         </svg>
                     </p> -->
-                    <p class="m-0">{{activity_details.title}}</p>
+                    <!-- <p class="m-0">{{activity_details.title}}</p>
                     <div class="my-1">
                         <i class="maincolor fa-solid fa-location-dot"></i>
                         <span class="mx-1"></span>
@@ -161,7 +160,40 @@
                         <small class="orangecolor">      {{activity_details.location[0].price}} 
                             {{'kwd'|translate}}    
                         </small>
-                    </div>
+                    </div> -->
+                    <ng-container
+                    *ngIf="activity_details?.location?.length"
+                    >
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <p class="m-0 fw-bold">
+                                {{'booking_details'|translate}}
+                            </p>
+                            <i 
+                            class="fa-solid fa-pen-to-square maincolor"
+                            style="cursor: pointer;font-size: 25px;"
+                            ></i>
+                        </div>
+                        <p class="cstmmed mb-1">
+                            {{'location'|translate}} : 
+                            <span class="text-secondary">
+                                {{activity_details.selectedLocation?.branch?.branch_name}}
+                            </span>
+                        </p>
+                        <p class="cstmmed mb-1">
+                            {{'date'|translate}} : 
+                            <span class="text-secondary">
+                                {{activity_details.selectedDate|date}}
+                            </span>
+                        </p>
+                        <p class="cstmmed mb-1">
+                            {{'time'|translate}} : 
+                            <span class="text-secondary">
+                                {{  this.activity_details.selectedTime?.from_time + " - " + this.activity_details.selectedTime?.to_time}}
+                                 ( {{'available'|translate}}  {{this.activity_details.selectedTime?.available_seats}} )
+                            </span>
+                        </p>
+                    </ng-container>
+                    
                     <button 
                     (click)="checkCartItems()"
                     class="w-100 mt-3 book">{{'book_now'|translate}}</button>
@@ -191,6 +223,9 @@ class="cstmpopup d-flex">
 
      
            <app-book-now
+           [selectedLocationFromParent]="activity_details?.selectedLocation"
+           [selectedDateFromParent]="activity_details?.selectedDate"
+           [selectedTimeFromParent]="activity_details?.selectedTime"
            [member_is_optional]="activity_details?.member_is_optional"
            [ageFrom]="activity_details?.age_from"
            [ageTo]="activity_details?.age_to"
@@ -219,18 +254,20 @@ class="cstmpopup d-flex">
             class="mt-2"
             style="font-weight: 400;font-size:20px;line-height: 30px;"
             >{{'delete_activity_message'|translate}}</h2>
-            <div class="mt-4">
-                <button 
-                (click)="acceptDeleteActivity()"
-                class="btn btn-warning">
-                    {{'yes'|translate}}
-                </button>
-                <span class="mx-2"></span>
-                <button 
-                (click)="showDeleteCartActivities=false"
-                class="btn btn-warning">
-                    {{'no'|translate}}
-                </button>
+            <div class="mt-4 d-flex justify-content-end ">
+                <div>
+                    <button 
+                    (click)="acceptDeleteActivity()"
+                    class="btn btn-warning">
+                        {{'yes'|translate}}
+                    </button>
+                    <span class="mx-2"></span>
+                    <button 
+                    (click)="showDeleteCartActivities=false"
+                    class="btn btn-warning">
+                        {{'no'|translate}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -239,4 +276,33 @@ class="cstmpopup d-flex">
 *ngIf="favLoading"
 style="position:fixed;top:0;z-index: 1111;bottom:0;right:0;left:0;display:flex;justify-content: center;align-items: center;background-color: rgba(224, 221, 221, 0.5);">
 <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+</div>
+
+
+
+
+<div 
+
+*ngIf="sharePopup"
+class="cstmpopup d-flex">
+    <div class="content small">
+        <i 
+        (click)="sharePopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mt-2"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'share'|translate}}</h2>
+            <div class="mt-2">
+                <app-share
+                [link]="'https://mohhamedhassan.github.io/join/activity/'+activity_details?.id"
+                ></app-share>
+            </div>
+        </div>
+    </div>
 </div>

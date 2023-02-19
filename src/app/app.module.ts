@@ -31,7 +31,6 @@ import { SharedModule } from './shared/shared.module';
 import { TermsComponent } from './components/terms/terms.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { PaymentFailedComponent } from './components/payment-failed/payment-failed.component';
-import { PromotionComponent } from './components/promotion/promotion.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,8 +42,7 @@ import { PromotionComponent } from './components/promotion/promotion.component';
     AboutJoinComponent,
     TermsComponent,
     PaymentSuccessComponent,
-    PaymentFailedComponent,
-    PromotionComponent,
+    PaymentFailedComponent
   ],
   imports: [
     SharedModule,

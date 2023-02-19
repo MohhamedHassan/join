@@ -81,12 +81,11 @@
                     <i class="fa-solid fa-comment maincolor "></i>
                 </a>
                 <span class="mx-1"></span>
-                <a 
-                target="_blank" rel="noreferrer"
-                [href]="'https://www.facebook.com/sharer.php?u=https://mohhamedhassan.github.io/join/#/clup/'+clup_details?.id"
-                >
-                    <i class="fa-solid fa-share-nodes maincolor"></i>
-                </a>
+                <i 
+                (click)="sharePopup=true"
+                style="cursor: pointer;"
+                class="fa-solid fa-share-nodes maincolor"></i>
+          
             </div>
         </div>
         <p class="my-3" [innerHTML]="savedHtml(clup_details.description)"></p>
@@ -132,3 +131,30 @@
         *ngIf="active==1"></app-reviews>
     </div>
 </section>
+
+
+<div 
+
+*ngIf="sharePopup"
+class="cstmpopup d-flex">
+    <div class="content small">
+        <i 
+        (click)="sharePopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mt-2"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'share'|translate}}</h2>
+            <div class="mt-2">
+                <app-share
+                [link]="'https://mohhamedhassan.github.io/join/clup/'+clup_details?.id"
+                ></app-share>
+            </div>
+        </div>
+    </div>
+</div>

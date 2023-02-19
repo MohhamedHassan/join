@@ -318,18 +318,20 @@ class="cstmpopup ">
             <h2
             style="font-weight: 400;font-size:20px;line-height: 30px;"
             >{{'deleteitem'|translate}}</h2>
-            <div class="mt-4">
-                <button 
-                (click)="deleteCartItem()"
-                class="btn btn-danger">
-                    {{'delete'|translate}}
-                </button>
-                <span class="mx-2"></span>
-                <button 
-                (click)="showDeleteCArtitem=-1"
-                class="btn btn-warning">
-                    {{'cancel'|translate}}
-                </button>
+            <div class="mt-4 d-flex justify-content-end ">
+                <div>
+                    <button 
+                    (click)="deleteCartItem()"
+                    class="btn btn-danger">
+                        {{'delete'|translate}}
+                    </button>
+                    <span class="mx-2"></span>
+                    <button 
+                    (click)="showDeleteCArtitem=-1"
+                    class="btn btn-warning">
+                        {{'cancel'|translate}}
+                    </button>
+                </div>
             </div>
         </div>
     </div>
