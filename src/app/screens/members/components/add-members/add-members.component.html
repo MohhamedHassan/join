@@ -176,17 +176,17 @@ class="general-info">
     <div 
     *ngIf="intersts?.length"
     class="d-flex justify-content-end mt-2">
-        <button 
+        <!-- <button 
         [disabled]="!moveToFinishStep"
         (click)="moveToFinishStep ? step=5 : step=4"
         class="maincolorbtn">
             {{'next'|translate}}
         </button>
-        <span class="mx-2"></span>
+        <span class="mx-2"></span> -->
         <button 
         (click)="isLastStepValid();step=3"
         class="maincolorbtn">
-            {{'back'|translate}}
+            {{'next'|translate}}
         </button>
     </div>
 </div>

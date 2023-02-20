@@ -208,11 +208,11 @@ class="cstmpopup ">
                 onKeyPress="if(this.value.length==6) return false;console.log(this.value)"
                 type="number" min="0" 
                  class="form-control my-3">
-                <p 
+                <!-- <p 
                 *ngIf="verifiedCodeControl?.errors!=null && verifiedCodeControl?.touched"
                 class="text-danger">
                     Enter the five-digit verification code
-                </p>
+                </p> -->
                 <button 
                 (click)="verifyCode()"
                 [disabled]="verifiedCodeControl?.errors!=null||verifyoading"

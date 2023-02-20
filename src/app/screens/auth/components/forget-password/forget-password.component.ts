@@ -32,6 +32,15 @@ export class ForgetPasswordComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit(): void {
+    firebase.initializeApp({
+      apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
+      authDomain: "joinapp-515e6.firebaseapp.com",
+      databaseURL: "https://joinapp-515e6.firebaseio.com",
+      projectId: "joinapp-515e6",
+      storageBucket: "joinapp-515e6.appspot.com",
+      messagingSenderId: "794053292456",
+      appId: "1:794053292456:web:36878b6a9a02cff3"
+    })
     this.forgetPasswordForm = this.fb.group({
       mobile: ['', Validators.required]
     })
@@ -137,5 +146,23 @@ export class ForgetPasswordComponent implements OnInit {
           }
         )
       }
+  }
+  test(input) {
+
+    if(input?.value?.length) {
+      console.log(input?.value?.length)
+      let value = String(input.value)
+      let y = value.replace('e','')
+      input.value=y
+    //  input.value=value.replace('-','')
+    }
+  }
+  numberOnly(event): boolean {
+    const charCode = (event.which) ? event.which : event.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+      return false;
+    }
+    return true;
+
   }
 }

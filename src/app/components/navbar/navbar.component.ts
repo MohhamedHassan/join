@@ -77,16 +77,15 @@ export class NavbarComponent implements OnInit {
 pagetype=-1
   ngOnInit(): void {
     
-
+    console.log(this.router.url)
     this. router.events.subscribe((val:any) => {
       // see also 
       if(val instanceof NavigationEnd)  {
         console.log(val)
-        if(val?.url=='/activites') this.pagetype=2
+        if(val?.url=='/activities') this.pagetype=2
         if(val?.url=='/store') this.pagetype=3
-        if(val?.url!='/auth/login' 
-        && val?.url!='/auth/signup'
-        && !val?.url.includes('/auth/signup')  
+        if(
+        !val?.url.includes('auth')  
         && val?.url!='/payment_suuccess' 
         && val?.url!='/payment_failed' 
         && val?.url!='/cart?type=0'
@@ -98,6 +97,7 @@ pagetype=-1
           
           console.log(this.showPopup,this.showpopUpFirstTime)
         }
+        console.log(this.pagetype)
       }
   });
     this.storeSerive.getStoreTabs().subscribe( 
