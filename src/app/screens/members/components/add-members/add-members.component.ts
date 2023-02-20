@@ -17,11 +17,10 @@ export class AddMembersComponent implements OnInit {
   imgUrl:any='assets/images/useravatar.png'
   memberForm:FormGroup=new FormGroup({})
   submited=false
-  selectedInterist=-1
-  subInterst:any[]=[]
-  selectedSubInterists:any[]=[]
   addMemberLoading=false
   update=false
+  openedInterst=-1
+  moveToFinishStep=false
   @Input() patchToEdit:any
   @Output() closePopUp = new EventEmitter()
   constructor(private homeService:HomeService,
@@ -44,19 +43,33 @@ export class AddMembersComponent implements OnInit {
           name:changes?.patchToEdit?.currentValue?.child_name,
           dob:changes?.patchToEdit?.currentValue?.child_dob
         })
-        this.selectedSubInterists=item?.child_interest
         console.log(item?.child_name)
         console.log(this.memberForm.value)
       }
     }
-
+isLastStepValid() {
+  this.intersts.forEach(element => {
+    if(Array.isArray(element?.sub_interests) && element?.sub_interests?.length) {
+      if(element?.sub_interests.some(item => item.selected==true)) this.moveToFinishStep=true
+   }
+  });
+}
   ngOnInit(): void {
     this.returnform()
     this.homeService.intersts.subscribe((res) => {
       if(Array.isArray(res)) {
         this.intersts=res
-        console.log(this.intersts)
+        this.intersts.forEach(element => {
+          console.log(Array.isArray(element?.sub_interests) , element?.sub_interests?.length)
+          if(Array.isArray(element?.sub_interests) && element?.sub_interests?.length) {
+             element?.sub_interests.forEach(item => {
+                item.selected=true
+             });
+          }
+          
+        });
       }
+      console.log(this.intersts)
     })
 
   }
@@ -93,45 +106,17 @@ export class AddMembersComponent implements OnInit {
     this.submited=true 
     if(this.memberForm.valid) {
       this.step=3
+      this.isLastStepValid();
     }
   }
 
 
-selectInters(item:any,index:any) {
-  this.selectedInterist=index
-  this.subInterst=item?.sub_interests
-  this.selectedSubInterists=[]
-  item?.sub_interests.forEach(element => {
-    let obj = {
-      interests_id:element?.sub_interests_id
-    }
-    this.selectedSubInterists.push(obj)
-  });
-  console.log(this.selectedSubInterists)
-  this.subInterst.map(item => {
-    item.selected = true
-  })
-}
-interstNext() {
-  if(this.selectedInterist!=-1) {
-    this.step=4
-  }
-}
-selectSubInterist(id:any,index:any) {
-  if(this.subInterst[index].selected) {
-    let deleted = this.selectedSubInterists.findIndex(i => i.interests_id==id)
-    this.selectedSubInterists.splice(deleted,1)
-  } else {
-    let obj = {
-      interests_id:id
-    }
-    this.selectedSubInterists.push(obj)
-  }
-  console.log(this.selectedSubInterists)
-  this.subInterst[index].selected = this.subInterst[index]?.selected ? false : true 
-}
+
+
+
 createMember() {
-    if(this.selectedSubInterists.length) {
+  this.isLastStepValid()
+    if(this.moveToFinishStep) {
       let memberFormData = new FormData()
       let chosemdate=this.memberForm.get('dob')?.value
       var diff_ms = Date.now() - new Date(chosemdate).getTime();
@@ -141,7 +126,16 @@ createMember() {
       memberFormData.append('name',this.memberForm.get('name')?.value)
       memberFormData.append('dob',this.memberForm.get('dob')?.value)
       memberFormData.append('age',JSON.stringify(ag))
-      memberFormData.append('interests_id',JSON.stringify(this.selectedSubInterists))
+      let selectedSubInterists:any[] = []
+      this.intersts.forEach(element => {
+        if(Array.isArray(element?.sub_interests) && element?.sub_interests?.length) {
+           element?.sub_interests.forEach(item => {
+              if(item?.selected) selectedSubInterists.push({interests_id:String(item?.sub_interests_id)})
+           });
+        }
+        
+      });
+      memberFormData.append('interests_id',JSON.stringify(selectedSubInterists))
       if(this.memberImg) {
         memberFormData.append('photo',this.memberImg)
       }
@@ -155,7 +149,6 @@ createMember() {
               this.addMemberLoading=false
               this.toastr.success(res?.message)
               this.closePopUp.emit(true)
-              console.log(this.selectedSubInterists)
             } else {
               this.addMemberLoading=false
             }
@@ -183,16 +176,8 @@ createMember() {
     }
 
 }
-resetSteps() {
-  this.step=1
-  this.selectedGender=''
-  this.memberImg=null
-  this.imgUrl='assets/images/useravatar.png'
-  this.memberForm.reset()
-  this.submited=false
-  this.selectedInterist=-1
-  this.subInterst=[]
-  this.selectedSubInterists=[]
-  this.addMemberLoading=false
+
+returnSelectedSubInteristsLength(item:any[]) {
+  return item.filter(i => i.selected).length
 }
 }

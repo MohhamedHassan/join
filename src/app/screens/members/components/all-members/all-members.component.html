@@ -29,7 +29,10 @@
         [routerLink]="['/members/details',member?.child_id]">
             <article class="member-card text-center p-2 rounded">
                 <div style="height: 148px;" class="mb-1">
-                    <img appImgs [src]="child_photo(member)" alt="" class="img-fluid" style="max-height: 148px;">
+                    <img  
+                    [src]="member?.child_photo"
+                    [appMemberDefaultImg]="member?.gender"
+                     alt="" class="w-100 h-100" style="object-fit: cover;">
                 </div>
                 <h3 
                 style="font-size: 15px;"
@@ -51,7 +54,7 @@
 }"
 *ngIf="showpopup"
 class="cstmpopup">
-    <div class="content add-member">
+    <div class="content container add-member">
         <i 
         (click)="showpopup=false"
         [ngStyle]="{
@@ -62,7 +65,7 @@ class="cstmpopup">
         <h2
         style="font-weight: 400;font-size:20px;line-height: 30px;"
         >{{'add_member'|translate}}</h2>
-        <div class="container ">
+        <div class=" ">
      
             <app-add-members
             (closePopUp)="showpopup=false"

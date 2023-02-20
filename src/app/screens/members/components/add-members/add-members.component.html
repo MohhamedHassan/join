@@ -85,13 +85,13 @@ class="general-info">
             class="maincolorbtn">
                 {{'next'|translate}}
             </button>
-            <span class="mx-2"></span>
+            <!-- <span class="mx-2"></span>
             <button 
             type="button"
             (click)="step=1"
             class="maincolorbtn">
                 {{'back'|translate}}
-            </button>
+            </button> -->
         </div>
     </form>
 </div>
@@ -106,12 +106,8 @@ class="general-info">
         *ngFor="let item of intersts;let i = index"
         class="col-md-6 mb-3">
             <article 
-            [ngStyle]="{
-                'background':selectedInterist==i ? '#F89416' : 'white',
-                'color':selectedInterist==i ? 'white' : 'black'
-            }"
             style="cursor: pointer;"
-            (click)="selectInters(item,i)"
+            (click)="isLastStepValid();openedInterst=i;step=4"
             class="clup-cart glopal-cart position-relative rounded">
                 <div class="imgPart">
                     <img appImgs 
@@ -127,7 +123,7 @@ class="general-info">
                         </a>
                     </h2>
                     <p class="m-0">
-                        {{item?.sub_interests?.length}}/{{selectedInterist==i ? selectedSubInterists?.length : 0}}
+                        {{returnSelectedSubInteristsLength(item?.sub_interests)}}/{{item?.sub_interests?.length}}
                     </p>
                 </div>
             </article>
@@ -142,8 +138,8 @@ class="general-info">
     *ngIf="intersts?.length"
     class="d-flex justify-content-end mt-2">
         <button 
-        [disabled]="selectedInterist==-1"
-        (click)="interstNext()"
+        [disabled]="!moveToFinishStep"
+        (click)="isLastStepValid();moveToFinishStep ? step=5 : step=3"
         class="maincolorbtn">
             {{'next'|translate}}
         </button>
@@ -158,19 +154,22 @@ class="general-info">
  
 <div *ngIf="step==4">
     <div class="body">
+        <h2
+        style="font-weight: 400;font-size:20px"
+        >{{intersts[openedInterst]?.name}}</h2>
         <ul style="display:flex;flex-wrap:wrap"
         class="list-unstyled subinteristList p-0 m-0"
         >
             <li
             [class.selected]="item?.selected"
-            (click)="selectSubInterist(item?.sub_interests_id,i)"
-            *ngFor="let item of subInterst;let i = index">
+            (click)="item.selected=!item.selected;isLastStepValid();"
+            *ngFor="let item of intersts[openedInterst]?.sub_interests;let i = index">
                 {{item?.sub_interests_name}}
             </li>
         </ul>
         <p    
         class="text-secondary fw-bold text-center"
-        *ngIf="!subInterst?.length">
+        *ngIf="!intersts[openedInterst]?.sub_interests?.length">
            {{'no_data'|translate}}
         </p>
     </div>
@@ -178,7 +177,96 @@ class="general-info">
     *ngIf="intersts?.length"
     class="d-flex justify-content-end mt-2">
         <button 
-      [disabled]="!selectedSubInterists.length||addMemberLoading"
+        [disabled]="!moveToFinishStep"
+        (click)="moveToFinishStep ? step=5 : step=4"
+        class="maincolorbtn">
+            {{'next'|translate}}
+        </button>
+        <span class="mx-2"></span>
+        <button 
+        (click)="isLastStepValid();step=3"
+        class="maincolorbtn">
+            {{'back'|translate}}
+        </button>
+    </div>
+</div>
+<div
+*ngIf="step==5"
+>
+<div
+class="general-info">
+    <div class="memberimg text-center position-relative">
+            <img appImgs
+            [src]="imgUrl"  alt="">
+            <div class="fileinput">
+                <input
+                (change)="selectMemberImg($event)"
+                type="file">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+    </div>
+    <p class="text-center">
+        {{memberForm?.value?.name}}
+    </p>
+    <form 
+    >
+        <div class="form-group mb-2">
+            <label for="">{{'first_name'|translate}}</label>
+            <input 
+            [readOnly]="true"
+            [value]="memberForm?.value?.name"
+            type="text"  class="form-control">
+        </div>
+        <!-- <div class="form-group mb-2">
+            <label for="">{{'last_name'|translate}}</label>
+            <input 
+            formControlName="last_name"
+            type="text"  class="form-control">
+            <p 
+            *ngIf="(memberForm.controls['last_name']?.errors!=null && memberForm.controls['last_name'].touched) ||
+            (memberForm.controls['last_name']?.errors!=null && submited)"
+            class="my-1 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div> -->
+        <div class="form-group mb-2">
+            <label for="">{{'dob'|translate}}</label>
+            <input 
+            [readOnly]="true"
+            [value]="memberForm?.value?.dob"
+             class="form-control">
+        </div>
+    </form>
+</div>
+<div>
+    <h2
+    style="font-weight: 400;font-size:20px"
+    >{{'Interests'|translate}}</h2>
+    <ul style="display:flex;flex-wrap:wrap"
+    class="list-unstyled subinteristList p-0"
+    >
+    <ng-container
+    *ngFor="let item of intersts;let i = index"
+    >
+    <ng-container
+    *ngFor="let sub of item?.sub_interests;let i = index"
+    
+   >
+       <li
+       class="final"
+       *ngIf="sub?.selected">
+        {{sub?.sub_interests_name}}
+       </li>
+    </ng-container>
+    </ng-container>
+    
+    
+    </ul>
+    <div 
+    *ngIf="intersts?.length"
+    class="d-flex justify-content-end mt-2">
+        <button 
+        [disabled]="!moveToFinishStep||addMemberLoading"
         (click)="createMember()"
         class="maincolorbtn">
             {{'save'|translate}}
@@ -188,9 +276,10 @@ class="general-info">
         </button>
         <span class="mx-2"></span>
         <button 
-        (click)="step=3"
+        (click)="isLastStepValid();step=3"
         class="maincolorbtn">
             {{'back'|translate}}
         </button>
     </div>
+</div>
 </div>

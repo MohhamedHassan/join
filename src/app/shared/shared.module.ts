@@ -25,6 +25,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { ImgsDirective } from './directives/imgs.directive'
 import { CalendarModule } from 'primeng/calendar';
 import { ShareComponent } from './components/share/share.component';
+import { MemberDefaultImgDirective } from './directives/member-default-img.directive';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -36,7 +37,8 @@ import { ShareComponent } from './components/share/share.component';
     TofixednumberPipe,
     StringToNumberPipe,
     ImgsDirective,
-    ShareComponent
+    ShareComponent,
+    MemberDefaultImgDirective
   ],
   imports: [
     GoogleMapsModule,
@@ -87,7 +89,8 @@ import { ShareComponent } from './components/share/share.component';
     BsDatepickerModule,
     StringToNumberPipe,
     ImgsDirective,
-    ShareComponent
+    ShareComponent,
+    MemberDefaultImgDirective
   ],
   providers: [
     DatePipe

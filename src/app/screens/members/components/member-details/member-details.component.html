@@ -9,10 +9,12 @@ style="min-height: 100vh;"
 <div class="container">
         <div class="d-flex justify-content-center mb-5">
             <div class="img text-center">
-                <img appImgs 
+                <img 
+                [appMemberDefaultImg]="memberDetails?.gender" 
+                [src]="memberDetails?.child_photo"
                 style="width: 200px;height:200px;object-fit:contain"
                 class="img-fluid"
-                [src]="child_photo()" alt="">
+                alt="">
                 <h2
                 class="mb-2"
                 style="font-weight: 400;font-size: 25px;"
@@ -27,7 +29,7 @@ style="min-height: 100vh;"
                 </p>
                 <p>
                     <i 
-                    (click)="editMemberPopup=true"
+                    (click)="patchform()"
                     style="cursor: pointer;"
                     class="fa-solid fa-pen maincolor"></i>
                     <span class="mx-2"></span>
@@ -38,15 +40,55 @@ style="min-height: 100vh;"
                 </p>
             </div>
         </div>
-        <h2 *ngIf="memberDetails?.child_interests?.length">{{'Interests'|translate}}</h2>
-        <ul style="display:flex;flex-wrap:wrap"
-        class="list-unstyled subinteristList p-0"
+        <app-laoding *ngIf="homeService?.interistsLoading"></app-laoding>
+        <ng-container
+        *ngIf="!homeService?.interistsLoading"
         >
-            <li
-            *ngFor="let item of memberDetails?.child_interests;let i = index">
-                {{item?.interests_name}}
-            </li>
-        </ul>
+            <h2 *ngIf="intersts?.length">{{'Interests'|translate}}</h2>
+            <!-- <ul style="display:flex;flex-wrap:wrap"
+            class="list-unstyled subinteristList p-0"
+            >
+                <li
+                *ngFor="let item of memberDetails?.child_interests;let i = index">
+                    {{item?.interests_name}}
+                </li>
+            </ul> -->
+            <div class="row">
+                <div 
+                *ngFor="let item of intersts;let i = index"
+                class="col-md-3 mb-3">
+                    <article 
+                    (click)="openedInterst=i"
+                    style="cursor: pointer;"
+                    class="clup-cart glopal-cart position-relative rounded">
+                        <div class="imgPart">
+                            <img appImgs 
+                            [src]="item?.photo_name"  alt="join">
+                        </div>
+                        <div 
+                        class="detasils px-3 py-4">
+                                    <h2 
+                                style="font-weight: 400;padding:10px 0;margin:0"
+                                class="text-center clup-card">
+                                <a >
+                                    {{item?.name}} 
+                                </a>
+                            </h2>
+                            <p class="m-0">
+                                {{returnSelectedSubInteristsLength(item?.sub_interests)}}/{{item?.sub_interests?.length}}
+                            </p>
+                        </div>
+                    </article>
+                </div>
+                <!-- <p    
+                class="text-secondary fw-bold text-center"
+                *ngIf="!intersts?.length">
+                   {{'no_data'|translate}}
+                </p> -->
+            </div>
+        </ng-container>
+        
+  
 </div>
 </ng-container>
 <div 
@@ -90,30 +132,145 @@ class="cstmpopup ">
     </div>
 </div>
 <div 
-[ngClass]="{
-    'd-flex':editMemberPopup,
-    'd-none':!editMemberPopup
-}"
-*ngIf="editMemberPopup"
-class="cstmpopup">
+
+*ngIf="openedInterst!=-1"
+class="cstmpopup d-flex">
     <div class="content add-member">
         <i 
-        (click)="editMemberPopup=false"
+        (click)="openedInterst=-1"
         [ngStyle]="{
             left:lang=='ar'?'20px':'auto',
             right:lang=='ar'?'auto':'20px'
         }"
         class="fa-solid fa-x"></i>
-        <h2
-        style="font-weight: 400;font-size:20px;line-height: 30px;"
-        >{{'add_member'|translate}}</h2>
-        <div class="container ">
-     
-            <app-add-members
-            [patchToEdit]="patchtoedit"
-            (closePopUp)="editMemberPopup=false"
-            ></app-add-members>
+        <div class="body">
+            <h2
+            style="font-weight: 400;font-size:20px"
+            >{{intersts[openedInterst]?.name}}</h2>
+            <ul style="display:flex;flex-wrap:wrap"
+            class="list-unstyled subinteristList p-0 m-0"
+            >
+                <li
+
+                [class.selected]="item?.selected"
+                (click)="item.selected=!item.selected;"
+                *ngFor="let item of intersts[openedInterst]?.sub_interests;let i = index">
+                    {{item?.sub_interests_name}}
+                </li>
+            </ul>
+            <p    
+            class="text-secondary fw-bold text-center"
+            *ngIf="!intersts[openedInterst]?.sub_interests?.length">
+               {{'no_data'|translate}}
+            </p>
+        </div>
+        <div class="mt-2 d-flex justify-content-end ">
+            <div>
+                <button 
+                [disabled]="updateMemberLoading"
+                (click)="updateMember()"
+                class="btn btn-warning">
+                    {{'save'|translate}}
+                    <i 
+                    *ngIf="updateMemberLoading"
+                    class="fas fa-circle-notch fa-spin"></i>
+                </button>
+                <span class="mx-2"></span>
+                <button 
+                (click)="openedInterst=-1"
+                class="btn btn-warning">
+                    {{'cancel'|translate}}
+                </button>
+            </div>
         </div>
     </div>
 </div>
+<!--  -->
+<div 
 
+*ngIf="updateUserInfo"
+class="cstmpopup d-flex">
+    <div class="content small">
+        <i 
+        (click)="updateUserInfo=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container add-member">
+            <h2
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'edit_member'|translate}}</h2>
+            <div class="memberimg text-center position-relative">
+                <img appImgs
+                [src]="imgUrl"  alt="">
+                <div class="fileinput">
+                    <input
+                    (change)="selectMemberImg($event)"
+                    type="file">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+        </div>
+            <form 
+            [formGroup]="memberForm"
+            (ngSubmit)="submitMemberForm(memberForm)"
+            >
+                <div class="form-group mb-2">
+                    <label for="">{{'first_name'|translate}}</label>
+                    <input 
+                    formControlName="name"
+                    type="text"  class="form-control">
+                    <p 
+                    *ngIf="(memberForm.controls['name']?.errors!=null && memberForm.controls['name'].touched) ||
+                    (memberForm.controls['name']?.errors!=null && submited)"
+                    class="my-1 text-danger">
+                        {{'required'|translate}}
+                    </p>
+                </div>
+                <!-- <div class="form-group mb-2">
+                    <label for="">{{'last_name'|translate}}</label>
+                    <input 
+                    formControlName="last_name"
+                    type="text"  class="form-control">
+                    <p 
+                    *ngIf="(memberForm.controls['last_name']?.errors!=null && memberForm.controls['last_name'].touched) ||
+                    (memberForm.controls['last_name']?.errors!=null && submited)"
+                    class="my-1 text-danger">
+                        {{'required'|translate}}
+                    </p>
+                </div> -->
+                <div class="form-group mb-2">
+                    <label for="">{{'dob'|translate}}</label>
+                    <input 
+                    formControlName="dob"
+                    type="date"  class="form-control">
+                    <p 
+                    *ngIf="(memberForm.controls['dob']?.errors!=null && memberForm.controls['dob'].touched) ||
+                    (memberForm.controls['dob']?.errors!=null && submited)"
+                    class="my-1 text-danger">
+                        {{'required'|translate}}
+                    </p>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button 
+                    [disabled]="memberForm.invalid||updateMemberLoading"
+                    class="btn btn-warning">
+                        {{'save'|translate}}
+                        <i 
+                        *ngIf="updateMemberLoading"
+                        class="fas fa-circle-notch fa-spin"></i>
+                    </button>
+                    <span class="mx-2"></span>
+                    <button 
+                    (click)="updateUserInfo=false"
+                    type="button"
+                    class="btn btn-warning">
+                        {{'cancel'|translate}}
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
