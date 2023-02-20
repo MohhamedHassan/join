@@ -26,6 +26,7 @@ import { ImgsDirective } from './directives/imgs.directive'
 import { CalendarModule } from 'primeng/calendar';
 import { ShareComponent } from './components/share/share.component';
 import { MemberDefaultImgDirective } from './directives/member-default-img.directive';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -41,6 +42,7 @@ import { MemberDefaultImgDirective } from './directives/member-default-img.direc
     MemberDefaultImgDirective
   ],
   imports: [
+    BsDropdownModule,
     GoogleMapsModule,
     NgxStarsModule,
     CommonModule,
@@ -66,6 +68,7 @@ import { MemberDefaultImgDirective } from './directives/member-default-img.direc
     CalendarModule
   ],
   exports:[
+    BsDropdownModule,
     CalendarModule,
     GoogleMapsModule,
     NgxStarsModule,

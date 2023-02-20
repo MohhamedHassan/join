@@ -24,18 +24,47 @@ header="notifications"
         class="list-unstyled p-0 m-0">
             <li
             style="border: 1px solid #dddddd;
-            padding: 40px 20px;
-            border-radius: 10px;"
-            class="mb-4 d-flex"
-            *ngFor="let item of notifications"
+            padding:20px 10px;
+            border-radius: 10px;
+            align-items: start;"
+            class="mb-4 d-flex  justify-content-between "
+            *ngFor="let item of notifications;let i = index"
             >
-            <span class="d-block mx-2">
-                <i 
-                (click)="showDeleteNotificationsPopup=item?.id"
-                style="cursor: pointer;"
-                class="fa-solid fa-trash text-danger"></i>
-            </span>
-            {{item?.title}}
+            <a 
+            [routerLink]="['/history/order_details',item?.action_id]"
+            style="max-width:85%;display: block;color: black;"
+            class="d-flex">
+                <span class="d-block mx-2">
+                    <i class="fa-solid fa-bell maincolor"></i>
+                </span>
+                <div>
+                    <p class="maincolor mb-1">
+                        {{item?.title}}
+                       </p>
+                       <p class="m-0">
+                        {{item?.message}}
+                       </p>
+                </div>
+            </a>
+            <div 
+            class="btn-group" dropdown>
+                <button
+                style="background-color: transparent;border:none"
+                id="button-basic" dropdownToggle type="button" 
+                        aria-controls="dropdown-basic">
+                        <i class="fa-solid fa-ellipsis"></i>
+                        <span class="caret"></span>
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu cstm not" 
+                    role="menu" aria-labelledby="button-basic">
+                  <li role="menuitem">
+                    <a class="dropdown-item" 
+                    (click)="showDeleteNotificationsPopup=item?.id;deleteNotification() "
+                    >
+                        {{'dismiss'|translate}}
+                  </a></li>
+                </ul>
+              </div>
         </li>
         </ul>
         <p    
@@ -47,7 +76,7 @@ header="notifications"
     </div>
 
 </section>
-<div 
+<!-- <div 
 [ngClass]="{
     'd-flex':showDeleteNotificationsPopup!=-1,
     'd-none':showDeleteNotificationsPopup==-1
@@ -85,4 +114,4 @@ class="cstmpopup ">
             </div>
         </div>
     </div>
-</div>
+</div> -->

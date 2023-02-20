@@ -19,7 +19,8 @@ export class NotificationsComponent implements OnInit {
     this.notificationsService.notification.subscribe(
       (res:any) =>  {
         if(res) {
-          this.notifications=res
+          this.notifications=res.filter(i => i.message_type=='Order')
+          this.notifications.reverse()
         }
       }
     )
