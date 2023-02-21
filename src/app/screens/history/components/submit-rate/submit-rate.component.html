@@ -2,8 +2,7 @@
     <div class="d-flex">
         <div class="mb-1">
                 <img 
-                class="d-none d-sm-block"
-            style="width:100px;height:100%;object-fit: cover;"
+            style="width:50px;height: 50px;object-fit: cover;"
             [src]="rateData?.club_image" alt="">
         </div>
         <span class="mx-1"></span>
@@ -17,16 +16,62 @@
             <p class='mb-1'>{{rateData?.selected_date}}</p>
         </div>
     </div>
+    <hr>
     <div style="display: flex; align-items: center;justify-content:center;text-align: center;">
         <ngx-stars 
         [readonly]="false" 
         [size]="5" [maxStars]="5"
         customSize="20px"
         color="#00DCDC" 
+        (ratingOutput)="onRatingSet($event)"
         ></ngx-stars>
 
       </div>
       <p class="my-2 text-secondary text-center">
         {{'tap_on'|translate}}
     </p>
+    <hr>
+    <form  
+    (ngSubmit)="submitRate()"
+    [formGroup]="rateForm"
+    
+    >
+        <div class="form-group mb-2">
+            <input 
+            formControlName="review_title"
+            type="text" [placeholder]="'enter_title'|translate" class="form-control">
+            <p 
+            *ngIf="(rateForm.controls['review_title']?.errors!=null && rateForm.controls['review_title'].touched) ||
+            (rateForm.controls['review_title']?.errors!=null && submited)
+            "
+            class="my-2 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div>
+        <div class="form-group mb-2">
+            <textarea 
+            maxlength="250"
+             formControlName="review_desc"
+            placeholder="{{'describe'|translate}}"
+            class="form-control"
+            rows="5"></textarea>
+            <p 
+            *ngIf="(rateForm.controls['review_desc']?.errors!=null && rateForm.controls['review_desc'].touched) ||
+            (rateForm.controls['review_desc']?.errors!=null && submited)
+            "
+            class="my-2 text-danger">
+                {{'required'|translate}}
+            </p>
+        </div>
+        <div class="text-center">
+            <button 
+            [disabled]="loading"
+            class="maincolorbtn">
+                {{'save'|translate}}
+                <i 
+                *ngIf="loading"
+                class="fas fa-circle-notch fa-spin"></i>
+            </button>
+        </div>
+    </form>
 </section>

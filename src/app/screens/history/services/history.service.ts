@@ -21,4 +21,7 @@ export class HistoryService {
       })
     )
   }
+  rate(body) {
+    return this.http.post<any>(`${this.glopalService.apiUrlOne}user/review`,body)
+  }
 }
