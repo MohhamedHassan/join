@@ -83,7 +83,7 @@
               (change)="selectMembers(item?.child_id)"
               class="form-check-input" type="checkbox"  [id]="item?.child_name+i">
               <label class="form-check-label" [for]="item?.child_name+i">
-                {{item?.child_name}}
+                {{item?.child_name|replaceComma}}
                 <ng-container
                 *ngIf="(item?.child_age|stringToNumber)>(ageTo|stringToNumber) || (item?.child_age|stringToNumber)<(ageFrom|stringToNumber)"
                 >

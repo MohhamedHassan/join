@@ -27,6 +27,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { ShareComponent } from './components/share/share.component';
 import { MemberDefaultImgDirective } from './directives/member-default-img.directive';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { MapComponent } from './components/map/map.component';
+import { ReplaceCommaPipe } from './pips/replace-comma.pipe';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -39,7 +41,9 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     StringToNumberPipe,
     ImgsDirective,
     ShareComponent,
-    MemberDefaultImgDirective
+    MemberDefaultImgDirective,
+    MapComponent,
+    ReplaceCommaPipe
   ],
   imports: [
     BsDropdownModule,
@@ -93,7 +97,9 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
     StringToNumberPipe,
     ImgsDirective,
     ShareComponent,
-    MemberDefaultImgDirective
+    MemberDefaultImgDirective,
+    MapComponent,
+    ReplaceCommaPipe
   ],
   providers: [
     DatePipe

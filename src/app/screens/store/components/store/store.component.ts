@@ -19,24 +19,24 @@ export class StoreComponent implements OnInit {
   currentPage=1
   categoryid:any=0
   showLess=false
-  clubid='-1'
+  clubid='0'
   constructor(private storeSerive: StoreService,
     private clupsService:ClupDetailsService,
     private activatedroute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.getStoreTabs()
-  }
-  getStoreTabs() {
+    console.log(this.clubid)
     this.activatedroute.queryParamMap.subscribe(
       (res:any) =>  { 
-        if (res?.params?.id) this.categoryid=res?.params?.id
+        // if (res?.params?.id) this.categoryid=res?.params?.id
+        // else this.categoryid=0
         if (res?.params?.clubid) this.clubid=res?.params?.clubid
-        else this.categoryid=0
+      
+        console.log(this.clubid)
         this.loading=true
         this.requestCompleted=false
         this.products=[]
-        this.storeSerive.getStoreTabs()
+        this.storeSerive.getStoreTabs(this.clubid)
         .pipe(
           map(value => {
             this.tabs = value?.payload?.data
@@ -49,21 +49,9 @@ export class StoreComponent implements OnInit {
           }),
           switchMap((value: Tabs[]) => {
             console.log(this.tabs)
-            if(this.clubid!='-1') {
-              if(!!localStorage.getItem("joinToken")) return this.clupsService.getClupDetailsForUser(this.clubid)
-              else return this.clupsService.getClupDetailsForGuest(this.clubid)
-            } else {
-              if(this.categoryid==0) {
-                if (this.tabs.length) {
-                  this.categoryid=this.tabs[0]?.id
-                  return this.storeSerive.getCategoryById(this.tabs[0]?.id,1)
-                }
-                this.categoryid=0
-                return this.storeSerive.getCategoryById('0',1)
-              } else {
-                return this.storeSerive.getCategoryById(this.categoryid,1)
-              }
-            }
+
+            return this.storeSerive.getCategoryById('0',1,this.clubid)
+            
 
           
           })
@@ -71,25 +59,26 @@ export class StoreComponent implements OnInit {
           (res:any) => {
             this.loading = false
             this.requestCompleted = true
-            if (Array.isArray(res)&&this.clubid=='-1') this.products = res
-            else    this.products=res?.products ?  res?.products : []
+            if (Array.isArray(res)) this.products = res
           }
         )
       }
     )
-
   }
+ 
   categoryIdFromParent(event:any) {
+  
     this.categoryid=event
     this.currentPage=1
     this.showmore=true
     this.getCategoryById(event)
   }
   getCategoryById(categoryId:string) {
+    console.log(this.clubid)
     this.products=[]
     this.loading=true
     this.requestCompleted=false
-    this.storeSerive.getCategoryById(categoryId,1).subscribe(
+    this.storeSerive.getCategoryById(categoryId,1,this.clubid).subscribe(
       res => {
         this.loading = false
         this.requestCompleted = true
@@ -107,7 +96,7 @@ export class StoreComponent implements OnInit {
       window.scroll(0,0)
     }
     this.showLess=false
-    this.storeSerive.getCategoryById(this.categoryid,this.currentPage).subscribe(
+    this.storeSerive.getCategoryById(this.categoryid,this.currentPage,this.clubid).subscribe(
       res => {
         this.loading = false
         this.requestCompleted = true

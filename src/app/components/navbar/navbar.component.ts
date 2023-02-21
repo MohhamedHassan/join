@@ -100,7 +100,7 @@ pagetype=-1
         console.log(this.pagetype)
       }
   });
-    this.storeSerive.getStoreTabs().subscribe( 
+    this.storeSerive.getStoreTabs(0).subscribe( 
       value => this.categories = value?.payload?.data
     )
     if(!!localStorage.getItem('joinToken')) {
@@ -154,9 +154,9 @@ getsliderContent() {
   )
 }
 checkRouting(item):any {
-  if(item?.type=='product') return `/product/${item?.id}`
-  else if(item?.type=='activity') return `/activity/${item?.id}`
-  else if(item?.type=='club') return `/clup/${item?.id}`
-  else if(item?.type=='interest') return `/interests/${item?.id}`
+  if(item?.type=='product') return `/product/${item?.model_id}`
+  else if(item?.type=='activity') return `/activity/${item?.model_id}`
+  else if(item?.type=='club') return `/clup/${item?.model_id}`
+  else if(item?.type=='interest'||item?.type=='subinterest') return `/interests/${item?.model_id}`
 }
 }

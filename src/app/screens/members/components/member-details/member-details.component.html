@@ -19,7 +19,7 @@ style="min-height: 100vh;"
                 class="mb-2"
                 style="font-weight: 400;font-size: 25px;"
                 >
-                    {{memberDetails?.child_name}}
+                    {{replaceComma(memberDetails?.child_name)}}
                 </h2>
                 <p 
                 *ngIf="memberDetails?.child_age"
@@ -228,7 +228,7 @@ class="cstmpopup d-flex">
                         {{'required'|translate}}
                     </p>
                 </div>
-                <!-- <div class="form-group mb-2">
+                <div class="form-group mb-2">
                     <label for="">{{'last_name'|translate}}</label>
                     <input 
                     formControlName="last_name"
@@ -239,7 +239,7 @@ class="cstmpopup d-flex">
                     class="my-1 text-danger">
                         {{'required'|translate}}
                     </p>
-                </div> -->
+                </div>
                 <div class="form-group mb-2">
                     <label for="">{{'dob'|translate}}</label>
                     <input 

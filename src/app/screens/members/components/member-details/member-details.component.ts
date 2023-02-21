@@ -37,6 +37,7 @@ export class MemberDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.memberForm=this.fb.group({
       name:['',Validators.required],
+      last_name:['',Validators.required],
       dob:['',Validators.required]
     })
     this.activatedRoute.params.subscribe(
@@ -85,7 +86,8 @@ export class MemberDetailsComponent implements OnInit {
   }
   patchform() {
     this.memberForm.patchValue({
-      name:this.memberDetails.child_name,
+      name:this.memberDetails.child_name.slice(0,this.memberDetails.child_name.indexOf(',')).trim(),
+      last_name:this.memberDetails.child_name.slice(this.memberDetails.child_name.indexOf(',')+1).trim(),
       dob:this.memberDetails.child_dob
     })
     this.updateUserInfo=true
@@ -95,7 +97,7 @@ export class MemberDetailsComponent implements OnInit {
     console.log(this.memberForm)
     if(this.memberForm?.valid) {
       this.memberDetails.child_dob=this.memberForm.value.dob
-      this.memberDetails.child_name=this.memberForm.value.name
+      this.memberDetails.child_name=`${this.memberForm.get('name')?.value} , ${this.memberForm.get('last_name')?.value}`
       this.updateMember()
     }
   }
@@ -209,5 +211,8 @@ export class MemberDetailsComponent implements OnInit {
     this.imgUrl='assets/images/useravatar.png'
     this.memberImg=null
    }
+ }
+ replaceComma(name:string) {
+  return name.replace(',',' ')
  }
 }

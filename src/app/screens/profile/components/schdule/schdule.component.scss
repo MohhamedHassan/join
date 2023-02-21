@@ -1,0 +1,11 @@
+.schdule {
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    border: 1px solid #ebebeb;
+}
+@media only screen and (max-width: 600px) {
+    .schdule {
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+}

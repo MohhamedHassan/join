@@ -1,0 +1,32 @@
+<section>
+    <div class="d-flex">
+        <div class="mb-1">
+                <img 
+                class="d-none d-sm-block"
+            style="width:100px;height:100%;object-fit: cover;"
+            [src]="rateData?.club_image" alt="">
+        </div>
+        <span class="mx-1"></span>
+        <div class="mb-1">
+            <p class='mb-1'>{{rateData?.club_name}}</p>
+            <p class='mb-1'>{{rateData?.activity_name}}</p>
+            <p class='mb-1'>{{rateData?.activity_price}} {{'kwd'|translate}}</p>
+            <p class='mb-1'> {{'booking_for_one_member'|translate}} 
+                {{rateData?.member_count}}
+                {{'member'|translate}}</p>
+            <p class='mb-1'>{{rateData?.selected_date}}</p>
+        </div>
+    </div>
+    <div style="display: flex; align-items: center;justify-content:center;text-align: center;">
+        <ngx-stars 
+        [readonly]="false" 
+        [size]="5" [maxStars]="5"
+        customSize="20px"
+        color="#00DCDC" 
+        ></ngx-stars>
+
+      </div>
+      <p class="my-2 text-secondary text-center">
+        {{'tap_on'|translate}}
+    </p>
+</section>

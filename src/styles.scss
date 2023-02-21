@@ -1,6 +1,15 @@
 
 @import '~swiper/swiper-bundle.css';
 @import '/src/assets//styles/colors.scss';
+.historyicons {
+     i  {
+         background-color: $mainColor;
+         color: white;
+         padding: 7px;
+         border-radius: 5px;
+         cursor: pointer;
+     }
+ }
 .maincolorbtn {
      border:none;
      border-radius: 5px;
@@ -802,6 +811,9 @@ footer {
      border: none;
      padding: 10px;
      border-radius: 5px;
+     &:hover {
+          color: white !important;
+     }
  }
  button.withmaincolor {background-color: $mainColor !important;}
  button.orangebtn[disabled] {

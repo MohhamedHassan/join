@@ -8,8 +8,20 @@ import { HistoryService } from '../../services/history.service';
   styleUrls: ['./history-details.component.scss']
 })
 export class HistoryDetailsComponent implements OnInit {
+  map=false
+  latitude
+  longitude
   loading=true
   historyDetails=null
+  ratePopup=false
+  rateData = {
+    club_image:'',
+    club_name:'',
+    activity_name:'',
+    activity_price:'',
+    member_count:'',
+    selected_date:''
+  }
   constructor(private historyServide:HistoryService,private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -29,5 +41,15 @@ export class HistoryDetailsComponent implements OnInit {
   }
   get lang() {
     return localStorage.getItem('lang') || 'en'
+  }
+  getRateData(item) {
+    this.rateData.club_image=item?.club_logo
+    this.rateData.club_name=item?.club_name
+    this.rateData.activity_price=item?.booking_payment
+    this.rateData.activity_name=item?.activity_name
+    this.rateData.member_count=item?.child_count
+    this.rateData.selected_date=item?.selected_date
+    this.ratePopup=true
+    console.log(this.rateData)
   }
 }

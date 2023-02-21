@@ -37,6 +37,10 @@
     inset: 60% auto auto -185px !important;
     width: auto !important;
 }
+.dropdown-menu.cstm.sch {
+    inset: 60% auto auto -145px !important;
+    width: auto !important;
+}
 .dropdown-menu.store {
     min-width: 400px;
     inset: 100% auto auto -200px !important;
@@ -56,6 +60,12 @@
     }
     .dropdown-menu.cstm.not {
         inset: 60% -185px auto 0 !important;
+        width: auto !important;
+        direction: rtl;
+        text-align: right;
+    }
+    .dropdown-menu.cstm.sch {
+        inset: 60% -145px auto 0 !important;
         width: auto !important;
         direction: rtl;
         text-align: right;

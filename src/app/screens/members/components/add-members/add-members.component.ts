@@ -40,7 +40,9 @@ export class AddMembersComponent implements OnInit {
         }
         this.returnform()
         this.memberForm.patchValue({
-          name:changes?.patchToEdit?.currentValue?.child_name,
+          
+          name:changes?.patchToEdit?.currentValue?.child_name.slice(0,changes?.patchToEdit?.currentValue?.child_name.indexOf(',')),
+          last_name:changes?.patchToEdit?.currentValue?.child_name.slice(changes?.patchToEdit?.currentValue?.child_name.indexOf(',')+1),
           dob:changes?.patchToEdit?.currentValue?.child_dob
         })
         console.log(item?.child_name)
@@ -76,6 +78,7 @@ isLastStepValid() {
   returnform() {
     this.memberForm=this.fb.group({
       name:['',Validators.required],
+      last_name:['',Validators.required],
       dob:['',Validators.required]
     })
   }
@@ -95,12 +98,12 @@ isLastStepValid() {
  }
   selectGEnderDone() {
     if(this.selectedGender) this.step=2
-    if(this.patchToEdit?.edit) {
-      this.memberForm.patchValue({
-        name:this.patchToEdit?.child_name,
-        dob:this.patchToEdit?.child_dob
-      })
-    }
+    // if(this.patchToEdit?.edit) {
+    //   this.memberForm.patchValue({
+    //     name:this.patchToEdit?.child_name,
+    //     dob:this.patchToEdit?.child_dob
+    //   })
+    // }
   }
   submitMemberForm(value:any) {
     this.submited=true 
@@ -123,7 +126,7 @@ createMember() {
       var age_dt = new Date(diff_ms); 
       let ag= Math.abs(age_dt.getUTCFullYear() - 1970)
       memberFormData.append('gender',this.selectedGender)
-      memberFormData.append('name',this.memberForm.get('name')?.value)
+      memberFormData.append('name',`${this.memberForm.get('name')?.value} , ${this.memberForm.get('last_name')?.value}`)
       memberFormData.append('dob',this.memberForm.get('dob')?.value)
       memberFormData.append('age',JSON.stringify(ag))
       let selectedSubInterists:any[] = []

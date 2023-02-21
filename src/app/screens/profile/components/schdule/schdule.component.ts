@@ -7,14 +7,15 @@ import { SchduleService } from '../../services/schdule.service';
   styleUrls: ['./schdule.component.scss']
 })
 export class SchduleComponent implements OnInit {
-  time =  '23:34:12';
-  dateTime = new Date();
+  latitude
+  longitude
   loading=true
   selectedItems:any[]=[]
-constructor(private datePipe:DatePipe,
-  private schduleService:SchduleService) {}
+  childData:any[]=[]
   today=-1
   schdule:any[]=[]
+  activityId=-1
+  map=false
  week:any[] = [
   {
     dayname:'m',
@@ -45,8 +46,10 @@ constructor(private datePipe:DatePipe,
     daynumber:0
   }
  ] 
+constructor(private datePipe:DatePipe,
+  private schduleService:SchduleService) {}
+
  ngOnInit(): void {
-  this.returnConvertedDate('16:30:00-23:00:00',1)
   this.getToday()
   this.getDaysFromLeftToRight()
   this.getDaysFromRightToLeft()
@@ -55,12 +58,14 @@ constructor(private datePipe:DatePipe,
     res => {
       if(res?.code) {
         this.schdule=res?.payload
+        this.childData=res?.childData
         if(this.schdule?.length) {
           this.week.map(item =>  {
               this.schdule.forEach(i => {
                 if(item?.date==i?.date) item.haveEvent=true
               })
           })
+          this.selectItem(this.week[this.today]?.date)
         }
       }
       this.loading=false
@@ -122,6 +127,24 @@ get lang() {
  }
  selectItem(date:any) {
   this.selectedItems = this.schdule.filter(i => i?.date==date)
+  console.log(this.selectedItems)
+  console.log(this.childData)
+  if(this.selectedItems?.length) {
+    this.selectedItems.forEach(one => {
+       one.selectedChild = []
+      if(Array.isArray(one?.times) &&one?.times?.length && one?.times[0]?.child?.length) {
+        let set = new Set(one.times[0].child)
+       
+        set.forEach(child=> {
+          this.childData.forEach(i=> {
+              if(child==i?.child_id) one.selectedChild.push(i)
+          })
+        })
+    }
+    })
+
+  console.log(this.selectedItems)
+  }
  }
  returnConvertedDate(time:string,index:number) {
   let split = time.split('-')
@@ -132,5 +155,12 @@ get lang() {
   dateTime.setMinutes(parseInt(times[1]));
   dateTime.setSeconds(parseInt(times[2]));
   return dateTime
+ }
+ showMap(item) {
+  if(item?.times?.length) {
+    this.latitude= item?.times[0]?.branch?.latitude
+    this.longitude=item?.times[0]?.branch?.longitude
+    this.map=true
+  }
  }
 }

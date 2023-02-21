@@ -43,7 +43,7 @@
                                     'marginLeft': lang=='ar' ? '5px' : '0'
                             }"
                                 *ngFor="let member of members">
-                                    {{member?.child_name}}
+                                    {{member?.child_name|replaceComma}}
                                 </li>
                             </ul>
                         </div>

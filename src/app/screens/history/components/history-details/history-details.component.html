@@ -5,6 +5,7 @@ header="order_details"></app-shared-header>
 
 class="container"
 style="min-height: 100vh;">
+ <app-laoding *ngIf="loading"></app-laoding>
 <ng-container *ngIf="!loading">
     <table class="mb-3">
         <tr>
@@ -12,7 +13,7 @@ style="min-height: 100vh;">
             <td>{{historyDetails?.order_id}}</td>
         </tr>
         <tr>
-            <td>{{'date'}} :</td>
+            <td>{{'date'|translate}} :</td>
             <td>{{historyDetails?.created_at|date}}</td>
         </tr>
        </table>
@@ -28,7 +29,7 @@ style="min-height: 100vh;">
      </div>
         <div 
         *ngFor="let item of historyDetails?.booked_activity"
-        class="col-md-4 mb-3">
+        class="col-md-6 col-lg-4 mb-3">
             <div 
             class="rounded p-3"
             style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);">
@@ -43,14 +44,54 @@ style="min-height: 100vh;">
                     <img appImgs 
                     style="width: 20px;"
                     src="assets/images/cash.svg" alt="Join"> 
-                    {{item?.booking_amount|tofixednumber}}
+                    {{item?.booking_payment|tofixednumber}}
                     {{'kwd'|translate}}
                 </p>
-                <p class="m-0">
-                    {{'booking_for_one_member'|translate}} 
-                    {{item?.child_count}}
-                </p>
+                <div class="d-flex">
+                    <p class="m-0">
+                        {{'booking_for_one_member'|translate}} 
+                        {{item?.child_count}}
+                        {{'member'|translate}}
+                    </p> 
+                    <span class="mx-1"></span>
+                    <p
+                    [ngStyle]="{
+                        'border-left': lang=='ar' ? 'none' : '1px solid #d3cfcf',
+                        'border-right': lang=='ar' ? '1px solid #d3cfcf' : 'none',
+                        'padding-left': lang=='ar' ? '0' : '5px',
+                        'padding-right': lang=='ar' ? '5px' : '0'
+                }"
+                    >
+                        {{item?.selected_date}}
+                    </p>
+                </div>
                     </a>
+                    <div class="d-flex justify-content-between  ">
+                        <ul class="d-flex p-0 m-0 list-unstyled historyicons">
+                            <li>
+                                <a 
+                                [routerLink]="'/activity/'+item?.activity_id"
+                                style="color:white"
+                                >
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                </a>
+                            </li>
+                            <li class="mx-1"></li>
+                            <li>
+                                <i 
+                                (click)="latitude=item?.branch_data?.latitude;longitude=item?.branch_data?.longitude;map=true"
+                                class="fa-solid fa-location-dot"></i>
+                            </li>
+                        </ul>
+                        <p 
+                        (click)="getRateData(item)"
+                        style="cursor: pointer;"
+                        class="orangecolor">
+                            <i class="fa-solid fa-star"></i>
+                            {{'submit_review'|translate}}
+                        </p>
+                    </div>
+                  
             </div>
         </div>
     </div>
@@ -66,7 +107,7 @@ style="min-height: 100vh;">
      </div>
         <div 
         *ngFor="let item of historyDetails?.booked_products"
-        class="col-md-4 mb-3">
+        class="col-md-6 col-lg-4 mb-3">
             <div 
             class="rounded p-3"
             style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);">
@@ -106,10 +147,11 @@ style="min-height: 100vh;">
                     <img appImgs 
                     style="width: 20px;"
                     src="assets/images/cash.svg" alt="Join"> 
-                    {{item?.booking_amount|tofixednumber}}
+                    {{item?.booking_payment|tofixednumber}}
                     {{'kwd'|translate}}
                 </p>
                     </a>
+                
             </div>
         </div>
     </div>
@@ -140,3 +182,56 @@ style="min-height: 100vh;">
 </ng-container>
 
 </section>
+
+<div 
+
+*ngIf="map"
+class="cstmpopup d-flex">
+    <div class="content small">
+        <i 
+        (click)="map=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mt-2"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'direction'|translate}}</h2>
+            <div class="mt-2">
+                <app-map
+                [latitude]="latitude"
+                [longitude]="longitude"
+                ></app-map>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div 
+
+*ngIf="ratePopup"
+class="cstmpopup d-flex">
+    <div class="content small">
+        <i 
+        (click)="ratePopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mt-1"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'review'|translate}}</h2>
+            <div class="mt-2">
+                <app-submit-rate
+                [rateData]="rateData"
+                ></app-submit-rate>
+            </div>
+        </div>
+    </div>
+</div>

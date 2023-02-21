@@ -108,7 +108,7 @@
                         <label 
                         [for]="item?.child_name+i"
                         class="mx-2">
-                          {{item?.child_name}}
+                          {{item?.child_name|replaceComma}}
                         </label>
                       </li>
                     </ul>

@@ -12,7 +12,7 @@ class="store">
         <app-categories-list 
         *ngIf="!loading"
         [currentid]="categoryid"
-        (chosenTab)="clubid='-1';categoryIdFromParent($event)"  
+        (chosenTab)="categoryIdFromParent($event)"  
         [listData]="tabs"></app-categories-list> 
         
         <section 
@@ -36,7 +36,7 @@ class="store">
         </p>
         <app-laoding *ngIf="loading"></app-laoding>
         <div 
-        *ngIf="products?.length && showmore &&!loading && products?.length > 7 && clubid == '-1'"
+        *ngIf="products?.length && showmore &&!loading && products?.length > 7"
         class="mb-4">
             <div class="text-center">
                 <button 

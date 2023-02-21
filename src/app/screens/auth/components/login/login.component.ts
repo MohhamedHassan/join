@@ -62,6 +62,9 @@ export class LoginComponent implements OnInit {
             this.authService.getUserProfile()
             this.router.navigate(['/'])
           } else {
+            this.toastr.error(res?.message,'', {
+              timeOut: 7000,
+            })
           }
         }
       )
