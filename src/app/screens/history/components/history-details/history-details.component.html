@@ -46,6 +46,22 @@ style="min-height: 100vh;">
                     src="assets/images/cash.svg" alt="Join"> 
                     {{item?.booking_payment|tofixednumber}}
                     {{'kwd'|translate}}
+                    <span class="mx-1"></span>
+                    <span 
+                    *ngIf="item?.booking_amount_type=='FREE'"
+                    class="orangecolor">
+                        {{'free'|translate}}
+                    </span>
+                    <span 
+                    *ngIf="item?.booking_amount_type=='PRICE'"
+                    class="orangecolor">
+                        {{'paid'|translate}}
+                    </span>
+                    <span 
+                    *ngIf="item?.booking_amount_type=='PAY_AT_PLACE'"
+                    class="orangecolor">
+                        {{'Pay_At_Venue'|translate}}
+                    </span>
                 </p>
                 <div class="d-flex">
                     <p class="m-0">

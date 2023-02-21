@@ -19,7 +19,7 @@ export class NotificationsComponent implements OnInit {
     this.notificationsService.notification.subscribe(
       (res:any) =>  {
         if(res) {
-          this.notifications=res.filter(i => i.message_type=='Order')
+          this.notifications=res
           this.notifications.reverse()
         }
       }
@@ -37,4 +37,15 @@ export class NotificationsComponent implements OnInit {
     })
   }
   get lang() {return localStorage.getItem('lang')||'en'}
+  checkRoute(item:any) {
+    if(!item?.action_id||!item?.notification_type) return '/'
+    else {
+      if(item?.notification_type=='user_notification') return `/history/action_id/${item?.action_id}`
+      else if(item?.notification_type=='bulk_notification') return `/`
+      else if(item?.notification_type=='activity') return `/activity/${item?.action_id}`
+      else if(item?.notification_type=='club') return `/clup/${item?.action_id}`
+      else if(item?.notification_type=='categories') return `/activities`
+      else return '/'
+    }
+  }
 }
