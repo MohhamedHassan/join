@@ -1,6 +1,6 @@
 @import '/src/assets//styles/colors.scss';
 ::ng-deep {
-    .swiper-button-disabled {display:  none !important;}
+   
     .custom-rtl {
         .toast-top-right {
             top: 12px;
@@ -48,6 +48,7 @@
 .country-dropdown {
     max-width: 300px !important; 
 }
+
     .swiper-button-next,
     .swiper-button-prev  {    
         background: $orangeColor !important;
@@ -65,6 +66,26 @@
     .swiper-pagination-bullet-active {
         background-color: $orangeColor !important;
     }
+.mainswiper {
+    .swiper-button-next,
+    .swiper-button-prev  {    
+        background: transparent !important;
+        color:$orangeColor !important;
+        border-radius: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        text-align: center;
+        line-height: 0 !important;
+        &:after {
+            font-size: small !important;
+            font-weight: bold;
+        }
+    }
+    .swiper-pagination-bullet-active {
+        background-color: $orangeColor !important;
+    }
+    .swiper-button-disabled {display:  none !important;}
+}
 // end swiper arrows
 .dropdown-menu.cstm {
     inset: 105% auto auto -270px !important;
