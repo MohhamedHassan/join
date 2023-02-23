@@ -1,5 +1,44 @@
 @import '/src/assets//styles/colors.scss';
 ::ng-deep {
+    .swiper-button-disabled {display:  none !important;}
+    .custom-rtl {
+        .toast-top-right {
+            top: 12px;
+            right: auto !important;
+            left: 12px !important;
+        }
+        .toast-container .ngx-toastr {
+            padding: 15px 50px 15px 15px;
+            background-position: 95% center !important;
+        }
+        .iti__flag-container {
+            right: 0 !important;
+            left: auto !important;
+        }
+        .iti--allow-dropdown input,
+        .iti--allow-dropdown input[type=text],
+        .iti--allow-dropdown input[type=tel],
+        .iti--separate-dial-code input, .iti--separate-dial-code input[type=text],
+        .iti--separate-dial-code input[type=tel] {
+            padding-left: 6px !important;
+            padding-right: 52px !important;
+            margin-right: 0 !important;
+        }
+        .dropdown-menu.country-dropdown.show {
+            inset: 100% 0 auto auto !important;
+        }
+        .iti__country-list {
+            text-align: right !important;
+            direction: ltr;
+        }
+        #country-search-box {
+            padding-right: 15px !important;
+        }
+        .iti__arrow {
+            margin-left: 0 !important;
+            margin-right: 6px !important;
+        }
+   }
     p-calendar {
         max-width: 100%;
     }
