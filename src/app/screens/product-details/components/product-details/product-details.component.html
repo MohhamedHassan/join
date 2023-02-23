@@ -9,7 +9,8 @@
     *ngIf="product_details.images"
     class="cvr">
         <swiper 
-        style="direction: ltr;text-align:right" 
+        [ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
+        style="text-align:right" 
         [loop]="false" 
         [autoHeight]="true" 
         [allowTouchMove]="true"

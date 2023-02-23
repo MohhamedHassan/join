@@ -85,12 +85,7 @@ pagetype=-1
         if(val?.url=='/activities') this.pagetype=2
         if(val?.url=='/store') this.pagetype=3
         if(
-        !val?.url.includes('auth')  
-        && val?.url!='/payment_suuccess' 
-        && val?.url!='/payment_failed' 
-        && val?.url!='/cart?type=0'
-        && val?.url!='/cart?type=1' 
-        && val?.url!='/cart'
+        val?.url=='/' 
         && this.showpopUpFirstTime) {
           this.getsliderContent()
           this.showpopUpFirstTime=false

@@ -205,7 +205,7 @@ if(!this.intervalLoading) {
                       this.toastr.success(localStorage.getItem('lang')=='ar'?'تم انشاء حسابك بنجاج':'Account successfully created');
                       localStorage.setItem('joinToken',res?.payload?.auth_token)
                       this.authService.getUserProfile()
-                      this.notficationsService.getNotifications()
+                  //    this.notficationsService.getNotifications()
                       this.membersservice.getAllMembers()
                       this.router.navigate(['/'])
                       window.location.reload();
@@ -222,7 +222,7 @@ if(!this.intervalLoading) {
       ).catch((err) => {
         console.log(err)
         if(err?.message=='Firebase: The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code sms and be sure to use the verification code provided by the user. (auth/invalid-verification-code).') {
-          this.toastr.error('Invalid Code') 
+          this.toastr.error(localStorage.getItem('lang')=='ar' ? 'هذا الرمز  غير صحيح' : 'Invalid Code') 
         } else {
           this.toastr.error(err?.message||'Something wnt wrong') 
         }

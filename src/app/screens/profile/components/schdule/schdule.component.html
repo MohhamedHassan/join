@@ -74,13 +74,17 @@
                                         (click)="activityId=item?.times[0]?.activity_details[0]?.id"
                                         style="cursor: pointer;"
                                         class="dropdown-item">
+                                         
+                                            <i class="fa-solid fa-share maincolor"></i>
                                             {{'share'|translate}}
                                         </a>
                                         <a 
                                         (click)="showMap(item)"
                                         style="cursor: pointer;"
                                         class="dropdown-item">
-                                            {{'direction'|translate}}
+                                        <i class="fa-solid fa-location-dot maincolor"></i>    
+                                        {{'direction'|translate}}
+                                         
                                         </a>
                                     </li>
                                 </ul>

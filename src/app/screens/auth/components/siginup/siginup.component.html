@@ -236,7 +236,7 @@ class="cstmpopup ">
             style="font-weight: 400;font-size:20px;line-height: 30px;"
             >
             {{'please_enter_the_verification_code'|translate}}
-            {{signupForm.value?.mobile?.e164Number}}
+            <bdi>{{signupForm.value?.mobile?.e164Number}}</bdi>
             </h2>
             <div>
                 <input

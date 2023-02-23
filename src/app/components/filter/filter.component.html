@@ -155,7 +155,13 @@
                     [(value)]="value2" 
                     [(highValue)]="highValue2" 
                     [options]="options2"></ngx-slider>
+                    <p
+                    class="my-2 text-center"
+                    >
+                      {{value2}}  {{'kwd'|translate}}
+                    </p>
                     </accordion-group>
+                  
                   </accordion>
             </div>
         </div>
@@ -170,6 +176,9 @@
                     [(value)]="value" 
                     [(highValue)]="highValue" 
                     [options]="options"></ngx-slider>
+                    <p class="my-2 text-center">
+                      {{value}}  
+                    </p>
                     </accordion-group>
                   </accordion>
             </div>

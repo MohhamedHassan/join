@@ -19,7 +19,10 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       map((event: any) => {
         let body =  event?.body
-        if(body?.code==0 && body?.message && !event.url.includes('logIn') ) {
+        if(body?.code==0 
+          && body?.message 
+          && body?.message!='Please 1st add child your child details'  
+          && !event.url.includes('logIn') ) {
           this.toastr.error(body?.message,'', {
             timeOut: 7000,
           })

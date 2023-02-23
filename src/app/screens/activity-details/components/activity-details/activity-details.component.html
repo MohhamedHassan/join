@@ -117,7 +117,9 @@
                     *ngIf="activity_details.gallery?.length"
                     class="gallarey">
                         <h2 class="mb-1">{{'Gallery'|translate}}</h2>
-                        <swiper class="mrginBottom" style="direction: ltr;text-align:right" [config]="swpieroptions">
+                        <swiper 
+                        [ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
+                        class="mrginBottom" style="text-align:right" [config]="swpieroptions">
 
                             <ng-container *ngFor="let item of activity_details.gallery;let i = index">
                                 <ng-template swiperSlide>

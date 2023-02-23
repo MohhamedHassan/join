@@ -34,5 +34,7 @@ export class ClupStoreComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+get lang() {
+  return localStorage.getItem('lang') || 'en'
+}
 }

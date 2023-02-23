@@ -1,6 +1,7 @@
 <swiper  
 class="mrginBottom"
-style="direction: ltr;text-align:right"
+[ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
+style="text-align:right"
 [config]="swpieroptions">
 
     <ng-container *ngFor="let product of relatedProducts;let i = index">

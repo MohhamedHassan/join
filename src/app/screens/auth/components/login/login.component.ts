@@ -96,7 +96,7 @@ export class LoginComponent implements OnInit {
               this.toastr.success(res?.message);
               localStorage.setItem('joinToken',res?.payload?.auth_token)
               this.authService.getUserProfile()
-              this.notficationsService.getNotifications()
+       //       this.notficationsService.getNotifications()
               this.membersservice.getAllMembers()
               this.router.navigate(['/'])
             } else {

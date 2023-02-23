@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 import { NotificationsService } from '../../services/notifications.service';
 
 @Component({
@@ -11,14 +12,17 @@ export class NotificationsComponent implements OnInit {
   notifications:any[]=[]
   showDeleteNotificationsPopup=-1
   deleteLoading=false
+  subscriber:Subscription
   constructor(public notificationsService:NotificationsService,
     private toastr:ToastrService) { }
 
   ngOnInit(): void {
+    console.log('one')
     this.notificationsService.getNotifications()
-    this.notificationsService.notification.subscribe(
+    this.subscriber =  this.notificationsService.notification.subscribe(
       (res:any) =>  {
         if(res) {
+          console.log('two')
           this.notifications=res
           this.notifications.reverse()
         }
@@ -38,14 +42,19 @@ export class NotificationsComponent implements OnInit {
   }
   get lang() {return localStorage.getItem('lang')||'en'}
   checkRoute(item:any) {
-    if(!item?.action_id||!item?.notification_type) return '/'
+    if(!item?.action_id||!item?.message_type) return '/'
     else {
-      if(item?.notification_type=='user_notification') return `/history/action_id/${item?.action_id}`
-      else if(item?.notification_type=='bulk_notification') return `/`
-      else if(item?.notification_type=='activity') return `/activity/${item?.action_id}`
-      else if(item?.notification_type=='club') return `/clup/${item?.action_id}`
-      else if(item?.notification_type=='categories') return `/activities`
+      if(item?.message_type=='user_notification') return `/history/action_id/${item?.action_id}`
+      else if(item?.message_type=='bulk_notification') return `/`
+      else if(item?.message_type=='activity') return `/activity/${item?.action_id}`
+      else if(item?.message_type=='club') return `/clup/${item?.action_id}`
+      else if(item?.message_type=='categories') return `/activities`
       else return '/'
     }
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+   if(this.subscriber) this.subscriber.unsubscribe()
   }
 }

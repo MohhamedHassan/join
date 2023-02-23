@@ -76,7 +76,6 @@ const routes: Routes = [
   },
   {
     path:'promotion',
-    canActivate:[NotUserGuard],
     loadChildren:() => import('src/app/screens/promotions/promotions.module').then(m => m.PromotionsModule)
   },
   {

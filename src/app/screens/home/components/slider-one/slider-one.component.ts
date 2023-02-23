@@ -45,4 +45,7 @@ checkRouting(item):any {
   else if(item?.club_id) return `/clup/${item?.club_id}`
   else if(item?.interests_id) return `/interests/${item?.interests_id}`
 }
+get lang() {
+  return localStorage.getItem('lang') || 'en'
+}
 }

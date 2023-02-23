@@ -57,6 +57,7 @@ export class ActivityDetailsComponent implements OnInit {
   constructor(private activatedRoute:ActivatedRoute,
     private foavoriteService:FavoriteService,
     private membersservice:MembersService,
+    private toastr:ToastrService,
     private router:Router,
     private _sanitizer:DomSanitizer,
     private activitiesService:ActivitiesService) { }
@@ -78,42 +79,53 @@ export class ActivityDetailsComponent implements OnInit {
       })
     ).subscribe(
        res => {
-        this.activity_details=res
-        if(this.activity_details?.location?.length) {
-          this.center = {
-            lat: Number(this.activity_details?.location[0]?.branch?.latitude),
-            lng: Number(this.activity_details?.location[0]?.branch?.longitude)
-          };
-
-          this.activity_details?.location.forEach(i =>  {
-            this.markers.push({
-              position: {
-                lat: Number(i?.branch?.latitude),
-                lng: Number(i?.branch?.longitude)
-              },
-              options: { animation: google.maps.Animation.BOUNCE }
-            })
-          })
-          this.activity_details.selectedLocation=this.activity_details.location[0]
-          let today = new Date()
-          let from = new Date(this.activity_details.location[0]?.from_date)
-          this.activity_details.selectedDate=today>from ? today : from
-          if(this.activity_details.selectedLocation?.dates_times?.length) {
-            this.activity_details.selectedTime= this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+        if(true) {
+          if(res?.status=="INACTIVE") {
+            this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'هذا النشاط غير متوفر في جوين حاليا' : 'This activity is not currently available in Join');
+            this.router.navigate(['/'])
+          } else {
+            this.activity_details=res
+            if(this.activity_details?.location?.length) {
+              this.center = {
+                lat: Number(this.activity_details?.location[0]?.branch?.latitude),
+                lng: Number(this.activity_details?.location[0]?.branch?.longitude)
+              };
+    
+              this.activity_details?.location.forEach(i =>  {
+                this.markers.push({
+                  position: {
+                    lat: Number(i?.branch?.latitude),
+                    lng: Number(i?.branch?.longitude)
+                  },
+                  options: { animation: google.maps.Animation.BOUNCE }
+                })
+              })
+              this.activity_details.selectedLocation=this.activity_details.location[0]
+              let today = new Date()
+              let from = new Date(this.activity_details.location[0]?.from_date)
+              this.activity_details.selectedDate=today>from ? today : from
+              if(this.activity_details.selectedLocation?.dates_times?.length) {
+                this.activity_details.selectedTime= this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+              }
+            }
+            if(!!localStorage.getItem("joinToken")) {
+              this.membersservice.members.subscribe(
+                (res:any) =>  {
+                   if(res)  {
+                    this.members=res
+                    console.log(this.members)
+                   }
+                }
+             )
+            }
+            this.loading=false
           }
         }
-        if(!!localStorage.getItem("joinToken")) {
-          this.membersservice.members.subscribe(
-            (res:any) =>  {
-               if(res)  {
-                this.members=res
-                console.log(this.members)
-               }
-            }
-         )
-        }
-        this.loading=false
+
         console.log(res)
+       } , err =>  {
+        this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'هذا النشاط غير متوفر في جوين حاليا' : 'This activity is not currently available in Join');
+        this.router.navigate(['/'])
        }
 
     )

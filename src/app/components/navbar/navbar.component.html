@@ -158,7 +158,6 @@
                     routerLink="/terms">{{'terms'|translate}}</a></li>
                 <!--  -->
                 <li 
-                *ngIf="isLogin()"
                 role="menuitem" class='d-lg-none'>
                   <a
                   routerLinkActive="active"
@@ -444,11 +443,12 @@ class="cstmpopup">
         class="fa-solid fa-x"></i>
 
         <swiper 
-        style="direction: ltr;text-align:right;height:99%;" 
+        [ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
+        style="text-align:right;height:99%;" 
         [loop]="false" 
         [autoHeight]="true" 
         [allowTouchMove]="true"
-        [autoplay]="{ delay: 1000, disableOnInteraction: false }" 
+        [autoplay]="false" 
         [pagination]="{ clickable: true }" 
         [navigation]="true"
         >
@@ -461,7 +461,7 @@ class="cstmpopup">
       data-swiper-autoplay="6000" swiperSlide>
                 <div 
                
-                style="margin: 25px 0;height:90vh">
+                style="margin: 25px 0;height:90vh;padding: 0 60px 100px 60px;">
 
                     <a 
                     (click)="showPopup=false"
@@ -523,7 +523,11 @@ class="cstmpopup ">
     </div>
 </div>
 <div
-style="position: fixed;right:10px;bottom:10px;z-index: 11111;"
+[ngStyle]="{
+    'right': lang=='ar' ? 'auto' : '10px',
+    'left': lang=='ar' ? '10px' : 'auto'
+}"
+style="position: fixed;bottom:10px;z-index: 11111;"
 >
     <a 
     style="
@@ -536,7 +540,8 @@ style="position: fixed;right:10px;bottom:10px;z-index: 11111;"
     justify-content: center;
     align-items: center;"
     target="_blank"
-    href="" class="mb-2">
+    href="https://apps.apple.com/eg/app/join-%D8%AC%D9%88%D9%8A%D9%86/id1464036538"
+    class="mb-2">
         <i 
         style="font-size: 25px;"
         class="fa-brands fa-apple maincolor"></i>
@@ -552,7 +557,7 @@ style="position: fixed;right:10px;bottom:10px;z-index: 11111;"
     justify-content: center;
     align-items: center;"
     target="_blank"
-    href="" >
+    href="https://play.google.com/store/apps/details?id=com.joinkw" >
     <i 
     style="font-size: 25px;"
     class="fa-brands fa-google-play maincolor"></i>

@@ -6,8 +6,9 @@ style="font-size:25px"
 class="fa-solid fa-people-group maincolor"></i>
 {{'activities'|translate}}</h2>
 <swiper  
+[ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
 class="mb-3"
-style="direction: ltr;text-align:right"
+style="text-align:right"
 [config]="swpieroptions">
 
     <ng-container *ngFor="let item of activities;let i = index">

@@ -199,7 +199,7 @@ class="cstmpopup ">
             style="font-weight: 400;font-size:20px;line-height: 30px;"
             >
             {{'please_enter_the_verification_code'|translate}}
-            {{profilForm.value?.newmobile?.e164Number}}
+            <bdi> {{profilForm.value?.newmobile?.e164Number}}</bdi>
             </h2>
             <div>
                 <input

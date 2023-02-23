@@ -15,6 +15,7 @@ header="notifications"
             <app-laoding ></app-laoding>
         </div>
         <h2 
+        *ngIf="!notificationsService.loading"
         style="font-size: 25px;"
         class="mb-4">
             {{'notifications'|translate}}

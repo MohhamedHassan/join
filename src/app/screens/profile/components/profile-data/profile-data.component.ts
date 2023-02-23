@@ -194,7 +194,7 @@ export class ProfileDataComponent implements OnInit {
         }
       ).catch((err) => {
         if(err?.message=='Firebase: The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code sms and be sure to use the verification code provided by the user. (auth/invalid-verification-code).') {
-          this.toastr.error('Invalid Code') 
+          this.toastr.error(localStorage.getItem('lang')=='ar' ? 'هذا الرمز  غير صحيح' : 'Invalid Code') 
         } else {
           this.toastr.error(err?.message||'Something wnt wrong') 
         }

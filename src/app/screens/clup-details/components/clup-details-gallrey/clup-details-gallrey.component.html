@@ -6,7 +6,9 @@ class="row">
     class="col-md-6">
         <div  class="gallarey">
            
-            <swiper class="mrginBottom" style="direction: ltr;text-align:right" [config]="swpieroptions">
+            <swiper 
+            [ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
+            class="mrginBottom" style="text-align:right" [config]="swpieroptions">
 
                 <ng-container *ngFor="let item of gallrey;let i = index">
                     <ng-template swiperSlide>

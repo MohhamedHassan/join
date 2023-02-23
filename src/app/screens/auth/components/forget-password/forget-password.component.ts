@@ -5,6 +5,7 @@ import 'firebase/firestore'
 import 'firebase/auth'
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-forget-password',
   templateUrl: './forget-password.component.html',
@@ -28,6 +29,7 @@ export class ForgetPasswordComponent implements OnInit {
   verifiedCodeControl:any = new FormControl('',[Validators.required,Validators.pattern(/^\d{6}$/)])
   verifyoading=false
   constructor(private fb: FormBuilder,
+    private router:Router,
     private authService:AuthService,
     private toastr: ToastrService) { }
 
@@ -111,7 +113,7 @@ export class ForgetPasswordComponent implements OnInit {
             }
       ).catch((err) => {
         if(err?.message=='Firebase: The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code sms and be sure to use the verification code provided by the user. (auth/invalid-verification-code).') {
-          this.toastr.error('Invalid Code') 
+          this.toastr.error(localStorage.getItem('lang')=='ar' ? 'هذا الرمز  غير صحيح' : 'Invalid Code') 
         } else {
           this.toastr.error(err?.message||'Something wnt wrong') 
         }
@@ -135,7 +137,7 @@ export class ForgetPasswordComponent implements OnInit {
               new_password:this.newPasswordForm.get('password').value
             }).subscribe(res =>  {
               if(res?.code==1) {
-                this.closePopup.emit('')
+                this.router.navigate(['/auth/login'])
                 this.toastr.success(res?.message);
               }
             })

@@ -55,4 +55,7 @@ export class ClupActivitiesSliderComponent implements OnInit {
   changeFavStatus(index:any) {
     this.activities[index].favorite =   this.activities[index].favorite == 'FAVORITE' ? '' : 'FAVORITE' 
   }
+  get lang() {
+    return localStorage.getItem('lang') || 'en'
+  }
 }
