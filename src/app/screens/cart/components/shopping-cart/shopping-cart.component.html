@@ -168,7 +168,6 @@ style="min-height: 50vh;" class="container">
                 <p>{{'Enter_your_promocode'|translate}}</p>
                 <div class="d-flex flex-column flex-md-row">
                     <input 
-                    [readonly]="promocodedisabled"
                     #promocodeValue
                     (input)="checkPromoCodeInputLength(promocodeValue.value)"
                     type="text" class="form-control" placeholder="{{'Enter_code'|translate}}">
@@ -206,8 +205,10 @@ style="min-height: 50vh;" class="container">
               class="orangebtn mb-2">
                 {{'addAddress'|translate}}
               </button>
-              <p style="word-break:break-all;">
-                {{selectedAddress?.title}}
+              <p
+              *ngIf="selectedAddress?.area_name"
+              style="word-break:break-all;">
+                {{selectedAddress?.area_name}}, {{selectedAddress?.block}}, {{selectedAddress?.street}}, {{selectedAddress?.building}}
               </p>
               <p 
               *ngIf="submitedCheckout&&!selectedAddress&&addressRequired"
@@ -672,18 +673,39 @@ class="cstmpopup">
                 <input 
                 formControlName="name"
                 type="text" class="form-control">
+                <p 
+                *ngIf="(notUserDataForm.controls['name']?.errors!=null && notUserDataForm.controls['name'].touched) ||
+                (notUserDataForm.controls['name']?.errors!=null && notuserdataSubmited)
+                "
+                class="my-2 text-danger">
+                    {{'required'|translate}}
+                </p>
              </div>
              <div class="form-group mb-3">
               <label>{{'phone_number'|translate}}</label>
               <input 
               formControlName="phone"
               type="text" class="form-control">
+              <p 
+              *ngIf="(notUserDataForm.controls['phone']?.errors!=null && notUserDataForm.controls['phone'].touched) ||
+              (notUserDataForm.controls['phone']?.errors!=null && notuserdataSubmited)
+              "
+              class="my-2 text-danger">
+                  {{'validphone'|translate}}
+              </p>
            </div>
            <div class="form-group mb-3">
             <label>{{'email'|translate}}</label>
             <input 
             formControlName="email"
             type="text" class="form-control">
+            <p 
+            *ngIf="(notUserDataForm.controls['email']?.errors!=null && notUserDataForm.controls['email'].touched) ||
+            (notUserDataForm.controls['email']?.errors!=null && notuserdataSubmited)
+            "
+            class="my-2 text-danger">
+                {{'validemail'|translate}}
+            </p>
          </div>
                 <div class="">
                     <div>
@@ -695,11 +717,11 @@ class="cstmpopup">
                         </button>
                     </div>
                 </div>
-                <p 
+                <!-- <p 
                 *ngIf="notuserdataSubmited && !notUserDataForm.valid"
                 class="my-2 text-danger">
                     {{'Fill_in_all_data'|translate}}
-                </p>
+                </p> -->
             </form>
         </div>
     </div>

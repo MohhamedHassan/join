@@ -125,8 +125,9 @@ export class ShoppingCartComponent implements OnInit {
     })
     this.notUserDataForm = this.fb.group({
       name: ['', Validators.required],
-      phone: ['', Validators.required],
-      email: ['', Validators.required],
+      phone: ['', [Validators.required,
+        Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]],
+      email: ['', [Validators.required,Validators.email,Validators.pattern(/.com$/)]],
     })
     this.authservice.areas.subscribe(
       (res: any) => {
@@ -382,7 +383,7 @@ export class ShoppingCartComponent implements OnInit {
                       // end activity case
                     }
                     this.getTotal()
-                    this.promocodedisabled = true
+                  //  this.promocodedisabled = true
                   })
                 } else {
                   console.log('one')
@@ -399,6 +400,9 @@ export class ShoppingCartComponent implements OnInit {
         }
       )
     }
+    this.cartitems.map(i => {
+      if(i?.disc<0) i.disc=0
+    })
   }
   checkPromoCodeInputLength(value: string) {
     let activites = this.cartitems.filter(i => i?.cstmtype == 1)

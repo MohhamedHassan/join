@@ -60,7 +60,7 @@ export class BookNowComponent implements OnInit {
     } else {
       this.notuserForm.get('name').setValidators([Validators.required]);
       this.notuserForm.get('name').updateValueAndValidity();
-      this.notuserForm.get('email').setValidators([Validators.required,Validators.email,,Validators.pattern(/.com$/)]);
+      this.notuserForm.get('email').setValidators([Validators.required,Validators.email,Validators.pattern(/.com$/)]);
       this.notuserForm.get('email').updateValueAndValidity();
       this.notuserForm.get('phone').setValidators([Validators.required,
         Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]);
