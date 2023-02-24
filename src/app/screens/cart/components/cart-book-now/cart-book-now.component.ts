@@ -18,7 +18,7 @@ export class CartBookNowComponent implements OnInit {
   @Input() ageFrom:any
   @Input() ageTo:any
   @Input() location:any
-  @Input() member_is_optional:any
+  @Input() hideMembers:any
   @Output() patchActivityToParent = new EventEmitter()
   members:any
   selectedLocation:any
@@ -64,7 +64,7 @@ export class CartBookNowComponent implements OnInit {
       this.notuserForm.get('phone').setValidators([Validators.required,
         Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]);
       this.notuserForm.get('phone').updateValueAndValidity();
-      if(!this.member_is_optional) {
+      if(!this.hideMembers) {
         this.notuserForm.get('iconfirm').setValidators([Validators.required]);
         this.notuserForm.get('iconfirm').updateValueAndValidity();
       }
@@ -295,12 +295,12 @@ confirmAddActivity() {
   let valid = false
   if(!!localStorage.getItem('joinToken') && this.selectedMembers?.length) {
     valid=true
- } else if(this.member_is_optional) {
+ } else if(this.hideMembers) {
    valid=true
 } else if (!!localStorage.getItem('joinToken')==false&&this.notUserMembersCount>0) {
   valid = true
  }
- if(!!localStorage.getItem('joinToken')==false&&this.member_is_optional) {
+ if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
   this.notUserMembersCount=1
 }
   if( 

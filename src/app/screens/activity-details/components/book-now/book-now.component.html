@@ -62,7 +62,7 @@
       </accordion-group>
       <!--  -->
       <accordion-group
-      *ngIf="isLogin()&&!member_is_optional"
+      *ngIf="isLogin()&&!hideMembers"
       heading="{{'select_child'|translate}}">
         <div
         *ngIf="membersservice.membersLoading"
@@ -141,7 +141,7 @@
       </p>
    </div>
    <div 
-   *ngIf="!member_is_optional"
+   *ngIf="!hideMembers"
    class="mb-3">
     <label >{{"number_of_members"|translate}}</label> <br>
     <!-- <label class="mb-2">( {{"available"|translate}} {{avialbeMembers}} )</label> -->
@@ -156,7 +156,7 @@
   </div>
    </div>
    <div
-   *ngIf="!member_is_optional"
+   *ngIf="!hideMembers"
    class="mb-3">
     <div class="form-check">
       <input 

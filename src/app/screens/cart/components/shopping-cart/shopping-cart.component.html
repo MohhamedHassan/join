@@ -53,7 +53,7 @@ style="min-height: 50vh;" class="container">
                 </div>
                 <p class="my-q maincolor" *ngIf="item?.cstmtype==1&&item?.type==1">
                     {{'booking_for_one_member'|translate}}  
-                    {{item?.member_is_optional ? 1 : item?.selectedMembers?.length}}
+                    {{item?.hideMembers ? 1 : item?.selectedMembers?.length}}
                     {{'member'|translate}}
                 </p>
                 <p class="my-1 maincolor" *ngIf="item?.cstmtype==1&&item?.type==0">
@@ -73,14 +73,14 @@ style="min-height: 50vh;" class="container">
                     *ngIf="!item?.countToBuy"
                     class="orangecolor">
                         {{item?.price|tofixednumber}} 
-                    </span>
+                    </span> 
                     <span 
-                    *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.member_is_optional"
+                    *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.hideMembers"
                     class="orangecolor">
                         {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}} 
                     </span>
                     <span 
-                    *ngIf="item?.cstmtype==1&&item?.type==1&&item?.member_is_optional"
+                    *ngIf="item?.cstmtype==1&&item?.type==1&&item?.hideMembers"
                     class="orangecolor">
                         {{item?.selectedLocation.price*1|tofixednumber}} 
                     </span>
@@ -102,12 +102,12 @@ style="min-height: 50vh;" class="container">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
                     <del 
-                    *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.member_is_optional"
+                    *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.hideMembers"
                     class="orangecolor">
                         {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}} 
                     </del>
                     <del 
-                    *ngIf="item?.cstmtype==1&&item?.type==1&&item?.member_is_optional"
+                    *ngIf="item?.cstmtype==1&&item?.type==1&&item?.hideMembers"
                     class="orangecolor">
                         {{item?.selectedLocation.price*1|tofixednumber}} 
                     </del>
@@ -455,7 +455,7 @@ class="cstmpopup d-flex">
 
      
            <app-cart-book-now
-           [member_is_optional]="cartitems[showpopup]?.member_is_optional"
+           [hideMembers]="cartitems[showpopup]?.hideMembers"
            [selectedActivityToEdit]="cartitems[showpopup]"
            [ageFrom]="cartitems[showpopup]?.age_from"
            [ageTo]="cartitems[showpopup]?.age_to"

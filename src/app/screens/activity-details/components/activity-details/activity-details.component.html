@@ -33,7 +33,7 @@
                                 </span>
                             </p>
                             <ul 
-                            *ngIf="isLogin() && !activity_details?.member_is_optional"
+                            *ngIf="isLogin() && !activity_details?.hideMembers"
                             class="list-unstyled p-0 d-flex mb-0 mt-2 flex-wrap">
                                 <li 
                                 [class.d-none]="(member?.child_age|stringToNumber)>(activity_details?.age_to|stringToNumber)|| (member?.child_age|stringToNumber)<(activity_details?.age_from|stringToNumber)"
@@ -171,6 +171,7 @@
                                 {{'booking_details'|translate}}
                             </p>
                             <i 
+                            (click)="checkCartItems()"
                             class="fa-solid fa-pen-to-square maincolor"
                             style="cursor: pointer;font-size: 25px;"
                             ></i>
@@ -197,7 +198,7 @@
                     </ng-container>
                     
                     <button 
-                    (click)="checkCartItems()"
+           
                     class="w-100 mt-3 book">{{'book_now'|translate}}</button>
                 </div>
             </div>
@@ -224,11 +225,14 @@ class="cstmpopup d-flex">
         >{{'book_now'|translate}}</h2>
 
      
-           <app-book-now
+        <!-- 
            [selectedLocationFromParent]="activity_details?.selectedLocation"
            [selectedDateFromParent]="activity_details?.selectedDate"
            [selectedTimeFromParent]="activity_details?.selectedTime"
-           [member_is_optional]="activity_details?.member_is_optional"
+         -->
+           <app-book-now
+
+           [hideMembers]="activity_details?.hideMembers"
            [ageFrom]="activity_details?.age_from"
            [ageTo]="activity_details?.age_to"
            (patchActivityToParent)="selectedDataFromPopup($event)"

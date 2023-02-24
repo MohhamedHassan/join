@@ -16,10 +16,10 @@ export class BookNowComponent implements OnInit {
   @Input() location:any
   @Input() ageFrom:any
   @Input() ageTo:any
-  @Input() member_is_optional:any
-  @Input() selectedLocationFromParent:any
-  @Input() selectedDateFromParent:any
-  @Input() selectedTimeFromParent:any
+  @Input() hideMembers:any
+  // @Input() selectedLocationFromParent:any
+  // @Input() selectedDateFromParent:any
+  // @Input() selectedTimeFromParent:any
   @Output() patchActivityToParent = new EventEmitter()
   @Output() sendLocationToParent = new EventEmitter()
   members:any
@@ -65,7 +65,7 @@ export class BookNowComponent implements OnInit {
       this.notuserForm.get('phone').setValidators([Validators.required,
         Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]);
       this.notuserForm.get('phone').updateValueAndValidity();
-      if(!this.member_is_optional) {
+      if(!this.hideMembers) {
         this.notuserForm.get('iconfirm').setValidators([Validators.required]);
         this.notuserForm.get('iconfirm').updateValueAndValidity();
       }
@@ -104,13 +104,13 @@ export class BookNowComponent implements OnInit {
       }
 
     })
-    this.selectedLocation=this.selectedLocationFromParent
-    this.selectLocation(this.selectedLocation)
-    this.selectedDate=this.selectedDateFromParent
-    this.date=this.selectedDateFromParent
-    this.selectedTime=this.selectedTimeFromParent
-    this.onDateCange(this.date)
-    this.selectTime(this.selectedTimeFromParent)
+    // this.selectedLocation=this.selectedLocationFromParent
+    // this.selectLocation(this.selectedLocation)
+    // this.selectedDate=this.selectedDateFromParent
+    // this.date=this.selectedDateFromParent
+    // this.selectedTime=this.selectedTimeFromParent
+    // this.onDateCange(this.date)
+    // this.selectTime(this.selectedTimeFromParent)
   }
 selectLocation(item:any) {
   this.selectedDate=null
@@ -159,6 +159,7 @@ selectLocation(item:any) {
     }
     if(!exist) this.daysDisabled.push(days[i])
   }
+  if(item?.frequency=="WEEKLY") this.daysDisabled=[0,1,2,3,4,6]
 }
 checkTodayDate(item) {
   let today = new Date()
@@ -239,12 +240,12 @@ confirmAddActivity() {
   let valid = false
   if(!!localStorage.getItem('joinToken') && this.selectedMembers?.length) {
      valid=true
-  } else if(this.member_is_optional) {
+  } else if(this.hideMembers) {
     valid=true
  } else if (!!localStorage.getItem('joinToken')==false&&this.notUserMembersCount>0) {
    valid = true
   }
-if(!!localStorage.getItem('joinToken')==false&&this.member_is_optional) {
+if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
   this.notUserMembersCount=1
 }
 
