@@ -12,6 +12,7 @@ import { CartService } from '../../sertvies/cart.service';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent implements OnInit {
+  notuserdataAdded=false
   paymentFaild = false
   paymenSuccess = false
   profileData
@@ -82,6 +83,8 @@ export class ShoppingCartComponent implements OnInit {
     if (this.notUserDataForm.valid) {
       localStorage.setItem('not_user_data', JSON.stringify(this.notUserDataForm.value))
       this.notUserDataPopup = false
+      this.notuserdataAdded=true
+      this.checkout()
     }
   }
   constructor(private router: Router,
@@ -756,7 +759,7 @@ export class ShoppingCartComponent implements OnInit {
                       i.apartment = this.selectedAddress?.apartment || ''
                   })
                   localStorage.setItem('joincart', JSON.stringify(this.cartitems))
-                  window.open(response?.message, '_blank')
+                  window.open(response?.message, '_top')
                   console.log(this.cartitems)
                 }
               }, err => {
@@ -771,12 +774,17 @@ export class ShoppingCartComponent implements OnInit {
   checkout() {
     this.submitedCheckout = true
     this.notUserData = JSON.parse(localStorage.getItem('not_user_data'))
-    if (!!localStorage.getItem('joinToken') == false && !this.notUserData) {
+    if (!!localStorage.getItem('joinToken') == false && !this.notuserdataAdded) {
       this.notuserdataSubmited = false
       this.notUserDataForm.reset()
       this.notUserDataPopup = true
       console.log(this.notUserDataPopup)
-    } else {
+    }else if(!!localStorage.getItem('joinToken') == false && this.notuserdataAdded) {
+      if ((this.addressRequired && this.selectedAddress) || !this.addressRequired) {
+        this.checkAvailableSeats()
+      }
+    }
+     if(!!localStorage.getItem('joinToken')) {
       if ((this.addressRequired && this.selectedAddress) || !this.addressRequired) {
         this.checkAvailableSeats()
       }

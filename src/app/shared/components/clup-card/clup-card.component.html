@@ -21,10 +21,12 @@
                 <span class="d-block">
                     {{name}}
                 </span>
-                <span class="d-block mt-2" *ngIf="isLogin()&&location_count">
+                <bdi
+                [ngStyle]="{'visibility': location_count =='No Location Found' ? 'hidden' :  'visible'}"
+                class="d-block mt-2" *ngIf="isLogin()&&location_count">
                     <i class="maincolor fa-solid fa-location-dot"></i>
                     {{location_count}}
-                </span>
+                </bdi>
             </a>
         </h2>
     </div>

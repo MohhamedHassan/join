@@ -36,18 +36,10 @@
                     {{'save'|translate}}
                 </button>
                 <span class="mx-1"></span> -->
-                <button class="mb-2">
-                    <!-- share details page not join web -->
-                    <a 
-                    target="_blank"
-                    class="text-white"
-                    href="https://www.facebook.com/sharer.php?u=http://localhost:4200/#/product/85"
-                    >
-                        <i class="fa-solid fa-share"></i>
-                        <span class="mx-1"></span>
-                        {{'share'|translate}}
-                    </a>
-                </button>
+                <i 
+                (click)="sharePopup=true"
+                style="cursor: pointer;"
+                class="fa-solid fa-share-nodes maincolor"></i>
             </div>
         </div>
         <hr>
@@ -219,3 +211,28 @@
         </div>
     </div>
 </section>
+<div 
+
+*ngIf="sharePopup"
+class="cstmpopup d-flex">
+    <div class="content small">
+        <i 
+        (click)="sharePopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <div class="container">
+            <h2
+            class="mt-2"
+            style="font-weight: 400;font-size:20px;line-height: 30px;"
+            >{{'share'|translate}}</h2>
+            <div class="mt-2">
+                <app-share
+                [link]="'https://mohhamedhassan.github.io/join/product/'+product_details?.id"
+                ></app-share>
+            </div>
+        </div>
+    </div>
+</div>

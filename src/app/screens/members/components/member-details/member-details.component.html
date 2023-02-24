@@ -123,7 +123,7 @@ class="cstmpopup ">
                     <span class="mx-2"></span>
                     <button 
                     (click)="showDeleteMemberpopup=false"
-                    class="btn btn-warning">
+                    class="maincolorbtn">
                         {{'cancel'|translate}}
                     </button>
                 </div>
@@ -169,7 +169,7 @@ class="cstmpopup d-flex">
                 <button 
                 [disabled]="updateMemberLoading"
                 (click)="updateMember()"
-                class="btn btn-warning">
+                class="maincolorbtn">
                     {{'save'|translate}}
                     <i 
                     *ngIf="updateMemberLoading"
@@ -178,7 +178,7 @@ class="cstmpopup d-flex">
                 <span class="mx-2"></span>
                 <button 
                 (click)="openedInterst=-1"
-                class="btn btn-warning">
+                class="maincolorbtn">
                     {{'cancel'|translate}}
                 </button>
             </div>
@@ -255,7 +255,7 @@ class="cstmpopup d-flex">
                 <div class="d-flex justify-content-end">
                     <button 
                     [disabled]="memberForm.invalid||updateMemberLoading"
-                    class="btn btn-warning">
+                    class="maincolorbtn">
                         {{'save'|translate}}
                         <i 
                         *ngIf="updateMemberLoading"
@@ -265,7 +265,7 @@ class="cstmpopup d-flex">
                     <button 
                     (click)="updateUserInfo=false"
                     type="button"
-                    class="btn btn-warning">
+                    class="maincolorbtn">
                         {{'cancel'|translate}}
                     </button>
                 </div>

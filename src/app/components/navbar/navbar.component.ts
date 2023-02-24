@@ -83,7 +83,8 @@ pagetype=-1
       if(val instanceof NavigationEnd)  {
         console.log(val)
         if(val?.url=='/activities') this.pagetype=2
-        if(val?.url=='/store') this.pagetype=3
+        else if(val?.url=='/store') this.pagetype=3
+        else this.pagetype=-1
         if(
         val?.url=='/' 
         && this.showpopUpFirstTime) {
