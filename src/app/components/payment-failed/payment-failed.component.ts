@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-payment-failed',
@@ -7,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaymentFailedComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router:Router
+  ) { }
 
   ngOnInit(): void {
-
+    this.router.navigate(['/cart'],{queryParams : {type:0}})
   }
-
 }
