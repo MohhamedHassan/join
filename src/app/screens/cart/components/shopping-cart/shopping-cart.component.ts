@@ -295,6 +295,9 @@ export class ShoppingCartComponent implements OnInit {
   getpromoCode(promocode: string) {
 
     if (!this.promocodedisabled) {
+      this.cartitems.map(i => {
+         i.disc=0
+      })
       this.promoCodeLoading = true
       this.promocode = promocode
       this.cartService.getPromoCode().subscribe(
