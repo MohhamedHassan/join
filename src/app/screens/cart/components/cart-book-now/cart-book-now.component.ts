@@ -91,6 +91,7 @@ export class CartBookNowComponent implements OnInit {
     console.log(this.date)
     this.selectedTime=this.selectedActivityToEdit?.selectedTime
     this.notUserMembersCount=this.selectedActivityToEdit?.notUserMembersCount
+    console.log(this.notUserMembersCount)
     let today = new Date()
     let from = new Date(this.selectedActivityToEdit?.selectedLocation?.from_date)
     if(today > from) {
@@ -166,6 +167,64 @@ export class CartBookNowComponent implements OnInit {
       }
 
     })
+    if(this.selectedLocation?.dates_times?.length) {
+      console.log('where')
+      let date = new Date(this.selectedDate) 
+      for (let i = 0 ; i < this.selectedLocation?.dates_times?.length;i++) {
+        console.log('where')
+        let from = new Date(this.selectedLocation?.dates_times[i]?.from_date)
+        let to = new Date(this.selectedLocation?.dates_times[i]?.to_date)
+          if(
+            (this.datePipe.transform(from, 'MM-dd-yyy')==this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')) 
+            ||
+            (this.datePipe.transform(to, 'MM-dd-yyy')==this.datePipe.transform(this.selectedDate, 'MM-dd-yyy'))
+            ||
+            (date > from && date < to)
+            ) {
+              console.log('where')
+              this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
+                  this.availableTime.push(element)
+              });
+          } else {
+            console.log(date > from) 
+          }
+      }
+    }
+    this.availableTime.map(i=>{
+      if(i?.id==this.selectedActivityToEdit?.selectedTime?.id) {
+        i.checked=true
+      }
+      else i.checked=false
+      i.chosencount=0
+    })
+    let cart = localStorage.getItem('joincart')
+    let cartitems:any[]=[]
+    if(cart)  {
+      cartitems=JSON.parse(cart)
+    }
+    if(this.availableTime?.length && cartitems?.length) {
+      console.log('one')
+      this.availableTime.forEach(item =>  {
+        let chosencount=0
+        for(let i = 0 ; i <cartitems?.length;i++) {
+          console.log('one')
+          if(cartitems[i]?.id==this.selectedActivityToEdit?.id&&cartitems[i]?.cstmtype==1 &&
+            cartitems[i]?.selectedTime?.id == item?.id
+            ) {
+              console.log('one')
+              if(!!localStorage.getItem('joinToken')) {
+                if(this.hideMembers) chosencount+=1
+                else chosencount+=cartitems[i]?.selectedMembers?.length 
+              } else {
+                chosencount+=cartitems[i]?.notUserMembersCount
+              }
+             
+          }
+        }
+        item.chosencount=chosencount
+      })
+    }
+    this.avialbeMembers=this.selectedTime?.available_seats-this.selectedTime?.chosencount
     console.log(this.selectedActivityToEdit)
 
     console.log(this.selectedDate)
@@ -324,7 +383,7 @@ onDateCange(value:any) {
     this.availableTime.map(i=>{
       if(i?.id==this.selectedActivityToEdit?.selectedTime?.id) {
         i.checked=true
-        this.selectedTime=this.selectedActivityToEdit?.selectedTime
+       // this.selectedTime=this.selectedActivityToEdit?.selectedTime
       }
       else i.checked=false
       i.chosencount=0
