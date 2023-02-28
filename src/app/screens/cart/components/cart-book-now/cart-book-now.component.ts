@@ -10,6 +10,7 @@ import { Calendar } from 'primeng/calendar';
   styleUrls: ['./cart-book-now.component.scss']
 })
 export class CartBookNowComponent implements OnInit {
+  monthlyloading=false
   @ViewChild('calendar') calendar?: Calendar;
   submited=false
   showpopup=false
@@ -26,7 +27,7 @@ export class CartBookNowComponent implements OnInit {
   selectedTime=null
   selectedMembers:any[]=[]
   minDate: Date= new Date();;
-  maxDate: Date= new Date();;
+  maxDate: any= new Date();;
   daysDisabled:any[]=[]
   availableTime:any[]=[]
   avialbeMembers=0
@@ -35,6 +36,10 @@ export class CartBookNowComponent implements OnInit {
   patchDate
   first=true
   date = new Date();
+  minDateForMonthlyCase: any=new Date();
+  disabledDates:any[]=[]
+  enabledDates:any[]=[]
+  complete=false
   constructor(public membersservice:MembersService,
     private fb:FormBuilder,
     private toastr:ToastrService,
@@ -94,6 +99,7 @@ export class CartBookNowComponent implements OnInit {
       this.minDate = new Date(this.selectedActivityToEdit?.selectedLocation?.from_date)
     }
     this.maxDate = new Date(this.selectedActivityToEdit?.selectedLocation?.to_date)
+    this.minDateForMonthlyCase=new Date(this.selectedActivityToEdit?.selectedLocation?.from_date)
     let days = [0,1,2,3,4,5,6]
     let days_for_activity = this.selectedActivityToEdit?.selectedLocation?.days_for_activity.split(',')
     days_for_activity = days_for_activity.map((element:any) => {
@@ -115,6 +121,20 @@ export class CartBookNowComponent implements OnInit {
       }
       if(!exist) this.daysDisabled.push(days[i])
     }
+    if(this.selectedActivityToEdit?.selectedLocation?.frequency=="MONTHLY") {
+      this.daysDisabled=[]
+      this.monthlyloading=true
+      setTimeout(() => {
+        this.getValidDatesForMonthly()
+      }, 0);
+    } else  if(this.selectedActivityToEdit?.selectedLocation?.frequency=="WEEKLY") {
+      this.daysDisabled=[]
+       this.monthlyloading=true
+      setTimeout(() => {
+        this.getValidDAtesForWeekly()
+      }, 0);
+     
+    } 
     this.membersservice.members.subscribe(res =>  {
       if(res) {
         console.log(res)
@@ -151,7 +171,14 @@ export class CartBookNowComponent implements OnInit {
     console.log(this.selectedDate)
 
   }
+
+
+patchRadioInputIncaseMonthlyAndWeekly(item) {
+  if((this.datePipe.transform(item, 'MM-dd-yyy')==this.datePipe.transform(this.selectedActivityToEdit?.selectedDate, 'MM-dd-yyy'))) return true
+  else return false
+}
 selectLocation(item:any) {
+  this.minDateForMonthlyCase=new Date(item?.from_date)
   this.selectedDate=null
   this.selectedTime=null
   this.avialbeMembers=0
@@ -171,6 +198,8 @@ selectLocation(item:any) {
   }
   this.selectedLocation=item
   this.daysDisabled=[]
+  this.disabledDates=[]
+  this.enabledDates=[]
   let today = new Date()
   let from = new Date(item?.from_date)
   if(today > from) {
@@ -200,6 +229,54 @@ selectLocation(item:any) {
     }
     if(!exist) this.daysDisabled.push(days[i])
   }
+  if(item?.frequency=="MONTHLY") {
+    this.daysDisabled=[]
+    this.monthlyloading=true
+    setTimeout(() => {
+      this.getValidDatesForMonthly()
+    }, 0);
+  } else  if(item?.frequency=="WEEKLY") {
+    this.daysDisabled=[]
+     this.monthlyloading=true
+    setTimeout(() => {
+      this.getValidDAtesForWeekly()
+    }, 0);
+   
+  } 
+}
+getMonthLength() {
+  const monthDiff = this.maxDate.getMonth() - this.minDateForMonthlyCase.getMonth();
+  const yearDiff = this.maxDate.getYear() - this.minDateForMonthlyCase.getYear();
+  return monthDiff + yearDiff * 12;
+}
+getValidDAtesForWeekly() {
+  this.monthlyloading=true
+  let length = this.getMonthLength()*8  
+  let day = this.minDateForMonthlyCase.setDate(this.minDateForMonthlyCase.getDate() + 7)
+
+  console.log(this.minDate,day)
+  for (let i = 0 ;i<length;i++) {
+    day = new Date(day)
+    day = day.setDate(day.getDate() + 7)
+   if(day > this.minDate && day<this.maxDate) {
+     this.enabledDates.push(new Date(day))
+   } 
+
+ }
+  this.monthlyloading=false
+}
+
+getValidDatesForMonthly() {
+  let length = this.getMonthLength()
+  for (let i = 0 ;i<length;i++) {
+    let dt = this.minDateForMonthlyCase;
+    dt.setMonth(dt.getMonth() + 1)
+    let final = new Date(dt)
+    if(final > this.minDate && final < this.maxDate) {
+      this.enabledDates.push(new Date(dt))
+    }
+  }
+  this.monthlyloading=false
 }
 checkTodayDate(item) {
   let today = new Date()
@@ -250,14 +327,57 @@ onDateCange(value:any) {
         this.selectedTime=this.selectedActivityToEdit?.selectedTime
       }
       else i.checked=false
+      i.chosencount=0
     })
+    let cart = localStorage.getItem('joincart')
+    let cartitems:any[]=[]
+    if(cart)  {
+      cartitems=JSON.parse(cart)
+    }
+    if(this.availableTime?.length && cartitems?.length) {
+      console.log('one')
+      this.availableTime.forEach(item =>  {
+        let chosencount=0
+        for(let i = 0 ; i <cartitems?.length;i++) {
+          console.log('one')
+          if(cartitems[i]?.id==this.selectedActivityToEdit?.id&&cartitems[i]?.cstmtype==1 &&
+            cartitems[i]?.selectedTime?.id == item?.id
+            ) {
+              console.log('one')
+              if(!!localStorage.getItem('joinToken')) {
+                if(this.hideMembers) chosencount+=1
+                else chosencount+=cartitems[i]?.selectedMembers?.length 
+              } else {
+                chosencount+=cartitems[i]?.notUserMembersCount
+              }
+             
+          }
+        }
+        item.chosencount=chosencount
+      })
+    }
   }
   console.log(this.selectedTime)
 }
-selectTime(time:any) {
+selectTime(time:any,inpt) {
+  this.avialbeMembers=time?.available_seats-time?.chosencount
+  if(time?.available_seats=="0") {
+    inpt.checked=false
+    time.checked=false
+  this.selectedTime=null
+  this.complete=true
+  if(localStorage.getItem('lang')=='ar') {
+    this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
+  } else  {
+    this.toastr.error('please select another time slot','Invalid Date')
+    console.log(this.selectedTime)
+  }
+} else {
+  this.complete=false
+
   time.checked=true
   this.selectedTime=time
-  this.avialbeMembers=time?.available_seats
+  
   if(this.members?.length) {
     this.selectedIds=[]
     this.members.map(member => {
@@ -272,6 +392,7 @@ selectTime(time:any) {
       // }
     })
   }
+}
   console.log(this.avialbeMembers)
 }
 selectMembers(child_id) { 

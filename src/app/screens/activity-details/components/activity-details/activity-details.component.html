@@ -185,21 +185,32 @@
                         <p class="cstmmed mb-1">
                             {{'date'|translate}} : 
                             <span class="text-secondary">
-                                {{activity_details.selectedDate|date}}
+                                {{activity_details.selectedDate|date:'EEEE, d MMMM, y'}}
                             </span>
                         </p>
                         <p class="cstmmed mb-1">
                             {{'time'|translate}} : 
                             <span class="text-secondary">
                                 {{  this.activity_details.selectedTime?.from_time + " - " + this.activity_details.selectedTime?.to_time}}
-                                 ( {{'available'|translate}}  {{this.activity_details.selectedTime?.available_seats}} )
+                                 ( {{'available'|translate}}  {{available}} )
+                            </span>
+                        </p>
+                        <p 
+                        *ngIf="isLogin() && !activity_details?.hideMembers && this.activity_details.selectedMembers?.length"
+                        class="cstmmed mb-1">
+                            {{'member'|translate}} : 
+                            <span class="text-secondary">
+                                {{this.activity_details.selectedMembers[0]?.child_name|replaceComma}}
                             </span>
                         </p>
                     </ng-container>
                     
                     <button 
-           
-                    class="w-100 mt-3 book">{{'book_now'|translate}}</button>
+                    (click)="selectedDataFromPopup(activity_details)"
+                    [disabled]="complete"
+                    class="w-100 mt-3 book">
+                    {{complete ? ('fully_booked'|translate) : ('confirm'|translate)}}
+                </button>
                 </div>
             </div>
             <!--  -->
@@ -231,7 +242,7 @@ class="cstmpopup d-flex">
            [selectedTimeFromParent]="activity_details?.selectedTime"
          -->
            <app-book-now
-
+            [activity_id]="activity_details?.id"
            [hideMembers]="activity_details?.hideMembers"
            [ageFrom]="activity_details?.age_from"
            [ageTo]="activity_details?.age_to"

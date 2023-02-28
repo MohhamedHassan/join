@@ -20,26 +20,49 @@
       <!--  -->
       <accordion-group [heading]="(selectedDate|date) || 'select_Date'|translate">
         <div 
-        *ngIf="selectedLocation&&checkTodayDate(selectedLocation)"
-        class="my-2 d-flex justify-content-center"
+        *ngIf="selectedLocation&&checkTodayDate(selectedLocation)&&!monthlyloading"
+        class="my-2"
         >
+
+        <ng-container
+        *ngIf="selectedLocation?.frequency!='DAILY'"
+        >
+        <div 
+        *ngFor="let item of enabledDates;let i = index"
+        class="form-check mb-2">
+          <input 
+          (change)="onDateCange(item)"
+          class="form-check-input" type="radio" name="flexRadioDefault" [id]="item+i">
+          <label 
+          class="form-check-label" [for]="item+i">
+            {{item | date:'EEEE, d MMMM, y'}}
+          </label>
+        </div>
+        </ng-container>
+        
+
         <!-- <input
         (bsValueChange)="onDateCange($event)"
         class="form-control" placeholder="Datepicker" bsDatepicker
         [minDate]="minDate"
         [maxDate]="maxDate"
         [daysDisabled]="daysDisabled"> -->
-        <p-calendar
-        #calendar
-        [inline]="true"
-        [(ngModel)]="date"
-        [minDate]="minDate"
-        [maxDate]="maxDate"
-        [disabledDays]="daysDisabled"
-        (onSelect)="onDateCange($event)"
-        (onYearChange)="checkYear($event)"
-        (onMonthChange)="checkYear($event)"
-        ></p-calendar>
+        <div class="d-flex justify-content-center">
+            
+            <p-calendar
+            *ngIf="selectedLocation?.frequency=='DAILY'"
+            #calendar
+            [inline]="true"
+            [(ngModel)]="date"
+            [minDate]="minDate"
+            [maxDate]="maxDate"
+            [disabledDays]="daysDisabled"
+            [disabledDates]="disabledDates"
+            (onSelect)="onDateCange($event)"
+            (onYearChange)="checkYear($event)"
+            (onMonthChange)="checkYear($event)"
+            ></p-calendar>
+          </div>
         </div>
       </accordion-group>
       <!--  -->
@@ -49,12 +72,13 @@
           *ngFor="let item of availableTime;let i = index"
           class="form-check mb-2">
             <input 
+            #inpt
             [checked]="item?.checked"
-            (change)="selectTime(item)"
+            (change)="selectTime(item,inpt)"
             class="form-check-input" type="radio" name="times" [id]="item?.from_time+i">
             <label 
             class="form-check-label" [for]="item?.from_time+i">
-              {{  item?.from_time + " - " + item?.to_time}} ( {{'available'|translate}}  {{item?.available_seats}} )
+              {{  item?.from_time + " - " + item?.to_time}} ( {{'available'|translate}}  {{item?.available_seats-item?.chosencount}} )
             </label>
           </div>
         
@@ -185,10 +209,20 @@
       <button 
       (click)="formDirective.ngSubmit.emit();confirmAddActivity()"
       class="orangebtn my-2">
-          {{'confirm'|translate}}
+          {{complete ? ('fully_booked'|translate) : ('confirm'|translate)}}
       </button>
 </div>
 
+<div 
+
+*ngIf="monthlyloading"
+class="cstmpopup">
+    <div class="content add-member"
+    style="background-color: transparent;"
+    >
+      <app-laoding></app-laoding>
+    </div>
+</div>
 <div 
 [ngClass]="{
     'd-flex':showpopup,

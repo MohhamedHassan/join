@@ -7,6 +7,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
 import { FavoriteService } from 'src/app/services/favorite.service';
+import { DatePipe } from '@angular/common';
 SwiperCore.use([Navigation,Pagination]);
 @Component({
   selector: 'app-activity-details',
@@ -14,6 +15,8 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
+  available=0
+  complete=false
   sharePopup=false
   members:any[]=[]
   markers=[]
@@ -54,7 +57,11 @@ export class ActivityDetailsComponent implements OnInit {
   }
   favLoading=false
   activityId
+  minDate: any=new Date();
+  minDateForMonthlyCase: any=new Date();
+  maxDate: any=new Date();
   constructor(private activatedRoute:ActivatedRoute,
+    private datePipe:DatePipe,
     private foavoriteService:FavoriteService,
     private membersservice:MembersService,
     private toastr:ToastrService,
@@ -101,19 +108,70 @@ export class ActivityDetailsComponent implements OnInit {
                 })
               })
               this.activity_details.selectedLocation=this.activity_details.location[0]
+              this.minDateForMonthlyCase=new Date(this.activity_details.location[0]?.from_date)
               let today = new Date()
               let from = new Date(this.activity_details.location[0]?.from_date)
-              this.activity_details.selectedDate=today>from ? today : from
+              if(today > from) {
+                this.minDate  = new Date()
+              } else {
+                this.minDate = new Date(this.activity_details.location[0]?.from_date)
+               // console.log(this.date)
+              }
+              this.maxDate = new Date(this.activity_details.location[0]?.to_date)
+              if(this.activity_details.selectedLocation?.frequency=="MONTHLY") {
+                this.getValidDatesForMonthly()
+              } else  if(this.activity_details.selectedLocation?.frequency=="WEEKLY") {
+                this.getValidDAtesForWeekly()
+               
+              } else  if(this.activity_details.selectedLocation?.frequency=="DAILY") {
+                this.getValidDateForDAily()          
+              } 
               if(this.activity_details.selectedLocation?.dates_times?.length) {
                 this.activity_details.selectedTime= this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+                this.available= this.activity_details.selectedTime?.available_seats
+                console.log(this.available)
+                if(this.cartitems?.length) {
+                  let chosencount = 0
+                  for(let i = 0 ; i <this.cartitems?.length;i++) {
+                    console.log('one')
+                    if(this.cartitems[i]?.id==this.activity_details?.id&&this.cartitems[i]?.cstmtype==1 &&
+                      this.cartitems[i]?.selectedTime?.id == this.activity_details.selectedTime?.id
+                      ) {
+                        console.log('one')
+                        if(!!localStorage.getItem('joinToken')) {
+                          if(this.activity_details?.hideMembers) chosencount+=1
+                          else chosencount+=this.cartitems[i]?.selectedMembers?.length 
+                        } else {
+                          chosencount+=this.cartitems[i]?.notUserMembersCount
+                        }
+                       
+                    }
+                  }
+                  this.available = this.available>=chosencount ? this.available-chosencount : 0
+                  if(this.available<=0) this.complete=true
+                }
+            
               }
+           
+              this.activity_details.cstmtype=1 
+              this.activity_details.type=!!localStorage.getItem('joinToken') ? 1 : 0 
+              this.activity_details.notUserMembersCount =1
             }
             if(!!localStorage.getItem("joinToken")) {
               this.membersservice.members.subscribe(
                 (res:any) =>  {
                    if(res)  {
                     this.members=res
-                    console.log(this.members)
+                    let validmembers:any[]=[]
+                    this.members.forEach(member =>  {
+                      if(Number(member?.child_age)>Number(this.activity_details?.age_to)|| Number(member?.child_age)<Number(this.activity_details?.age_from)) {
+                        
+                      } else {
+                        validmembers.push(member)
+                      }
+                    })
+                    if(validmembers?.length) this.activity_details.selectedMembers= [ validmembers[0]]
+                    console.log(this.activity_details.selectedMembers)
                    }
                 }
              )
@@ -134,9 +192,8 @@ export class ActivityDetailsComponent implements OnInit {
 get lang() {
   return localStorage.getItem('lang') || 'en'
 }
+
 selectedDataFromPopup(event) {
-  console.log(event)
-  console.log(this.activity_details)
   this.activity_details.selectedMembers=event.selectedMembers
   this.activity_details.selectedLocation=event.selectedLocation,
   this.activity_details.selectedDate=event.selectedDate
@@ -148,9 +205,24 @@ selectedDataFromPopup(event) {
   if(this.cartitems?.length) {
     for(let i = 0 ; i < this.cartitems?.length;i++) {
       if(this.cartitems[i]?.cstmtype==1 && this.cartitems[i]?.id==this.activity_details?.id) {
-        exist=true
-        this.cartitems[i]=this.activity_details
-        break
+        if(this.datePipe.transform(event.selectedDate, 'MM-dd-yyy') == this.datePipe.transform(this.cartitems[i]?.selectedDate, 'MM-dd-yyy') &&
+          this.cartitems[i]?.selectedTime?.id == event.selectedTime?.id &&
+          this.cartitems[i]?.selectedLocation?.id == event.selectedLocation?.id
+        ) {
+          exist=true
+          if(Array.isArray(this.cartitems[i].selectedMembers) && Array.isArray(event.selectedMembers)) {
+            event.selectedMembers.forEach(element => {
+              let exist = false
+              this.cartitems[i].selectedMembers.forEach(item => {
+                if(element?.child_id==item?.child_id) exist=true
+              });
+              if(!exist)   this.cartitems[i].selectedMembers.push(element)
+            });
+          }
+          this.cartitems[i].notUserMembersCount+=event.notUserMembersCount
+          break
+        }
+
       }
     }
   }
@@ -197,5 +269,63 @@ addActivityToFavorite() {
     }
   )
 }
+getValidDAtesForWeekly() {
+  let length = this.getMonthLength()*8  
+  let day = this.minDateForMonthlyCase.setDate(this.minDateForMonthlyCase.getDate() + 7)
+  for (let i = 0 ;i<length;i++) {
+    day = new Date(day)
+    day = day.setDate(day.getDate() + 7)
+   if(day > this.minDate && day<this.maxDate) {
+    this.activity_details.selectedDate=new Date(day)
+     break
+   } 
 
+ }
+}
+getValidDateForDAily() {
+  let days_for_activity = this.activity_details?.selectedLocation?.days_for_activity.split(',')
+  days_for_activity = days_for_activity.map((element:any) => {
+    if(element=='SUNDAY') return element = 0
+    else if(element=='MONDAY') return element = 1
+    else if(element=='TUESDAY') return element = 2 
+    else if(element=='WEDNESDAY') return element = 3
+    else if(element=='THURSDAY') return element = 4
+    else if(element=='FRIDAY') return element = 5
+    else if(element=='SATURDAY') return element = 6
+    else return ''
+  });
+  console.log(this.minDate.getDay(),this.minDate)
+  if(days_for_activity.some(i => i==this.minDate.getDay()) ) {
+    this.activity_details.selectedDate=this.minDate
+  } else {
+    let date = this.minDate
+    for(let i = 0 ; i < 30 ; i++) {
+      date.setDate(this.minDate.getDate() + 1)
+      if(days_for_activity.some(i => i==date.getDay()) ) {
+        this.activity_details.selectedDate=date
+        break
+      } 
+      console.log(days_for_activity.some(i => i==date.getDay()))
+    }
+    
+  }
+ 
+}
+getValidDatesForMonthly() {
+  let length = this.getMonthLength()
+  for (let i = 0 ;i<length;i++) {
+    let dt = this.minDateForMonthlyCase;
+    dt.setMonth(dt.getMonth() + 1)
+    let final = new Date(dt)
+    if(final > this.minDate && final < this.maxDate) {
+      this.activity_details.selectedDate=new Date(dt)
+      break
+    }
+  }
+}
+getMonthLength() {
+  const monthDiff = this.maxDate.getMonth() - this.minDateForMonthlyCase.getMonth();
+  const yearDiff = this.maxDate.getYear() - this.minDateForMonthlyCase.getYear();
+  return monthDiff + yearDiff * 12;
+}
 }

@@ -726,6 +726,9 @@ footer {
           padding: 10px;
           border-radius: 5px;
      }
+     button.book[disabled] {
+          background-color:#efc692 !important;
+     }
 }
 
 // details-page

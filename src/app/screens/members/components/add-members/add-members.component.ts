@@ -150,7 +150,7 @@ createMember() {
             if(res?.code==1) {
               this.memberService.getAllMembers()
               this.addMemberLoading=false
-              this.toastr.success(res?.message)
+              // this.toastr.success(res?.message)
               this.closePopUp.emit(true)
             } else {
               this.addMemberLoading=false
@@ -165,7 +165,7 @@ createMember() {
             if(res?.code==1) {
               this.memberService.getAllMembers()
               this.addMemberLoading=false
-              this.toastr.success(res?.message)
+              // this.toastr.success(res?.message)
               this.closePopUp.emit(true)
             } else {
               this.addMemberLoading=false

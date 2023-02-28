@@ -253,16 +253,23 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
   plusone(index: any) {
-    if (this.cartitems[index]?.selectedSize?.qty) {
-      if (this.cartitems[index]?.countToBuy < this.cartitems[index]?.selectedSize?.qty) {
-        this.cartitems[index].countToBuy += 1
-        localStorage.setItem('joincart', JSON.stringify(this.cartitems))
+    let chosenCount = 0
+    let available = this.cartitems[index]?.product_sizes?.length ? this.cartitems[index]?.selectedSize?.qty : this.cartitems[index]?.qty
+    let id = this.cartitems[index]?.id
+    if(this.cartitems?.length) {
+      for(let i = 0 ; i <this.cartitems?.length;i++) {
+        if(this.cartitems[i]?.id==id&&this.cartitems[i]?.cstmtype==2) {
+          if((this.cartitems[index]?.product_sizes?.length && this.cartitems[index]?.selectedSize?.id == this.cartitems[i]?.selectedSize?.id)
+          || (!this.cartitems[index]?.product_sizes?.length)
+          ) {
+            chosenCount+=this.cartitems[i]?.countToBuy
+          }        
+        }
       }
-    } else {
-      if (this.cartitems[index]?.countToBuy < this.cartitems[index]?.qty) {
-        this.cartitems[index].countToBuy += 1
-        localStorage.setItem('joincart', JSON.stringify(this.cartitems))
-      }
+    }
+    if(chosenCount<available) {
+      this.cartitems[index].countToBuy += 1
+      localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     }
     this.getTotal()
   }
@@ -288,6 +295,35 @@ export class ShoppingCartComponent implements OnInit {
     this.cartitems[index].cstmtype = 1
     this.cartitems[index].type = event.type
     this.cartitems[index].notUserMembersCount = event.notUserMembersCount
+    
+
+    if(this.cartitems?.length) {
+      for(let i = 0 ; i < this.cartitems?.length;i++) {
+        if(this.cartitems[i]?.cstmtype==1 && this.cartitems[i]?.id== this.cartitems[index]?.id) {
+          if(this.datePipe.transform(event.selectedDate, 'MM-dd-yyy') == this.datePipe.transform(this.cartitems[i]?.selectedDate, 'MM-dd-yyy') &&
+            this.cartitems[i]?.selectedTime?.id == event.selectedTime?.id &&
+            this.cartitems[i]?.selectedLocation?.id == event.selectedLocation?.id && i!=index
+          ) {
+            if(Array.isArray(this.cartitems[i].selectedMembers) && Array.isArray(event.selectedMembers)) {
+              event.selectedMembers.forEach(element => {
+                let exist = false
+                this.cartitems[i].selectedMembers.forEach(item => {
+                  if(element?.child_id==item?.child_id) exist=true
+                });
+                if(!exist)   this.cartitems[i].selectedMembers.push(element)
+              });
+            }
+            this.cartitems[i].notUserMembersCount+=event.notUserMembersCount
+            this.cartitems.splice(index,1)
+            break
+          }
+  
+        }
+      }
+    }
+   
+
+    
     localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     this.showpopup = -1
     this.getTotal()

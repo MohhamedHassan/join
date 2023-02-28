@@ -1,6 +1,8 @@
 @import '/src/assets//styles/colors.scss';
 ::ng-deep {
-   
+    .toast-container {
+        z-index: 9999999999999 !important;
+    }
     .custom-rtl {
         .toast-top-right {
             top: 12px;

@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
         res => {
           this.loading=false
           if(res?.code==1) {
-            this.toastr.success(res?.message);
+            // this.toastr.success(res?.message);
             localStorage.setItem('joinToken',res?.payload?.auth_token)
             this.notficationsService.getNotifications()
             this.membersservice.getAllMembers()
@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
           res => {
             this.loading=false
             if(res?.code==1) {
-              this.toastr.success(res?.message);
+          //    this.toastr.success(res?.message);
               localStorage.setItem('joinToken',res?.payload?.auth_token)
               this.authService.getUserProfile()
        //       this.notficationsService.getNotifications()

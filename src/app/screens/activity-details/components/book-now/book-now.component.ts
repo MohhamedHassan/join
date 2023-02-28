@@ -10,10 +10,12 @@ import { Calendar } from 'primeng/calendar';
   styleUrls: ['./book-now.component.scss']
 })
 export class BookNowComponent implements OnInit {
+  monthlyloading=false
   @ViewChild('calendar') calendar?: Calendar;
   showpopup=false
   submited=false
   @Input() location:any
+  @Input() activity_id:any
   @Input() ageFrom:any
   @Input() ageTo:any
   @Input() hideMembers:any
@@ -27,8 +29,9 @@ export class BookNowComponent implements OnInit {
   selectedDate=null
   selectedTime=null
   selectedMembers:any[]=[]
-  minDate: Date=new Date();
-  maxDate: Date=new Date();
+  minDate: any=new Date();
+  minDateForMonthlyCase: any=new Date();
+  maxDate: any=new Date();
   daysDisabled:any[]=[]
   availableTime:any[]=[]
   avialbeMembers=0
@@ -36,6 +39,9 @@ export class BookNowComponent implements OnInit {
   notuserForm:FormGroup
   selectedIds=[]
   date = new Date();
+  disabledDates:any[]=[]
+  enabledDates:any[]=[]
+  complete=false
   constructor(public membersservice:MembersService,
     private fb:FormBuilder,
     private toastr:ToastrService,
@@ -111,8 +117,10 @@ export class BookNowComponent implements OnInit {
     // this.selectedTime=this.selectedTimeFromParent
     // this.onDateCange(this.date)
     // this.selectTime(this.selectedTimeFromParent)
+    console.log(this.location)
   }
 selectLocation(item:any) {
+  this.minDateForMonthlyCase=new Date(item?.from_date)
   this.selectedDate=null
   this.selectedTime=null
   this.avialbeMembers=0
@@ -125,19 +133,21 @@ selectLocation(item:any) {
   }
   this.selectedLocation=item
   this.daysDisabled=[]
+  this.disabledDates=[]
+  this.enabledDates=[]
   let today = new Date()
   let from = new Date(item?.from_date)
   if(today > from) {
     this.minDate  = new Date()
     this.date  = new Date()
-    console.log(this.minDate,this.minDate.getMonth())
+   // console.log(this.minDate,this.minDate.getMonth())
   } else {
     this.minDate = new Date(item?.from_date)
     this.date = new Date(item?.from_date)
-    console.log(this.date)
+   // console.log(this.date)
   }
   this.maxDate = new Date(item?.to_date)
-  console.log(this.maxDate)
+  //console.log(this.maxDate)
   let days = [0,1,2,3,4,5,6]
   let days_for_activity = item?.days_for_activity.split(',')
   days_for_activity = days_for_activity.map((element:any) => {
@@ -159,7 +169,69 @@ selectLocation(item:any) {
     }
     if(!exist) this.daysDisabled.push(days[i])
   }
-  if(item?.frequency=="WEEKLY") this.daysDisabled=[0,1,2,3,4,6]
+  if(item?.frequency=="MONTHLY") {
+    this.daysDisabled=[]
+    this.monthlyloading=true
+    setTimeout(() => {
+      this.getValidDatesForMonthly()
+    }, 0);
+  } else  if(item?.frequency=="WEEKLY") {
+    this.daysDisabled=[]
+     this.monthlyloading=true
+    setTimeout(() => {
+      this.getValidDAtesForWeekly()
+    }, 0);
+   
+  } 
+}
+
+getMonthLength() {
+  const monthDiff = this.maxDate.getMonth() - this.minDateForMonthlyCase.getMonth();
+  const yearDiff = this.maxDate.getYear() - this.minDateForMonthlyCase.getYear();
+  return monthDiff + yearDiff * 12;
+}
+getValidDAtesForWeekly() {
+  this.monthlyloading=true
+  let length = this.getMonthLength()*8  
+  let day = this.minDateForMonthlyCase.setDate(this.minDateForMonthlyCase.getDate() + 7)
+
+  console.log(this.minDate,day)
+  for (let i = 0 ;i<length;i++) {
+    day = new Date(day)
+    day = day.setDate(day.getDate() + 7)
+   if(day > this.minDate && day<this.maxDate) {
+     this.enabledDates.push(new Date(day))
+   } 
+
+ }
+  this.monthlyloading=false
+}
+
+getValidDatesForMonthly() {
+  let length = this.getMonthLength()
+  for (let i = 0 ;i<length;i++) {
+    let dt = this.minDateForMonthlyCase;
+    dt.setMonth(dt.getMonth() + 1)
+    let final = new Date(dt)
+    if(final > this.minDate && final < this.maxDate) {
+      this.enabledDates.push(new Date(dt))
+    }
+  }
+  this.monthlyloading=false
+}
+getInvalidDates() {
+
+  this.monthlyloading=true
+  const date = new Date(this.minDate.getTime());
+  
+  const dates = [];
+
+  while (date <= this.maxDate) {
+    let exist = this.enabledDates.some(item => this.datePipe.transform(item, 'MM-dd-yyy') == this.datePipe.transform(date, 'MM-dd-yyy'))
+    if(!exist)  this.disabledDates.push(new Date(date));
+    date.setDate(date.getDate() + 1);
+  }
+ this.monthlyloading=false
 }
 checkTodayDate(item) {
   let today = new Date()
@@ -197,14 +269,57 @@ onDateCange(value:any) {
             });
         }
     }
-    this.availableTime.map(i=>i.checked=false)
+    this.availableTime.map(i=>{i.checked=false;i.chosencount=0})
+    let cart = localStorage.getItem('joincart')
+    let cartitems:any[]=[]
+    if(cart)  {
+      cartitems=JSON.parse(cart)
+    }
+    if(this.availableTime?.length && cartitems?.length) {
+      console.log('one')
+      this.availableTime.forEach(item =>  {
+        let chosencount=0
+        for(let i = 0 ; i <cartitems?.length;i++) {
+          console.log('one')
+          if(cartitems[i]?.id==this.activity_id&&cartitems[i]?.cstmtype==1 &&
+            cartitems[i]?.selectedTime?.id == item?.id
+            ) {
+              console.log('one')
+              if(!!localStorage.getItem('joinToken')) {
+                if(this.hideMembers) chosencount+=1
+                else chosencount+=cartitems[i]?.selectedMembers?.length 
+              } else {
+                chosencount+=cartitems[i]?.notUserMembersCount
+              }
+             
+          }
+        }
+        item.chosencount=chosencount
+      })
+    }
   }
   console.log(this.availableTime)
 }
-selectTime(time:any) {
+selectTime(time:any,inpt) {
+  this.avialbeMembers=time?.available_seats-time?.chosencount
+
+  console.log(this.avialbeMembers)
+  if(time?.available_seats=="0") {
+      inpt.checked=false
+      time.checked=false
+    this.selectedTime=null
+    this.complete=true
+    if(localStorage.getItem('lang')=='ar') {
+      this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
+    } else  {
+      this.toastr.error('please select another time slot','Invalid Date')
+      console.log(this.selectedTime)
+    }
+  } else {
+
+    this.complete=false
   time.checked=true
   this.selectedTime=time
-  this.avialbeMembers=time?.available_seats
   if(this.avialbeMembers>0) {
     this.notUserMembersCount=1
   } else  {
@@ -217,6 +332,7 @@ selectTime(time:any) {
       member.disabled=false
     })
   }
+}
   console.log(this.avialbeMembers)
 }
 selectMembers(child_id) { 
@@ -267,19 +383,23 @@ if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
     this.patchActivityToParent.emit(selectedData)
   } 
   console.log(this.notuserForm)
-  if(this.notuserForm.valid && (
-    !this.selectedLocation ||
-    !this.selectedDate ||
-    !this.selectedTime || 
-    !this.notuserForm.valid ||
-    ! valid
-  )) {
-    if(localStorage.getItem('lang')=='ar') {
-      this.toastr.error("قم بلمئ جميع البيانات")
-    } else  {
-      this.toastr.error('Fill in all data')
+
+    if(this.notuserForm.valid && (
+      !this.selectedLocation ||
+      !this.selectedDate ||
+      !this.selectedTime || 
+      !this.notuserForm.valid ||
+      ! valid
+    )) {
+      if(localStorage.getItem('lang')=='ar') {
+        this.toastr.error("قم بلمئ جميع البيانات")
+      } else  {
+        this.toastr.error('Fill in all data')
+        console.log(this.selectedTime)
+      }
     }
-  }
+  
+ 
 }
 isLogin():boolean {
   return !!localStorage.getItem("joinToken")

@@ -45,6 +45,10 @@ export class ProductDetailsComponent implements OnInit {
     ).subscribe(
        (res:any) => {
         console.log(res)
+        this.selectedColor=null
+        this.selectedSize=null
+        this.countToBuy=0
+        this.availableCount=0
         this.loading=false
         this.product_details=res?.payload
         if(this.product_details?.product_colors?.length) {
@@ -54,7 +58,9 @@ export class ProductDetailsComponent implements OnInit {
         if(this.product_details?.product_sizes?.length) {
           this.selectedSize=this.product_details?.product_sizes[0]
           this.selectSize(this.selectedSize)
-        } 
+        } else {
+          this.setAvailableInCaseNoSizes()
+        }
     
         
  
@@ -67,50 +73,44 @@ export class ProductDetailsComponent implements OnInit {
   selectSize(size) {
     this.selectedSize=size
     this.availableCount=size?.qty
-    
+    let chosenCount = 0
     if(this.cartitems?.length) {
       for(let i = 0 ; i <this.cartitems?.length;i++) {
         if(this.cartitems[i]?.id==this.product_details?.id&&this.cartitems[i]?.cstmtype==2) {
-
-
           if(this.product_details?.product_sizes?.length && size?.id == this.cartitems[i]?.selectedSize?.id) {
-            if(size?.qty >= this.cartitems[i]?.selectedSize?.qty) {
-              this.availableCount=size?.qty - this.cartitems[i]?.selectedSize?.qty
-            } else if (size?.qty < this.cartitems[i]?.selectedSize?.qty && size?.qty != "0") {
-              this.availableCount=0
-              this.cartitems[i].countToBuy=size?.qty
-              localStorage.setItem('joincart',JSON.stringify(this.cartitems))
-            } else if (size?.qty == 0) {
-              this.availableCount=0
-              this.cartitems.splice(i,1)
-              localStorage.setItem('joincart',JSON.stringify(this.cartitems))
-              break
-            }
-          } 
-     
-       
-          
+            chosenCount+=this.cartitems[i]?.countToBuy
+          }         
         }
       }
     }
-
+    if(size?.qty >= chosenCount) {
+      this.availableCount=size?.qty - chosenCount
+    } else if (size?.qty < chosenCount || size?.qty == "0") {
+      this.availableCount=0
+    } 
+    console.log(chosenCount)
     if(this.availableCount>0) this.countToBuy=1
     else this.countToBuy=0
 
   }
   setAvailableInCaseNoSizes() {
     this.availableCount=this.product_details?.qty
+    let chosenCount = 0
     if(this.cartitems?.length) {
       for(let i = 0 ; i <this.cartitems?.length;i++) {
         if(this.cartitems[i]?.id==this.product_details?.id&&this.cartitems[i]?.cstmtype==2) {
-
-
-         
-       
-          
+            chosenCount+=this.cartitems[i]?.countToBuy
         }
       }
     }
+    if(this.product_details?.qty >= chosenCount) {
+      this.availableCount=this.product_details?.qty - chosenCount
+    } else if (this.product_details?.qty < chosenCount || this.product_details?.qty == "0") {
+      this.availableCount=0
+    } 
+    console.log(chosenCount)
+    if(this.availableCount>0) this.countToBuy=1
+    else this.countToBuy=0
   }
   addToCart() {
     if(this.availableCount<1) this.toastrError() 
@@ -124,23 +124,53 @@ export class ProductDetailsComponent implements OnInit {
          
           for(let i = 0 ; i <this.cartitems?.length;i++) {
             if(this.cartitems[i]?.id==this.product_details?.id&&this.cartitems[i]?.cstmtype==2) {
-              this.cartitems[i].countToBuy=this.countToBuy
-              this.cartitems[i].selectedColor=this.selectedColor
-              this.cartitems[i].selectedSize=this.selectedSize
-              itemExistincart=true
-              break
+              if(this.product_details?.product_sizes?.length && this.selectedSize?.id == this.cartitems[i]?.selectedSize?.id) {
+                if(this.product_details?.product_colors?.length) {
+                  if(this.cartitems[i]?.selectedColor.id==this.selectedColor?.id) {
+                    console.log('what!')
+                    this.editCartItem(i)
+                    itemExistincart=true
+                  }
+                } else {
+                  console.log('four!')
+                  this.editCartItem(i)
+                  itemExistincart=true
+                }
+              } 
+              if(!this.product_details?.product_sizes?.length) {
+                console.log('trhee')
+                if(this.product_details?.product_colors?.length) {
+                  if(this.cartitems[i]?.selectedColor.id==this.selectedColor?.id) {
+                    console.log('what!')
+                    this.editCartItem(i)
+                    itemExistincart=true
+                  }
+                } else {
+                  this.editCartItem(i)
+                  itemExistincart=true
+                }
+              }
+              
             }
           }
         }
         if(!itemExistincart) {
+          console.log('two')
           this.product_details.countToBuy=this.countToBuy
           this.cartitems.push(this.product_details)
-        }
-
+          localStorage.setItem('joincart',JSON.stringify(this.cartitems))
+          this.router.navigate(['/cart'])
+        } 
         localStorage.setItem('joincart',JSON.stringify(this.cartitems))
         this.router.navigate(['/cart'])
+       
       }
     }
+  }
+  editCartItem(index) {
+    this.cartitems[index].countToBuy+=this.countToBuy
+    this.cartitems[index].selectedColor=this.selectedColor
+    this.cartitems[index].selectedSize=this.selectedSize
   }
   plusone() {
     if(this.availableCount==this.countToBuy) this.toastrError() 
@@ -162,8 +192,6 @@ export class ProductDetailsComponent implements OnInit {
       this.toastr.error('Out of stock')
     }
   }
-  checkAvailableCount() {
-    
-  }
+
 
 }

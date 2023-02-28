@@ -113,7 +113,7 @@ export class MemberDetailsComponent implements OnInit {
     this.membersservice.deleteMember(this.memberDetails?.child_id).subscribe(
       (res:any) => {
         if(res?.code==1) {
-          this.toastr.success(res?.message);
+          // this.toastr.success(res?.message);
           this.membersservice.getAllMembers()
           this.router.navigate(['/members'])
         } else {
@@ -168,11 +168,11 @@ export class MemberDetailsComponent implements OnInit {
           (res:any)=> {
             if(res?.code==1) {
               this.updateMemberLoading=false
-              if(localStorage.getItem('lang')=='ar') {
-                this.toastr.success("تم التعديل بنجاح")
-              } else  {
-                this.toastr.success('Updated Successfully')
-              }
+              // if(localStorage.getItem('lang')=='ar') {
+              //   this.toastr.success("تم التعديل بنجاح")
+              // } else  {
+              //   this.toastr.success('Updated Successfully')
+              // }
               this.membersservice.getAllMembers()
               window.scroll(0,0)
               this.updateUserInfo=false
