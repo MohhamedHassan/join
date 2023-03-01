@@ -420,21 +420,45 @@ checkYear(date: { month: number; year: number }) {
       this.calendar.onModelTouched();
       this.date = new Date(this.minDate);
       console.log(date.month,this.minDate.getMonth())
+      if(localStorage.getItem('lang')=='ar') {
+        this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
+      } else  {
+        this.toastr.error('please select another time slot','Invalid Date')
+        console.log(this.selectedTime)
+      }
     }
     if (date.year > this.maxDate.getFullYear()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.maxDate);
+      if(localStorage.getItem('lang')=='ar') {
+        this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
+      } else  {
+        this.toastr.error('please select another time slot','Invalid Date')
+        console.log(this.selectedTime)
+      }
       console.log(this.maxDate)
     }
     if (date.year == this.minDate.getFullYear() && date.month-1 < this.minDate.getMonth()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.minDate);
       console.log(date.month,this.minDate.getMonth())
+      if(localStorage.getItem('lang')=='ar') {
+        this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
+      } else  {
+        this.toastr.error('please select another time slot','Invalid Date')
+        console.log(this.selectedTime)
+      }
     }
     if (date.year == this.maxDate.getFullYear() && date.month > this.maxDate.getMonth()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.maxDate);
       console.log(date.month,this.minDate.getMonth())
+      if(localStorage.getItem('lang')=='ar') {
+        this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
+      } else  {
+        this.toastr.error('please select another time slot','Invalid Date')
+        console.log(this.selectedTime)
+      }
     }
   }
 }

@@ -203,6 +203,7 @@ if(!this.intervalLoading) {
                     this.loading=false
                     if(res?.code==1) {
                       this.toastr.success(localStorage.getItem('lang')=='ar'?'تم انشاء حسابك بنجاج':'Account successfully created');
+                      localStorage.removeItem('joincart')
                       localStorage.setItem('joinToken',res?.payload?.auth_token)
                       this.authService.getUserProfile()
                   //    this.notficationsService.getNotifications()

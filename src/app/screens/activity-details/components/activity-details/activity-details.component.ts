@@ -8,6 +8,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
 import { FavoriteService } from 'src/app/services/favorite.service';
 import { DatePipe } from '@angular/common';
+import { HomeService } from 'src/app/screens/home/services/home.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 SwiperCore.use([Navigation,Pagination]);
 @Component({
   selector: 'app-activity-details',
@@ -15,6 +17,10 @@ SwiperCore.use([Navigation,Pagination]);
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnInit {
+  notUserMembersCount=1
+  submited=false
+  notuserForm:FormGroup
+  notUserPopup=false
   available=0
   complete=false
   sharePopup=false
@@ -60,18 +66,44 @@ export class ActivityDetailsComponent implements OnInit {
   minDate: any=new Date();
   minDateForMonthlyCase: any=new Date();
   maxDate: any=new Date();
+  interestName=''
   constructor(private activatedRoute:ActivatedRoute,
     private datePipe:DatePipe,
     private foavoriteService:FavoriteService,
     private membersservice:MembersService,
     private toastr:ToastrService,
+    private homeService:HomeService,
     private router:Router,
     private _sanitizer:DomSanitizer,
+    private fb:FormBuilder,
     private activitiesService:ActivitiesService) { }
     savedHtml(content:string) {
       return this._sanitizer.bypassSecurityTrustHtml(content)
     }
   ngOnInit(): void {
+    this.notuserForm = this.fb.group({
+      name:['',[Validators.required]],
+      email:['',[Validators.required,Validators.email,Validators.pattern(/.com$/)]],
+      phone:['',[Validators.required,Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]],
+      iconfirm:['']
+    })
+    if(!this.activity_details?.hideMembers) {
+      this.notuserForm.get('iconfirm').setValidators([Validators.required]);
+      this.notuserForm.get('iconfirm').updateValueAndValidity();
+    } else {
+      this.notuserForm.get('iconfirm').clearValidators();
+      this.notuserForm.get('iconfirm').updateValueAndValidity();
+    }
+    let notuserData:any = localStorage.getItem('not_user_data')
+
+    if(notuserData) {
+      notuserData = JSON.parse(notuserData)
+      this.notuserForm.patchValue({
+        name:notuserData?.name,
+        email:notuserData?.email,
+        phone:notuserData?.phone
+      })
+    }
     let cart = localStorage.getItem('joincart')
     if(cart)  {
       this.cartitems=JSON.parse(cart)
@@ -176,6 +208,12 @@ export class ActivityDetailsComponent implements OnInit {
                 }
              )
             }
+            this.homeService.intersts.subscribe((res) => {
+              if(Array.isArray(res)) {
+                console.log(res)
+                this.interestName = res.find(i=>i?.interests_id==this.activity_details?.interests_id)?.name
+              }
+            })
             this.loading=false
           }
         }
@@ -188,6 +226,18 @@ export class ActivityDetailsComponent implements OnInit {
 
     )
     
+  }
+  plusOne() {
+    if(this.notUserMembersCount<this.available) {
+      this.notUserMembersCount+=1
+      this.activity_details.notUserMembersCount= this.notUserMembersCount
+    }
+  }
+  minusOne() {
+    if(this.notUserMembersCount>1) {
+      this.notUserMembersCount-=1
+      this.activity_details.notUserMembersCount= this.notUserMembersCount
+    }
   }
 get lang() {
   return localStorage.getItem('lang') || 'en'
@@ -257,6 +307,23 @@ acceptDeleteActivity() {
 }
 isLogin():boolean {
   return !!localStorage.getItem("joinToken")
+}
+checkNotUserData() {
+  if(this.isLogin()) {
+    this.selectedDataFromPopup(this.activity_details)
+  } else {
+    if(!this.complete) {
+      this.submited=false
+      this.notUserPopup=true
+    }
+  }
+}
+submitNotuserForm() {
+  this.submited=true
+  if(this.notuserForm.valid) {
+    localStorage.setItem('not_user_data',JSON.stringify(this.notuserForm.value))
+    this.selectedDataFromPopup(this.activity_details)
+  }
 }
 addActivityToFavorite() {
   this.favLoading=true

@@ -24,7 +24,7 @@
                         <div class="cstm75">
                             <h2 *ngIf="activity_details.location.length" class="mb-1">
                                 {{activity_details.location[0].branch.area_name}}
-                                | {{ activity_details.age_from + '-' + activity_details.age_to }} {{'years'|translate}} |
+                                | {{ activity_details.age_from + '-' + activity_details.age_to }} {{'years'|translate}} | {{interestName}}
                             </h2>
                             <p class="mb-1">
                                 <span *ngFor="let category of activity_details?.categories;let l = last">
@@ -206,7 +206,7 @@
                     </ng-container>
                     
                     <button 
-                    (click)="selectedDataFromPopup(activity_details)"
+                    (click)="checkNotUserData()"
                     [disabled]="complete"
                     class="w-100 mt-3 book">
                     {{complete ? ('fully_booked'|translate) : ('confirm'|translate)}}
@@ -323,3 +323,108 @@ class="cstmpopup d-flex">
         </div>
     </div>
 </div>
+<!-- start notuser date popup-->
+<div 
+
+*ngIf="notUserPopup"
+class="cstmpopup d-flex">
+    <div class="content add-member">
+        <i 
+        (click)="notUserPopup=false"
+        [ngStyle]="{
+            left:lang=='ar'?'20px':'auto',
+            right:lang=='ar'?'auto':'20px'
+        }"
+        class="fa-solid fa-x"></i>
+        <h2
+        class="mb-4"
+        style="font-weight: 400;font-size:20px;line-height: 30px;"
+        >{{'book_now'|translate}}</h2>
+
+        <form 
+        [formGroup]="notuserForm"
+        (ngSubmit)="submitNotuserForm()">
+           <div class="form-group mb-3">
+              <label>{{'name'|translate}}</label>
+              <input 
+              formControlName="name"
+              type="text" class="form-control">
+              <p 
+              *ngIf="(notuserForm.controls['name']?.errors!=null && notuserForm.controls['name'].touched) ||
+              (notuserForm.controls['name']?.errors!=null && submited)
+              "
+              class="my-2 text-danger">
+                  {{'required'|translate}}
+              </p>
+           </div>
+           <div class="form-group mb-3">
+            <label>{{'phone_number'|translate}}</label>
+            <input 
+            formControlName="phone"
+            type="text" class="form-control">
+            <p 
+            *ngIf="(notuserForm.controls['phone']?.errors!=null && notuserForm.controls['phone'].touched) ||
+            (notuserForm.controls['phone']?.errors!=null && submited)
+            "
+            class="my-2 text-danger">
+                {{'validphone'|translate}}
+            </p>
+         </div>
+         <div class="form-group mb-3">
+          <label>{{'email'|translate}}</label>
+          <input 
+          formControlName="email"
+          type="text" class="form-control">
+          <p 
+          *ngIf="(notuserForm.controls['email']?.errors!=null && notuserForm.controls['email'].touched) ||
+          (notuserForm.controls['email']?.errors!=null && submited)
+          "
+          class="my-2 text-danger">
+              {{'validemail'|translate}}
+          </p>
+       </div>
+       <div 
+       *ngIf="!activity_details?.hideMembers"
+       class="mb-3">
+        <label >{{"number_of_members"|translate}}</label> <br>
+        <!-- <label class="mb-2">( {{"available"|translate}} {{avialbeMembers}} )</label> -->
+        <div  class="plusminus ">
+          <i 
+          (click)="minusOne()"
+          class="fa-solid fa-minus"></i>
+          <span class="mx-2 count">{{notUserMembersCount}}</span>
+          <i 
+          (click)="plusOne()"
+          class="fa-solid fa-plus"></i>
+      </div>
+       </div>
+       <div
+       *ngIf="!activity_details?.hideMembers"
+       class="mb-3">
+        <div class="form-check">
+          <input 
+          formControlName="iconfirm"
+          class="form-check-input" type="checkbox" value="" id="iconfirm">
+          <label class="form-check-label" for="iconfirm">
+            {{'i_confirm'|translate}}
+          </label>
+          <p 
+          *ngIf="(notuserForm.controls['iconfirm']?.errors!=null && notuserForm.controls['iconfirm'].touched) ||
+          (notuserForm.controls['iconfirm']?.errors!=null && submited)
+          "
+          class="my-2 text-danger">
+              {{'required'|translate}}
+          </p>
+        </div>
+       </div>
+       <button 
+       class="orangebtn my-2">
+           {{'confirm'|translate}}
+       </button>
+      </form>
+
+         
+
+    </div>
+</div>
+<!--  end notuser date popup -->
