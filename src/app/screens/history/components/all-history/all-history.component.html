@@ -43,7 +43,9 @@ class="container">
                                 <td>{{(getTotal(item?.prices)|tofixednumber )|| 0}}</td>
                             </tr>
                            </table>
-                           <ul class="d-flex flex-wrap list-unstyled p-0 mb-0 mt-2">
+                           <ul 
+                           *ngIf="isLogin()"
+                           class="d-flex flex-wrap list-unstyled p-0 mb-0 mt-2">
                                 <li 
                                 class="text-center"
                                 [ngStyle]="{

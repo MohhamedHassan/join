@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CartService } from 'src/app/screens/cart/sertvies/cart.service';
 import { HistoryService } from '../../services/history.service';
 
 @Component({
@@ -23,21 +24,84 @@ export class HistoryDetailsComponent implements OnInit {
     member_count:'',
     selected_date:''
   }
-  constructor(private historyServide:HistoryService,private activatedRoute:ActivatedRoute) { }
+  constructor(private historyServide:HistoryService,
+    private cartService:CartService,
+    private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe((params:any) =>  {
-      this.historyServide.getHistory().subscribe(
-        res=> {
-          console.log(params)
-          this.historyDetails=res.find(i => i?.order_id==params?.id)
-          console.log(this.historyDetails)
-          this.loading=false
+    if(!!localStorage.getItem('joinToken')) {
+      this.activatedRoute.params.subscribe((params:any) =>  {
+        this.historyServide.getHistory().subscribe(
+          res=> {
+            console.log(params)
+            this.historyDetails=res.find(i => i?.order_id==params?.id)
+            console.log(this.historyDetails)
+            this.loading=false
+          }
+        )
+      })
+    } else {
+      if(this.cartService.notUserHistory?.length) {
+        let item = {
+          booked_activity: [],
+          booked_products:[],
+          created_at: new Date(),
+          order_id:'',
+          total:0,
+          prices:[]
         }
-      )
-    })
-  }
+        this.cartService.notUserHistory.forEach(i =>  {
+          if(i?.cstmtype == 1) item.booked_activity.push(i)
+          if(i?.cstmtype == 2) item.booked_products.push(i)
+          item.order_id=i?.order_id
+          item.total=i?.total
+        })
+        this.historyDetails=item
+      }
+      if(this.historyDetails?.booked_activity?.length) {
+        this.historyDetails?.prices?.push({
+          key:localStorage.getItem('lang')=='ar' ? 'إجمالي الانشطة' :'Activity Total',
+          value:this.getTotalActivities()
+        })
+      }
+      if(this.historyDetails?.booked_products?.length) {
+        this.historyDetails?.prices?.push({
+          key:localStorage.getItem('lang')=='ar' ? 'إجمالي المنتجات' :'Store Total',
+          value:this.getTotalProducts()
+        })
+        console.log(this.getTotalProducts())
+      }
+      this.historyDetails?.prices?.push({
+        key:localStorage.getItem('lang')=='ar' ? 'رسوم التوصيل' :'Delivery Charges',
+        value:this.cartService.notUserHistory[0]?.shipp
+      })
+      this.historyDetails?.prices?.push({
+        key:localStorage.getItem('lang')=='ar' ? 'المبلغ الإجمالي' :'Total Amount',
+        value:this.cartService.notUserHistory[0]?.total
+      })
+      this.loading=false
 
+    }
+ 
+  }
+getTotalActivities() {
+  if(this.historyDetails?.booked_activity?.length) {
+    let price = 0 
+    this.historyDetails?.booked_activity.forEach(item => {
+      price+=item?.disc == 0 ? (item?.selectedLocation.price * item?.notUserMembersCount) : item?.disc
+    });
+    return price
+  }else return 0
+}
+getTotalProducts() {
+  if(this.historyDetails?.booked_products?.length) {
+    let price = 0 
+    this.historyDetails?.booked_products.forEach(item => {
+      price+=item?.price*item?.countToBuy
+    });
+    return price
+  }else return 0
+}
   get lang() {
     return localStorage.getItem('lang') || 'en'
   }
@@ -51,5 +115,8 @@ export class HistoryDetailsComponent implements OnInit {
     this.rateData.selected_date=item?.selected_date
     this.ratePopup=true
     console.log(item)
+  }
+  isLogin():boolean {
+    return !!localStorage.getItem("joinToken")
   }
 }

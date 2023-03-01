@@ -224,8 +224,10 @@ export class CartBookNowComponent implements OnInit {
         item.chosencount=chosencount
       })
     }
-    this.avialbeMembers=this.selectedTime?.available_seats-this.selectedTime?.chosencount
-    console.log(this.selectedActivityToEdit)
+    console.log(this.availableTime,this.selectedTime)
+    let find = this.availableTime.find(i => i?.id == this.selectedTime?.id)
+    this.avialbeMembers=this.selectedTime?.available_seats-find?.chosencount
+    console.log(this.avialbeMembers)
 
     console.log(this.selectedDate)
 

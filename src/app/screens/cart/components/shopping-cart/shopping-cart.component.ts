@@ -184,7 +184,7 @@ export class ShoppingCartComponent implements OnInit {
       }
     })
     console.log(this.cartitems)
-
+    if(!this.cartitems.some(i=>i.cstmtype == 2)) this.notuserdataAdded=true
   }
 
   getTotal() {
@@ -448,7 +448,7 @@ export class ShoppingCartComponent implements OnInit {
     if (value.trim().length == 0 || !activites?.length) return true
     else return false
   }
-  createBooking() {
+  createBooking(free=false) {
     console.log(this.total, (this.shipingCharge))
     let requestBody = {
       activity_data: [],
@@ -459,10 +459,9 @@ export class ShoppingCartComponent implements OnInit {
       booking_session: [],
       shipping_charge: this.shipingCharge,
       address_id: 0,
-      // device_type:'W',
-      // device_token:'_',
+      device_type:'W',
+      device_token:'_',
       store: [],
-      guset_child: [],
       fname: '',
       lname: '',
       age: '',
@@ -478,12 +477,14 @@ export class ShoppingCartComponent implements OnInit {
       apartment: '',
       order_id: 0,
       SupplierValue: 0,
-      SupplierCode: 0
+      SupplierCode: 0,
+      additional_direction:'',
+      avenue:''
     }
 
     if (this.cartitems?.length) {
       for (let i = 0; i < this.cartitems?.length; i++) {
-        requestBody.booking_txn = this.cartitems[0]?.invoice_id || ''
+        requestBody.booking_txn = free ? `FREE_${localStorage.getItem('joinToken')?this.userid:0}${new Date}` : (this.cartitems[0]?.invoice_id || '')
         requestBody.order_id = this.cartitems[0]?.order_id || ''
         requestBody.SupplierValue = this.cartitems[0]?.SupplierValue || ''
         requestBody.SupplierCode = Number(this.cartitems[0].SupplierCode)
@@ -494,6 +495,8 @@ export class ShoppingCartComponent implements OnInit {
         requestBody.mobile = this.cartitems[0].mobile
         requestBody.email = this.cartitems[0].email
         requestBody.title = this.cartitems[0].title
+        requestBody.avenue= this.cartitems[0].avenue
+        requestBody.additional_direction = this.cartitems[0].additional_direction
         requestBody.area_name = this.cartitems[0].area_name
         requestBody.area_id = this.cartitems[0].area_id
         requestBody.block = this.cartitems[0].block
@@ -516,7 +519,6 @@ export class ShoppingCartComponent implements OnInit {
           activity_data.max_seats = this.cartitems[i]?.selectedLocation?.max_seats
           activity_data.selected_date =  this.datePipe.transform(this.cartitems[i]?.selectedDate, 'yyy-MM-dd')
           activity_data.activity_id = String(this.cartitems[i]?.id)
-          // not available value from down
           activity_data.booking_status = 'SUCCESS'
           activity_data.booking_amount_type = this.cartitems[i]?.selectedLocation?.price_type
           if (true) {
@@ -531,9 +533,16 @@ export class ShoppingCartComponent implements OnInit {
                   activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * 1
                 }
               } else {
-                activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
-                activity_data.booking_discount = (this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length) - this.cartitems[i]?.disc
-                activity_data.booking_payment = this.cartitems[i]?.disc
+                if (!this.cartitems[i]?.hideMembers) {
+                  activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
+                  activity_data.booking_discount = (this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length) - this.cartitems[i]?.disc
+                  activity_data.booking_payment = this.cartitems[i]?.disc
+                } else {
+                  activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price
+                  activity_data.booking_discount = (this.cartitems[i]?.selectedLocation.price) - this.cartitems[i]?.disc
+                  activity_data.booking_payment = this.cartitems[i]?.disc
+                }
+               
               }
           
             } else if (this.cartitems[i]?.cstmtype == 1 && this.cartitems[i]?.type == 0) {
@@ -542,7 +551,6 @@ export class ShoppingCartComponent implements OnInit {
                 activity_data.booking_discount = 0
                 activity_data.booking_payment = Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)
               } else {
-                this.total += this.cartitems[i]?.disc
                 activity_data.booking_amount = Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)
                 activity_data.booking_payment = this.cartitems[i]?.disc
                 activity_data.booking_discount = (Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)) - this.cartitems[i]?.disc
@@ -586,42 +594,75 @@ export class ShoppingCartComponent implements OnInit {
               // end booking_session
             });
           }
-          if (!!localStorage.getItem('joinToken') == false && this.cartitems[i]?.notUserMembersCount) {
-            for (let x = 0; x < this.cartitems[i]?.notUserMembersCount; x++) {
-              let obj = {
-                branch_id: this.cartitems[i]?.selectedLocation?.branch_id,
-                activity_id: this.cartitems[i]?.id,
-                gender: '',
-                fullname: this.notUserData?.name || '',
-                email: this.notUserData?.email || '',
-                age: '',
-                mobile: this.notUserData?.phone || '',
-              }
-              requestBody.guset_child.push(obj)
+          if(this.cartitems[i]?.hideMembers && this.cartitems[i]?.type==1) {
+            let child_id: any = {}
+            child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
+            child_id.activity_id = String(this.cartitems[i]?.id)
+            child_id.child_id = String(0)
+            requestBody.child_id.push(child_id) 
+          }
+          if(this.cartitems[i]?.type==0 && this.cartitems[i]?.notUserMembersCount) {
+            for(let x = 0 ; x < this.cartitems[i]?.notUserMembersCount;x++) {
+              let child_id: any = {}
+              child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
+              child_id.activity_id = String(this.cartitems[i]?.id)
+              child_id.child_id = String(0)
+              requestBody.child_id.push(child_id)
+              //  end child_id
+              let booking_session: any = {};
+              booking_session.branch_id = String(this.cartitems[i]?.selectedLocation?.branch_id)
+              booking_session.no_of_session = '1'
+              booking_session.from_time = this.cartitems[i]?.selectedTime?.from_time
+              booking_session.to_time = this.cartitems[i]?.selectedTime?.to_time
+              booking_session.club_activity_location_id = String(this.cartitems[i]?.selectedTime?.club_activity_location_id)
+              booking_session.activity_id = String(this.cartitems[i]?.id)
+              booking_session.child_id = String(0)
+              booking_session.booking_session = String(this.cartitems[i]?.selectedLocation?.id)
+              booking_session.max_seats = String(this.cartitems[i]?.selectedLocation?.max_seats)
+              booking_session.selected_date = this.datePipe.transform(this.cartitems[i]?.selectedDate, 'yyy-MM-dd')
+              requestBody.booking_session.push(booking_session)
+              // end booking_session
             }
           }
+          // end booking_session and child_id in case guest and incase user hide member true
+          // if (!!localStorage.getItem('joinToken') == false && this.cartitems[i]?.notUserMembersCount) {
+          //   for (let x = 0; x < this.cartitems[i]?.notUserMembersCount; x++) {
+          //     let obj = {
+          //       branch_id: this.cartitems[i]?.selectedLocation?.branch_id,
+          //       activity_id: this.cartitems[i]?.id,
+          //       gender: '',
+          //       fullname: this.notUserData?.name || '',
+          //       email: this.notUserData?.email || '',
+          //       age: '',
+          //       mobile: this.notUserData?.phone || '',
+          //     }
+          //     requestBody.guset_child.push(obj)
+          //   }
+          // }
           //  end guest_child
         } else if (this.cartitems[i]?.cstmtype == 2) {
           let storeItem: any = {}
-          storeItem.product_id = this.cartitems[i]?.id,
+            storeItem.product_id = this.cartitems[i]?.id,
             storeItem.qty = this.cartitems[i]?.countToBuy,
-            storeItem.color = this.cartitems[i]?.selectedColor?.id || '',
-            storeItem.size = this.cartitems[i]?.selectedSize?.id || '',
+            storeItem.color = this.cartitems[i]?.selectedColor?.id || ''
+            if(this.cartitems[i]?.selectedSize?.id) storeItem.size = this.cartitems[i]?.selectedSize?.id;
             storeItem.booking_status = "SUCCESS",
-            requestBody.store.push(storeItem)
+            storeItem.shipping_charge= this.cartitems[i]?.shipping_charge,
+            requestBody.store.push(storeItem)            
           // end store
-        }
+        } 
 
       }
     }
     ////////////////////
 
 
-
+    if(!!localStorage.getItem('joinToken') == false)requestBody.address_id=0
 
     let formdata = new FormData()
     for (let i in requestBody) {
-      formdata.append(i, JSON.stringify(requestBody[i]))
+      if(Array.isArray(requestBody[i]))   formdata.append(i, JSON.stringify(requestBody[i]))
+      else formdata.append(i, requestBody[i])
     }
     console.log(requestBody)
     this.cartService.creatBooking(formdata).subscribe(
@@ -631,7 +672,7 @@ export class ShoppingCartComponent implements OnInit {
           if (!!localStorage.getItem('joinToken') == false) {
             this.cartService.notUserHistory = this.cartitems
           }
-          localStorage.setItem('joincart', JSON.stringify([]))
+          localStorage.removeItem('joincart')
           this.router.navigate(['/history'])
         }
       }
@@ -664,8 +705,8 @@ export class ShoppingCartComponent implements OnInit {
           activity_data.booking_status = 'SUCCESS'
           activity_data.booking_amount_type = 'PRICE'
           activity_data.shipping_charge = this.cartitems[i]?.club_details?.shipping_charge
-          activity_data.number_of_child =!!localStorage.getItem('joinToken') ? 0 : this.cartitems[i]?.notUserMembersCount,
-          activity_data.booked_seats = this.cartitems[i]?.selectedMembers?.length||0
+          activity_data.number_of_child =!!localStorage.getItem('joinToken') ? (this.cartitems[i]?.selectedMembers?.length||1) : this.cartitems[i]?.notUserMembersCount,
+          activity_data.booked_seats = !!localStorage.getItem('joinToken') ? (this.cartitems[i]?.selectedMembers?.length||1) : this.cartitems[i]?.notUserMembersCount
           if (true) {
             if (this.cartitems[i]?.cstmtype == 1 && this.cartitems[i]?.type == 1) {
               if (this.cartitems[i]?.disc == 0) {
@@ -679,9 +720,16 @@ export class ShoppingCartComponent implements OnInit {
                   activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * 1
                 }
               } else {
-                activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
-                activity_data.booking_discount = (this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length) - this.cartitems[i]?.disc
-                activity_data.booking_payment = this.cartitems[i]?.disc
+                if (!this.cartitems[i]?.hideMembers) {
+                  activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
+                  activity_data.booking_discount = (this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length) - this.cartitems[i]?.disc
+                  activity_data.booking_payment = this.cartitems[i]?.disc
+                } else {
+                  activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price
+                  activity_data.booking_discount = (this.cartitems[i]?.selectedLocation.price) - this.cartitems[i]?.disc
+                  activity_data.booking_payment = this.cartitems[i]?.disc
+                }
+            
               }
             } else if (this.cartitems[i]?.cstmtype == 1 && this.cartitems[i]?.type == 0) {
               if (this.cartitems[i]?.disc == 0) {
@@ -713,7 +761,7 @@ export class ShoppingCartComponent implements OnInit {
               child_id.activity_id = String(this.cartitems[i]?.id)
               child_id.child_id = String(element?.child_id)
               availableSeatsRequestBody.child_id.push(child_id)
-              //////////// end child_id
+              ////////// end child_id
 
 
               let booking_session: any = {};
@@ -734,11 +782,41 @@ export class ShoppingCartComponent implements OnInit {
 
             });
           }
-
+          if(this.cartitems[i]?.hideMembers && this.cartitems[i]?.type==1) {
+            let child_id: any = {}
+            child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
+            child_id.activity_id = String(this.cartitems[i]?.id)
+            child_id.child_id = String(0)
+            availableSeatsRequestBody.child_id.push(child_id) 
+          }
+          if(this.cartitems[i]?.type==0 && this.cartitems[i]?.notUserMembersCount) {
+            for(let x = 0 ; x < this.cartitems[i]?.notUserMembersCount;x++) {
+              let child_id: any = {}
+              child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
+              child_id.activity_id = String(this.cartitems[i]?.id)
+              child_id.child_id = String(0)
+              availableSeatsRequestBody.child_id.push(child_id)
+              //  end child_id
+              let booking_session: any = {};
+              booking_session.branch_id = String(this.cartitems[i]?.selectedLocation?.branch_id)
+              booking_session.no_of_session = '1'
+              booking_session.from_time = this.cartitems[i]?.selectedTime?.from_time
+              booking_session.to_time = this.cartitems[i]?.selectedTime?.to_time
+              booking_session.club_activity_location_id = String(this.cartitems[i]?.selectedTime?.club_activity_location_id)
+              booking_session.activity_id = String(this.cartitems[i]?.id)
+              booking_session.child_id = String(0)
+              booking_session.booking_session = String(this.cartitems[i]?.selectedLocation?.id)
+              booking_session.max_seats = String(this.cartitems[i]?.selectedLocation?.max_seats)
+              booking_session.selected_date = this.datePipe.transform(this.cartitems[i]?.selectedDate, 'yyy-MM-dd')
+              availableSeatsRequestBody.booking_session.push(booking_session)
+              // end booking_session
+            }
+          }
+          // end booking_session and child_id in case guest and incase user hide member true
         } else if (this.cartitems[i]?.cstmtype == 2) {
-          let storeItem: any = {}
-          storeItem.type = "product"
-          storeItem.product_id = this.cartitems[i]?.id,
+            let storeItem: any = {}
+            storeItem.type = "product"
+            storeItem.product_id = this.cartitems[i]?.id,
             storeItem.qty = this.cartitems[i]?.countToBuy,
             storeItem.color = this.cartitems[i]?.selectedColor?.id || '',
             storeItem.size = this.cartitems[i]?.selectedSize?.id || '',
@@ -747,7 +825,7 @@ export class ShoppingCartComponent implements OnInit {
             storeItem.price_type = "PRICE",
             storeItem.booking_discount = "0.0",
             storeItem.promo_code = this.promocode
-          availableSeatsRequestBody.store.push(storeItem)
+            availableSeatsRequestBody.store.push(storeItem)
         }
 
       }
@@ -773,7 +851,29 @@ export class ShoppingCartComponent implements OnInit {
           localStorage.setItem('joincart', JSON.stringify(this.cartitems))
           console.log(this.cartitems)
           if (!Number(this.total + this.shipingCharge)) {
-            this.createBooking()
+            this.cartitems.map(i => {
+              i.selectedAddress = this.selectedAddress?.id
+              i.fname = this.profileData?.fname || this.notUserData?.name
+              i.lname = this.profileData?.lname || ''
+              i.mobile = this.profileData?.mobile || this.notUserData?.phone,
+                i.email = this.profileData?.email || this.notUserData?.email
+              i.activity_name = i.title||''
+              i.title = this.selectedAddress?.title || ''
+              
+              i.avenue = this.selectedAddress?.avenue || ''           
+              i.additional_direction = this.selectedAddress?.additional_direction || ''
+              i.area_name = this.selectedAddress?.area_name || ''
+              i.area_id = Number(this.selectedAddress?.area_id) || 0
+              i.block = this.selectedAddress?.block || '',
+                i.street = this.selectedAddress?.street || '',
+                i.building = this.selectedAddress?.building || '',
+                i.floor = this.selectedAddress?.floor || '',
+                i.apartment = this.selectedAddress?.apartment || '',
+                i.shipp = this.shipingCharge,
+                i.total=this.shipingCharge+this.total
+            })
+            localStorage.setItem('joincart', JSON.stringify(this.cartitems))
+            this.createBooking(true)
           } else {
             this.cartService.paymentRequest({
               "user_name": this.notUserData?.name || '',
@@ -792,14 +892,20 @@ export class ShoppingCartComponent implements OnInit {
                     i.lname = this.profileData?.lname || ''
                     i.mobile = this.profileData?.mobile || this.notUserData?.phone,
                       i.email = this.profileData?.email || this.notUserData?.email
+                    i.activity_name = i.title||''
                     i.title = this.selectedAddress?.title || ''
+                    
+                    i.avenue = this.selectedAddress?.avenue || ''           
+                    i.additional_direction = this.selectedAddress?.additional_direction || ''
                     i.area_name = this.selectedAddress?.area_name || ''
                     i.area_id = Number(this.selectedAddress?.area_id) || 0
                     i.block = this.selectedAddress?.block || '',
                       i.street = this.selectedAddress?.street || '',
                       i.building = this.selectedAddress?.building || '',
                       i.floor = this.selectedAddress?.floor || '',
-                      i.apartment = this.selectedAddress?.apartment || ''
+                      i.apartment = this.selectedAddress?.apartment || '',
+                      i.shipp = this.shipingCharge,
+                      i.total=this.shipingCharge+this.total
                   })
                   localStorage.setItem('joincart', JSON.stringify(this.cartitems))
                   window.open(response?.message, '_top')
@@ -814,10 +920,12 @@ export class ShoppingCartComponent implements OnInit {
       }
     )
   }
+  
   checkout() {
     this.submitedCheckout = true
     this.notUserData = JSON.parse(localStorage.getItem('not_user_data'))
-    if (!!localStorage.getItem('joinToken') == false && !this.notuserdataAdded) {
+    if (!!localStorage.getItem('joinToken') == false && !this.notuserdataAdded && 
+    this.cartitems.some(i=>i.cstmtype == 2)) {
       this.notuserdataSubmited = false
       this.notUserDataForm.reset()
       this.notUserDataPopup = true

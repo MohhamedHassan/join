@@ -208,6 +208,7 @@
      </form>
     </div>
         <button 
+        [disabled]="complete"
       (click)="formDirective.ngSubmit.emit();confirmAddActivity();"
         class="orangebtn my-2">
         {{complete ? ('fully_booked'|translate) : ('confirm'|translate)}}

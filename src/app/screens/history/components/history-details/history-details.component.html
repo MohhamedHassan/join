@@ -6,7 +6,7 @@ header="order_details"></app-shared-header>
 class="container"
 style="min-height: 100vh;">
  <app-laoding *ngIf="loading"></app-laoding>
-<ng-container *ngIf="!loading">
+<ng-container *ngIf="!loading&&historyDetails">
     <table class="mb-3">
         <tr>
             <td>{{'order_id'|translate}} :</td>
@@ -31,34 +31,43 @@ style="min-height: 100vh;">
         *ngFor="let item of historyDetails?.booked_activity"
         class="col-md-6 col-lg-4 mb-3">
             <div 
-            class="rounded p-3"
+            class="rounded p-3 h-100"
             style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);">
                     <a 
                     style="color: black;"
-                    [routerLink]="'/activity/'+item?.activity_id">
+                    [routerLink]="'/activity/'+(item?.activity_id||item?.id)">
                         <img appImgs 
                         style="height: 240px;"
-                        [src]="item?.activity_image" alt="join" class="w-100 mb-2">
+                        [src]="item?.activity_image||item?.banner" alt="join" class="w-100 mb-2">
                 <h5>{{item?.activity_name}}</h5>
                 <p class="maincolor my-2">
                     <img appImgs 
                     style="width: 20px;"
                     src="assets/images/cash.svg" alt="Join"> 
+                    <span 
+                    *ngIf="isLogin()"
+                    >
                     {{item?.booking_payment|tofixednumber}}
+                    </span>
+                    <span 
+                    *ngIf="!isLogin()"
+                    >
+                    {{item?.disc == 0 ? (item?.selectedLocation.price * item?.notUserMembersCount) : item?.disc}}
+                    </span>
                     {{'kwd'|translate}}
                     <span class="mx-1"></span>
                     <span 
-                    *ngIf="item?.booking_amount_type=='FREE'"
+                    *ngIf="(item?.booking_amount_type=='FREE') || (item?.selectedLocation?.price_type=='FREE')"
                     class="orangecolor">
                         {{'free'|translate}}
                     </span>
                     <span 
-                    *ngIf="item?.booking_amount_type=='PRICE'"
+                    *ngIf="(item?.booking_amount_type=='PRICE') || (item?.selectedLocation?.price_type=='PRICE')"
                     class="orangecolor">
                         {{'paid'|translate}}
                     </span>
                     <span 
-                    *ngIf="item?.booking_amount_type=='PAY_AT_PLACE'"
+                    *ngIf="item?.booking_amount_type=='PAY_AT_PLACE' || (item?.selectedLocation?.price_type=='PAY_AT_PLACE')"
                     class="orangecolor">
                         {{'Pay_At_Venue'|translate}}
                     </span>
@@ -66,7 +75,7 @@ style="min-height: 100vh;">
                 <div class="d-flex">
                     <p class="m-0">
                         {{'booking_for_one_member'|translate}} 
-                        {{item?.child_count}}
+                        {{item?.child_count||item?.notUserMembersCount}}
                         {{'member'|translate}}
                     </p> 
                     <span class="mx-1"></span>
@@ -78,7 +87,7 @@ style="min-height: 100vh;">
                         'padding-right': lang=='ar' ? '5px' : '0'
                 }"
                     >
-                        {{item?.selected_date}}
+                        {{item?.selected_date|| (item?.selectedDate | date)}}
                     </p>
                 </div>
                     </a>
@@ -86,20 +95,28 @@ style="min-height: 100vh;">
                         <ul class="d-flex p-0 m-0 list-unstyled historyicons">
                             <li>
                                 <a 
-                                [routerLink]="'/activity/'+item?.activity_id"
+                                [routerLink]="'/activity/'+(item?.activity_id||item?.id)"
                                 style="color:white"
                                 >
                                     <i class="fa-solid fa-rotate-left"></i>
                                 </a>
                             </li>
                             <li class="mx-1"></li>
-                            <li>
+                            <li *ngIf="isLogin()">
                                 <i 
                                 (click)="latitude=item?.branch_data?.latitude;longitude=item?.branch_data?.longitude;map=true"
                                 class="fa-solid fa-location-dot"></i>
                             </li>
+                            <li
+                            *ngIf="!isLogin()"
+                            >
+                                <i 
+                                (click)="latitude=item?.selectedLocation?.branch?.latitude;longitude=item?.selectedLocation?.branch?.longitude;map=true"
+                                class="fa-solid fa-location-dot"></i>
+                            </li>
                         </ul>
                         <p 
+                        *ngIf="isLogin()"
                         (click)="getRateData(item)"
                         style="cursor: pointer;"
                         class="orangecolor">
@@ -125,27 +142,27 @@ style="min-height: 100vh;">
         *ngFor="let item of historyDetails?.booked_products"
         class="col-md-6 col-lg-4 mb-3">
             <div 
-            class="rounded p-3"
+            class="rounded p-3 h-100"
             style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);">
                     <a 
                     style="color: black;"
-                    [routerLink]="'/product/'+item?.product_id">
+                    [routerLink]="'/product/'+(item?.product_id||item?.id)">
                     <div class="d-flex">
                         <div>
                             <img appImgs 
                             style="width:100px;height: 100%;object-fit: contain;"
-                            [src]="item?.product_image" alt="join">
+                            [src]="item?.product_image||item?.image" alt="join">
                         </div>
                         <span class="mx-2"></span>
                         <div>
-                            <h5>{{item?.product_name}}</h5>
+                            <h5>{{item?.product_name||item?.name}}</h5>
                             <p 
                             class="d-flex mb-1"
-                            *ngIf="item?.color_name">
+                            *ngIf="item?.color_name||item?.selectedColor?.name">
                                 {{'color'|translate}} : 
                                 <span class="mx-1"></span> 
                                 <span
-                                [style.background]="item?.color_name"
+                                [style.background]="item?.color_name||item?.selectedColor?.name"
                                 style="    display: inline-block;
                                 width: 20px;
                                 height: 20px;
@@ -154,21 +171,21 @@ style="min-height: 100vh;">
                             </p>
                             <p 
                             class="mb-1"
-                            *ngIf="item?.size_name">
+                            *ngIf="item?.size_name||item?.selectedSize?.name">
                             {{'size'|translate}} : 
-                                {{item?.size_name}}
+                                {{item?.size_name||item?.selectedSize?.name}}
                             </p>
                             <p 
                             class="mb-1"
-                            *ngIf="item?.qty">
+                            *ngIf="item?.qty||item?.countToBuy">
                             {{'qty'|translate}} : 
-                                {{item?.qty}}
+                                {{isLogin()  ? item?.qty:item?.countToBuy}}
                             </p>
                             <p class="maincolor m-0">
                                 <img appImgs 
                                 style="width: 20px;"
                                 src="assets/images/cash.svg" alt="Join"> 
-                                {{item?.booking_payment|tofixednumber}}
+                                {{(item?.booking_payment|tofixednumber)||(item?.price*item?.countToBuy|tofixednumber)}}
                                 {{'kwd'|translate}}
                             </p>
                         </div>
