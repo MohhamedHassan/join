@@ -4,5 +4,6 @@ export interface Clups {
         id:string;
         location_count:string;
         favorite:string;
-        has_products:boolean
+        has_products:boolean;
+        club_branch:any[]
 }

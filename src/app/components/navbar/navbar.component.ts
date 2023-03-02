@@ -138,6 +138,7 @@ get cartitemsCount() {
 logout() {
   localStorage.removeItem('joincart')
   localStorage.removeItem('not_user_data')
+  localStorage.removeItem('notUserAddress')
   localStorage.removeItem('joinToken')
   this.router.navigate(['/'])
   location.reload()

@@ -192,6 +192,7 @@ style="min-height: 50vh;" class="container">
             *ngIf="authservice?.addressesLoading"
             ></i>
             <select 
+            [formControl]="addressFormControl"
             #addressSelect
             (change)="selectAddress(addressSelect?.value)"
             class="form-select mb-3 " aria-label="Default select example">
@@ -265,6 +266,7 @@ style="min-height: 50vh;" class="container">
             <span>{{'Shipping'|translate}}</span>
             <span>
                 {{(shipingCharge|tofixednumber)||0}}
+                {{'kwd'|translate}}
             </span>
         </p>
         <p class="rounded fw-bold d-flex justify-content-between align-items-centr">

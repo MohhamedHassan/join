@@ -18,6 +18,7 @@ export class ClupCardComponent implements OnInit {
   @Output() changefavStatus = new EventEmitter()
   @Input() clupIndex = -1
   @Input() has_products = false
+  @Input() branch:any[]=[]
   constructor(private foavoriteService:FavoriteService) { }
   ngOnInit(): void {
         

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/screens/auth/services/auth.service';
@@ -12,6 +12,7 @@ import { CartService } from '../../sertvies/cart.service';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent implements OnInit {
+  addressFormControl=new FormControl()
   notuserdataAdded=false
   paymentFaild = false
   paymenSuccess = false
@@ -72,7 +73,9 @@ export class ShoppingCartComponent implements OnInit {
       } else {
         formvalue.id = this.addresses?.length + 1
         this.addresses.push(formvalue)
+        localStorage.setItem('notUserAddress',JSON.stringify(formvalue))
         this.selectedAddress = this.addresses[this.addresses.length - 1]
+        this.addressFormControl.patchValue(this.selectedAddress?.id)
         this.addAddressPopup = false
       }
 
@@ -149,6 +152,7 @@ export class ShoppingCartComponent implements OnInit {
                   this.addresses = addresses
                   if (!this.firstTimeAddress && addresses?.length) {
                     this.selectedAddress = this.addresses[this.addresses?.length - 1]
+                    this.addressFormControl.patchValue(this.selectedAddress?.id)
                   }
                 }
               }
@@ -185,6 +189,12 @@ export class ShoppingCartComponent implements OnInit {
     })
     console.log(this.cartitems)
     if(!this.cartitems.some(i=>i.cstmtype == 2)) this.notuserdataAdded=true
+    let notuserAddress:any = localStorage.getItem('notUserAddress')
+
+    if(notuserAddress && !!localStorage.getItem('joinToken')==false) {
+      notuserAddress = JSON.parse(notuserAddress)
+      this.addresses.push(notuserAddress)     
+    }
   }
 
   getTotal() {
