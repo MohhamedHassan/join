@@ -213,7 +213,9 @@ export class ShoppingCartComponent implements OnInit {
               } else {
                 this.total += i?.selectedLocation.price * 1
               }
-            } else {
+            } else if(i?.disc < 0) {
+              this.total += 0
+            }else {
               this.total += i?.disc
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
@@ -221,7 +223,9 @@ export class ShoppingCartComponent implements OnInit {
               console.log(Number(i?.selectedLocation.price) * (i?.notUserMembersCount))
               this.total += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
               console.log(this.total)
-            } else {
+            }else if (i?.disc < 0) {
+              this.total += 0
+            }   else {
               this.total += i?.disc
               console.log(i?.disc)
             }
@@ -431,6 +435,12 @@ export class ShoppingCartComponent implements OnInit {
                       }
                       // end activity case
                     }
+                    // this.cartitems.map(i => {
+                    //   if(i?.disc<0) {
+                    //     i.disc=0
+                        
+                    //   }
+                    // })
                     this.getTotal()
                   //  this.promocodedisabled = true
                   })
@@ -449,9 +459,7 @@ export class ShoppingCartComponent implements OnInit {
         }
       )
     }
-    this.cartitems.map(i => {
-      if(i?.disc<0) i.disc=0
-    })
+ 
   }
   checkPromoCodeInputLength(value: string) {
     let activites = this.cartitems.filter(i => i?.cstmtype == 1)
@@ -683,7 +691,7 @@ export class ShoppingCartComponent implements OnInit {
             this.cartService.notUserHistory = this.cartitems
           }
           localStorage.removeItem('joincart')
-          this.router.navigate(['/history'])
+          //this.router.navigate(['/history'])
         }
       }
     )
@@ -937,7 +945,7 @@ export class ShoppingCartComponent implements OnInit {
     if (!!localStorage.getItem('joinToken') == false && !this.notuserdataAdded && 
     this.cartitems.some(i=>i.cstmtype == 2)) {
       this.notuserdataSubmited = false
-      this.notUserDataForm.reset()
+      this.notUserDataForm.patchValue({...this.notUserData})
       this.notUserDataPopup = true
       console.log(this.notUserDataPopup)
     }else if(!!localStorage.getItem('joinToken') == false && this.notuserdataAdded) {

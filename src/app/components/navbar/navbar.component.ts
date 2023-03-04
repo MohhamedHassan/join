@@ -146,8 +146,8 @@ logout() {
 getsliderContent() {
   this.authService.getpopupbannerdata().subscribe(
     res =>  {
-      
-      if(this.sliderContent=res?.data?.length)this.showPopup=true
+      this.sliderContent=res?.data
+      if(res?.data?.length)this.showPopup=true
     }
   )
 }
