@@ -37,7 +37,6 @@ export class ProductDetailsComponent implements OnInit {
     if(cart)  {
       this.cartitems=JSON.parse(cart)
     }
-    console.log(this.cartitems)
  
     this.activatedRoute.params.pipe(
       
@@ -47,7 +46,6 @@ export class ProductDetailsComponent implements OnInit {
       })
     ).subscribe(
        (res:any) => {
-        console.log(res)
         this.selectedColor=null
         this.selectedSize=null
         this.countToBuy=0
@@ -55,7 +53,6 @@ export class ProductDetailsComponent implements OnInit {
         this.product_details=res?.payload
         this.homeService.clups.subscribe((res) => {
           if(Array.isArray(res)) {
-            console.log(res)
             let club = res.find(item => item?.id == this.product_details.club_id)
             if (club) {
               this.product_details.club_name=club?.name
@@ -104,7 +101,6 @@ export class ProductDetailsComponent implements OnInit {
     } else if (size?.qty < chosenCount || size?.qty == "0") {
       this.availableCount=0
     } 
-    console.log(chosenCount)
     if(this.availableCount>0) this.countToBuy=1
     else this.countToBuy=0
 
@@ -124,7 +120,6 @@ export class ProductDetailsComponent implements OnInit {
     } else if (this.product_details?.qty < chosenCount || this.product_details?.qty == "0") {
       this.availableCount=0
     } 
-    console.log(chosenCount)
     if(this.availableCount>0) this.countToBuy=1
     else this.countToBuy=0
   }
@@ -143,21 +138,19 @@ export class ProductDetailsComponent implements OnInit {
               if(this.product_details?.product_sizes?.length && this.selectedSize?.id == this.cartitems[i]?.selectedSize?.id) {
                 if(this.product_details?.product_colors?.length) {
                   if(this.cartitems[i]?.selectedColor.id==this.selectedColor?.id) {
-                    console.log('what!')
+         
                     this.editCartItem(i)
                     itemExistincart=true
                   }
                 } else {
-                  console.log('four!')
                   this.editCartItem(i)
                   itemExistincart=true
                 }
               } 
               if(!this.product_details?.product_sizes?.length) {
-                console.log('trhee')
                 if(this.product_details?.product_colors?.length) {
                   if(this.cartitems[i]?.selectedColor.id==this.selectedColor?.id) {
-                    console.log('what!')
+        
                     this.editCartItem(i)
                     itemExistincart=true
                   }
@@ -171,7 +164,6 @@ export class ProductDetailsComponent implements OnInit {
           }
         }
         if(!itemExistincart) {
-          console.log('two')
           this.product_details.countToBuy=this.countToBuy
           this.cartitems.push(this.product_details)
           localStorage.setItem('joincart',JSON.stringify(this.cartitems))

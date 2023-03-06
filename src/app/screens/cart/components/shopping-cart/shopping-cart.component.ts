@@ -62,7 +62,6 @@ export class ShoppingCartComponent implements OnInit {
         this.authservice.addAddress(formvalue).subscribe(
           (res: any) => {
             this.addressloading = false
-            console.log(res)
             if (res?.code == 1) {
               this.authservice.getAddress(this.userid)
               this.toastr.success(res?.message);
@@ -108,7 +107,6 @@ export class ShoppingCartComponent implements OnInit {
   ngOnInit(): void {
     this.notUserData = JSON.parse(localStorage.getItem('not_user_data'))
     this.guestHistory = JSON.parse(localStorage.getItem('guestHistory')) || []
-    console.log(this.guestHistory)
     let cart = localStorage.getItem('joincart')
     if (cart) {
       this.cartitems = JSON.parse(cart)
@@ -152,7 +150,6 @@ export class ShoppingCartComponent implements OnInit {
             this.authservice.getAddress(res?.user_id)
             this.authservice.addresses.subscribe(
               (addresses: any) => {
-                console.log(addresses)
                 if (Array.isArray(addresses)) {
                   this.addresses = addresses
                   if (!this.firstTimeAddress && addresses?.length) {
@@ -178,7 +175,6 @@ export class ShoppingCartComponent implements OnInit {
           this.loading = true
           this.cartService.get_details(this.cartitems[0]?.invoice_id).subscribe(
             (res: any) => {
-              console.log(res)
               this.loading = false
               if (res?.status == 'Pending') {
                 // this.router.navigate(['/'])
@@ -192,7 +188,6 @@ export class ShoppingCartComponent implements OnInit {
 
       }
     })
-    console.log(this.cartitems)
     if(!this.cartitems.some(i=>i.cstmtype == 2)) this.notuserdataAdded=true
     let notuserAddress:any = localStorage.getItem('notUserAddress')
 
@@ -225,14 +220,12 @@ export class ShoppingCartComponent implements OnInit {
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
             if (i?.disc == 0) {
-              console.log(Number(i?.selectedLocation.price) * (i?.notUserMembersCount))
               this.total += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
-              console.log(this.total)
+        
             }else if (i?.disc < 0) {
               this.total += 0
             }   else {
               this.total += i?.disc
-              console.log(i?.disc)
             }
 
           }
@@ -256,7 +249,6 @@ export class ShoppingCartComponent implements OnInit {
         this.addressRequired = 1
       }
     }
-    console.log(this.total)
   }
   deleteCartItem() {
     this.cartitems.splice(this.showDeleteCArtitem, 1)
@@ -375,7 +367,6 @@ export class ShoppingCartComponent implements OnInit {
                   ||
                   (today > from && today < to)
                 ) {
-                  console.log(selectedPromoCode)
                   this.cartitems.forEach(item => {
                     if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'all') {
                       if (selectedPromoCode?.type == 'Percentage') {
@@ -450,17 +441,15 @@ export class ShoppingCartComponent implements OnInit {
                   //  this.promocodedisabled = true
                   })
                 } else {
-                  console.log('one')
                   this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
                 }
               } else {
-                console.log('two')
                 this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
               }
             }
           }
           localStorage.setItem('joincart', JSON.stringify(this.cartitems))
-          console.log(this.cartitems)
+    
         }
       )
     }
@@ -472,7 +461,6 @@ export class ShoppingCartComponent implements OnInit {
     else return false
   }
   createBooking(free=false) {
-    console.log(this.total, (this.shipingCharge))
     this.createBookingLoading=true
     let requestBody = {
       activity_data: [],
@@ -588,7 +576,7 @@ export class ShoppingCartComponent implements OnInit {
           activity_data.number_of_child = !!localStorage.getItem('joinToken') ? 0 : this.cartitems[i]?.notUserMembersCount
           activity_data.booked_seats = this.cartitems[i]?.selectedMembers?.length||0, 
             activity_data.booking_amount = Number(activity_data.booking_amount).toFixed(3)
-            console.log()
+        
           activity_data.booking_payment = Number(activity_data.booking_payment).toFixed(3)
           activity_data.booking_discount = Number(activity_data.booking_discount).toFixed(3)
           activity_data.shipping_charge = this.cartitems[i]?.club_details?.shipping_charge
@@ -688,7 +676,6 @@ export class ShoppingCartComponent implements OnInit {
       if(Array.isArray(requestBody[i]))   formdata.append(i, JSON.stringify(requestBody[i]))
       else formdata.append(i, requestBody[i])
     }
-    console.log(requestBody)
     this.cartService.creatBooking(formdata).subscribe(
       res => {
         if (res?.type == "SUCCESS") {
@@ -710,7 +697,6 @@ export class ShoppingCartComponent implements OnInit {
     )
   }
   checkAvailableSeats() {
-    console.log(this.profileData?.fname || this.notUserData?.name)
     this.checkoutLoading = true
     let availableSeatsRequestBody = {
       activity_data: [],
@@ -745,7 +731,6 @@ export class ShoppingCartComponent implements OnInit {
                 if (!this.cartitems[i]?.hideMembers) {
                   activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
                   activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
-                  console.log(this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length)
                 } else {
                   activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * 1
                   activity_data.booking_payment = this.cartitems[i]?.selectedLocation.price * 1
@@ -867,7 +852,6 @@ export class ShoppingCartComponent implements OnInit {
     }
     this.cartService.checkAvailableSeats(formdata).subscribe(
       res => {
-        console.log(res)
         if (res?.payload?.items && res?.type == 'SUCCESS') {
           this.notAvailableitems = res?.payload?.items
           this.checkoutLoading = false
@@ -880,7 +864,7 @@ export class ShoppingCartComponent implements OnInit {
               i.order_id = res?.payload?.order_id
           })
           localStorage.setItem('joincart', JSON.stringify(this.cartitems))
-          console.log(this.cartitems)
+          
           if (!Number(this.total + this.shipingCharge)) {
             this.cartitems.map(i => {
               i.selectedAddress = this.selectedAddress?.id
@@ -913,7 +897,6 @@ export class ShoppingCartComponent implements OnInit {
               "amount": Number(this.total + this.shipingCharge),
             }).subscribe(
               response => {
-                console.log(response)
                 if (response?.message) {
 
                   this.cartitems.map(i => {
@@ -940,7 +923,6 @@ export class ShoppingCartComponent implements OnInit {
                   })
                   localStorage.setItem('joincart', JSON.stringify(this.cartitems))
                   window.open(response?.message, '_top')
-                  console.log(this.cartitems)
                 }
               }, err => {
                 this.checkoutLoading = false
@@ -960,7 +942,6 @@ export class ShoppingCartComponent implements OnInit {
       this.notuserdataSubmited = false
       this.notUserDataForm.patchValue({...this.notUserData})
       this.notUserDataPopup = true
-      console.log(this.notUserDataPopup)
     }else if(!!localStorage.getItem('joinToken') == false && this.notuserdataAdded) {
       if ((this.addressRequired && this.selectedAddress) || !this.addressRequired) {
         this.checkAvailableSeats()
@@ -974,7 +955,7 @@ export class ShoppingCartComponent implements OnInit {
   }
   selectAddress(addressId) {
     this.selectedAddress = this.addresses.find(i => i?.id == addressId)
-    console.log(this.selectedAddress)
+   
   }
 
 }

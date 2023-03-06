@@ -34,7 +34,6 @@ searchResult:any[]=[]
           this.loading=true
           this.activatedRoute.queryParamMap.subscribe(
             (res:any) => {
-              console.log(res)
           if(res.params.filterbody){
             let data = JSON.parse(res.params.filterbody)[0]
             let frmdata= new FormData()
@@ -54,7 +53,6 @@ searchResult:any[]=[]
                 }
               )
               this.loading=false
-              console.log(res)
             })
           }
             }
@@ -68,8 +66,6 @@ searchResult:any[]=[]
                 this.searchResult= this.searchResult.filter(i => i?.type=='ACTIVITY')
               }
               this.loading=false
-              
-              console.log(res)
             })
           } else  if(params?.page==3){
             this.serachService.productsSearch(params?.str).subscribe(res=> {
@@ -80,8 +76,6 @@ searchResult:any[]=[]
                 }
               )
               this.loading=false
-              
-              console.log(res)
             })
           }
         }

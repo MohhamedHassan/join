@@ -24,7 +24,6 @@ export class ChangePasswodComponent implements OnInit {
       confirm_password:['',Validators.required],
     })
     this.authService.userProfile.subscribe((res:any)=>{
-      console.log(res)
       this.changePasswordForm.patchValue({
         mobile:res?.mobile
       })
@@ -55,7 +54,6 @@ export class ChangePasswodComponent implements OnInit {
         }
       )
     } else {
-      console.log(this.changePasswordForm)
     }
    }
 }

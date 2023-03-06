@@ -47,7 +47,7 @@ if(!this.intervalLoading) {
   document.body.appendChild(child)
   this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
   firebase.auth().signInWithPhoneNumber(this.signupForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
-    console.log(res)
+
     this.showVerificationpopup=true
     this.verificationId = res?.verificationId
     this.loading=false
@@ -100,8 +100,7 @@ if(!this.intervalLoading) {
             this.signupForm.patchValue({
               google_id:res?.params?.id
            
-            }) 
-            console.log(this.signupForm.value)        
+            })        
           } else if(res?.params?.type==2) {
             this.signupForm.patchValue({
               facebook_id:res?.params?.id
@@ -145,12 +144,6 @@ if(!this.intervalLoading) {
   }
   signUp(formValue:any) {
     this.submited=true
-    console.log(this.signupForm.value)
-    console.log(
-      this.signupForm.valid,this.intervalLoading,
-      this.signupForm.get('password').value==this.signupForm.get('confirm_password').value ,
-      this.signupForm.get('email').value==this.signupForm.get('confirm_email').value
-    )
     if(this.signupForm.valid&&!this.intervalLoading&&
       this.signupForm.get('password').value==this.signupForm.get('confirm_password').value &&
       this.signupForm.get('email').value==this.signupForm.get('confirm_email').value
@@ -174,11 +167,9 @@ if(!this.intervalLoading) {
       )
       firebase.auth().signInWithCredential(credentials).then(
         res =>  {
-          console.log(res)
           this.verifyoading=false
           let frmdata = new FormData()
           let value = this.signupForm.value
-          console.log(value.mobile)
           frmdata.append('fname',value.fname)
           frmdata.append('lname',value.lname)       
           frmdata.append('dob',value.dob)
@@ -221,7 +212,6 @@ if(!this.intervalLoading) {
           )
         }
       ).catch((err) => {
-        console.log(err)
         if(err?.message=='Firebase: The SMS verification code used to create the phone auth credential is invalid. Please resend the verification code sms and be sure to use the verification code provided by the user. (auth/invalid-verification-code).') {
           this.toastr.error(localStorage.getItem('lang')=='ar' ? 'هذا الرمز  غير صحيح' : 'Invalid Code') 
         } else {

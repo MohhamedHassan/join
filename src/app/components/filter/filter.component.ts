@@ -45,8 +45,6 @@ export class FilterComponent implements OnInit {
       } else {
         this.rate = rating;
       }
-      
-      console.log(this.rate)
     }
   ngOnInit(): void {
     // if(!!localStorage.getItem('joinToken')) {

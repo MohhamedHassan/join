@@ -54,7 +54,6 @@ export class MemberDetailsComponent implements OnInit {
                 if(Array.isArray(res)) {
                   this.intersts=res
                   this.intersts.forEach(element => {
-                    console.log(Array.isArray(element?.sub_interests) , element?.sub_interests?.length)
                     if(Array.isArray(element?.sub_interests) && element?.sub_interests?.length) {
                        element?.sub_interests.forEach(item => {
                           item.selected=false
@@ -69,14 +68,12 @@ export class MemberDetailsComponent implements OnInit {
                     
                   });
                 }
-                console.log(this.intersts)
               })
                this.loading=false
                this.patchtoedit = {
                 edit:true,
                 ...this.memberDetails
                }
-               console.log(this.memberDetails)
             }
           }
         )
@@ -94,7 +91,6 @@ export class MemberDetailsComponent implements OnInit {
   }
   submitMemberForm(value) {
     this.submited=true
-    console.log(this.memberForm)
     if(this.memberForm?.valid) {
       this.memberDetails.child_dob=this.memberForm.value.dob
       this.memberDetails.child_name=`${this.memberForm.get('name')?.value} , ${this.memberForm.get('last_name')?.value}`
@@ -162,7 +158,6 @@ export class MemberDetailsComponent implements OnInit {
       }
       this.updateMemberLoading=true 
       if(true) {
-        console.log('sdfgh,.')
         memberFormData.append('child_id',this.memberDetails?.child_id)
         this.membersservice.updateMember(memberFormData).subscribe(
           (res:any)=> {

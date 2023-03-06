@@ -30,7 +30,6 @@ export class AddMembersComponent implements OnInit {
     ngOnChanges(changes:any): void {
       if(changes?.patchToEdit?.currentValue?.edit) {
         this.update=true
-        console.log(changes?.patchToEdit?.currentValue)
         let item = changes?.patchToEdit?.currentValue
         this.selectedGender= item?.gender
         if(!item?.child_photo||item?.child_photo=='https://app.join.com.kw/public/child_image') {
@@ -45,8 +44,6 @@ export class AddMembersComponent implements OnInit {
           last_name:changes?.patchToEdit?.currentValue?.child_name.slice(changes?.patchToEdit?.currentValue?.child_name.indexOf(',')+1),
           dob:changes?.patchToEdit?.currentValue?.child_dob
         })
-        console.log(item?.child_name)
-        console.log(this.memberForm.value)
       }
     }
 isLastStepValid() {
@@ -62,7 +59,6 @@ isLastStepValid() {
       if(Array.isArray(res)) {
         this.intersts=res
         this.intersts.forEach(element => {
-          console.log(Array.isArray(element?.sub_interests) , element?.sub_interests?.length)
           if(Array.isArray(element?.sub_interests) && element?.sub_interests?.length) {
              element?.sub_interests.forEach(item => {
                 item.selected=true
@@ -71,7 +67,6 @@ isLastStepValid() {
           
         });
       }
-      console.log(this.intersts)
     })
 
   }

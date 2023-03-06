@@ -25,14 +25,11 @@ export class StoreComponent implements OnInit {
     private activatedroute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    console.log(this.clubid)
     this.activatedroute.queryParamMap.subscribe(
       (res:any) =>  { 
         // if (res?.params?.id) this.categoryid=res?.params?.id
         // else this.categoryid=0
         if (res?.params?.clubid) this.clubid=res?.params?.clubid
-      
-        console.log(this.clubid)
         this.loading=true
         this.requestCompleted=false
         this.products=[]
@@ -48,7 +45,6 @@ export class StoreComponent implements OnInit {
             return this.tabs 
           }),
           switchMap((value: Tabs[]) => {
-            console.log(this.tabs)
 
             return this.storeSerive.getCategoryById('0',1,this.clubid)
             
@@ -74,7 +70,6 @@ export class StoreComponent implements OnInit {
     this.getCategoryById(event)
   }
   getCategoryById(categoryId:string) {
-    console.log(this.clubid)
     this.products=[]
     this.loading=true
     this.requestCompleted=false

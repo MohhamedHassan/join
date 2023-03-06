@@ -66,7 +66,6 @@ export class AllHistoryComponent implements OnInit {
       }
       
       this.loading=false
-      console.log(this.cartService.notUserHistory)
     }
     
   }

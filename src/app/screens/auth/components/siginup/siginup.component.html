@@ -240,7 +240,7 @@ class="cstmpopup ">
             </h2>
             <div>
                 <input
-                onKeyPress="if(this.value.length==6) return false;console.log(this.value)"
+                onKeyPress="if(this.value.length==6) return false"
                  min="0"
                 [formControl]="verifiedCodeControl"
                 (keypress)="numberOnly($event)"

@@ -69,10 +69,6 @@ export class ClupDetailsComponent implements OnInit {
             lat: Number(this.clup_details?.club_branch[0]?.latitude),
             lng: Number(this.clup_details?.club_branch[0]?.longitude)
           };
-          console.log({
-            lat: Number(this.clup_details?.club_branch[0]?.latitude),
-            lng: Number(this.clup_details?.club_branch[0]?.longitude)
-          })
           this.clup_details?.club_branch.forEach(i =>  {
             this.markers.push({
               position: {

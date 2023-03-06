@@ -71,7 +71,6 @@ constructor(private datePipe:DatePipe,
       this.loading=false
     }
   )
-  console.log(this.week)
  }
  getToday() {
   const today = new Date()
@@ -84,10 +83,8 @@ constructor(private datePipe:DatePipe,
   })
  }
  getDaysFromLeftToRight() {
-  console.log(7-(this.today+1))
   if(this.today>=0&&this.today!=6) {
     for (let i=0; i<(7-(this.today+1));i++) {
-      console.log('heelo')
       const today = new Date()
       const tomorow = new Date()
       tomorow.setDate(today.getDate() + (i+1))
@@ -127,8 +124,6 @@ get lang() {
  }
  selectItem(date:any) {
   this.selectedItems = this.schdule.filter(i => i?.date==date)
-  console.log(this.selectedItems)
-  console.log(this.childData)
   if(this.selectedItems?.length) {
     this.selectedItems.forEach(one => {
        one.selectedChild = []
@@ -142,15 +137,12 @@ get lang() {
         })
     }
     })
-
-  console.log(this.selectedItems)
   }
  }
  returnConvertedDate(time:string,index:number) {
   let split = time.split('-')
   let times = split[index].split(':');
   let dateTime = new Date();
-  console.log(times[index])
   dateTime.setHours(parseInt(times[0]));
   dateTime.setMinutes(parseInt(times[1]));
   dateTime.setSeconds(parseInt(times[2]));

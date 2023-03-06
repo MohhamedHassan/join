@@ -83,7 +83,6 @@ export class LoginComponent implements OnInit {
     return this.angularFireAuth
       .signInWithPopup(provider)
       .then((result:any) => {
-        console.log(result)
         this.loading=true
         let loginData:any = result?.additionalUserInfo?.profile
         let email = result?.user?.multiFactor?.user?.email

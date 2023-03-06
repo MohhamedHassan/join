@@ -108,7 +108,6 @@ export class ActivityDetailsComponent implements OnInit {
     if(cart)  {
       this.cartitems=JSON.parse(cart)
     }
-    console.log(this.cartitems)
     this.activatedRoute.params.pipe(
       switchMap((params:any) => {
         this.activityId=params?.id
@@ -149,7 +148,6 @@ export class ActivityDetailsComponent implements OnInit {
                 this.minDate  = new Date()
               } else {
                 this.minDate = new Date(this.activity_details.location[0]?.from_date)
-               // console.log(this.date)
               }
               this.maxDate = new Date(this.activity_details.location[0]?.to_date)
               if(this.activity_details.selectedLocation?.frequency=="MONTHLY") {
@@ -180,15 +178,12 @@ export class ActivityDetailsComponent implements OnInit {
                 }
                 
                 this.available= this.activity_details.selectedTime?.available_seats
-                console.log(this.available)
                 if(this.cartitems?.length) {
                   let chosencount = 0
                   for(let i = 0 ; i <this.cartitems?.length;i++) {
-                    console.log('one')
                     if(this.cartitems[i]?.id==this.activity_details?.id&&this.cartitems[i]?.cstmtype==1 &&
                       this.cartitems[i]?.selectedTime?.id == this.activity_details.selectedTime?.id
                       ) {
-                        console.log('one')
                         if(!!localStorage.getItem('joinToken')) {
                           if(this.activity_details?.hideMembers) chosencount+=1
                           else chosencount+=this.cartitems[i]?.selectedMembers?.length 
@@ -222,22 +217,18 @@ export class ActivityDetailsComponent implements OnInit {
                       }
                     })
                     if(validmembers?.length) this.activity_details.selectedMembers= [ validmembers[0]]
-                    console.log(this.activity_details.selectedMembers)
                    }
                 }
              )
             }
             this.homeService.intersts.subscribe((res) => {
               if(Array.isArray(res)) {
-                console.log(res)
                 this.interestName = res.find(i=>i?.interests_id==this.activity_details?.interests_id)?.name
               }
             })
             this.loading=false
           }
         }
-
-        console.log(res)
        } , err =>  {
         this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'هذا النشاط غير متوفر في جوين حاليا' : 'This activity is not currently available in Join');
         this.router.navigate(['/'])
@@ -380,7 +371,6 @@ getValidDateForDAily() {
     else if(element=='SATURDAY') return element = 6
     else return ''
   });
-  console.log(this.minDate.getDay(),this.minDate)
   if(days_for_activity.some(i => i==this.minDate.getDay()) ) {
     this.activity_details.selectedDate=this.minDate
   } else {
@@ -391,7 +381,6 @@ getValidDateForDAily() {
         this.activity_details.selectedDate=date
         break
       } 
-      console.log(days_for_activity.some(i => i==date.getDay()))
     }
     
   }

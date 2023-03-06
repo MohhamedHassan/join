@@ -39,7 +39,7 @@ export class ProfileDataComponent implements OnInit {
         document.body.appendChild(child)
         this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`,{size:'invisible'})
         firebase.auth().signInWithPhoneNumber(this.profilForm.value?.mobile?.e164Number,this.captchaVerifier).then((res) => {
-          console.log(res)
+         
           this.showVerificationpopup=true
           this.verificationId = res?.verificationId
           this.loading=false
@@ -81,7 +81,7 @@ export class ProfileDataComponent implements OnInit {
     })
     this.returnsignupForm()
     this.authService.userProfile.subscribe((res:any)=>{
-      console.log(res)
+ 
       this.profilForm.patchValue({
         fname:res?.fname,
         lname:res?.lname,
@@ -120,9 +120,8 @@ export class ProfileDataComponent implements OnInit {
 
   }
   updateProfile(formvalue:any) {
-    console.log()
+   
     this.submited=true
-    console.log(this.profilForm.value)
     if(this.profilForm.valid) {
       //this.profilForm.value?.mobile?.number != this.oldmobile
     if(false) {
@@ -163,7 +162,6 @@ export class ProfileDataComponent implements OnInit {
       )
       firebase.auth().signInWithCredential(credentials).then(
         res =>  {
-          console.log(res)
           this.verifyoading=false
           this.loading=true
           let mobile = this.profilForm.get('mobile')?.value.e164Number.replace(this.profilForm.get('mobile')?.value.dialCode,'')

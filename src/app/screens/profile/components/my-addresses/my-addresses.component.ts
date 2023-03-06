@@ -35,7 +35,6 @@ pathcharea() {
           this.userid=res?.user_id
           this.authservice.addresses.subscribe(
             (addresses:any)=> {
-              console.log(addresses)
               if(Array.isArray(addresses)) this.addresses=addresses
             }
           )
@@ -79,7 +78,6 @@ addAddress(formvalue:any) {
       this.authservice.updateAddres(formvalue).subscribe(
         (res:any)=> {
           this.loading=false
-          console.log(res)
           if(res?.code==1) {
             this.authservice.getAddress(this.userid)
             this.toastr.success(res?.message);
@@ -93,7 +91,6 @@ addAddress(formvalue:any) {
       this.authservice.addAddress(formvalue).subscribe(
         (res:any)=> {
           this.loading=false
-          console.log(res)
           if(res?.code==1) {
             this.authservice.getAddress(this.userid)
             this.toastr.success(res?.message);

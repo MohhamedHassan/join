@@ -106,7 +106,6 @@ export class BookNowComponent implements OnInit {
             if(!item?.selected) item.disabled=false
           })
         }
-        console.log(this.members)
       }
 
     })
@@ -117,7 +116,6 @@ export class BookNowComponent implements OnInit {
     // this.selectedTime=this.selectedTimeFromParent
     // this.onDateCange(this.date)
     // this.selectTime(this.selectedTimeFromParent)
-    console.log(this.location)
   }
 selectLocation(item:any) {
   this.minDateForMonthlyCase=new Date(item?.from_date)
@@ -140,14 +138,11 @@ selectLocation(item:any) {
   if(today > from) {
     this.minDate  = new Date()
     this.date  = new Date()
-   // console.log(this.minDate,this.minDate.getMonth())
   } else {
     this.minDate = new Date(item?.from_date)
     this.date = new Date(item?.from_date)
-   // console.log(this.date)
   }
   this.maxDate = new Date(item?.to_date)
-  //console.log(this.maxDate)
   let days = [0,1,2,3,4,5,6]
   let days_for_activity = item?.days_for_activity.split(',')
   days_for_activity = days_for_activity.map((element:any) => {
@@ -194,8 +189,6 @@ getValidDAtesForWeekly() {
   this.monthlyloading=true
   let length = this.getMonthLength()*8  
   let day = this.minDateForMonthlyCase.setDate(this.minDateForMonthlyCase.getDate() + 7)
-
-  console.log(this.minDate,day)
   for (let i = 0 ;i<length;i++) {
     day = new Date(day)
     day = day.setDate(day.getDate() + 7)
@@ -240,7 +233,6 @@ checkTodayDate(item) {
   else return false
 }
 onDateCange(value:any) {
-  console.log(this.selectedLocation)
   this.selectedDate=null
   this.selectedTime=null
   this.avialbeMembers=0
@@ -292,15 +284,12 @@ onDateCange(value:any) {
       cartitems=JSON.parse(cart)
     }
     if(this.availableTime?.length && cartitems?.length) {
-      console.log('one')
       this.availableTime.forEach(item =>  {
         let chosencount=0
         for(let i = 0 ; i <cartitems?.length;i++) {
-          console.log('one')
           if(cartitems[i]?.id==this.activity_id&&cartitems[i]?.cstmtype==1 &&
             cartitems[i]?.selectedTime?.id == item?.id
             ) {
-              console.log('one')
               if(!!localStorage.getItem('joinToken')) {
                 if(this.hideMembers) chosencount+=1
                 else chosencount+=cartitems[i]?.selectedMembers?.length 
@@ -314,12 +303,9 @@ onDateCange(value:any) {
       })
     }
   }
-  console.log(this.availableTime)
 }
 selectTime(time:any,inpt) {
   this.avialbeMembers=time?.available_seats-time?.chosencount
-
-  console.log(this.avialbeMembers)
   if(time?.available_seats=="0") {
       inpt.checked=false
       time.checked=false
@@ -329,7 +315,6 @@ selectTime(time:any,inpt) {
       this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
     } else  {
       this.toastr.error('please select another time slot','Invalid Date')
-      console.log(this.selectedTime)
     }
   } else {
 
@@ -349,7 +334,6 @@ selectTime(time:any,inpt) {
     })
   }
 }
-  console.log(this.avialbeMembers)
 }
 selectMembers(child_id) { 
   this.selectedIds.push(child_id)
@@ -398,7 +382,6 @@ if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
     localStorage.setItem('not_user_data',JSON.stringify(this.notuserForm.value))
     this.patchActivityToParent.emit(selectedData)
   } 
-  console.log(this.notuserForm)
 
     if(this.notuserForm.valid && (
       !this.selectedLocation ||
@@ -411,7 +394,6 @@ if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
         this.toastr.error("قم بلمئ جميع البيانات")
       } else  {
         this.toastr.error('Fill in all data')
-        console.log(this.selectedTime)
       }
     }
   
@@ -431,16 +413,13 @@ get lang() {
 }
 checkYear(date: { month: number; year: number }) {
   if (this.calendar) {
-    console.log(date.month,this.minDate.getMonth(),date.year , this.minDate.getFullYear())
     if (date.year < this.minDate.getFullYear()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.minDate);
-      console.log(date.month,this.minDate.getMonth())
       if(localStorage.getItem('lang')=='ar') {
         this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
       } else  {
         this.toastr.error('please select another time slot','Invalid Date')
-        console.log(this.selectedTime)
       }
     }
     if (date.year > this.maxDate.getFullYear()) {
@@ -450,30 +429,24 @@ checkYear(date: { month: number; year: number }) {
         this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
       } else  {
         this.toastr.error('please select another time slot','Invalid Date')
-        console.log(this.selectedTime)
       }
-      console.log(this.maxDate)
     }
     if (date.year == this.minDate.getFullYear() && date.month-1 < this.minDate.getMonth()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.minDate);
-      console.log(date.month,this.minDate.getMonth())
       if(localStorage.getItem('lang')=='ar') {
         this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
       } else  {
         this.toastr.error('please select another time slot','Invalid Date')
-        console.log(this.selectedTime)
       }
     }
     if (date.year == this.maxDate.getFullYear() && date.month > this.maxDate.getMonth()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.maxDate);
-      console.log(date.month,this.minDate.getMonth())
       if(localStorage.getItem('lang')=='ar') {
         this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
       } else  {
         this.toastr.error('please select another time slot','Invalid Date')
-        console.log(this.selectedTime)
       }
     }
   }

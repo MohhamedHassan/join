@@ -15,7 +15,6 @@ export class PromotionsComponent implements OnInit {
     this.promotionsService.promotions_page_Banner().subscribe(
       res =>  {
         if(res?.code) {
-          console.log(res?.payload)
           this.promotions=res?.payload
           this.loading=false
         }

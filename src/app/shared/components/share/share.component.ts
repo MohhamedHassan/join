@@ -11,7 +11,6 @@ export class ShareComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.link)
     // this.links=[
     //   {
     //     icon:'fa-brands fa-facebook-f',

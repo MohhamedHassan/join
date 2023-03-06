@@ -17,12 +17,10 @@ export class NotificationsComponent implements OnInit {
     private toastr:ToastrService) { }
 
   ngOnInit(): void {
-    console.log('one')
     this.notificationsService.getNotifications()
     this.subscriber =  this.notificationsService.notification.subscribe(
       (res:any) =>  {
         if(res) {
-          console.log('two')
           this.notifications=res
           this.notifications.reverse()
         }

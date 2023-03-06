@@ -65,7 +65,6 @@ export class ForgetPasswordComponent implements OnInit {
       document.body.appendChild(child)
       this.captchaVerifier = new firebase.auth.RecaptchaVerifier(`captchaid${this.counterId}`, { size: 'invisible' })
       firebase.auth().signInWithPhoneNumber(this.forgetPasswordForm.value?.mobile?.e164Number, this.captchaVerifier).then((res) => {
-        console.log(res)
         this.step = 2
         this.verificationId = res?.verificationId
         this.loading = false
@@ -106,7 +105,6 @@ export class ForgetPasswordComponent implements OnInit {
       )
       firebase.auth().signInWithCredential(credentials).then(
         res =>  {
-          console.log(res)
           this.verifyoading=false 
           this.step=3
 
@@ -152,7 +150,6 @@ export class ForgetPasswordComponent implements OnInit {
   test(input) {
 
     if(input?.value?.length) {
-      console.log(input?.value?.length)
       let value = String(input.value)
       let y = value.replace('e','')
       input.value=y

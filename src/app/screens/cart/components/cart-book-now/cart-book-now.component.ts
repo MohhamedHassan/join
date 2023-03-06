@@ -88,10 +88,8 @@ export class CartBookNowComponent implements OnInit {
     this.patchDate=this.datePipe.transform(this.selectedActivityToEdit?.selectedDate, 'MM/dd/yyy')
     this.selectedDate=this.selectedActivityToEdit?.selectedDate
     this.date=new Date(this.selectedActivityToEdit?.selectedDate)
-    console.log(this.date)
     this.selectedTime=this.selectedActivityToEdit?.selectedTime
     this.notUserMembersCount=this.selectedActivityToEdit?.notUserMembersCount
-    console.log(this.notUserMembersCount)
     let today = new Date()
     let from = new Date(this.selectedActivityToEdit?.selectedLocation?.from_date)
     if(today > from) {
@@ -138,7 +136,6 @@ export class CartBookNowComponent implements OnInit {
     } 
     this.membersservice.members.subscribe(res =>  {
       if(res) {
-        console.log(res)
         this.members=res
         this.members.map(member => {
           member.selected=false
@@ -168,10 +165,8 @@ export class CartBookNowComponent implements OnInit {
 
     })
     if(this.selectedLocation?.dates_times?.length) {
-      console.log('where')
       let date = new Date(this.selectedDate) 
       for (let i = 0 ; i < this.selectedLocation?.dates_times?.length;i++) {
-        console.log('where')
         let from = new Date(this.selectedLocation?.dates_times[i]?.from_date)
         let to = new Date(this.selectedLocation?.dates_times[i]?.to_date)
           if(
@@ -200,7 +195,6 @@ export class CartBookNowComponent implements OnInit {
               });
               }
           } else {
-            console.log(date > from) 
           }
       }
     }
@@ -217,15 +211,12 @@ export class CartBookNowComponent implements OnInit {
       cartitems=JSON.parse(cart)
     }
     if(this.availableTime?.length && cartitems?.length) {
-      console.log('one')
       this.availableTime.forEach(item =>  {
         let chosencount=0
         for(let i = 0 ; i <cartitems?.length;i++) {
-          console.log('one')
           if(cartitems[i]?.id==this.selectedActivityToEdit?.id&&cartitems[i]?.cstmtype==1 &&
             cartitems[i]?.selectedTime?.id == item?.id
             ) {
-              console.log('one')
               if(!!localStorage.getItem('joinToken')) {
                 if(this.hideMembers) chosencount+=1
                 else chosencount+=cartitems[i]?.selectedMembers?.length 
@@ -238,12 +229,9 @@ export class CartBookNowComponent implements OnInit {
         item.chosencount=chosencount
       })
     }
-    console.log(this.availableTime,this.selectedTime)
     let find = this.availableTime.find(i => i?.id == this.selectedTime?.id)
     this.avialbeMembers=this.selectedTime?.available_seats-find?.chosencount
-    console.log(this.avialbeMembers)
 
-    console.log(this.selectedDate)
 
   }
 
@@ -328,8 +316,6 @@ getValidDAtesForWeekly() {
   this.monthlyloading=true
   let length = this.getMonthLength()*8  
   let day = this.minDateForMonthlyCase.setDate(this.minDateForMonthlyCase.getDate() + 7)
-
-  console.log(this.minDate,day)
   for (let i = 0 ;i<length;i++) {
     day = new Date(day)
     day = day.setDate(day.getDate() + 7)
@@ -396,7 +382,6 @@ onDateCange(value:any) {
             let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
             let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
             if(todayTransformed == selectedDateTransformed) {
-              console.log('one')
               if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
                 this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                     if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
@@ -407,7 +392,6 @@ onDateCange(value:any) {
                 });
               }
             } else {
-              console.log('one')
               this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                 this.availableTime.push(element)
             });
@@ -428,15 +412,12 @@ onDateCange(value:any) {
       cartitems=JSON.parse(cart)
     }
     if(this.availableTime?.length && cartitems?.length) {
-      console.log('one')
       this.availableTime.forEach(item =>  {
         let chosencount=0
         for(let i = 0 ; i <cartitems?.length;i++) {
-          console.log('one')
           if(cartitems[i]?.id==this.selectedActivityToEdit?.id&&cartitems[i]?.cstmtype==1 &&
             cartitems[i]?.selectedTime?.id == item?.id
             ) {
-              console.log('one')
               if(!!localStorage.getItem('joinToken')) {
                 if(this.hideMembers) chosencount+=1
                 else chosencount+=cartitems[i]?.selectedMembers?.length 
@@ -450,7 +431,6 @@ onDateCange(value:any) {
       })
     }
   }
-  console.log(this.selectedTime)
 }
 selectTime(time:any,inpt) {
   this.avialbeMembers=time?.available_seats-time?.chosencount
@@ -463,7 +443,6 @@ selectTime(time:any,inpt) {
     this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
   } else  {
     this.toastr.error('please select another time slot','Invalid Date')
-    console.log(this.selectedTime)
   }
 } else {
   this.complete=false
@@ -486,7 +465,6 @@ selectTime(time:any,inpt) {
     })
   }
 }
-  console.log(this.avialbeMembers)
 }
 selectMembers(child_id) { 
   this.selectedIds.push(child_id)
@@ -561,26 +539,21 @@ get lang() {
 }
 checkYear(date: { month: number; year: number }) {
   if (this.calendar) {
-    console.log(date.month,this.minDate.getMonth(),date.year , this.minDate.getFullYear())
     if (date.year < this.minDate.getFullYear()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.minDate);
-      console.log(date.month,this.minDate.getMonth())
     }
     if (date.year > this.maxDate.getFullYear()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.maxDate);
-      console.log(this.maxDate)
     }
     if (date.year == this.minDate.getFullYear() && date.month-1 < this.minDate.getMonth()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.minDate);
-      console.log(date.month,this.minDate.getMonth())
     }
     if (date.year == this.maxDate.getFullYear() && date.month > this.maxDate.getMonth()) {
       this.calendar.onModelTouched();
       this.date = new Date(this.maxDate);
-      console.log(date.month,this.minDate.getMonth())
     }
   }
 }

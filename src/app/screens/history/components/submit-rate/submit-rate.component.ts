@@ -46,7 +46,6 @@ export class SubmitRateComponent implements OnInit {
       })
     }
     
-    console.log(this.rate)
   }
   submitRate() {
     this.submited=true

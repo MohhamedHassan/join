@@ -76,12 +76,9 @@ export class NavbarComponent implements OnInit {
  }
 pagetype=-1
   ngOnInit(): void {
-    
-    console.log(this.router.url)
     this. router.events.subscribe((val:any) => {
       // see also 
       if(val instanceof NavigationEnd)  {
-        console.log(val)
         if(val?.url=='/activities') this.pagetype=2
         else if(val?.url=='/store') this.pagetype=3
         else this.pagetype=-1
@@ -90,10 +87,7 @@ pagetype=-1
         && this.showpopUpFirstTime) {
           this.getsliderContent()
           this.showpopUpFirstTime=false
-          
-          console.log(this.showPopup,this.showpopUpFirstTime)
         }
-        console.log(this.pagetype)
       }
   });
     this.storeSerive.getStoreTabs(0).subscribe( 

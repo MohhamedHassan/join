@@ -34,9 +34,7 @@ export class HistoryDetailsComponent implements OnInit {
         if(!!localStorage.getItem('joinToken')) {
           this.historyServide.getHistory().subscribe(
             res=> {
-              console.log(params)
               this.historyDetails=res.find(i => i?.order_id==params?.id)
-              console.log(this.historyDetails)
               this.loading=false
             }
           )
@@ -81,7 +79,6 @@ export class HistoryDetailsComponent implements OnInit {
               key:localStorage.getItem('lang')=='ar' ? 'إجمالي المنتجات' :'Store Total',
               value:this.getTotalProducts()
             })
-            console.log(this.getTotalProducts())
           }
           this.historyDetails?.prices?.push({
             key:localStorage.getItem('lang')=='ar' ? 'رسوم التوصيل' :'Delivery Charges',
@@ -130,7 +127,6 @@ getTotalProducts() {
     this.rateData.member_count=item?.child_count
     this.rateData.selected_date=item?.selected_date
     this.ratePopup=true
-    console.log(item)
   }
   isLogin():boolean {
     return !!localStorage.getItem("joinToken")
