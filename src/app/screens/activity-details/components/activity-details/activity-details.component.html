@@ -317,13 +317,14 @@ class="cstmpopup d-flex">
             >{{'share'|translate}}</h2>
             <div class="mt-2">
                 <app-share
-                [link]="'https://mohhamedhassan.github.io/join/activity/'+activity_details?.id"
+                [link]="'activity/'+activity_details?.id"
                 ></app-share>
             </div>
         </div>
     </div>
 </div>
-<!-- start notuser date popup-->
+<!-- start notuser date popup
+-->
 <div 
 
 *ngIf="notUserPopup"

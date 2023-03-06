@@ -161,7 +161,24 @@ export class ActivityDetailsComponent implements OnInit {
                 this.getValidDateForDAily()          
               } 
               if(this.activity_details.selectedLocation?.dates_times?.length) {
-                this.activity_details.selectedTime= this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+                let today = new Date()
+                let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
+                let selectedDateTransformed = this.datePipe.transform(this.activity_details.selectedDate, 'MM-dd-yyy')
+                if(todayTransformed == selectedDateTransformed) {
+                  if(this.activity_details.selectedLocation?.dates_times[0]?.sessions?.length) {
+                    this.activity_details.selectedLocation?.dates_times[0]?.sessions.forEach(element => {
+                        if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) &&
+                        !this.activity_details.selectedTime
+                        ) {
+                          this.activity_details.selectedTime= element
+                        }
+                        
+                    });
+                  }
+                } else {
+                  this.activity_details.selectedTime= this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+                }
+                
                 this.available= this.activity_details.selectedTime?.available_seats
                 console.log(this.available)
                 if(this.cartitems?.length) {

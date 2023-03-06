@@ -29,6 +29,8 @@ import { MemberDefaultImgDirective } from './directives/member-default-img.direc
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { MapComponent } from './components/map/map.component';
 import { ReplaceCommaPipe } from './pips/replace-comma.pipe';
+import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
+import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -69,7 +71,9 @@ import { ReplaceCommaPipe } from './pips/replace-comma.pipe';
         deps:[HttpClient]
       }
     }),
-    CalendarModule
+    CalendarModule,
+    ShareButtonsModule,
+    ShareIconsModule,
   ],
   exports:[
     BsDropdownModule,
@@ -99,7 +103,9 @@ import { ReplaceCommaPipe } from './pips/replace-comma.pipe';
     ShareComponent,
     MemberDefaultImgDirective,
     MapComponent,
-    ReplaceCommaPipe
+    ReplaceCommaPipe,
+    ShareButtonsModule,
+    ShareIconsModule,
   ],
   providers: [
     DatePipe

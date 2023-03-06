@@ -240,7 +240,7 @@ checkTodayDate(item) {
   else return false
 }
 onDateCange(value:any) {
-  console.log(value)
+  console.log(this.selectedLocation)
   this.selectedDate=null
   this.selectedTime=null
   this.avialbeMembers=0
@@ -264,9 +264,25 @@ onDateCange(value:any) {
           ||
           (this.selectedDate > from && this.selectedDate < to)
           ) {
-            this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
+            let today = new Date()
+            let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
+            let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
+            if(todayTransformed == selectedDateTransformed) {
+              if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
+                this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
+                    if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
+                    ) {
+                      this.availableTime.push(element)
+                    }
+                    
+                });
+              }
+            } else {
+              this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                 this.availableTime.push(element)
             });
+            }
+          
         }
     }
     this.availableTime.map(i=>{i.checked=false;i.chosencount=0})

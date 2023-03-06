@@ -1,4 +1,4 @@
-<ul class="p-0 m-0 list-unstyled d-flex flex-wrap justify-content-center">
+<!-- <ul class="p-0 m-0 list-unstyled d-flex flex-wrap justify-content-center">
     <li 
     *ngFor="let item of links"
     class="mx-2"
@@ -13,4 +13,18 @@
         ></i>
        </a>
     </li>
-</ul>
+</ul> -->
+<div class="container-fluid">
+
+
+    <share-buttons theme="modern-dark"
+      [include]="['copy', 'facebook', 'email', 'messenger', 'mix', 'line', 'linkedin', 'pinterest', 'print', 'reddit', 'sms', 'telegram', 'tumblr', 'twitter', 'viber', 'vk', 'xing', 'whatsapp']"
+      [showIcon]="true"
+      [showText]="true"
+      [url]="'https://mohhamedhassan.github.io/join/#/'+link"
+      description="Angular Share Buttons"
+      twitterAccount="rodrigokamada"
+      >
+    </share-buttons>
+  
+  </div>

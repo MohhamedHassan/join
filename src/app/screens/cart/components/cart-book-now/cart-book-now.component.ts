@@ -181,10 +181,24 @@ export class CartBookNowComponent implements OnInit {
             ||
             (date > from && date < to)
             ) {
-              console.log('where')
-              this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
+              let today = new Date()
+              let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
+              let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
+              if(todayTransformed == selectedDateTransformed) {
+                if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
+                  this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
+                      if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
+                      ) {
+                        this.availableTime.push(element)
+                      }
+                      
+                  });
+                }
+              } else {
+                this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                   this.availableTime.push(element)
               });
+              }
           } else {
             console.log(date > from) 
           }
@@ -377,9 +391,27 @@ onDateCange(value:any) {
           ||
           (this.selectedDate > from && this.selectedDate < to)
           ) {
-            this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
+           
+            let today = new Date()
+            let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
+            let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
+            if(todayTransformed == selectedDateTransformed) {
+              console.log('one')
+              if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
+                this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
+                    if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
+                    ) {
+                      this.availableTime.push(element)
+                    }
+                    
+                });
+              }
+            } else {
+              console.log('one')
+              this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                 this.availableTime.push(element)
             });
+            }
         }
     }
     this.availableTime.map(i=>{
