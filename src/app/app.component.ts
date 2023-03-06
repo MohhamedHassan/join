@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { AuthService } from './screens/auth/services/auth.service';
 import { HomeService } from './screens/home/services/home.service';
 import { MembersService } from './screens/members/services/members.service';
-import { NotificationsService } from './screens/notifications/services/notifications.service';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +12,6 @@ export class AppComponent {
   bsInlineValue = new Date();
  
   constructor(
-    private toastr:ToastrService,
-    private notficationsService:NotificationsService,
     private membersservice:MembersService,
     private homeService:HomeService,
     private authService:AuthService) {
@@ -23,9 +19,11 @@ export class AppComponent {
   }
   ngOnInit(): void {
     if(!!localStorage.getItem('joinToken')) {
-     // this.notficationsService.getNotifications()
       this.membersservice.getAllMembers()
       this.authService.getUserProfile()
+      this.homeService.getClupsUser()
+    } else {
+      this.homeService.getClupsGuest()
     }
     this.authService.getAllAreas()
     this.homeService.getIntersts()

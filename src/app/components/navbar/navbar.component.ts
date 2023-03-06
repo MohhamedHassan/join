@@ -137,6 +137,7 @@ get cartitemsCount() {
 }
 logout() {
   localStorage.removeItem('joincart')
+  localStorage.removeItem('guestHistory')
   localStorage.removeItem('not_user_data')
   localStorage.removeItem('notUserAddress')
   localStorage.removeItem('joinToken')

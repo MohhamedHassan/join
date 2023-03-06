@@ -124,6 +124,8 @@ export class ActivityDetailsComponent implements OnInit {
             this.router.navigate(['/'])
           } else {
             this.activity_details=res
+            this.activity_details.club_name=res?.club_details?.name
+            this.activity_details.club_logo=res?.club_details?.logo
             if(this.activity_details?.location?.length) {
               this.center = {
                 lat: Number(this.activity_details?.location[0]?.branch?.latitude),

@@ -427,9 +427,20 @@ class="cstmpopup">
             style="font-weight: 400;font-size:20px;line-height: 30px;text-align: center;"
             >{{'The_request_being_saved'|translate}}
             </h2>
-            <div class="text-center">
+            <div 
+            *ngIf="createBookingLoading"
+            class="text-center">
                 <i 
                 class="fas fa-circle-notch fa-spin maincolor"></i>
+            </div>
+            <div 
+            *ngIf="order_id"
+            class="text-center">
+                <a 
+                class="orangebtn d-block"
+               [routerLink]="['/history/order_details',order_id]">
+                    {{'show_my_order'|translate}}
+                </a>
             </div>
         </div>
     </div>

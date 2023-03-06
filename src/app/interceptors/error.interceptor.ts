@@ -37,6 +37,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             })
           }
           localStorage.removeItem('joincart')
+          localStorage.removeItem('guestHistory')
           localStorage.removeItem('not_user_data')
           localStorage.removeItem('joinToken')
           localStorage.removeItem('notUserAddress')

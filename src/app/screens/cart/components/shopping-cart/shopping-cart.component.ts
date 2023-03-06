@@ -12,6 +12,8 @@ import { CartService } from '../../sertvies/cart.service';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent implements OnInit {
+  order_id
+  createBookingLoading=false
   addressFormControl=new FormControl()
   notuserdataAdded=false
   paymentFaild = false
@@ -44,6 +46,7 @@ export class ShoppingCartComponent implements OnInit {
   notUserData = null
   notUserDataPopup = false
   firstTimeAddress = true
+  guestHistory =[]
   addAddress(formvalue: any) {
     this.submited = true
     if (this.addressForm.valid) {
@@ -73,7 +76,7 @@ export class ShoppingCartComponent implements OnInit {
       } else {
         formvalue.id = this.addresses?.length + 1
         this.addresses.push(formvalue)
-        localStorage.setItem('notUserAddress',JSON.stringify(formvalue))
+        localStorage.setItem('notUserAddress',JSON.stringify(this.addresses))
         this.selectedAddress = this.addresses[this.addresses.length - 1]
         this.addressFormControl.patchValue(this.selectedAddress?.id)
         this.addAddressPopup = false
@@ -104,6 +107,8 @@ export class ShoppingCartComponent implements OnInit {
   }
   ngOnInit(): void {
     this.notUserData = JSON.parse(localStorage.getItem('not_user_data'))
+    this.guestHistory = JSON.parse(localStorage.getItem('guestHistory')) || []
+    console.log(this.guestHistory)
     let cart = localStorage.getItem('joincart')
     if (cart) {
       this.cartitems = JSON.parse(cart)
@@ -193,7 +198,7 @@ export class ShoppingCartComponent implements OnInit {
 
     if(notuserAddress && !!localStorage.getItem('joinToken')==false) {
       notuserAddress = JSON.parse(notuserAddress)
-      this.addresses.push(notuserAddress)     
+      this.addresses=notuserAddress     
     }
   }
 
@@ -468,6 +473,7 @@ export class ShoppingCartComponent implements OnInit {
   }
   createBooking(free=false) {
     console.log(this.total, (this.shipingCharge))
+    this.createBookingLoading=true
     let requestBody = {
       activity_data: [],
       child_id: [],
@@ -689,8 +695,15 @@ export class ShoppingCartComponent implements OnInit {
           this.toastr.success(localStorage.getItem('lang') == 'ar' ? 'تم تنفيذ طلبك بنجاح' : 'Your request has been successfully processed');
           if (!!localStorage.getItem('joinToken') == false) {
             this.cartService.notUserHistory = this.cartitems
+            this.guestHistory.unshift({
+              order_id:this.cartitems[0]?.order_id,
+              details:this.cartitems
+            })
+            localStorage.setItem('guestHistory',JSON.stringify(this.guestHistory))
           }
+          this.order_id=this.cartitems[0]?.order_id
           localStorage.removeItem('joincart')
+          this.createBookingLoading=false
           //this.router.navigate(['/history'])
         }
       }

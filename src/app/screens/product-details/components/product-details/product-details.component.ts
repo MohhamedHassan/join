@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { switchMap } from 'rxjs';
+import { HomeService } from 'src/app/screens/home/services/home.service';
 import { StoreService } from 'src/app/screens/store/services/store.service';
 import SwiperCore, { Autoplay, Navigation } from 'swiper';
 SwiperCore.use([Navigation,Autoplay]); 
@@ -24,12 +25,14 @@ export class ProductDetailsComponent implements OnInit {
     private toastr:ToastrService,
     private router:Router,
     private _sanitizer:DomSanitizer,
+    private homeService:HomeService,
     private storeService:StoreService) { }
     savedHtml(content:string) {
       return this._sanitizer.bypassSecurityTrustHtml(content)
     }
     get lang() {return localStorage.getItem('lang')||'en'}
   ngOnInit(): void {
+
     let cart = localStorage.getItem('joincart')
     if(cart)  {
       this.cartitems=JSON.parse(cart)
@@ -48,9 +51,22 @@ export class ProductDetailsComponent implements OnInit {
         this.selectedColor=null
         this.selectedSize=null
         this.countToBuy=0
-        this.availableCount=0
-        this.loading=false
+        this.availableCount=0     
         this.product_details=res?.payload
+        this.homeService.clups.subscribe((res) => {
+          if(Array.isArray(res)) {
+            console.log(res)
+            let club = res.find(item => item?.id == this.product_details.club_id)
+            if (club) {
+              this.product_details.club_name=club?.name
+              this.product_details.club_logo=club?.logo
+            } else {
+              this.product_details.club_name='Join Admin'
+              this.product_details.club_logo=''
+            }
+          }
+        })
+        this.loading=false
         if(this.product_details?.product_colors?.length) {
           this.selectedColor=this.product_details?.product_colors[0]
         }

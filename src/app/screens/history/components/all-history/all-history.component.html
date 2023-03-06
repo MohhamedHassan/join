@@ -44,7 +44,7 @@ class="container">
                             </tr>
                            </table>
                            <ul 
-                           *ngIf="isLogin()"
+                           *ngIf="item?.images?.length"
                            class="d-flex flex-wrap list-unstyled p-0 mb-0 mt-2">
                                 <li 
                                 class="text-center"
@@ -55,7 +55,8 @@ class="container">
                                 *ngFor="let image of item?.images">
                                     <img 
                                     appImgs
-                                    style="width:100px;height: 50px;object-fit: contain;" [src]="image?.club_logo" alt="">
+                                    style="width:100px;height: 50px;object-fit: contain;" 
+                                    [src]="image?.club_logo" alt="">
                                     <p>{{image?.club_name}}</p>
                                 </li>
                            </ul>

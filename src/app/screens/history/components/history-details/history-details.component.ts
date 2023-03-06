@@ -24,64 +24,80 @@ export class HistoryDetailsComponent implements OnInit {
     member_count:'',
     selected_date:''
   }
+  history=[]
   constructor(private historyServide:HistoryService,
     private cartService:CartService,
     private activatedRoute:ActivatedRoute) { }
 
   ngOnInit(): void {
-    if(!!localStorage.getItem('joinToken')) {
       this.activatedRoute.params.subscribe((params:any) =>  {
-        this.historyServide.getHistory().subscribe(
-          res=> {
-            console.log(params)
-            this.historyDetails=res.find(i => i?.order_id==params?.id)
-            console.log(this.historyDetails)
-            this.loading=false
-          }
-        )
-      })
-    } else {
-      if(this.cartService.notUserHistory?.length) {
-        let item = {
-          booked_activity: [],
-          booked_products:[],
-          created_at: new Date(),
-          order_id:'',
-          total:0,
-          prices:[]
-        }
-        this.cartService.notUserHistory.forEach(i =>  {
-          if(i?.cstmtype == 1) item.booked_activity.push(i)
-          if(i?.cstmtype == 2) item.booked_products.push(i)
-          item.order_id=i?.order_id
-          item.total=i?.total
-        })
-        this.historyDetails=item
-      }
-      if(this.historyDetails?.booked_activity?.length) {
-        this.historyDetails?.prices?.push({
-          key:localStorage.getItem('lang')=='ar' ? 'إجمالي الانشطة' :'Activity Total',
-          value:this.getTotalActivities()
-        })
-      }
-      if(this.historyDetails?.booked_products?.length) {
-        this.historyDetails?.prices?.push({
-          key:localStorage.getItem('lang')=='ar' ? 'إجمالي المنتجات' :'Store Total',
-          value:this.getTotalProducts()
-        })
-        console.log(this.getTotalProducts())
-      }
-      this.historyDetails?.prices?.push({
-        key:localStorage.getItem('lang')=='ar' ? 'رسوم التوصيل' :'Delivery Charges',
-        value:this.cartService.notUserHistory[0]?.shipp
-      })
-      this.historyDetails?.prices?.push({
-        key:localStorage.getItem('lang')=='ar' ? 'المبلغ الإجمالي' :'Total Amount',
-        value:this.cartService.notUserHistory[0]?.total
-      })
-      this.loading=false
+        if(!!localStorage.getItem('joinToken')) {
+          this.historyServide.getHistory().subscribe(
+            res=> {
+              console.log(params)
+              this.historyDetails=res.find(i => i?.order_id==params?.id)
+              console.log(this.historyDetails)
+              this.loading=false
+            }
+          )
+        }  else {
 
-    }
+
+          let guestHistory = JSON.parse(localStorage.getItem('guestHistory')) || []
+          if(guestHistory?.length) {
+
+            guestHistory.forEach(element =>  {
+              let item = {
+                booked_activity: [],
+                booked_products:[],
+                created_at: new Date(),
+                order_id:'',
+                total:0,
+                prices:[]
+              }
+                element.details.forEach(i => {
+                  if(i?.cstmtype == 1) item.booked_activity.push(i)
+                  if(i?.cstmtype == 2) item.booked_products.push(i)
+                  item.order_id=i?.order_id
+                  item.total=i?.total
+                });
+                this.history.push(item)
+            })
+    
+            this.historyDetails=this.history.find(item => item?.order_id == params?.id)
+          }
+
+
+
+
+          if(this.historyDetails?.booked_activity?.length) {
+            this.historyDetails?.prices?.push({
+              key:localStorage.getItem('lang')=='ar' ? 'إجمالي الانشطة' :'Activity Total',
+              value:this.getTotalActivities()
+            })
+          }
+          if(this.historyDetails?.booked_products?.length) {
+            this.historyDetails?.prices?.push({
+              key:localStorage.getItem('lang')=='ar' ? 'إجمالي المنتجات' :'Store Total',
+              value:this.getTotalProducts()
+            })
+            console.log(this.getTotalProducts())
+          }
+          this.historyDetails?.prices?.push({
+            key:localStorage.getItem('lang')=='ar' ? 'رسوم التوصيل' :'Delivery Charges',
+            value:this.cartService.notUserHistory[0]?.shipp
+          })
+          this.historyDetails?.prices?.push({
+            key:localStorage.getItem('lang')=='ar' ? 'المبلغ الإجمالي' :'Total Amount',
+            value:this.cartService.notUserHistory[0]?.total
+          })
+          this.loading=false
+    
+        }
+
+      })
+   
+  
  
   }
 getTotalActivities() {

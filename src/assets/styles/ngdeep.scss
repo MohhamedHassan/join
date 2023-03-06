@@ -3,6 +3,10 @@
     .toast-container {
         z-index: 9999999999999 !important;
     }
+    .dropdown-menu.country-dropdown.show {
+        inset: 100% 0 auto auto !important;
+        display: none !important;
+    }
     .custom-rtl {
         .toast-top-right {
             top: 12px;
@@ -28,6 +32,7 @@
         }
         .dropdown-menu.country-dropdown.show {
             inset: 100% 0 auto auto !important;
+            display: none !important;
         }
         .iti__country-list {
             text-align: right !important;
@@ -49,6 +54,7 @@
     } 
 .country-dropdown {
     max-width: 300px !important; 
+
 }
 
     .swiper-button-next,

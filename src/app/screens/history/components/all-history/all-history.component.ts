@@ -34,21 +34,35 @@ export class AllHistoryComponent implements OnInit {
         }
       )
     } else {
-      if(this.cartService.notUserHistory?.length) {
-        let item = {
-          booked_activity: [],
-          booked_products:[],
-          created_at: new Date(),
-          order_id:'',
-          total:0
-        }
-        this.cartService.notUserHistory.forEach(i =>  {
-          if(i?.cstmtype == 1) item.booked_activity.push(i)
-          if(i?.cstmtype == 2) item.booked_products.push(i)
-          item.order_id=i?.order_id
-          item.total=i?.total
+      let guestHistory = JSON.parse(localStorage.getItem('guestHistory')) || []
+      if(guestHistory?.length) {
+
+        guestHistory.forEach(element =>  {
+          let item = {
+            booked_activity: [],
+            booked_products:[],
+            created_at: new Date(),
+            order_id:'',
+            total:0
+          }
+            element.details.forEach(i => {
+              if(i?.cstmtype == 1) item.booked_activity.push(i)
+              if(i?.cstmtype == 2) item.booked_products.push(i)
+              item.order_id=i?.order_id
+              item.total=i?.total
+            });
+            this.history.push(item)
         })
-        this.history.push(item)
+
+        this.history.map(i => {
+          i.images = []
+          if(i?.booked_activity?.length) i.images.push(i?.booked_activity[0])
+          if(i?.booked_products?.length) {
+            i?.booked_products.forEach(element => {
+                if(!i.images.some(item => item?.club_id == element?.club_id)) i.images.push(element)
+            });
+          }
+        })
       }
       
       this.loading=false
