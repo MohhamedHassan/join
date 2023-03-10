@@ -42,9 +42,9 @@
                                     *ngIf="item?.times?.length&&item?.times[0]?.activity_details?.length">
                                     {{item?.times[0]?.activity_details[0]?.title}}</h6>
                                 <p *ngIf="item?.times?.length" class="text-secondary mb-2">
-                                    <bdi>{{returnConvertedDate(item?.times[0]?.time,0)|date:'h:mm a'}}</bdi>
+                                    <bdi>{{item?.times[0]?.time|timeFormat:0}}</bdi>
                                     <bdi>-</bdi>
-                                    <bdi>{{returnConvertedDate(item?.times[0]?.time,1)|date:'h:mm a'}} </bdi>
+                                    <bdi>{{item?.times[0]?.time|timeFormat:1}} </bdi>
                                 </p>
                                 <p *ngIf="item?.times?.length" class="text-secondary mb-2">
 

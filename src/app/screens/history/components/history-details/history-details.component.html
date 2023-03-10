@@ -73,9 +73,18 @@ style="min-height: 100vh;">
                     </span>
                 </p>
                 <div class="d-flex">
-                    <p class="m-0">
+                    <p
+                    *ngIf="!isLogin()"
+                    class="m-0">
                         {{'booking_for_one_member'|translate}} 
-                        {{item?.child_count||item?.notUserMembersCount}}
+                        {{item?.notUserMembersCount}}
+                        {{'member'|translate}}
+                    </p> 
+                    <p 
+                    *ngIf="isLogin()"
+                    class="m-0">
+                        {{'booking_for_one_member'|translate}} 
+                        {{item?.child_count}}
                         {{'member'|translate}}
                     </p> 
                     <span class="mx-1"></span>

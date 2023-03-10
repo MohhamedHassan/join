@@ -31,6 +31,7 @@ import { MapComponent } from './components/map/map.component';
 import { ReplaceCommaPipe } from './pips/replace-comma.pipe';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
+import { TimeFormatPipe } from './pips/time-format.pipe';
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -45,7 +46,8 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
     ShareComponent,
     MemberDefaultImgDirective,
     MapComponent,
-    ReplaceCommaPipe
+    ReplaceCommaPipe,
+    TimeFormatPipe
   ],
   imports: [
     BsDropdownModule,
@@ -106,6 +108,7 @@ import { ShareIconsModule } from 'ngx-sharebuttons/icons';
     ReplaceCommaPipe,
     ShareButtonsModule,
     ShareIconsModule,
+    TimeFormatPipe
   ],
   providers: [
     DatePipe

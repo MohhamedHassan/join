@@ -10,6 +10,7 @@ import { FavoriteService } from 'src/app/services/favorite.service';
 import { DatePipe } from '@angular/common';
 import { HomeService } from 'src/app/screens/home/services/home.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CartService } from 'src/app/screens/cart/sertvies/cart.service';
 SwiperCore.use([Navigation,Pagination]);
 @Component({
   selector: 'app-activity-details',
@@ -75,6 +76,7 @@ export class ActivityDetailsComponent implements OnInit {
     private homeService:HomeService,
     private router:Router,
     private _sanitizer:DomSanitizer,
+    private cartService: CartService,
     private fb:FormBuilder,
     private activitiesService:ActivitiesService) { }
     savedHtml(content:string) {
@@ -87,13 +89,7 @@ export class ActivityDetailsComponent implements OnInit {
       phone:['',[Validators.required,Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]],
       iconfirm:['']
     })
-    if(!this.activity_details?.hideMembers) {
-      this.notuserForm.get('iconfirm').setValidators([Validators.required]);
-      this.notuserForm.get('iconfirm').updateValueAndValidity();
-    } else {
-      this.notuserForm.get('iconfirm').clearValidators();
-      this.notuserForm.get('iconfirm').updateValueAndValidity();
-    }
+
     let notuserData:any = localStorage.getItem('not_user_data')
 
     if(notuserData) {
@@ -123,6 +119,13 @@ export class ActivityDetailsComponent implements OnInit {
             this.router.navigate(['/'])
           } else {
             this.activity_details=res
+            if(!this.activity_details?.hideMembers) {
+              this.notuserForm.get('iconfirm').setValidators([Validators.required]);
+              this.notuserForm.get('iconfirm').updateValueAndValidity();
+            } else {
+              this.notuserForm.get('iconfirm').clearValidators();
+              this.notuserForm.get('iconfirm').updateValueAndValidity();
+            }
             this.activity_details.club_name=res?.club_details?.name
             this.activity_details.club_logo=res?.club_details?.logo
             if(this.activity_details?.location?.length) {
@@ -331,9 +334,10 @@ checkNotUserData() {
 submitNotuserForm() {
   this.submited=true
   if(this.notuserForm.valid) {
+    this.cartService.notuserDataAdded=true
     localStorage.setItem('not_user_data',JSON.stringify(this.notuserForm.value))
     this.selectedDataFromPopup(this.activity_details)
-  }
+  } 
 }
 addActivityToFavorite() {
   this.favLoading=true

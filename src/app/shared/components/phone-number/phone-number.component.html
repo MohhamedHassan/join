@@ -1,8 +1,8 @@
 <div class="d-flex align-items-center w-100">
-  <bdi>
+  <!-- <bdi>
     +965
   </bdi>
-  <span class="mx-1"></span>
+  <span class="mx-1"></span> -->
   <ngx-intl-tel-input
   style="width:100%"
   [formControl]="inputname"
@@ -13,11 +13,11 @@
   [searchCountryFlag]="false"
   [selectFirstCountry]="false"
   [selectedCountryISO]="CountryISO.Kuwait"
-  [maxLength]="15"
+  [maxLength]="8"
   [phoneValidation]="true"
   [separateDialCode]="separateDialCode"
   [numberFormat]="PhoneNumberFormat.National"
-  [customPlaceholder]="formcontrol ?   (lang=='ar' ? 'رقم الهاتف الجديد (اختياري)' :'New Phone Number (optional)' ) : (lang=='ar' ? 'رقم الهاتف' :'Phone Number' ) "
+  [customPlaceholder]="formcontrol ?   (lang=='ar' ? 'رقم الهاتف الجديد (اختياري)' :'New Phone Number (optional)' ) : (lang=='ar' ? '965+ رقم الهاتف  '  :'  +965 Phone Number' ) "
   >
   </ngx-intl-tel-input>
 </div>

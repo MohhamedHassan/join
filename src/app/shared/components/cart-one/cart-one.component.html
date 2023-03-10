@@ -47,7 +47,9 @@ class="cart-one glopal-cart position-relative">
        *ngIf="isLogin()"
        style="min-height: 45px;overflow-x: scroll;"
        class=" name">
-            <table>
+            <table
+            *ngIf="!hideMembers"
+            >
                 <tr 
                 style="white-space: nowrap;"
                 >

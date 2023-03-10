@@ -215,7 +215,9 @@
    
             class="lang">
                 <div class="additionicons">
-                    <a routerLink="/cart" class="position-relative">
+                    <a 
+                    (click)="openNavbar=!openNavbar"
+                    routerLink="/cart" class="position-relative">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <span 
                         *ngIf="cartitemsCount"

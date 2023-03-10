@@ -937,6 +937,7 @@ export class ShoppingCartComponent implements OnInit {
   checkout() {
     this.submitedCheckout = true
     this.notUserData = JSON.parse(localStorage.getItem('not_user_data'))
+    if(this.cartService.notuserDataAdded)  this.notuserdataAdded=true
     if (!!localStorage.getItem('joinToken') == false && !this.notuserdataAdded && 
     this.cartitems.some(i=>i.cstmtype == 2)) {
       this.notuserdataSubmited = false

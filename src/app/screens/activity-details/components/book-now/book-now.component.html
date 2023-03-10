@@ -67,7 +67,7 @@
       </accordion-group>
       <!--  -->
       <accordion-group 
-      [heading]="selectedTime?.from_time ? (selectedTime?.from_time + ' - ' + selectedTime?.to_time) :'select_time'|translate" >
+      [heading]="selectedTime?.from_time ? ((selectedTime?.from_time|timeFormat:0) + ' - ' + (selectedTime?.to_time|timeFormat:0)) :'select_time'|translate" >
           <div 
           *ngFor="let item of availableTime;let i = index"
           class="form-check mb-2">
@@ -78,7 +78,7 @@
             class="form-check-input" type="radio" name="times" [id]="item?.from_time+i">
             <label 
             class="form-check-label" [for]="item?.from_time+i">
-              {{  item?.from_time + " - " + item?.to_time}} ( {{'available'|translate}}  {{item?.available_seats-item?.chosencount}} )
+              {{  (item?.from_time|timeFormat:0) + " - " + (item?.to_time|timeFormat:0)}} ( {{'available'|translate}}  {{item?.available_seats-item?.chosencount}} )
             </label>
           </div>
         

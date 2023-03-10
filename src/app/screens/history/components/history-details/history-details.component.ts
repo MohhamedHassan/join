@@ -35,6 +35,7 @@ export class HistoryDetailsComponent implements OnInit {
           this.historyServide.getHistory().subscribe(
             res=> {
               this.historyDetails=res.find(i => i?.order_id==params?.id)
+              if(!this.historyDetails&&res?.length)      this.historyDetails=res[0]
               this.loading=false
             }
           )

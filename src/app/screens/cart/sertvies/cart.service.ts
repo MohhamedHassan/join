@@ -9,6 +9,7 @@ import { GlopalService } from 'src/app/services/glopal.service';
 export class CartService {
   cartitem:any[]=[]
   notUserHistory=[]
+  notuserDataAdded=false
   constructor(private http:HttpClient,
     private glopalService:GlopalService) { }
   getPromoCode() {

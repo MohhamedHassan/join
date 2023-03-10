@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
 import { Calendar } from 'primeng/calendar';
+import { CartService } from 'src/app/screens/cart/sertvies/cart.service';
 @Component({
   selector: 'app-book-now',
   templateUrl: './book-now.component.html',
@@ -43,6 +44,7 @@ export class BookNowComponent implements OnInit {
   enabledDates:any[]=[]
   complete=false
   constructor(public membersservice:MembersService,
+    private cartService:CartService,
     private fb:FormBuilder,
     private toastr:ToastrService,
     private datePipe:DatePipe) { }
@@ -260,6 +262,7 @@ onDateCange(value:any) {
             let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
             let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
             if(todayTransformed == selectedDateTransformed) {
+              console.log('one')
               if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
                 this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                     if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
@@ -270,6 +273,7 @@ onDateCange(value:any) {
                 });
               }
             } else {
+              console.log('two')
               this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                 this.availableTime.push(element)
             });
@@ -380,6 +384,7 @@ if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
       type: !!localStorage.getItem('joinToken') ? 1 : 0 
     }
     localStorage.setItem('not_user_data',JSON.stringify(this.notuserForm.value))
+    this.cartService.notuserDataAdded=true
     this.patchActivityToParent.emit(selectedData)
   } 
 

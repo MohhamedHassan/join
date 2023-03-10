@@ -23,6 +23,7 @@ export class CartOneComponent implements OnInit {
   @Output() favoriteLoaing = new EventEmitter()
   @Output() changefavStatus = new EventEmitter()
   @Input() activityIndex = -1
+  @Input() hideMembers = false
   members:any[]=[]
   constructor(private foavoriteService:FavoriteService,
     private membersservice:MembersService) { }

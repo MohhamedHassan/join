@@ -14,6 +14,7 @@ style="text-align:right"
     <ng-container *ngFor="let item of activities;let i = index">
         <ng-template swiperSlide>
             <app-cart-one 
+            [hideMembers]="item?.hideMembers"
             [activityIndex]="i"
             [show_heart]="isLogin()"
             (favoriteLoaing)="favoriteLoadingStatus($event)"

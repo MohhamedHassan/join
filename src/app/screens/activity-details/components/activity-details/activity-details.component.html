@@ -191,7 +191,7 @@
                         <p class="cstmmed mb-1">
                             {{'time'|translate}} : 
                             <span class="text-secondary">
-                                {{  this.activity_details.selectedTime?.from_time + " - " + this.activity_details.selectedTime?.to_time}}
+                                {{  (this.activity_details.selectedTime?.from_time|timeFormat:0) + " - " + (this.activity_details.selectedTime?.to_time|timeFormat:0)}}
                                  ( {{'available'|translate}}  {{available}} )
                             </span>
                         </p>

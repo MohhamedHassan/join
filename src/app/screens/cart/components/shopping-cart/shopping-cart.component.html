@@ -51,10 +51,18 @@ style="min-height: 50vh;" class="container">
                     (click)="plusone(i)"
                     class="fa-solid fa-plus"></i>
                 </div>
-                <p class="my-q maincolor" *ngIf="item?.cstmtype==1&&item?.type==1">
+                <p class="my-1 maincolor" *ngIf="item?.cstmtype==1&&item?.type==1&&item?.hideMembers ">
                     {{'booking_for_one_member'|translate}}  
-                    {{item?.hideMembers ? 1 : item?.selectedMembers?.length}}
+                     1
                     {{'member'|translate}}
+                </p>
+                <p class="my-1 maincolor" *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.hideMembers ">
+                    {{'booking_for_one_member'|translate}}  
+                    <span *ngFor="let child of item?.selectedMembers;let lst = last">
+                        {{child?.child_name|replaceComma}} 
+                        <span *ngIf="!lst">,</span>
+                    </span>
+                 
                 </p>
                 <p class="my-1 maincolor" *ngIf="item?.cstmtype==1&&item?.type==0">
                     {{'booking_for_one_member'|translate}}  {{item?.notUserMembersCount}} {{'member'|translate}}
@@ -67,69 +75,72 @@ style="min-height: 50vh;" class="container">
                     <span 
                     *ngIf="item?.countToBuy"
                     class="orangecolor">
-                        {{item?.price*item?.countToBuy|tofixednumber}} 
+                        {{item?.price*item?.countToBuy|tofixednumber}}   {{'kwd'|translate}}
                     </span>
                     <span 
                     *ngIf="!item?.countToBuy"
                     class="orangecolor">
-                        {{item?.price|tofixednumber}} 
+                        {{item?.price|tofixednumber}}   {{'kwd'|translate}}
                     </span> 
                     <span 
                     *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.hideMembers"
                     class="orangecolor">
-                        {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}} 
+                        {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}}   {{'kwd'|translate}}
                     </span>
                     <span 
                     *ngIf="item?.cstmtype==1&&item?.type==1&&item?.hideMembers"
                     class="orangecolor">
-                        {{item?.selectedLocation.price*1|tofixednumber}} 
+                        {{item?.selectedLocation.price*1|tofixednumber}}   {{'kwd'|translate}}
                     </span>
                     <span 
                     *ngIf="item?.cstmtype==1&&item?.type==0"
                     class="orangecolor">
-                        {{item?.selectedLocation.price*item?.notUserMembersCount|tofixednumber}} 
+                        {{item?.selectedLocation.price*item?.notUserMembersCount|tofixednumber}}   {{'kwd'|translate}}
                     </span>
                 </p>
-                <p 
-                *ngIf="item?.cstmtype==1"
-                class="mb-1 orangecolor">
-                    {{item?.selectedLocation.price_type == 'PRICE' ? 'PAY NOW' : item?.selectedLocation.price_type}}
-                </p>
+          
 
                 <p 
                 *ngIf="item?.disc!=0"
                 class="mb-1">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
+                    <span  class="orangecolor">
+                        {{item?.disc|tofixednumber}}   {{'kwd'|translate}}
+                    </span>
+                    <span class="mx-1"></span>
                     <del 
                     *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.hideMembers"
-                    class="orangecolor">
-                        {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}} 
+                    class="">
+                        {{item?.selectedLocation.price*item?.selectedMembers?.length|tofixednumber}}   {{'kwd'|translate}}
                     </del>
                     <del 
                     *ngIf="item?.cstmtype==1&&item?.type==1&&item?.hideMembers"
-                    class="orangecolor">
-                        {{item?.selectedLocation.price*1|tofixednumber}} 
+                    class="">
+                        {{item?.selectedLocation.price*1|tofixednumber}}   {{'kwd'|translate}}
                     </del>
                     <del 
                     *ngIf="item?.cstmtype==1&&item?.type==0"
-                    class="orangecolor">
-                        {{item?.selectedLocation.price*item?.notUserMembersCount|tofixednumber}} 
+                    class="">
+                        {{item?.selectedLocation.price*item?.notUserMembersCount|tofixednumber}}   {{'kwd'|translate}}
                     </del>
-                    <span class="mx-2"></span>
-                    <span  class="orangecolor">
-                        {{item?.disc|tofixednumber}} 
-                    </span>
+                  
+                  
+                </p>
+                <p 
+                *ngIf="item?.cstmtype==1"
+                class="mb-1 orangecolor">
+                    {{item?.selectedLocation.price_type == 'PRICE' ? 'PAY NOW' : item?.selectedLocation.price_type}}
                 </p>
                 <p 
                 class="mb-1"
                 *ngIf="item?.selectedDate">
-                    {{item?.selectedDate|date}}
+                    {{item?.selectedDate|date:'EEEE, d MMMM, y'}}
                 </p>
                 <p 
                 *ngIf="item?.selectedTime"
                 >
-                    {{item?.selectedTime?.from_time}} - {{item?.selectedTime?.to_time}}
+                    {{item?.selectedTime?.from_time|timeFormat:0}} - {{item?.selectedTime?.to_time|timeFormat:0}} 
                 </p>
                 <div style="cursor: pointer;" class="d-flex align-items-center justify-content-end   fw-bold">
                     <ng-container *ngIf="item?.cstmtype==1">
@@ -423,6 +434,7 @@ class="cstmpopup">
                 {{"success"|translate}}
             </h2>
             <h2
+            *ngIf="createBookingLoading"
             class="my-2"
             style="font-weight: 400;font-size:20px;line-height: 30px;text-align: center;"
             >{{'The_request_being_saved'|translate}}

@@ -9,5 +9,6 @@ export interface Activities {
     id:string;
     favorite:string;
     categories:[];
+    hideMembers:boolean
 }
 

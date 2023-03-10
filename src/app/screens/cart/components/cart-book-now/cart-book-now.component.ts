@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
 import { Calendar } from 'primeng/calendar';
+import { CartService } from '../../sertvies/cart.service';
 @Component({
   selector: 'app-cart-book-now',
   templateUrl: './cart-book-now.component.html',
@@ -42,6 +43,7 @@ export class CartBookNowComponent implements OnInit {
   complete=false
   constructor(public membersservice:MembersService,
     private fb:FormBuilder,
+    private cartService:CartService,
     private toastr:ToastrService,
     private datePipe:DatePipe) { }
 
@@ -509,6 +511,7 @@ confirmAddActivity() {
       type: !!localStorage.getItem('joinToken') ? 1 : 0 
     }
     localStorage.setItem('not_user_data',JSON.stringify(this.notuserForm.value))
+    this.cartService.notuserDataAdded=true
     this.patchActivityToParent.emit(selectedData)
   }
   if(this.notuserForm.valid && (

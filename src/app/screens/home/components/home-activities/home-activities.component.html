@@ -2,6 +2,7 @@
 class="row">
     <div *ngFor="let activity of activities;let i = index" class="col-md-4 col-lg-3 mb-4">
         <app-cart-one 
+        [hideMembers]="activity?.hideMembers"
         [activityIndex]="i"
         [show_heart]="isLogin()"
         (favoriteLoaing)="favoriteLoadingStatus($event)"

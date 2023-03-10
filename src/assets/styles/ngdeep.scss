@@ -41,11 +41,13 @@
         #country-search-box {
             padding-right: 15px !important;
         }
-        .iti__arrow {
-            margin-left: 0 !important;
-            margin-right: 6px !important;
-        }
+      
    }
+   .iti__arrow {
+    margin-left: 0 !important;
+    margin-right: 6px !important;
+    display: none !important;
+}
     p-calendar {
         max-width: 100%;
     }
