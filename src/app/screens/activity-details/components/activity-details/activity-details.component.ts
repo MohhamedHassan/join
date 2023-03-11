@@ -168,7 +168,8 @@ export class ActivityDetailsComponent implements OnInit {
                 if(todayTransformed == selectedDateTransformed) {
                   if(this.activity_details.selectedLocation?.dates_times[0]?.sessions?.length) {
                     this.activity_details.selectedLocation?.dates_times[0]?.sessions.forEach(element => {
-                        if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) &&
+                        if(Date.parse(`${selectedDateTransformed} ${element?.from_time}`) > Date.parse(String(today)) &&
+                        element?.available_seats!="0" &&
                         !this.activity_details.selectedTime
                         ) {
                           this.activity_details.selectedTime= element
@@ -176,11 +177,31 @@ export class ActivityDetailsComponent implements OnInit {
                         
                     });
                   }
+               
                 } else {
-                  this.activity_details.selectedTime= this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+                  if(this.activity_details.selectedLocation?.dates_times[0]?.sessions?.length) {
+                    this.activity_details.selectedTime =  this.activity_details.selectedLocation?.dates_times[0]?.sessions.find(element => element?.available_seats>"0" );
+                  }
                 }
-                
-                this.available= this.activity_details.selectedTime?.available_seats
+                if(!this.activity_details.selectedTime) {
+                  if(this.activity_details.selectedLocation?.dates_times[0]?.sessions.every(item => {
+                   return item?.available_seats=="0"
+                  })) {
+                    if(this.activity_details.selectedLocation?.dates_times[0]?.sessions?.length) {
+                      this.activity_details.selectedTime =  this.activity_details.selectedLocation?.dates_times[0]?.sessions[0]
+                    }
+                  } else {
+                    let date = this.minDate.setDate(this.minDate.getDate() + 1)
+                    this.minDate= new Date(date) 
+                    console.log('here',this.minDate)
+                    this.getValidDateForDAily()   
+                    if(this.activity_details.selectedLocation?.dates_times[0]?.sessions?.length) {
+                      this.activity_details.selectedTime =  this.activity_details.selectedLocation?.dates_times[0]?.sessions.find(element => element?.available_seats>"0" );
+                    }
+                  }
+               }
+                this.available= this.activity_details.selectedTime ? this.activity_details.selectedTime?.available_seats : 0
+                if(this.available<=0) this.complete=true
                 if(this.cartitems?.length) {
                   let chosencount = 0
                   for(let i = 0 ; i <this.cartitems?.length;i++) {
@@ -199,7 +220,7 @@ export class ActivityDetailsComponent implements OnInit {
                   this.available = this.available>=chosencount ? this.available-chosencount : 0
                   if(this.available<=0) this.complete=true
                 }
-            
+                console.log(this.available)
               }
            
               this.activity_details.cstmtype=1 

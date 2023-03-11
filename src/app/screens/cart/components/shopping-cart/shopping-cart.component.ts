@@ -343,7 +343,7 @@ export class ShoppingCartComponent implements OnInit {
 
     if (!this.promocodedisabled) {
       this.cartitems.map(i => {
-         i.disc=0
+         if(i?.cstmtype==1) i.disc=0
       })
       this.promoCodeLoading = true
       this.promocode = promocode
@@ -353,7 +353,7 @@ export class ShoppingCartComponent implements OnInit {
           if (Array.isArray(res)) {
             let selectedPromoCode = res.find(i => i.code.toLowerCase() == promocode.toLowerCase())
             if (!selectedPromoCode) {
-              this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
+              this.getProductsPromoCode()
             } else {
               let today = new Date()
               let item = selectedPromoCode
@@ -452,8 +452,12 @@ export class ShoppingCartComponent implements OnInit {
     
         }
       )
+      
     }
- 
+   
+  }
+  getProductsPromoCode() {
+
   }
   checkPromoCodeInputLength(value: string) {
     let activites = this.cartitems.filter(i => i?.cstmtype == 1)

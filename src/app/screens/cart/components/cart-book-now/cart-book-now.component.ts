@@ -181,7 +181,7 @@ export class CartBookNowComponent implements OnInit {
               let today = new Date()
               let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
               let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
-              if(todayTransformed == selectedDateTransformed) {
+              if(false) {
                 if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
                   this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                       if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
@@ -383,7 +383,7 @@ onDateCange(value:any) {
             let today = new Date()
             let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
             let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
-            if(todayTransformed == selectedDateTransformed) {
+            if(false) {
               if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
                 this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                     if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
@@ -435,8 +435,15 @@ onDateCange(value:any) {
   }
 }
 selectTime(time:any,inpt) {
+  let today = new Date()
+  let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
+  let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
   this.avialbeMembers=time?.available_seats-time?.chosencount
-  if(time?.available_seats=="0") {
+  if(time?.available_seats<="0" ||
+  (Date.parse(`${selectedDateTransformed} ${time?.from_time}`) < Date.parse(String(today)) 
+  && selectedDateTransformed==todayTransformed)
+  
+  ) {
     inpt.checked=false
     time.checked=false
   this.selectedTime=null
