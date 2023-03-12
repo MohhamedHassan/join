@@ -77,11 +77,11 @@ style="min-height: 50vh;" class="container">
                     class="orangecolor">
                         {{item?.price*item?.countToBuy|tofixednumber}}   {{'kwd'|translate}}
                     </span>
-                    <span 
+                    <!-- <span 
                     *ngIf="!item?.countToBuy"
                     class="orangecolor">
                         {{item?.price|tofixednumber}}   {{'kwd'|translate}}
-                    </span> 
+                    </span>  -->
                     <span 
                     *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.hideMembers"
                     class="orangecolor">

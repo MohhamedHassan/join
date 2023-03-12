@@ -16,7 +16,7 @@ export class TimeFormatPipe implements PipeTransform {
       dateTime.setSeconds(parseInt(times[2]));
       return  this.datePipe.transform(dateTime, 'h:mm a')
     }
-    return
+    return '00:00:00'
   }
 
 }

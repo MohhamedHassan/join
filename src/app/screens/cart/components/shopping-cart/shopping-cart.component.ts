@@ -579,7 +579,7 @@ export class ShoppingCartComponent implements OnInit {
       child_id: [],
       booking_txn: 0,
       payment_method: 'PAYMENT_GATEWAY',
-      total: this.total + this.shipingCharge,
+      total: this.total + this.shipingCharge+this.payAtVenu,
       booking_session: [],
       shipping_charge: this.shipingCharge,
       address_id: 0,
@@ -803,7 +803,7 @@ export class ShoppingCartComponent implements OnInit {
           this.order_id=this.cartitems[0]?.order_id
           localStorage.removeItem('joincart')
           this.createBookingLoading=false
-          //this.router.navigate(['/history'])
+          if(free)this.router.navigate(['/history'])
         }
       }
     )
@@ -976,8 +976,8 @@ export class ShoppingCartComponent implements OnInit {
               i.order_id = res?.payload?.order_id
           })
           localStorage.setItem('joincart', JSON.stringify(this.cartitems))
-          
-          if (!Number(this.total + this.shipingCharge)) {
+          //!Number(this.total + this.shipingCharge)
+          if (true) {
             this.cartitems.map(i => {
               i.selectedAddress = this.selectedAddress?.id
               i.fname = this.profileData?.fname || this.notUserData?.name
@@ -997,7 +997,7 @@ export class ShoppingCartComponent implements OnInit {
                 i.floor = this.selectedAddress?.floor || '',
                 i.apartment = this.selectedAddress?.apartment || '',
                 i.shipp = this.shipingCharge,
-                i.total=this.shipingCharge+this.total
+                i.total=this.shipingCharge+this.total+this.payAtVenu
             })
             localStorage.setItem('joincart', JSON.stringify(this.cartitems))
             this.createBooking(true)
