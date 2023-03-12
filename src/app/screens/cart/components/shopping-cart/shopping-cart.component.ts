@@ -114,9 +114,7 @@ export class ShoppingCartComponent implements OnInit {
     if (cart) {
       this.cartitems = JSON.parse(cart)
     }
-    if (this.cartitems?.length) {
-      this.cartitems.map(i => i.disc = 0)
-    }
+   
     this.getTotal()
     setTimeout(() => {
       this.loading = false
@@ -170,8 +168,7 @@ export class ShoppingCartComponent implements OnInit {
     this.activatedRoute.queryParamMap.subscribe((res: any) => {
       if (this.cartitems?.length && res?.params?.type == 0) {
         this.paymentFaild = true
-      }
-      if (this.cartitems?.length && res?.params?.type == 1) {
+      }else if (this.cartitems?.length && res?.params?.type == 1) {
 
         this.cartitems = this.cartitems.filter(i => i.invoice_id)
         if (this.cartitems?.length) {
@@ -189,6 +186,12 @@ export class ShoppingCartComponent implements OnInit {
           )
         }
 
+      } else {
+        if (this.cartitems?.length) {
+          this.cartitems.map(i => {
+            i.disc = 0
+          })
+        }
       }
     })
     if(!this.cartitems.some(i=>i.cstmtype == 2)) this.notuserdataAdded=true
@@ -573,6 +576,7 @@ export class ShoppingCartComponent implements OnInit {
     else return false
   }
   createBooking(free=false) {
+    console.log(this.cartitems)
     this.createBookingLoading=true
     let requestBody = {
       activity_data: [],
@@ -767,6 +771,11 @@ export class ShoppingCartComponent implements OnInit {
         } else if (this.cartitems[i]?.cstmtype == 2) {
           let storeItem: any = {}
             storeItem.product_id = this.cartitems[i]?.id,
+            storeItem.booking_discount = this.cartitems[i]?.disc == 0 ? 0 : (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) - this.
+            cartitems[i]?.disc,
+
+            storeItem.booking_amount =  (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy),
+            storeItem.booking_payment =        storeItem.booking_amount - storeItem.booking_discount
             storeItem.qty = this.cartitems[i]?.countToBuy,
             storeItem.color = this.cartitems[i]?.selectedColor?.id || ''
             if(this.cartitems[i]?.selectedSize?.id) storeItem.size = this.cartitems[i]?.selectedSize?.id;

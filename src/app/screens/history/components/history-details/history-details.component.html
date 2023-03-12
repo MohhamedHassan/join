@@ -207,8 +207,9 @@ style="min-height: 100vh;">
         </div>
     </div>
     <p 
+    [style.color]="item?.color"
     *ngFor="let item of historyDetails?.prices"
-    class="d-flex justify-content-between align-items-center">
+    class="d-flex justify-content-between align-items-center fw-bold">
         <span>{{item?.key}} </span>
         <span>{{item?.value}} {{'kwd'|translate}}</span>
     </p>
