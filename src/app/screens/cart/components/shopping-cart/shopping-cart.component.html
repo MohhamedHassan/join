@@ -101,7 +101,7 @@ style="min-height: 50vh;" class="container">
           
 
                 <p 
-                *ngIf="item?.disc!=0"
+                *ngIf="item?.cstmtype==1&&item?.disc!=0"
                 class="mb-1">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
@@ -128,6 +128,23 @@ style="min-height: 50vh;" class="container">
                   
                 </p>
                 <p 
+                *ngIf="item?.cstmtype==2&&item?.disc!=0"
+                class="mb-1">
+
+                    <span class="maincolor">{{'price'|translate}} : </span>
+                    <span  class="orangecolor">
+                        {{item?.disc|tofixednumber}}   {{'kwd'|translate}}
+                    </span>
+                    <span class="mx-1"></span>
+                    <del 
+                    class="">
+                        {{item?.price*item?.countToBuy|tofixednumber}}   {{'kwd'|translate}}
+                    </del>
+             
+                  
+                  
+                </p>
+                <p 
                 *ngIf="item?.cstmtype==1"
                 class="mb-1 orangecolor">
                     {{item?.selectedLocation.price_type == 'PRICE' ? 'PAY NOW' : item?.selectedLocation.price_type}}
@@ -141,6 +158,7 @@ style="min-height: 50vh;" class="container">
                 *ngIf="item?.selectedTime"
                 >
                     {{item?.selectedTime?.from_time|timeFormat:0}} - {{item?.selectedTime?.to_time|timeFormat:0}} 
+                    ( {{'available'|translate}}  {{getAvailableForEachActivity(item)}} )
                 </p>
                 <div style="cursor: pointer;" class="d-flex align-items-center justify-content-end   fw-bold">
                     <ng-container *ngIf="item?.cstmtype==1">
@@ -266,13 +284,13 @@ style="min-height: 50vh;" class="container">
     </div>
     <hr>
     <div>
-        <p class="fw-bold d-flex justify-content-between align-items-centr">
+        <!-- <p class="fw-bold d-flex justify-content-between align-items-centr">
             <span>{{'price'|translate}}</span>
             <span class="maincolor">
-                {{total|tofixednumber}} 
+                {{total+payAtVenu|tofixednumber}} 
                 {{'kwd'|translate}}
             </span>
-        </p>
+        </p> -->
         <p class="fw-bold d-flex justify-content-between align-items-centr">
             <span>{{'Shipping'|translate}}</span>
             <span>
@@ -280,19 +298,21 @@ style="min-height: 50vh;" class="container">
                 {{'kwd'|translate}}
             </span>
         </p>
-        <p class="rounded fw-bold d-flex justify-content-between align-items-centr">
+        <!-- <p class="rounded fw-bold d-flex justify-content-between align-items-centr">
             <span>{{'total_price'|translate}}</span>
             <span>
-               {{total +shipingCharge|tofixednumber}}
+               {{total+shipingCharge|tofixednumber}}
                 {{'kwd'|translate}}
             </span>
-        </p>
+        </p> -->
     </div>
     <button 
     [disabled]="checkoutLoading"
    (click)="checkout() "
     class="my-3 orangebtn">
-        {{'confirm_pay'|translate}}
+        {{'pay'|translate}}
+        {{total+shipingCharge|tofixednumber}}
+        {{'kwd'|translate}}
         <i 
         *ngIf="checkoutLoading"
         class="fas fa-circle-notch fa-spin"></i>

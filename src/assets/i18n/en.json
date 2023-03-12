@@ -1,4 +1,5 @@
 {
+    "pay":"Pay",
     "show_my_order":"Show my order",
     "fully_booked":"Fully Booked",
     "contact":"Contact by SMS",
@@ -94,7 +95,7 @@
     "save":"Save",
     "reviews":"Reviews",
     "photos":"Photos",
-    "kwd":"KWD",
+    "kwd":"KD",
     "required":"This field is required",
     "profile":"Profile",
     "profiledata":"Profile Data",

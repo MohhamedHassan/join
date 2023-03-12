@@ -12,6 +12,9 @@ import { CartService } from '../../sertvies/cart.service';
   styleUrls: ['./shopping-cart.component.scss']
 })
 export class ShoppingCartComponent implements OnInit {
+  activityPromocoDone=false
+  productPromocoDone=false
+  payAtVenu=0
   order_id
   createBookingLoading=false
   addressFormControl=new FormControl()
@@ -231,8 +234,47 @@ export class ShoppingCartComponent implements OnInit {
           }
         }
 
+
+
+
+
+        if (i?.selectedLocation?.price_type == 'PAY_AT_PLACE') {
+          if (i?.cstmtype == 1 && i?.type == 1) {
+            if (i?.disc == 0) {
+              if (!i?.hideMembers) {
+                this.payAtVenu += i?.selectedLocation.price * i?.selectedMembers?.length
+              } else {
+                this.payAtVenu += i?.selectedLocation.price * 1
+              }
+            } else if(i?.disc < 0) {
+              this.payAtVenu += 0
+            }else {
+              this.payAtVenu += i?.disc
+            }
+          } else if (i?.cstmtype == 1 && i?.type == 0) {
+            if (i?.disc == 0) {
+              this.payAtVenu += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
+        
+            }else if (i?.disc < 0) {
+              this.payAtVenu += 0
+            }   else {
+              this.payAtVenu += i?.disc
+            }
+
+          }
+        }
+
+
+
+
+
+
+
+
         if (i?.cstmtype == 2) {
-          this.total += i?.price * i?.countToBuy
+          if(i?.disc>0) this.total += i?.disc
+          if(i?.disc<0) this.total += 0
+          if(i?.disc==0) this.total +=  i?.price * i?.countToBuy
           if (!productCharg.some(item => i.id == item.id)) productCharg.push(i)
         }
         if (i?.cstmtype == 1 && i?.shipping_required == '1') activityCharg.push(i)
@@ -342,18 +384,19 @@ export class ShoppingCartComponent implements OnInit {
   getpromoCode(promocode: string) {
 
     if (!this.promocodedisabled) {
-      this.cartitems.map(i => {
-         if(i?.cstmtype==1) i.disc=0
-      })
+      // this.cartitems.map(i => {
+      //    if(i?.cstmtype==1) i.disc=0
+      // })
+      this.activityPromocoDone=false
+      this.productPromocoDone=false
       this.promoCodeLoading = true
       this.promocode = promocode
       this.cartService.getPromoCode().subscribe(
         res => {
-          this.promoCodeLoading = false
           if (Array.isArray(res)) {
             let selectedPromoCode = res.find(i => i.code.toLowerCase() == promocode.toLowerCase())
             if (!selectedPromoCode) {
-              this.getProductsPromoCode()
+               this.activityPromocoDone=false
             } else {
               let today = new Date()
               let item = selectedPromoCode
@@ -440,14 +483,18 @@ export class ShoppingCartComponent implements OnInit {
                     this.getTotal()
                   //  this.promocodedisabled = true
                   })
+                  this.activityPromocoDone=true
                 } else {
-                  this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
+                  this.activityPromocoDone=false
+                  // this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
                 }
               } else {
-                this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
+                this.activityPromocoDone=false
+                // this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
               }
             }
           }
+          this.getProductsPromoCode(promocode)
           localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     
         }
@@ -456,12 +503,73 @@ export class ShoppingCartComponent implements OnInit {
     }
    
   }
-  getProductsPromoCode() {
-
+  getProductsPromoCode(promocode:string) {
+    if (!this.promocodedisabled) {
+      this.cartService.getstorepromocodedata().subscribe(
+        res => {
+          if (Array.isArray(res)) {
+            let selectedPromoCode = res.find(i => i.code.toLowerCase() == promocode.toLowerCase())
+            if (!selectedPromoCode) {
+               this.productPromocoDone=false
+            } else {
+              let today = new Date()
+              let item = selectedPromoCode
+              let from = new Date(item?.date_from)
+              let to = new Date(item?.date_to)
+              if (item?.status == 'ACTIVE') {
+                if (
+                  (this.datePipe.transform(from, 'MM-dd-yyy') == this.datePipe.transform(today, 'MM-dd-yyy'))
+                  ||
+                  (this.datePipe.transform(to, 'MM-dd-yyy') == this.datePipe.transform(today, 'MM-dd-yyy'))
+                  ||
+                  (today > from && today < to)
+                ) {
+                  this.cartitems.forEach(item => {
+                    if (
+                      (item?.cstmtype == 2 && selectedPromoCode?.applied_on == 'All') || 
+                      (item?.cstmtype == 2 &&  selectedPromoCode?.applied_on == 'Club' &&
+                      item?.id == selectedPromoCode?.club_id) || 
+                      (item?.cstmtype == 2 && selectedPromoCode?.applied_on == 'Product' &&
+                      selectedPromoCode?.products.some(prdct => prdct?.id==item?.id))
+                    
+                    ) {
+                      let currentPrice = item?.countToBuy*item?.price
+                      if (selectedPromoCode?.type == 'Percentage') {
+                        let Percentage = selectedPromoCode?.value / 100               
+                        item.disc = (currentPrice) - (currentPrice * Percentage)
+                      } else if (selectedPromoCode?.type == 'Fixed') {
+                          item.disc = (currentPrice) - selectedPromoCode?.value
+                      }
+                      this.productPromocoDone=true
+                      // end all case
+                    } 
+                     
+                
+                    this.getTotal()
+                  })
+           
+                } else {
+                  this.productPromocoDone=false
+                  // this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
+                }
+              } else {
+                this.productPromocoDone=false
+              }
+            }
+          }
+          console.log(this.productPromocoDone,this.activityPromocoDone)
+          if(!this.productPromocoDone&&!this.activityPromocoDone) {
+            this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
+          }
+          localStorage.setItem('joincart', JSON.stringify(this.cartitems))
+          this.promoCodeLoading=false
+        }
+      )
+      
+    }
   }
   checkPromoCodeInputLength(value: string) {
-    let activites = this.cartitems.filter(i => i?.cstmtype == 1)
-    if (value.trim().length == 0 || !activites?.length) return true
+    if (value.trim().length == 0) return true
     else return false
   }
   createBooking(free=false) {
@@ -510,7 +618,7 @@ export class ShoppingCartComponent implements OnInit {
         requestBody.lname = this.cartitems[0].lname
         requestBody.mobile = this.cartitems[0].mobile
         requestBody.email = this.cartitems[0].email
-        requestBody.title = this.cartitems[0].title
+        requestBody.title = this.cartitems[0].title_address
         requestBody.avenue= this.cartitems[0].avenue
         requestBody.additional_direction = this.cartitems[0].additional_direction
         requestBody.area_name = this.cartitems[0].area_name
@@ -877,7 +985,7 @@ export class ShoppingCartComponent implements OnInit {
               i.mobile = this.profileData?.mobile || this.notUserData?.phone,
                 i.email = this.profileData?.email || this.notUserData?.email
               i.activity_name = i.title||''
-              i.title = this.selectedAddress?.title || ''
+              i.title_address = this.selectedAddress?.title || ''
               
               i.avenue = this.selectedAddress?.avenue || ''           
               i.additional_direction = this.selectedAddress?.additional_direction || ''
@@ -911,7 +1019,7 @@ export class ShoppingCartComponent implements OnInit {
                     i.mobile = this.profileData?.mobile || this.notUserData?.phone,
                       i.email = this.profileData?.email || this.notUserData?.email
                     i.activity_name = i.title||''
-                    i.title = this.selectedAddress?.title || ''
+                    i.title_address = this.selectedAddress?.title || ''
                     
                     i.avenue = this.selectedAddress?.avenue || ''           
                     i.additional_direction = this.selectedAddress?.additional_direction || ''
@@ -962,5 +1070,19 @@ export class ShoppingCartComponent implements OnInit {
     this.selectedAddress = this.addresses.find(i => i?.id == addressId)
    
   }
-
+getAvailableForEachActivity(cartItem) {
+  let available = cartItem?.selectedTime?.available_seats
+  let chosenMembersCount = 0
+  this.cartitems.forEach(item=> {
+   
+    if(item?.cstmtype==1&&item?.id==cartItem?.id&&item?.selectedTime?.id==cartItem?.selectedTime?.id) {
+      if(item?.hideMembers) chosenMembersCount+=1
+      else {
+        if(item?.type)  chosenMembersCount+=item?.selectedMembers?.length
+        else  chosenMembersCount+=item?.notUserMembersCount
+      }
+    }
+  })
+  return available - chosenMembersCount
+}
 }

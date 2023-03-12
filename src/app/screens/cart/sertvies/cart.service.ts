@@ -18,8 +18,8 @@ export class CartService {
     )
   }
   getstorepromocodedata() {
-    return this.http.get<{payload:any}>(`${this.glopalService.apiUrlOne}getstorepromocodedata`).pipe(
-      map(value => value.payload)
+    return this.http.get<{data:any}>(`${this.glopalService.apiUrlOne}getstorepromocodedata`).pipe(
+      map(value => value.data)
     )
   }
   checkAvailableSeats(body) {

@@ -193,7 +193,6 @@ export class ActivityDetailsComponent implements OnInit {
                   } else {
                     let date = this.minDate.setDate(this.minDate.getDate() + 1)
                     this.minDate= new Date(date) 
-                    console.log('here',this.minDate)
                     this.getValidDateForDAily()   
                     if(this.activity_details.selectedLocation?.dates_times[0]?.sessions?.length) {
                       this.activity_details.selectedTime =  this.activity_details.selectedLocation?.dates_times[0]?.sessions.find(element => element?.available_seats>"0" );
@@ -220,7 +219,6 @@ export class ActivityDetailsComponent implements OnInit {
                   this.available = this.available>=chosencount ? this.available-chosencount : 0
                   if(this.available<=0) this.complete=true
                 }
-                console.log(this.available)
               }
            
               this.activity_details.cstmtype=1 

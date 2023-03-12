@@ -35,6 +35,7 @@ export class AllHistoryComponent implements OnInit {
       )
     } else {
       let guestHistory = JSON.parse(localStorage.getItem('guestHistory')) || []
+      console.log(guestHistory)
       if(guestHistory?.length) {
 
         guestHistory.forEach(element =>  {
@@ -45,13 +46,13 @@ export class AllHistoryComponent implements OnInit {
             order_id:'',
             total:0
           }
-            element.details.forEach(i => {
-              if(i?.cstmtype == 1) item.booked_activity.push(i)
-              if(i?.cstmtype == 2) item.booked_products.push(i)
-              item.order_id=i?.order_id
-              item.total=i?.total
-            });
-            this.history.push(item)
+          element.details.forEach(i => {
+            if(i?.cstmtype == 1) item.booked_activity.push(i)
+            if(i?.cstmtype == 2) item.booked_products.push(i)
+            item.order_id=i?.order_id
+            item.total=i?.total
+          });
+          this.history.push(item)
         })
 
         this.history.map(i => {
@@ -64,14 +65,13 @@ export class AllHistoryComponent implements OnInit {
           }
         })
       }
-      
+      console.log(this.history)
       this.loading=false
     }
     
   }
 getTotal(pricies:any[]) {
   if(this.isLogin()) return pricies.find(i => i?.key=='Total Amount' || i?.key=='المبلغ الإجمالي')?.value
-  else return this.history[0]?.total
 }
 
 get lang() {

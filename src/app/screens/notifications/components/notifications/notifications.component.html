@@ -32,8 +32,8 @@ header="notifications"
             *ngFor="let item of notifications;let i = index"
             >
             <a 
-            [routerLink]="checkRoute(item)"
-            style="max-width:85%;display: block;color: black;"
+            (click)="checkRoute(item)"
+            style="max-width:85%;display: block;color: black;cursor: pointer;"
             class="d-flex">
                 <span class="d-block mx-2">
                     <i class="fa-solid fa-bell maincolor"></i>

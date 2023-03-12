@@ -7,7 +7,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class TimeFormatPipe implements PipeTransform {
   constructor(private datePipe:DatePipe){}
   transform(time:string,index:number): unknown {
-    console.log(time)
     if(time) {
       let split = time.split('-')
       let times = split[index].split(':');

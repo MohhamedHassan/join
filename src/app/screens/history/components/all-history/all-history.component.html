@@ -38,9 +38,16 @@ class="container">
                                 <td>{{'numbers_of_products'|translate}} :</td>
                                 <td>{{item?.booked_products?.length}}</td>
                             </tr>
-                            <tr>
+                            <tr *ngIf="isLogin()">
                                 <td>{{'total_price'|translate}} :</td>
-                                <td>{{(getTotal(item?.prices)|tofixednumber )|| 0}}</td>
+                                <td>{{(getTotal(item?.prices)|tofixednumber )|| 0}} {{'kwd'|translate}}</td>
+                            </tr>
+                            <tr *ngIf="!isLogin()">
+                                <td>{{'total_price'|translate}} :</td>
+                                <td>
+                                    {{(item?.total|tofixednumber )|| 0}}
+                                    {{'kwd'|translate}}
+                                </td>
                             </tr>
                            </table>
                            <ul 

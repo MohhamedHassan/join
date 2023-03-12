@@ -262,7 +262,6 @@ onDateCange(value:any) {
             let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
             let selectedDateTransformed = this.datePipe.transform(this.selectedDate, 'MM-dd-yyy')
             if(false) {
-              console.log('one')
               if(this.selectedLocation?.dates_times[i]?.sessions?.length) {
                 this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                     if(Date.parse(`${selectedDateTransformed} ${element?.to_time}`) > Date.parse(String(today)) 
@@ -273,7 +272,6 @@ onDateCange(value:any) {
                 });
               }
             } else {
-              console.log('two')
               this.selectedLocation?.dates_times[i]?.sessions.forEach(element => {
                 this.availableTime.push(element)
             });
