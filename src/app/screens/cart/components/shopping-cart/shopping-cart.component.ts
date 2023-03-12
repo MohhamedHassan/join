@@ -977,7 +977,7 @@ export class ShoppingCartComponent implements OnInit {
           })
           localStorage.setItem('joincart', JSON.stringify(this.cartitems))
           //!Number(this.total + this.shipingCharge)
-          if (true) {
+          if (!Number(this.total + this.shipingCharge)) {
             this.cartitems.map(i => {
               i.selectedAddress = this.selectedAddress?.id
               i.fname = this.profileData?.fname || this.notUserData?.name
