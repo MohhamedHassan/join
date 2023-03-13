@@ -130,13 +130,15 @@ get cartitemsCount() {
   return cart?.length
 }
 logout() {
+  this.router.navigate(['/'])
   localStorage.removeItem('joincart')
   localStorage.removeItem('guestHistory')
   localStorage.removeItem('not_user_data')
   localStorage.removeItem('notUserAddress')
   localStorage.removeItem('joinToken')
-  this.router.navigate(['/'])
-  location.reload()
+  setTimeout(() => {
+    location.reload()
+  }, 0);
 }
 getsliderContent() {
   this.authService.getpopupbannerdata().subscribe(

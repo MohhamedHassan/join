@@ -46,7 +46,6 @@ export class NotificationsComponent implements OnInit {
       this.router.navigate(['/'])
     }
     else {
-      console.log('one')
       if(item?.message_type=='user_notification')    this.router.navigate([`/history/action_id/${item?.action_id}`]) 
       else if(item?.message_type=='bulk_notification') this.router.navigate(['/']) 
       else if(item?.message_type=='activity') this.router.navigate([`/activity/${item?.action_id}`])  

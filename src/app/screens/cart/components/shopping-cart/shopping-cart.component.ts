@@ -192,6 +192,8 @@ export class ShoppingCartComponent implements OnInit {
             i.disc = 0
           })
         }
+        localStorage.setItem('joincart', JSON.stringify(this.cartitems))
+        this.getTotal()
       }
     })
     if(!this.cartitems.some(i=>i.cstmtype == 2)) this.notuserdataAdded=true
@@ -208,6 +210,7 @@ export class ShoppingCartComponent implements OnInit {
       this.addressRequired = 0
       this.total = 0
       this.shipingCharge = 0
+      this.payAtVenu=0
       let productCharg = []
       let activityCharg = []
       this.cartitems.forEach(i => {
@@ -225,12 +228,16 @@ export class ShoppingCartComponent implements OnInit {
               this.total += i?.disc
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
+            console.log('one')
             if (i?.disc == 0) {
+              console.log('one')
               this.total += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
         
             }else if (i?.disc < 0) {
+              console.log('one')
               this.total += 0
             }   else {
+              console.log('one',i.disc)
               this.total += i?.disc
             }
 
@@ -256,6 +263,7 @@ export class ShoppingCartComponent implements OnInit {
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
             if (i?.disc == 0) {
+              console.log(Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount),Number(i?.selectedLocation.price) , Number(i?.notUserMembersCount))
               this.payAtVenu += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
         
             }else if (i?.disc < 0) {
@@ -294,6 +302,7 @@ export class ShoppingCartComponent implements OnInit {
         this.addressRequired = 1
       }
     }
+    console.log(this.payAtVenu,this.total,this.shipingCharge)
   }
   deleteCartItem() {
     this.cartitems.splice(this.showDeleteCArtitem, 1)
@@ -874,7 +883,7 @@ export class ShoppingCartComponent implements OnInit {
                 activity_data.booking_discount = 0
                 activity_data.booking_payment = Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)
               } else {
-                this.total += this.cartitems[i]?.disc
+               // this.total += this.cartitems[i]?.disc
                 activity_data.booking_amount = Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)
                 activity_data.booking_payment = this.cartitems[i]?.disc
                 activity_data.booking_discount = (Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)) - this.cartitems[i]?.disc
@@ -1008,9 +1017,11 @@ export class ShoppingCartComponent implements OnInit {
                 i.shipp = this.shipingCharge,
                 i.total=this.shipingCharge+this.total+this.payAtVenu
             })
+            console.log(this.payAtVenu)
             localStorage.setItem('joincart', JSON.stringify(this.cartitems))
             this.createBooking(true)
           } else {
+            console.log(this.total,this.shipingCharge)
             this.cartService.paymentRequest({
               "user_name": this.notUserData?.name || '',
               "user_phone": this.notUserData?.phone || '',
@@ -1019,7 +1030,7 @@ export class ShoppingCartComponent implements OnInit {
             }).subscribe(
               response => {
                 if (response?.message) {
-
+                  
                   this.cartitems.map(i => {
                     i.invoice_id = response?.invoice_id
                     i.selectedAddress = this.selectedAddress?.id
@@ -1040,7 +1051,7 @@ export class ShoppingCartComponent implements OnInit {
                       i.floor = this.selectedAddress?.floor || '',
                       i.apartment = this.selectedAddress?.apartment || '',
                       i.shipp = this.shipingCharge,
-                      i.total=this.shipingCharge+this.total
+                      i.total=this.shipingCharge+this.total+this.payAtVenu
                   })
                   localStorage.setItem('joincart', JSON.stringify(this.cartitems))
                   window.open(response?.message, '_top')

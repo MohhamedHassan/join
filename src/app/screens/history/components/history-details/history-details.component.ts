@@ -52,6 +52,7 @@ export class HistoryDetailsComponent implements OnInit {
                 created_at: new Date(),
                 order_id:'',
                 total:0,
+                shipping:0,
                 prices:[]
               }
                 element.details.forEach(i => {
@@ -59,6 +60,7 @@ export class HistoryDetailsComponent implements OnInit {
                   if(i?.cstmtype == 2) item.booked_products.push(i)
                   item.order_id=i?.order_id
                   item.total=i?.total
+                  item.shipping=i?.shipp
                 });
                 this.history.push(item)
             })
@@ -75,22 +77,35 @@ export class HistoryDetailsComponent implements OnInit {
               value:this.getTotalActivities()
             })
           }
+          if(!!this.getActivitiesDiscount()) {
+            this.historyDetails?.prices?.push({
+              key:localStorage.getItem('lang')=='ar' ? 'خصم الانشطة' :'Activity Discount',
+              value:this.getActivitiesDiscount()
+            })
+          }
           if(this.historyDetails?.booked_products?.length) {
             this.historyDetails?.prices?.push({
               key:localStorage.getItem('lang')=='ar' ? 'إجمالي المنتجات' :'Store Total',
               value:this.getTotalProducts()
             })
           }
+          if(!!this.getDiscountProducts) {
+            this.historyDetails?.prices?.push({
+              key:localStorage.getItem('lang')=='ar' ? 'خصم المنتجات' :'Store Discount',
+              value:this.getDiscountProducts()
+            })
+          }
           this.historyDetails?.prices?.push({
             key:localStorage.getItem('lang')=='ar' ? 'رسوم التوصيل' :'Delivery Charges',
-            value:this.cartService.notUserHistory[0]?.shipp
+            value:this.historyDetails?.shipping
           })
           this.historyDetails?.prices?.push({
             key:localStorage.getItem('lang')=='ar' ? 'المبلغ الإجمالي' :'Total Amount',
-            value:this.cartService.notUserHistory[0]?.total
+            value:this.historyDetails?.total
           })
+          console.log(this.historyDetails)
           this.loading=false
-    
+         
         }
 
       })
@@ -102,9 +117,18 @@ getTotalActivities() {
   if(this.historyDetails?.booked_activity?.length) {
     let price = 0 
     this.historyDetails?.booked_activity.forEach(item => {
-      price+=item?.disc == 0 ? (item?.selectedLocation.price * item?.notUserMembersCount) : item?.disc
+      price+= (item?.selectedLocation.price * item?.notUserMembersCount) 
     });
     return price
+  }else return 0
+}
+getActivitiesDiscount() {
+  if(this.historyDetails?.booked_activity?.length) {
+    let price = 0 
+    this.historyDetails?.booked_activity.forEach(item => {
+      price+= (item?.disc<0)? 0 : item?.disc
+    });
+    return price==0?0:this.getTotalActivities() -price
   }else return 0
 }
 getTotalProducts() {
@@ -113,7 +137,16 @@ getTotalProducts() {
     this.historyDetails?.booked_products.forEach(item => {
       price+=item?.price*item?.countToBuy
     });
-    return price
+    return  price
+  }else return 0
+}
+getDiscountProducts() {
+  if(this.historyDetails?.booked_products?.length) {
+    let price = 0 
+    this.historyDetails?.booked_products.forEach(item => {
+      price+= (item?.disc<0)? 0 : item?.disc
+    });
+    return  price==0?0:this.getTotalProducts() -price
   }else return 0
 }
   get lang() {
