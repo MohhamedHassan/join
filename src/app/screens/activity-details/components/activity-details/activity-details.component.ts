@@ -183,7 +183,7 @@ export class ActivityDetailsComponent implements OnInit {
                   if(this.activity_details.selectedLocation?.dates_times[0]?.sessions?.length) {
                     this.activity_details.selectedLocation?.dates_times[0]?.sessions.forEach(element => {
                         if(Date.parse(`${selectedDateTransformed} ${element?.from_time}`) > Date.parse(String(today)) &&
-                        element?.available_seats!="0" &&
+                        element?.available_seats>"0" &&
                         !this.activity_details.selectedTime
                         ) {
                           this.activity_details.selectedTime= element
