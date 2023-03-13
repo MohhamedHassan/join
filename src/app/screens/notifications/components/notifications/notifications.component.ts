@@ -42,16 +42,18 @@ export class NotificationsComponent implements OnInit {
   }
   get lang() {return localStorage.getItem('lang')||'en'}
   checkRoute(item:any) {
-    if(!item?.action_id||!item?.message_type) {
-      this.router.navigate(['/'])
+    if(!item?.action_id) {
+      this.router.navigate(['/']) // go home
     }
     else {
-      if(item?.message_type=='user_notification')    this.router.navigate([`/history/action_id/${item?.action_id}`]) 
-      else if(item?.message_type=='bulk_notification') this.router.navigate(['/']) 
-      else if(item?.message_type=='activity') this.router.navigate([`/activity/${item?.action_id}`])  
-      else if(item?.message_type=='club') this.router.navigate([`/clup/${item?.action_id}`]) 
-      else if(item?.message_type=='categories') this.router.navigate([`/activities`])  
-      else  this.router.navigate(['/']) 
+      if(item?.notification_type=='user_notification')    this.router.navigate([`/history/action_id/${item?.action_id}`]) // go history details 
+      else if(item?.notification_type=='bulk_notification') {
+        if(item?.message_type=='activity') this.router.navigate([`/activity/${item?.action_id}`])   // go activity  details page
+        else if(item?.message_type=='club') this.router.navigate([`/clup/${item?.action_id}`]) // go clup details page
+        else if(item?.message_type=='categories') this.router.navigate([`/activities`])  // go activities page
+        else  this.router.navigate(['/']) 
+      }
+
     }
   }
   ngOnDestroy(): void {

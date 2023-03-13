@@ -111,6 +111,17 @@ export class BookNowComponent implements OnInit {
       }
 
     })
+    this.location.forEach(item =>  {
+      let hide = true
+      item?.dates_times.forEach(dates_time => {
+        dates_time?.sessions.forEach(session => {
+            if(session?.available_seats>0) hide=false
+        }); 
+      });
+      if(hide) item.display_none=true
+      else  item.display_none=false
+    })
+    console.log(this.location)
     // this.selectedLocation=this.selectedLocationFromParent
     // this.selectLocation(this.selectedLocation)
     // this.selectedDate=this.selectedDateFromParent

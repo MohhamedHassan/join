@@ -128,6 +128,20 @@ export class ActivityDetailsComponent implements OnInit {
             }
             this.activity_details.club_name=res?.club_details?.name
             this.activity_details.club_logo=res?.club_details?.logo
+            this.activity_details?.location.forEach(item =>  {
+              let hide = true
+              item?.dates_times.forEach(dates_time => {
+                dates_time?.sessions.forEach(session => {
+                    if(session?.available_seats>0) hide=false
+                }); 
+              });
+              if(hide) item.display_none=true
+              else  item.display_none=false
+            })
+            this.activity_details.location=this.activity_details?.location.filter(item => {
+              return !item?.display_none
+            })
+            console.log(this.activity_details.location?.length)
             if(this.activity_details?.location?.length) {
               this.center = {
                 lat: Number(this.activity_details?.location[0]?.branch?.latitude),

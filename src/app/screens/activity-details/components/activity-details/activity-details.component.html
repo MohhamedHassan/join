@@ -208,9 +208,9 @@
                     
                     <button 
                     (click)="checkNotUserData()"
-                    [disabled]="complete"
+                    [disabled]="!activity_details?.location?.length"
                     class="w-100 mt-3 book">
-                    {{complete ? ('fully_booked'|translate) : ('confirm'|translate)}}
+                    {{!activity_details?.location?.length ? ('fully_booked'|translate) : ('confirm'|translate)}}
                 </button>
                 </div>
             </div>

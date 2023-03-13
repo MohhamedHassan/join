@@ -336,6 +336,10 @@ export class ShoppingCartComponent implements OnInit {
       this.cartitems[index].countToBuy += 1
       localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     }
+    this.cartitems.map(item =>  {
+      if(item?.cstmtype==2) item.disc=0
+    })
+    localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     this.getTotal()
   }
   minusone(index: any) {
@@ -347,6 +351,10 @@ export class ShoppingCartComponent implements OnInit {
         localStorage.setItem('joincart', JSON.stringify(this.cartitems))
       }
     }
+    this.cartitems.map(item =>  {
+      if(item?.cstmtype==2) item.disc=0
+    })
+    localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     this.getTotal()
   }
   get lang() {
@@ -388,7 +396,9 @@ export class ShoppingCartComponent implements OnInit {
     }
    
 
-    
+    this.cartitems.map(item =>  {
+      if(item?.cstmtype==1) item.disc=0
+    })
     localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     this.showpopup = -1
     this.getTotal()
