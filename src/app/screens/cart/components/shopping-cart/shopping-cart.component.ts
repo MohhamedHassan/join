@@ -434,6 +434,7 @@ export class ShoppingCartComponent implements OnInit {
                 ) {
                   this.cartitems.forEach(item => {
                     if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'all') {
+                      this.activityPromocoDone=true
                       if (selectedPromoCode?.type == 'Percentage') {
                         let Percentage = selectedPromoCode?.value / 100
                         if (item?.type == 1) {
@@ -455,6 +456,7 @@ export class ShoppingCartComponent implements OnInit {
                       // end all case
                     } else if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'club' &&
                       item?.club_id == selectedPromoCode?.club_activity_id) {
+                        this.activityPromocoDone=true
                       if (selectedPromoCode?.type == 'Percentage') {
                         let Percentage = selectedPromoCode?.value / 100
                         if (item?.type == 1) {
@@ -476,6 +478,7 @@ export class ShoppingCartComponent implements OnInit {
                       // end clup case
                     } else if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'activity' &&
                       item?.id == selectedPromoCode?.club_activity_id) {
+                        this.activityPromocoDone=true
                       if (selectedPromoCode?.type == 'Percentage') {
                         let Percentage = selectedPromoCode?.value / 100
                         if (item?.type == 1) {
@@ -505,7 +508,7 @@ export class ShoppingCartComponent implements OnInit {
                     this.getTotal()
                   //  this.promocodedisabled = true
                   })
-                  this.activityPromocoDone=true
+             
                 } else {
                   this.activityPromocoDone=false
                   // this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
@@ -566,7 +569,7 @@ export class ShoppingCartComponent implements OnInit {
                       // end all case
                     } 
                      
-                
+                  
                     this.getTotal()
                   })
            
@@ -709,7 +712,17 @@ export class ShoppingCartComponent implements OnInit {
           }
 
           activity_data.number_of_child = !!localStorage.getItem('joinToken') ? 0 : this.cartitems[i]?.notUserMembersCount
-          activity_data.booked_seats = this.cartitems[i]?.selectedMembers?.length||0, 
+          if(!!localStorage.getItem('joinToken') ) {
+            if(this.cartitems[i]?.hideMembers) {
+              activity_data.booked_seats = 1
+            } else {
+              activity_data.booked_seats = this.cartitems[i]?.selectedMembers?.length
+            }
+          } else {
+            activity_data.booked_seats = this.cartitems[i]?.notUserMembersCount
+          }
+        
+         
             activity_data.booking_amount = Number(activity_data.booking_amount).toFixed(3)
         
           activity_data.booking_payment = Number(activity_data.booking_payment).toFixed(3)
@@ -1004,7 +1017,7 @@ export class ShoppingCartComponent implements OnInit {
               i.order_id = res?.payload?.order_id
           })
           localStorage.setItem('joincart', JSON.stringify(this.cartitems))
-          //!Number(this.total + this.shipingCharge)
+          //
           if (!Number(this.total + this.shipingCharge)) {
             this.cartitems.map(i => {
               i.selectedAddress = this.selectedAddress?.id

@@ -252,7 +252,7 @@ export class ActivityDetailsComponent implements OnInit {
                         validmembers.push(member)
                       }
                     })
-                    if(validmembers?.length) this.activity_details.selectedMembers= [ validmembers[0]]
+                    if(validmembers?.length&&!this.activity_details?.hideMembers) this.activity_details.selectedMembers= [ validmembers[0]]
                    }
                 }
              )

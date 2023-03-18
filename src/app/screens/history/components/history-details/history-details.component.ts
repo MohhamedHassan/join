@@ -66,6 +66,7 @@ export class HistoryDetailsComponent implements OnInit {
             })
     
             this.historyDetails=this.history.find(item => item?.order_id == params?.id)
+            
           }
 
 
@@ -80,6 +81,7 @@ export class HistoryDetailsComponent implements OnInit {
           if(!!this.getActivitiesDiscount()) {
             this.historyDetails?.prices?.push({
               key:localStorage.getItem('lang')=='ar' ? 'خصم الانشطة' :'Activity Discount',
+              color:'green',
               value:this.getActivitiesDiscount()
             })
           }
@@ -89,9 +91,10 @@ export class HistoryDetailsComponent implements OnInit {
               value:this.getTotalProducts()
             })
           }
-          if(!!this.getDiscountProducts) {
+          if(!!this.getDiscountProducts()) {
             this.historyDetails?.prices?.push({
               key:localStorage.getItem('lang')=='ar' ? 'خصم المنتجات' :'Store Discount',
+              color:'green',
               value:this.getDiscountProducts()
             })
           }

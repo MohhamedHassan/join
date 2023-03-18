@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output,ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output,ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from 'src/app/screens/members/services/members.service';
 import { Calendar } from 'primeng/calendar';
 import { CartService } from '../../sertvies/cart.service';
+import { ChangeDetectionStrategy } from '@angular/compiler';
 @Component({
   selector: 'app-cart-book-now',
   templateUrl: './cart-book-now.component.html',
@@ -42,6 +43,7 @@ export class CartBookNowComponent implements OnInit {
   enabledDates:any[]=[]
   complete=false
   constructor(public membersservice:MembersService,
+    private cd:ChangeDetectorRef,
     private fb:FormBuilder,
     private cartService:CartService,
     private toastr:ToastrService,
@@ -137,12 +139,14 @@ export class CartBookNowComponent implements OnInit {
       this.monthlyloading=true
       setTimeout(() => {
         this.getValidDatesForMonthly()
+        this.cd.detectChanges()
       }, 0);
     } else  if(this.selectedActivityToEdit?.selectedLocation?.frequency=="WEEKLY") {
       this.daysDisabled=[]
        this.monthlyloading=true
       setTimeout(() => {
         this.getValidDAtesForWeekly()
+        this.cd.detectChanges()
       }, 0);
      
     } 
@@ -256,6 +260,7 @@ selectLocation(item:any) {
   this.minDateForMonthlyCase=new Date(item?.from_date)
   this.selectedDate=null
   this.selectedTime=null
+  this.availableTime.map(i=>{i.checked=false;i.chosencount=0})
   this.avialbeMembers=0
   if(this.members?.length) {
     this.selectedIds=[]
@@ -318,6 +323,7 @@ selectLocation(item:any) {
     }, 0);
    
   } 
+  console.log(this.selectedLocation,'ghjk',this.selectedActivityToEdit?.selectedLocation)
 }
 getMonthLength() {
   const monthDiff = this.maxDate.getMonth() - this.minDateForMonthlyCase.getMonth();
@@ -359,6 +365,8 @@ checkTodayDate(item) {
 }
 onDateCange(value:any) {
   this.selectedTime=null
+  this.availableTime.map(i=>{i.checked=false;i.chosencount=0})
+  
   this.avialbeMembers=0
 
   this.availableTime=[]
@@ -411,11 +419,11 @@ onDateCange(value:any) {
         }
     }
     this.availableTime.map(i=>{
-      if(i?.id==this.selectedActivityToEdit?.selectedTime?.id) {
-        i.checked=true
-       // this.selectedTime=this.selectedActivityToEdit?.selectedTime
-      }
-      else i.checked=false
+      // if(i?.id==this.selectedActivityToEdit?.selectedTime?.id) {
+      //   i.checked=true
+      //  // this.selectedTime=this.selectedActivityToEdit?.selectedTime
+      // }
+       i.checked=false
       i.chosencount=0
     })
     let cart = localStorage.getItem('joincart')
@@ -457,6 +465,7 @@ selectTime(time:any,inpt) {
     inpt.checked=false
     time.checked=false
   this.selectedTime=null
+  this.availableTime.map(i=>{i.checked=false;i.chosencount=0})
   this.complete=true
   if(localStorage.getItem('lang')=='ar') {
     this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
@@ -514,6 +523,10 @@ confirmAddActivity() {
  if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
   this.notUserMembersCount=1
 }
+console.log(this.notuserForm.valid , 
+  this.selectedLocation ,this.selectedDate 
+  ,this.selectedTime  
+  ,this.notuserForm , valid)
   if( 
     this.selectedLocation &&
     this.selectedDate &&

@@ -134,6 +134,7 @@ selectLocation(item:any) {
   this.minDateForMonthlyCase=new Date(item?.from_date)
   this.selectedDate=null
   this.selectedTime=null
+  this.availableTime.map(i=>{i.checked=false;i.chosencount=0})
   this.avialbeMembers=0
   if(this.members?.length) {
     this.selectedIds=[]
@@ -248,6 +249,7 @@ checkTodayDate(item) {
 onDateCange(value:any) {
   this.selectedDate=null
   this.selectedTime=null
+  this.availableTime.map(i=>{i.checked=false;i.chosencount=0})
   this.avialbeMembers=0
   if(this.members?.length) {
     this.selectedIds=[]
@@ -331,6 +333,7 @@ selectTime(time:any,inpt) {
       inpt.checked=false
       time.checked=false
     this.selectedTime=null
+    this.availableTime.map(i=>{i.checked=false;i.chosencount=0})
     this.complete=true
     if(localStorage.getItem('lang')=='ar') {
       this.toastr.error("الرجاء اختيار وقت اخر","تاريخ غير صالح")
@@ -371,6 +374,7 @@ selectMembers(child_id) {
 }
 confirmAddActivity() {
   this.submited=true
+
   if(this.members?.length) {
     this.selectedMembers = this.members.filter(item => item.selected)
   }
@@ -385,7 +389,10 @@ confirmAddActivity() {
 if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
   this.notUserMembersCount=1
 }
-
+console.log(this.notuserForm.valid , 
+  this.selectedLocation ,this.selectedDate 
+  ,this.selectedTime  
+  ,this.notuserForm , valid)
   if( 
     this.selectedLocation && 
     this.selectedDate && 

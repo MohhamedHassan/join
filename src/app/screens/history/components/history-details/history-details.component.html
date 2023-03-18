@@ -47,12 +47,12 @@ style="min-height: 100vh;">
                     <span 
                     *ngIf="isLogin()"
                     >
-                    {{item?.booking_payment|tofixednumber}}
+                    {{item?.booking_amount|tofixednumber}}
                     </span>
                     <span 
                     *ngIf="!isLogin()"
                     >
-                    {{item?.disc == 0 ? (item?.selectedLocation.price * item?.notUserMembersCount) : item?.disc}}
+                    {{item?.selectedLocation.price * item?.notUserMembersCount}}
                     </span>
                     {{'kwd'|translate}}
                     <span class="mx-1"></span>
@@ -194,7 +194,7 @@ style="min-height: 100vh;">
                                 <img appImgs 
                                 style="width: 20px;"
                                 src="assets/images/cash.svg" alt="Join"> 
-                                {{(item?.booking_payment|tofixednumber)||(item?.price*item?.countToBuy|tofixednumber)}}
+                                {{(item?.booking_amount|tofixednumber)||(item?.price*item?.countToBuy|tofixednumber)}}
                                 {{'kwd'|translate}}
                             </p>
                         </div>
@@ -211,7 +211,7 @@ style="min-height: 100vh;">
     *ngFor="let item of historyDetails?.prices"
     class="d-flex justify-content-between align-items-center fw-bold">
         <span>{{item?.key}} </span>
-        <span>{{item?.value}} {{'kwd'|translate}}</span>
+        <span>{{item?.value|tofixednumber}} {{'kwd'|translate}}</span>
     </p>
 
 </ng-container>
