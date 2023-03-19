@@ -199,6 +199,7 @@ getMonthLength() {
   const yearDiff = this.maxDate.getYear() - this.minDateForMonthlyCase.getYear();
   return monthDiff + yearDiff * 12;
 }
+
 getValidDAtesForWeekly() {
   this.monthlyloading=true
   let length = this.getMonthLength()*8  
@@ -208,13 +209,15 @@ getValidDAtesForWeekly() {
     day = day.setDate(day.getDate() + 7)
    if(day > this.minDate && day<this.maxDate) {
      this.enabledDates.push(new Date(day))
-   } 
+   }  
 
  }
-  this.monthlyloading=false
+ //this.getInvalidDates()
+ this.monthlyloading=false
 }
 
 getValidDatesForMonthly() {
+  this.monthlyloading=true
   let length = this.getMonthLength()
   for (let i = 0 ;i<length;i++) {
     let dt = this.minDateForMonthlyCase;
@@ -222,14 +225,17 @@ getValidDatesForMonthly() {
     let final = new Date(dt)
     if(final > this.minDate && final < this.maxDate) {
       this.enabledDates.push(new Date(dt))
-    }
+    } 
   }
+  //this.getInvalidDates()
   this.monthlyloading=false
+  console.log(this.disabledDates)
 }
 getInvalidDates() {
 
   this.monthlyloading=true
-  const date = new Date(this.minDate.getTime());
+  let today = new Date()
+  const date = new Date(today.getTime());
   
   const dates = [];
 

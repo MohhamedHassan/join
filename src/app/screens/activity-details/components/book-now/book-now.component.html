@@ -53,9 +53,8 @@
         [maxDate]="maxDate"
         [daysDisabled]="daysDisabled"> -->
         <div class="d-flex justify-content-center">
-            
+          *ngIf="selectedLocation?.frequency=='DAILY'"
             <p-calendar
-            *ngIf="selectedLocation?.frequency=='DAILY'"
             #calendar
             [inline]="true"
             [(ngModel)]="date"

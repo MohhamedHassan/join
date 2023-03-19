@@ -248,7 +248,7 @@ export class CartBookNowComponent implements OnInit {
     let find = this.availableTime.find(i => i?.id == this.selectedTime?.id)
     this.avialbeMembers=this.selectedTime?.available_seats-find?.chosencount
 
-
+  
   }
 
 
@@ -342,10 +342,12 @@ getValidDAtesForWeekly() {
    } 
 
  }
-  this.monthlyloading=false
+ //this.getInvalidDates()
+ this.monthlyloading=false
 }
 
 getValidDatesForMonthly() {
+  this.monthlyloading=true
   let length = this.getMonthLength()
   for (let i = 0 ;i<length;i++) {
     let dt = this.minDateForMonthlyCase;
@@ -355,6 +357,7 @@ getValidDatesForMonthly() {
       this.enabledDates.push(new Date(dt))
     }
   }
+  //this.getInvalidDates()
   this.monthlyloading=false
 }
 checkTodayDate(item) {
@@ -362,6 +365,21 @@ checkTodayDate(item) {
   let to = new Date(item?.to_date)
   if((this.datePipe.transform(item?.to_date, 'MM-dd-yyy')==this.datePipe.transform(today, 'MM-dd-yyy'))||today<to) return true
   else return false
+}
+getInvalidDates() {
+
+  this.monthlyloading=true
+  let today = new Date()
+  const date = new Date(today.getTime());
+  
+  const dates = [];
+
+  while (date <= this.maxDate) {
+    let exist = this.enabledDates.some(item => this.datePipe.transform(item, 'MM-dd-yyy') == this.datePipe.transform(date, 'MM-dd-yyy'))
+    if(!exist)  this.disabledDates.push(new Date(date));
+    date.setDate(date.getDate() + 1);
+  }
+ this.monthlyloading=false
 }
 onDateCange(value:any) {
   this.selectedTime=null

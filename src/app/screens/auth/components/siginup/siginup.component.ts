@@ -243,4 +243,5 @@ if(!this.intervalLoading) {
     return true;
 
   }
+
 }
