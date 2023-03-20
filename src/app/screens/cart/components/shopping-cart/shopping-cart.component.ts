@@ -1097,7 +1097,7 @@ export class ShoppingCartComponent implements OnInit {
               "user_name": this.notUserData?.name || '',
               "user_phone": this.notUserData?.phone || '',
               "user_email": this.notUserData?.email || '',
-              "amount": Math.floor(Number(this.total + this.shipingCharge)),
+              "amount": (Number(this.total + this.shipingCharge)),
             }).subscribe(
               response => {
                 if (response?.message) {
