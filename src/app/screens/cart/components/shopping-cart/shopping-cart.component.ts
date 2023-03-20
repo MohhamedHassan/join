@@ -190,6 +190,7 @@ export class ShoppingCartComponent implements OnInit {
         if (this.cartitems?.length) {
           this.cartitems.map(i => {
             i.disc = 0
+            i.free=false
           })
         }
         localStorage.setItem('joincart', JSON.stringify(this.cartitems))
@@ -216,24 +217,24 @@ export class ShoppingCartComponent implements OnInit {
       this.cartitems.forEach(i => {
         if (i?.selectedLocation?.price_type != 'PAY_AT_PLACE') {
           if (i?.cstmtype == 1 && i?.type == 1) {
-            if (i?.disc == 0) {
+            if (i?.disc == 0&&!i.free) {
               if (!i?.hideMembers) {
                 this.total += i?.selectedLocation.price * i?.selectedMembers?.length
               } else {
                 this.total += i?.selectedLocation.price * 1
               }
-            } else if(i?.disc < 0) {
+            } else if(i?.disc < 0 || i?.free) {
               this.total += 0
             }else {
               this.total += i?.disc
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
             console.log('one')
-            if (i?.disc == 0) {
+            if (i?.disc == 0&&!i.free) {
               console.log('one')
               this.total += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
         
-            }else if (i?.disc < 0) {
+            }else if (i?.disc < 0 || i?.free) {
               console.log('one')
               this.total += 0
             }   else {
@@ -250,7 +251,7 @@ export class ShoppingCartComponent implements OnInit {
 
         if (i?.selectedLocation?.price_type == 'PAY_AT_PLACE') {
           if (i?.cstmtype == 1 && i?.type == 1) {
-            if (i?.disc == 0) {
+            if (i?.disc == 0&&!i.free) {
               if (!i?.hideMembers) {
                 this.payAtVenu += i?.selectedLocation.price * i?.selectedMembers?.length
               } else {
@@ -262,7 +263,7 @@ export class ShoppingCartComponent implements OnInit {
               this.payAtVenu += i?.disc
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
-            if (i?.disc == 0) {
+            if (i?.disc == 0&&!i.free) {
               console.log(Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount),Number(i?.selectedLocation.price) , Number(i?.notUserMembersCount))
               this.payAtVenu += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
         
@@ -285,8 +286,8 @@ export class ShoppingCartComponent implements OnInit {
         if (i?.cstmtype == 2) {
           if(i?.disc>0) this.total += i?.disc
           if(i?.disc<0) this.total += 0
-          if(i?.disc==0) this.total +=  i?.price * i?.countToBuy
-          if (!productCharg.some(item => i.id == item.id)) productCharg.push(i)
+          if(i?.disc==0&&!i.free) this.total +=  i?.price * i?.countToBuy
+          if (!productCharg.some(item => i.club_id == item.club_id)) productCharg.push(i)
         }
         if (i?.cstmtype == 1 && i?.shipping_required == '1') activityCharg.push(i)
 
@@ -337,7 +338,10 @@ export class ShoppingCartComponent implements OnInit {
       localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     }
     this.cartitems.map(item =>  {
-      if(item?.cstmtype==2) item.disc=0
+      if(item?.cstmtype==2) {
+        item.disc=0
+        item.free=false
+      }
     })
     localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     this.getTotal()
@@ -352,7 +356,10 @@ export class ShoppingCartComponent implements OnInit {
       }
     }
     this.cartitems.map(item =>  {
-      if(item?.cstmtype==2) item.disc=0
+      if(item?.cstmtype==2) {
+        item.disc=0
+        item.free=false
+      }
     })
     localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     this.getTotal()
@@ -397,7 +404,10 @@ export class ShoppingCartComponent implements OnInit {
    
 
     this.cartitems.map(item =>  {
-      if(item?.cstmtype==1) item.disc=0
+      if(item?.cstmtype==1) {
+        item.disc=0
+        item.free=false
+      }
     })
     localStorage.setItem('joincart', JSON.stringify(this.cartitems))
     this.showpopup = -1
@@ -432,73 +442,93 @@ export class ShoppingCartComponent implements OnInit {
                   ||
                   (today > from && today < to)
                 ) {
+                  this.cartitems.map(item =>  {
+                    if(item?.cstmtype==1) {
+                      item.disc=0
+                      item.free=false
+                    }
+                  })
                   this.cartitems.forEach(item => {
-                    if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'all') {
+                    if ((item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'all') || 
+                    (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'club' &&
+                      item?.club_id == selectedPromoCode?.club_activity_id) || 
+                      (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'activity' &&
+                      item?.id == selectedPromoCode?.club_activity_id)
+                    ) {
                       this.activityPromocoDone=true
+                      console.log('!')
+                   
                       if (selectedPromoCode?.type == 'Percentage') {
                         let Percentage = selectedPromoCode?.value / 100
                         if (item?.type == 1) {
                           let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
                           item.disc = (currentPrice) - (currentPrice * Percentage)
+                          if((currentPrice) - (currentPrice * Percentage)==0) item.fee=true
                         } else if (item?.type == 0) {
+                          console.log('!')
                           let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
                           item.disc = (currentPrice) - (currentPrice * Percentage)
+                          if((currentPrice) - (currentPrice * Percentage)==0)item.fee=true
                         }
                       } else if (selectedPromoCode?.type == 'Fixed') {
                         if (item?.type == 1) {
                           let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
                           item.disc = (currentPrice) - selectedPromoCode?.value
+                          if((currentPrice) - selectedPromoCode?.value==0)item.fee=true
                         } else if (item?.type == 0) {
                           let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
                           item.disc = (currentPrice) - selectedPromoCode?.value
+                          if((currentPrice) - selectedPromoCode?.value==0)item.fee=true
                         }
                       }
                       // end all case
-                    } else if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'club' &&
-                      item?.club_id == selectedPromoCode?.club_activity_id) {
-                        this.activityPromocoDone=true
-                      if (selectedPromoCode?.type == 'Percentage') {
-                        let Percentage = selectedPromoCode?.value / 100
-                        if (item?.type == 1) {
-                          let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
-                          item.disc = (currentPrice) - (currentPrice * Percentage)
-                        } else if (item?.type == 0) {
-                          let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
-                          item.disc = (currentPrice) - (currentPrice * Percentage)
-                        }
-                      } else if (selectedPromoCode?.type == 'Fixed') {
-                        if (item?.type == 1) {
-                          let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
-                          item.disc = (currentPrice) - selectedPromoCode?.value
-                        } else if (item?.type == 0) {
-                          let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
-                          item.disc = (currentPrice) - selectedPromoCode?.value
-                        }
-                      }
-                      // end clup case
-                    } else if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'activity' &&
-                      item?.id == selectedPromoCode?.club_activity_id) {
-                        this.activityPromocoDone=true
-                      if (selectedPromoCode?.type == 'Percentage') {
-                        let Percentage = selectedPromoCode?.value / 100
-                        if (item?.type == 1) {
-                          let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
-                          item.disc = (currentPrice) - (currentPrice * Percentage)
-                        } else if (item?.type == 0) {
-                          let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
-                          item.disc = (currentPrice) - (currentPrice * Percentage)
-                        }
-                      } else if (selectedPromoCode?.type == 'Fixed') {
-                        if (item?.type == 1) {
-                          let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
-                          item.disc = (currentPrice) - selectedPromoCode?.value
-                        } else if (item?.type == 0) {
-                          let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
-                          item.disc = (currentPrice) - selectedPromoCode?.value
-                        }
-                      }
-                      // end activity case
                     }
+                    
+                    // else if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'club' &&
+                    //   item?.club_id == selectedPromoCode?.club_activity_id) {
+                    //     this.activityPromocoDone=true
+                    //   if (selectedPromoCode?.type == 'Percentage') {
+                    //     let Percentage = selectedPromoCode?.value / 100
+                    //     if (item?.type == 1) {
+                    //       let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
+                    //       item.disc = (currentPrice) - (currentPrice * Percentage)
+                    //     } else if (item?.type == 0) {
+                    //       let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
+                    //       item.disc = (currentPrice) - (currentPrice * Percentage)
+                    //     }
+                    //   } else if (selectedPromoCode?.type == 'Fixed') {
+                    //     if (item?.type == 1) {
+                    //       let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
+                    //       item.disc = (currentPrice) - selectedPromoCode?.value
+                    //     } else if (item?.type == 0) {
+                    //       let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
+                    //       item.disc = (currentPrice) - selectedPromoCode?.value
+                    //     }
+                    //   }
+                    //   // end clup case
+                    // } else if (item?.cstmtype == 1 && selectedPromoCode?.applied_on == 'activity' &&
+                    //   item?.id == selectedPromoCode?.club_activity_id) {
+                    //     this.activityPromocoDone=true
+                    //   if (selectedPromoCode?.type == 'Percentage') {
+                    //     let Percentage = selectedPromoCode?.value / 100
+                    //     if (item?.type == 1) {
+                    //       let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
+                    //       item.disc = (currentPrice) - (currentPrice * Percentage)
+                    //     } else if (item?.type == 0) {
+                    //       let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
+                    //       item.disc = (currentPrice) - (currentPrice * Percentage)
+                    //     }
+                    //   } else if (selectedPromoCode?.type == 'Fixed') {
+                    //     if (item?.type == 1) {
+                    //       let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
+                    //       item.disc = (currentPrice) - selectedPromoCode?.value
+                    //     } else if (item?.type == 0) {
+                    //       let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
+                    //       item.disc = (currentPrice) - selectedPromoCode?.value
+                    //     }
+                    //   }
+                    //   // end activity case
+                    // }
                     // this.cartitems.map(i => {
                     //   if(i?.disc<0) {
                     //     i.disc=0
@@ -549,21 +579,30 @@ export class ShoppingCartComponent implements OnInit {
                   ||
                   (today > from && today < to)
                 ) {
+                  this.cartitems.map(item =>  {
+                    if(item?.cstmtype==2) {
+                      item.disc=0
+                      item.free=false
+                    }
+                  })
                   this.cartitems.forEach(item => {
                     if (
                       (item?.cstmtype == 2 && selectedPromoCode?.applied_on == 'All') || 
                       (item?.cstmtype == 2 &&  selectedPromoCode?.applied_on == 'Club' &&
-                      item?.id == selectedPromoCode?.club_id) || 
+                      item?.club_id == selectedPromoCode?.club_id) || 
                       (item?.cstmtype == 2 && selectedPromoCode?.applied_on == 'Product' &&
                       selectedPromoCode?.products.some(prdct => prdct?.id==item?.id))
                     
                     ) {
+                     
                       let currentPrice = item?.countToBuy*item?.price
                       if (selectedPromoCode?.type == 'Percentage') {
                         let Percentage = selectedPromoCode?.value / 100               
                         item.disc = (currentPrice) - (currentPrice * Percentage)
+                        if((currentPrice) - (currentPrice * Percentage)==0) item.free=true
                       } else if (selectedPromoCode?.type == 'Fixed') {
                           item.disc = (currentPrice) - selectedPromoCode?.value
+                          if((currentPrice) - selectedPromoCode?.value==0) item.free=true
                       }
                       this.productPromocoDone=true
                       // end all case
@@ -673,7 +712,7 @@ export class ShoppingCartComponent implements OnInit {
           activity_data.booking_amount_type = this.cartitems[i]?.selectedLocation?.price_type
           if (true) {
             if (this.cartitems[i]?.cstmtype == 1 && this.cartitems[i]?.type == 1) {
-              if (this.cartitems[i]?.disc == 0) {
+              if (this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free) {
                 activity_data.booking_discount = 0
                 if (!this.cartitems[i]?.hideMembers) {
                   activity_data.booking_amount = this.cartitems[i]?.selectedLocation.price * this.cartitems[i]?.selectedMembers?.length
@@ -696,7 +735,7 @@ export class ShoppingCartComponent implements OnInit {
               }
           
             } else if (this.cartitems[i]?.cstmtype == 1 && this.cartitems[i]?.type == 0) {
-              if (this.cartitems[i]?.disc == 0) {
+              if (this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free) {
                 activity_data.booking_amount = Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)
                 activity_data.booking_discount = 0
                 activity_data.booking_payment = Number(this.cartitems[i]?.selectedLocation.price) * Number(this.cartitems[i]?.notUserMembersCount)
@@ -803,9 +842,18 @@ export class ShoppingCartComponent implements OnInit {
         } else if (this.cartitems[i]?.cstmtype == 2) {
           let storeItem: any = {}
             storeItem.product_id = this.cartitems[i]?.id,
-            storeItem.booking_discount = this.cartitems[i]?.disc == 0 ? 0 : (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) - this.
-            cartitems[i]?.disc,
+            storeItem.booking_discount = (this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free) ? 0 : (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) - this.
+            cartitems[i]?.disc
 
+            if(this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free)    storeItem.booking_discount=0
+            else if (this.cartitems[i]?.disc>0) {
+              storeItem.booking_discount=(this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) - this.
+              cartitems[i]?.disc
+            } else if ((this.cartitems[i]?.disc == 0&&this.cartitems[i]?.free)||
+            this.cartitems[i]?.disc<0
+            ) {
+              storeItem.booking_discount=(this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) 
+            }
             storeItem.booking_amount =  (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy),
             storeItem.booking_payment =        storeItem.booking_amount - storeItem.booking_discount
             storeItem.qty = this.cartitems[i]?.countToBuy,
@@ -1049,7 +1097,7 @@ export class ShoppingCartComponent implements OnInit {
               "user_name": this.notUserData?.name || '',
               "user_phone": this.notUserData?.phone || '',
               "user_email": this.notUserData?.email || '',
-              "amount": Number(this.total + this.shipingCharge),
+              "amount": Math.floor(Number(this.total + this.shipingCharge)),
             }).subscribe(
               response => {
                 if (response?.message) {
@@ -1094,7 +1142,7 @@ export class ShoppingCartComponent implements OnInit {
     this.notUserData = JSON.parse(localStorage.getItem('not_user_data'))
     if(this.cartService.notuserDataAdded)  this.notuserdataAdded=true
     if (!!localStorage.getItem('joinToken') == false && !this.notuserdataAdded && 
-    this.cartitems.some(i=>i.cstmtype == 2)) {
+    this.cartitems.some(i=>i.cstmtype == 2) && this.selectedAddress) {
       this.notuserdataSubmited = false
       this.notUserDataForm.patchValue({...this.notUserData})
       this.notUserDataPopup = true

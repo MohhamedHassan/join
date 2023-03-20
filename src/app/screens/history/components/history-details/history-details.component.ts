@@ -128,10 +128,32 @@ getTotalActivities() {
 getActivitiesDiscount() {
   if(this.historyDetails?.booked_activity?.length) {
     let price = 0 
-    this.historyDetails?.booked_activity.forEach(item => {
-      price+= (item?.disc<0)? 0 : item?.disc
+    this.historyDetails?.booked_activity.forEach(i => {
+      let activityPrice  =  0
+      if (i?.cstmtype == 1 && i?.type == 1) {
+        if (true) {
+          if (!i?.hideMembers) {
+            activityPrice += i?.selectedLocation.price * i?.selectedMembers?.length
+          } else {
+            activityPrice += i?.selectedLocation.price * 1
+          }
+        } 
+      } else if (i?.cstmtype == 1 && i?.type == 0) {
+        console.log('one')
+        if (true) {
+          console.log('one')
+          activityPrice += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
+    
+        }
+
+      }
+      if(i.free||i?.disc<0) {
+        price+=activityPrice
+      } else if(i?.disc>0) {
+        price+= (activityPrice) - i?.disc
+      }
     });
-    return price==0?0:this.getTotalActivities() -price
+    return price
   }else return 0
 }
 getTotalProducts() {
@@ -147,9 +169,15 @@ getDiscountProducts() {
   if(this.historyDetails?.booked_products?.length) {
     let price = 0 
     this.historyDetails?.booked_products.forEach(item => {
-      price+= (item?.disc<0)? 0 : item?.disc
+      if(item.free||item?.disc<0) {
+        price+=item?.price*item?.countToBuy
+      } else if(item?.disc>0) {
+        price+= (item?.price*item?.countToBuy) - item?.disc
+      }
+ 
     });
-    return  price==0?0:this.getTotalProducts() -price
+    console.log(price)
+    return price
   }else return 0
 }
   get lang() {

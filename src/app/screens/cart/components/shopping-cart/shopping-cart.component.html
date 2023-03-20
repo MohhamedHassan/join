@@ -18,7 +18,34 @@ style="min-height: 50vh;" class="container">
             </div>
         </div>
         <div class="col-md-8 mb-3">
-            <div style="border:1px solid rgb(218 213 213)" class="rounded h-100 p-3">
+            <div style="border:1px solid rgb(218 213 213);position: relative;" class="rounded h-100 p-3">
+
+                <div class="imgPart">
+                   
+                    <img appImgs 
+                    [ngStyle]="{
+                        'right': lang=='ar' ? 'auto' : '10px',
+                        'left': lang=='ar' ? '10px' : 'auto'
+                    }"
+                    *ngIf="item?.discount_percent&&item?.discount_percent!='0.0 %'"
+                    style="width:90px;height:60px;position: absolute;top: 0"
+                    src="assets/images/discount.svg" alt="" >
+                    <div
+                    [ngStyle]="{
+                        'right': lang=='ar' ? 'auto' : '10px',
+                        'left': lang=='ar' ? '10px' : 'auto'
+                    }"
+                    *ngIf="item?.discount_percent&&item?.discount_percent!='0.0 %'"
+                    style="color:white;position: absolute;top: 0;font-size: small;text-align: center;width: 90px;height:60px;line-height:45px;"
+                    >
+                        <span 
+                       
+                        style="color:white;font-size: small;">
+                            {{item?.discount_percent}}
+                        </span>
+                    </div>
+                
+                </div>
                 <h2
                 (click)="routeToDetailsPage(item)"
                 style="font-size:large;cursor: pointer;" class="m-0">
@@ -53,8 +80,7 @@ style="min-height: 50vh;" class="container">
                 </div>
                 <p class="my-1 maincolor" *ngIf="item?.cstmtype==1&&item?.type==1&&item?.hideMembers ">
                     {{'booking_for_one_member'|translate}}  
-                     1
-                    {{'member'|translate}}
+                    {{this.profileData?.fname}} {{ this.profileData?.lname}}
                 </p>
                 <p class="my-1 maincolor" *ngIf="item?.cstmtype==1&&item?.type==1&&!item?.hideMembers ">
                     {{'booking_for_one_member'|translate}}  
@@ -101,7 +127,7 @@ style="min-height: 50vh;" class="container">
           
 
                 <p 
-                *ngIf="item?.cstmtype==1&&item?.disc!=0"
+                *ngIf="item?.cstmtype==1&&(item?.disc!=0||item?.free==true)"
                 class="mb-1">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
@@ -128,7 +154,7 @@ style="min-height: 50vh;" class="container">
                   
                 </p>
                 <p 
-                *ngIf="item?.cstmtype==2&&item?.disc!=0"
+                *ngIf="item?.cstmtype==2&&(item?.disc!=0||item?.free==true)"
                 class="mb-1">
 
                     <span class="maincolor">{{'price'|translate}} : </span>

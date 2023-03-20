@@ -59,25 +59,30 @@ searchResult:any[]=[]
           )
         } else {
           this.loading=true
-          if(params?.page!=3) {
-            this.serachService.getSearchResult(params?.str).subscribe(res=> {
-              this.searchResult=res
-              if(params?.page==2)  {
-                this.searchResult= this.searchResult.filter(i => i?.type=='ACTIVITY')
+          this.activatedRoute.queryParamMap.subscribe(
+            (queryparam:any) => {
+              if(params?.page!=3) {
+            
+                this.serachService.getSearchResult(queryparam?.params?.str).subscribe(res=> {
+                  this.searchResult=res
+                  if(params?.page==2)  {
+                    this.searchResult= this.searchResult.filter(i => i?.type=='ACTIVITY')
+                  }
+                  this.loading=false
+                })
+              } else  if(params?.page==3){
+                this.serachService.productsSearch(queryparam?.params?.str).subscribe(res=> {
+                  this.searchResult=res
+                  this.searchResult.map(
+                    item =>  {
+                      item.type='PRODUCT'
+                    }
+                  )
+                  this.loading=false
+                })
               }
-              this.loading=false
             })
-          } else  if(params?.page==3){
-            this.serachService.productsSearch(params?.str).subscribe(res=> {
-              this.searchResult=res
-              this.searchResult.map(
-                item =>  {
-                  item.type='PRODUCT'
-                }
-              )
-              this.loading=false
-            })
-          }
+          
         }
       }
     )

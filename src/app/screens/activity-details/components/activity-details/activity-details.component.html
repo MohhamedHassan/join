@@ -210,7 +210,7 @@
                     (click)="checkNotUserData()"
                     [disabled]="!activity_details?.location?.length"
                     class="w-100 mt-3 book">
-                    {{!activity_details?.location?.length ? ('fully_booked'|translate) : ('confirm'|translate)}}
+                    {{!activity_details?.location?.length ? ('fully_booked'|translate) : ('book_now'|translate)}}
                 </button>
                 </div>
             </div>
@@ -275,7 +275,7 @@ class="cstmpopup d-flex">
             <div class="mt-4 d-flex justify-content-end ">
                 <div>
                     <button 
-                    (click)="acceptDeleteActivity()"
+                    (click)="acceptDeleteActivity(true)"
                     class="btn btn-warning">
                         {{'yes'|translate}}
                     </button>
@@ -385,6 +385,7 @@ class="cstmpopup d-flex">
               {{'validemail'|translate}}
           </p>
        </div>
+
        <div 
        *ngIf="!activity_details?.hideMembers"
        class="mb-3">
@@ -401,7 +402,6 @@ class="cstmpopup d-flex">
       </div>
        </div>
        <div
-       *ngIf="!activity_details?.hideMembers"
        class="mb-3">
         <div class="form-check">
           <input 

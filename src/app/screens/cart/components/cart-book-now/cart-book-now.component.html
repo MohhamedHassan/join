@@ -194,7 +194,6 @@
    </div>
     </div>
     <div 
-    *ngIf="!hideMembers"
     class="mb-3">
      <div class="form-check">
        <input 
@@ -218,7 +217,7 @@
         [disabled]="complete"
       (click)="formDirective.ngSubmit.emit();confirmAddActivity();"
         class="orangebtn my-2">
-        {{'confirm'|translate}}
+        {{'book_now'|translate}}
         </button>
   </div>
   <div 

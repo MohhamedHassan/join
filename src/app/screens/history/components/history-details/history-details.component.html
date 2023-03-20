@@ -152,11 +152,42 @@ style="min-height: 100vh;">
         class="col-md-6 col-lg-4 mb-3">
             <div 
             class="rounded p-3 h-100"
-            style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);">
+            style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);position:relative">
+            <div 
+            *ngIf="(!isLogin()&&item?.discount_percent&&item?.discount_percent!='0.0 %') || 
+            (isLogin()&&item?.booking_discount&&item?.booking_discount!='0.0 %')
+            "
+            class="imgPart">
+                   
+                <img appImgs 
+                [ngStyle]="{
+                    'right': lang=='ar' ? 'auto' : '2px',
+                    'left': lang=='ar' ? '2px' : 'auto'
+                }"
+              
+                style="width:90px;height:60px;position: absolute;top: 0"
+                src="assets/images/discount.svg" alt="" >
+                <div
+                [ngStyle]="{
+                    'right': lang=='ar' ? 'auto' : '2px',
+                    'left': lang=='ar' ? '2px' : 'auto'
+                }"
+                style="color:white;position: absolute;top: 0;font-size: small;text-align: center;width: 90px;height:60px;line-height:45px;"
+                >
+                    <span 
+                   
+                    style="color:white;font-size: small;">
+                        {{isLogin()?(item?.booking_discount|tofixednumber):item?.discount_percent}}
+                    </span>
+                </div>
+            
+            </div>
                     <a 
                     style="color: black;"
                     [routerLink]="'/product/'+(item?.product_id||item?.id)">
-                    <div class="d-flex">
+                    <div 
+                    style="max-width: 80%;"
+                    class="d-flex">
                         <div>
                             <img appImgs 
                             style="width:100px;height: 100%;object-fit: contain;"
@@ -206,13 +237,19 @@ style="min-height: 100vh;">
             </div>
         </div>
     </div>
-    <p 
-    [style.color]="item?.color"
+    <ng-container
     *ngFor="let item of historyDetails?.prices"
-    class="d-flex justify-content-between align-items-center fw-bold">
-        <span>{{item?.key}} </span>
-        <span>{{item?.value|tofixednumber}} {{'kwd'|translate}}</span>
-    </p>
+    >
+        <p 
+        [style.color]="item?.color"
+        *ngIf="item?.value"
+        class="d-flex justify-content-between align-items-center fw-bold">
+            <span>{{item?.key}} </span>
+            <span>{{item?.value|tofixednumber}} {{'kwd'|translate}}</span>
+        </p>
+    </ng-container>
+    
+  
 
 </ng-container>
 

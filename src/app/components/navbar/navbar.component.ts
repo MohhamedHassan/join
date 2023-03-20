@@ -117,7 +117,7 @@ pagetype=-1
   }
   inputSearch(value:string) {
     if(value.trim().length>0) {
-      this.router.navigate([`/search/${value}/${this.pagetype}`])
+      this.router.navigate([`/search/1/${this.pagetype}`],{queryParams : {str:value}})
     }
   }
 get cartitemsCount() {

@@ -87,7 +87,7 @@ export class ActivityDetailsComponent implements OnInit {
       name:['',[Validators.required]],
       email:['',[Validators.required,Validators.email,Validators.pattern(/.com$/)]],
       phone:['',[Validators.required,Validators.pattern(/^[569٥٦٩][\u0660-\u0669]{7}$|^[569٥٦٩]\d{7}$/)]],
-      iconfirm:['']
+      iconfirm:['',Validators.required]
     })
 
     let notuserData:any = localStorage.getItem('not_user_data')
@@ -119,13 +119,7 @@ export class ActivityDetailsComponent implements OnInit {
             this.router.navigate(['/'])
           } else {
             this.activity_details=res
-            if(!this.activity_details?.hideMembers) {
-              this.notuserForm.get('iconfirm').setValidators([Validators.required]);
-              this.notuserForm.get('iconfirm').updateValueAndValidity();
-            } else {
-              this.notuserForm.get('iconfirm').clearValidators();
-              this.notuserForm.get('iconfirm').updateValueAndValidity();
-            }
+           
             this.activity_details.club_name=res?.club_details?.name
             this.activity_details.club_logo=res?.club_details?.logo
             this.activity_details?.location.forEach(item =>  {
@@ -345,24 +339,50 @@ checkCartItems() {
     this.showDeleteCartActivities=true
   }
 }
-acceptDeleteActivity() {
+acceptDeleteActivity(fromDefaultData=false) {
   this.cartitems = this.cartitems.filter(i => i.cstmtype==2)
   localStorage.setItem('joincart',JSON.stringify(this.cartitems))
   this.showDeleteCartActivities=false
-  this.showpopup=true
+  if(fromDefaultData) {
+    if(this.isLogin()) {
+      this.selectedDataFromPopup(this.activity_details)
+    } else {
+      if(!this.complete) {
+        this.submited=false
+        this.notUserPopup=true
+      }
+    }
+  } else {
+    this.showpopup=true
+  }
+
 }
 isLogin():boolean {
   return !!localStorage.getItem("joinToken")
 }
 checkNotUserData() {
-  if(this.isLogin()) {
-    this.selectedDataFromPopup(this.activity_details)
-  } else {
-    if(!this.complete) {
-      this.submited=false
-      this.notUserPopup=true
+  let exist=false
+  if(this.cartitems?.length) {
+    for(let i = 0 ; i < this.cartitems?.length;i++) {
+      if(this.cartitems[i]?.cstmtype==1 && this.cartitems[i]?.club_id!=this.activity_details?.club_id) {
+        exist=true
+        break
+      }
     }
   }
+   if(!exist) {
+    if(this.isLogin()) {
+      this.selectedDataFromPopup(this.activity_details)
+    } else {
+      if(!this.complete) {
+        this.submited=false
+        this.notUserPopup=true
+      }
+    }
+  } else {
+    this.showDeleteCartActivities=true
+  }
+ 
 }
 submitNotuserForm() {
   this.submited=true
