@@ -196,4 +196,11 @@ getDiscountProducts() {
   isLogin():boolean {
     return !!localStorage.getItem("joinToken")
   }
+  returnGuestDiscount(item) {
+    if(item?.free||item?.disc<0) {
+      return Number((item?.price*item?.countToBuy).toFixed(2))
+    } else {
+      return Number(((item?.price*item?.countToBuy)-item?.disc).toFixed(2))
+    }
+  }
 }

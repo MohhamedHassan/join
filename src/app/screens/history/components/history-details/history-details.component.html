@@ -154,7 +154,7 @@ style="min-height: 100vh;">
             class="rounded p-3 h-100"
             style="box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);position:relative">
             <div 
-            *ngIf="(!isLogin()&&item?.discount_percent&&item?.discount_percent!='0.0 %') || 
+            *ngIf="(!isLogin()&&returnGuestDiscount(item)!=0) || 
             (isLogin()&&item?.booking_discount&&item?.booking_discount!='0.0 %')
             "
             class="imgPart">
@@ -175,9 +175,8 @@ style="min-height: 100vh;">
                 style="color:white;position: absolute;top: 0;font-size: small;text-align: center;width: 90px;height:60px;line-height:45px;"
                 >
                     <span 
-                   
                     style="color:white;font-size: small;">
-                        {{isLogin()?(item?.booking_discount|tofixednumber):item?.discount_percent}}
+                        {{isLogin()?(item?.booking_discount|tofixednumber):returnGuestDiscount(item)}} %
                     </span>
                 </div>
             
@@ -251,6 +250,12 @@ style="min-height: 100vh;">
     
   
 
+</ng-container>
+<ng-container *ngIf="!loading&&!historyDetails">
+    <p    
+    class="text-secondary fw-bold text-center">
+       {{'no_data'|translate}}
+    </p>
 </ng-container>
 
 </section>

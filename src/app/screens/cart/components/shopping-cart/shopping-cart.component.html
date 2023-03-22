@@ -94,7 +94,7 @@ style="min-height: 50vh;" class="container">
                     {{'booking_for_one_member'|translate}}  {{item?.notUserMembersCount}} {{'member'|translate}}
                 </p>
                 <p 
-                *ngIf="item?.disc==0"
+                *ngIf="item?.disc==0&&!item?.free"
                 class="mb-1">
 
                     <span class="maincolor">{{'price'|translate}} : </span>
