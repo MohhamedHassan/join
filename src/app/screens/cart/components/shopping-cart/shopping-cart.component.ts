@@ -882,14 +882,16 @@ export class ShoppingCartComponent implements OnInit {
         if (res?.type == "SUCCESS") {
           this.toastr.success(localStorage.getItem('lang') == 'ar' ? 'تم تنفيذ طلبك بنجاح' : 'Your request has been successfully processed');
           if (!!localStorage.getItem('joinToken') == false) {
+            this.cartitems.map(i=>i.order_id=res?.payload?.data?.order_id)
             this.cartService.notUserHistory = this.cartitems
             this.guestHistory.unshift({
-              order_id:this.cartitems[0]?.order_id,
+              order_id:res?.payload?.data?.order_id,
               details:this.cartitems
             })
+           
             localStorage.setItem('guestHistory',JSON.stringify(this.guestHistory))
           }
-          this.order_id=this.cartitems[0]?.order_id
+          this.order_id=res?.payload?.data?.order_id
           localStorage.removeItem('joincart')
           this.createBookingLoading=false
           if(free)this.router.navigate(['/history'])
@@ -1008,11 +1010,11 @@ export class ShoppingCartComponent implements OnInit {
           }
           if(this.cartitems[i]?.type==0 && this.cartitems[i]?.notUserMembersCount) {
             for(let x = 0 ; x < this.cartitems[i]?.notUserMembersCount;x++) {
-              let child_id: any = {}
-              child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
-              child_id.activity_id = String(this.cartitems[i]?.id)
-              child_id.child_id = String(0)
-              availableSeatsRequestBody.child_id.push(child_id)
+              // let child_id: any = {}
+              // child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
+              // child_id.activity_id = String(this.cartitems[i]?.id)
+              // child_id.child_id = String(0)
+              // availableSeatsRequestBody.child_id.push(child_id)
               //  end child_id
               let booking_session: any = {};
               booking_session.branch_id = String(this.cartitems[i]?.selectedLocation?.branch_id)
@@ -1021,7 +1023,7 @@ export class ShoppingCartComponent implements OnInit {
               booking_session.to_time = this.cartitems[i]?.selectedTime?.to_time
               booking_session.club_activity_location_id = String(this.cartitems[i]?.selectedTime?.club_activity_location_id)
               booking_session.activity_id = String(this.cartitems[i]?.id)
-              booking_session.child_id = String(0)
+              // booking_session.child_id = String(0)
               booking_session.booking_session = String(this.cartitems[i]?.selectedLocation?.id)
               booking_session.max_seats = String(this.cartitems[i]?.selectedLocation?.max_seats)
               booking_session.selected_date = this.datePipe.transform(this.cartitems[i]?.selectedDate, 'yyy-MM-dd')
@@ -1047,6 +1049,7 @@ export class ShoppingCartComponent implements OnInit {
 
       }
     }
+    if(!!localStorage.getItem('joinToken') == false) delete availableSeatsRequestBody.child_id
     let formdata = new FormData()
     for (let i in availableSeatsRequestBody) {
       formdata.append(i, JSON.stringify(availableSeatsRequestBody[i]))
