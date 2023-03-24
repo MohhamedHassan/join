@@ -35,8 +35,39 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.authServiceAbstract.authState.subscribe((user) => {
       this.user = user;
-      console.log(user);
+      this.loading=true
+      let loginData:any = user
+      let email = user?.email
+      let body:any = {}
+      if(user.provider=='GOOGLE') body.google_id=loginData?.id
+      else if(user.provider=='FACEBOOK') body.facebook_id=loginData?.id
+      this.authService.logIn(body).subscribe(
+        res => {
+          this.loading=false
+          if(res?.code==1) {
+        //    this.toastr.success(res?.message);
+            localStorage.removeItem('joincart')
+            localStorage.setItem('joinToken',res?.payload?.auth_token)
+            this.authService.getUserProfile()
+     //       this.notficationsService.getNotifications()
+            this.membersservice.getAllMembers()
+            this.router.navigate(['/'])
+          } else {
+            this.router.navigate(['/auth/signup'],{queryParams : {
+              id:loginData?.id,
+              family_name:loginData?.lastName, 
+              given_name:loginData?.firstName,
+              email:email||'user@gmail.com',
+              type:user.provider=='GOOGLE'?1:2
+            }})
+          }
+        }
+      )
     });
+    // this.authServiceAbstract.authState.subscribe((user) => {
+    //   this.user = user;
+    //   console.log(user);
+    // });
     this.app = initializeApp({
       apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
       authDomain: "joinapp-515e6.firebaseapp.com",
@@ -53,6 +84,9 @@ export class LoginComponent implements OnInit {
   }
   signInWithFB(): void {
     this.authServiceAbstract.signIn(FacebookLoginProvider.PROVIDER_ID)
+  }
+  signInWithGoogle(): void {
+    this.authServiceAbstract.signIn(GoogleLoginProvider.PROVIDER_ID)
   }
 
   login(formValue:any) {
@@ -92,37 +126,7 @@ export class LoginComponent implements OnInit {
   // }
   // Auth logic to run auth providers
   AuthLogin() {
-    this.authServiceAbstract.authState.subscribe((user) => {
-      this.user = user;
-      this.loading=true
-      let loginData:any = user
-      let email = user?.email
-      let body:any = {}
-      if(user.provider=='GOOGLE') body.google_id=loginData?.id
-      else if(user.provider=='FACEBOOK') body.facebook_id=loginData?.id
-      this.authService.logIn(body).subscribe(
-        res => {
-          this.loading=false
-          if(res?.code==1) {
-        //    this.toastr.success(res?.message);
-            localStorage.removeItem('joincart')
-            localStorage.setItem('joinToken',res?.payload?.auth_token)
-            this.authService.getUserProfile()
-     //       this.notficationsService.getNotifications()
-            this.membersservice.getAllMembers()
-            this.router.navigate(['/'])
-          } else {
-            this.router.navigate(['/auth/signup'],{queryParams : {
-              id:loginData?.id,
-              family_name:loginData?.lastName, 
-              given_name:loginData?.firstName,
-              email:email||'user@gmail.com',
-              type:user.provider=='GOOGLE'?1:2
-            }})
-          }
-        }
-      )
-    });
+  
 
   }
 }

@@ -36,6 +36,11 @@ import {
   GoogleLoginProvider,
   FacebookLoginProvider
 } from '@abacritt/angularx-social-login';
+import { LoginComponent } from './screens/auth/components/login/login.component';
+import { SiginupComponent } from './screens/auth/components/siginup/siginup.component';
+import { AuthParentComponent } from './screens/auth/components/auth-parent/auth-parent.component';
+import { ForgetPasswordComponent } from './screens/auth/components/forget-password/forget-password.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -47,7 +52,11 @@ import {
     AboutJoinComponent,
     TermsComponent,
     PaymentSuccessComponent,
-    PaymentFailedComponent
+    PaymentFailedComponent,
+    LoginComponent,
+    SiginupComponent,
+    AuthParentComponent,
+    ForgetPasswordComponent,
   ],
   imports: [
     SharedModule,
@@ -103,12 +112,12 @@ import {
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              'clientId'
+              '794053292456-partun1k2c7ins7tcrkntu08kjkqs1vi.apps.googleusercontent.com'
             )
           },
           {
             id: FacebookLoginProvider.PROVIDER_ID,
-            provider: new FacebookLoginProvider('clientId')
+            provider: new FacebookLoginProvider('5268710979893896')
           }
         ],
         onError: (err) => {

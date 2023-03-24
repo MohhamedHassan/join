@@ -32,7 +32,7 @@ import { ReplaceCommaPipe } from './pips/replace-comma.pipe';
 import { ShareButtonsModule } from 'ngx-sharebuttons/buttons';
 import { ShareIconsModule } from 'ngx-sharebuttons/icons';
 import { TimeFormatPipe } from './pips/time-format.pipe';
-import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+
 @NgModule({
   declarations: [
     CategoriesListComponent,
@@ -77,7 +77,6 @@ import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-s
     CalendarModule,
     ShareButtonsModule,
     ShareIconsModule,
-    SocialLoginModule, 
     
   ],
   exports:[
@@ -112,7 +111,7 @@ import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-s
     ShareButtonsModule,
     ShareIconsModule,
     TimeFormatPipe,
-    SocialLoginModule
+    
   ],
   providers: [
     DatePipe

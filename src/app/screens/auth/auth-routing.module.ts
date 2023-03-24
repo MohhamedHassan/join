@@ -6,29 +6,29 @@ import { LoginComponent } from './components/login/login.component';
 import { SiginupComponent } from './components/siginup/siginup.component';
 
 const routes: Routes = [
-  {
-    path:'',
-    redirectTo:'/auth/login',
-    pathMatch:'full'
-  },
-  {
-    path:"",
-    component:AuthParentComponent,
-    children:[
-      {
-        path:"login",
-        component:LoginComponent
-      },
-      {
-        path:"signup",
-        component:SiginupComponent
-      },
-      {
-        path:"forget_password",
-        component:ForgetPasswordComponent
-      }
-    ]
-  }
+  // {
+  //   path:'',
+  //   redirectTo:'/auth/login',
+  //   pathMatch:'full'
+  // },
+  // {
+  //   path:"",
+  //   component:AuthParentComponent,
+  //   children:[
+  //     {
+  //       path:"login",
+  //       component:LoginComponent
+  //     },
+  //     {
+  //       path:"signup",
+  //       component:SiginupComponent
+  //     },
+  //     {
+  //       path:"forget_password",
+  //       component:ForgetPasswordComponent
+  //     }
+  //   ]
+  // }
 ];
 
 @NgModule({

@@ -7,7 +7,10 @@ import { PaymentSuccessComponent } from './components/payment-success/payment-su
 import { TermsComponent } from './components/terms/terms.component';
 import { NotUserGuard } from './guards/not-user.guard';
 import { UserGuard } from './guards/user.guard';
-
+import { AuthParentComponent } from './screens/auth/components/auth-parent/auth-parent.component';
+import { ForgetPasswordComponent } from './screens/auth/components/forget-password/forget-password.component';
+import { LoginComponent } from './screens/auth/components/login/login.component';
+import { SiginupComponent } from './screens/auth/components/siginup/siginup.component';
 const routes: Routes = [
   {
     path:'',
@@ -15,8 +18,27 @@ const routes: Routes = [
   },
   {
     path:'auth',
+    component:AuthParentComponent,
     canActivate:[UserGuard],
-    loadChildren:() => import('src/app/screens/auth/auth.module').then(m => m.AuthModule)
+    children:[
+      {
+        path:"login",
+        component:LoginComponent,
+        canActivate:[UserGuard],
+      },
+      {
+        path:"signup",
+        component:SiginupComponent,
+        canActivate:[UserGuard],
+      },
+      {
+        path:"forget_password",
+        component:ForgetPasswordComponent,
+        canActivate:[UserGuard],
+      }
+    ],
+    // canActivate:[UserGuard],
+    // loadChildren:() => import('src/app/screens/auth/auth.module').then(m => m.AuthModule)
   },
   {
     path:'store',
