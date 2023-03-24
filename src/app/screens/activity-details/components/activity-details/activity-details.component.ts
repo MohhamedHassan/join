@@ -135,7 +135,6 @@ export class ActivityDetailsComponent implements OnInit {
             this.activity_details.location=this.activity_details?.location.filter(item => {
               return !item?.display_none
             })
-            console.log(this.activity_details.location?.length)
             if(this.activity_details?.location?.length) {
               this.center = {
                 lat: Number(this.activity_details?.location[0]?.branch?.latitude),

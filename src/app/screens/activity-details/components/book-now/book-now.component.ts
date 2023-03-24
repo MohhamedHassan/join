@@ -120,7 +120,6 @@ export class BookNowComponent implements OnInit {
       if(hide) item.display_none=true
       else  item.display_none=false
     })
-    console.log(this.location)
     // this.selectedLocation=this.selectedLocationFromParent
     // this.selectLocation(this.selectedLocation)
     // this.selectedDate=this.selectedDateFromParent
@@ -228,7 +227,6 @@ getValidDatesForMonthly() {
   }
   //this.getInvalidDates()
   this.monthlyloading=false
-  console.log(this.disabledDates)
 }
 getInvalidDates() {
 
@@ -394,10 +392,6 @@ confirmAddActivity() {
 if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
   this.notUserMembersCount=1
 }
-console.log(this.notuserForm.valid , 
-  this.selectedLocation ,this.selectedDate 
-  ,this.selectedTime  
-  ,this.notuserForm , valid)
   if( 
     this.selectedLocation && 
     this.selectedDate && 

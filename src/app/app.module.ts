@@ -31,6 +31,11 @@ import { SharedModule } from './shared/shared.module';
 import { TermsComponent } from './components/terms/terms.component';
 import { PaymentSuccessComponent } from './components/payment-success/payment-success.component';
 import { PaymentFailedComponent } from './components/payment-failed/payment-failed.component';
+import { SocialLoginModule, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider
+} from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +57,7 @@ import { PaymentFailedComponent } from './components/payment-failed/payment-fail
     FormsModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
+    SocialLoginModule,
     AngularFireModule.initializeApp({
       apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
       authDomain: "joinapp-515e6.firebaseapp.com",
@@ -89,6 +95,26 @@ import { PaymentFailedComponent } from './components/payment-failed/payment-fail
       provide:HTTP_INTERCEPTORS,
       useClass:ErrorInterceptor,
       multi:true
+    },   {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              'clientId'
+            )
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('clientId')
+          }
+        ],
+        onError: (err) => {
+          console.error(err);
+        }
+      } as SocialAuthServiceConfig,
     }
   
   ],

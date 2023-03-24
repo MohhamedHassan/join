@@ -229,16 +229,15 @@ export class ShoppingCartComponent implements OnInit {
               this.total += i?.disc
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
-            console.log('one')
+            
             if (i?.disc == 0&&!i.free) {
-              console.log('one')
+              
               this.total += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
         
             }else if (i?.disc < 0 || i?.free) {
-              console.log('one')
+              
               this.total += 0
             }   else {
-              console.log('one',i.disc)
               this.total += i?.disc
             }
 
@@ -264,7 +263,6 @@ export class ShoppingCartComponent implements OnInit {
             }
           } else if (i?.cstmtype == 1 && i?.type == 0) {
             if (i?.disc == 0&&!i.free) {
-              console.log(Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount),Number(i?.selectedLocation.price) , Number(i?.notUserMembersCount))
               this.payAtVenu += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
         
             }else if (i?.disc < 0) {
@@ -303,7 +301,6 @@ export class ShoppingCartComponent implements OnInit {
         this.addressRequired = 1
       }
     }
-    console.log(this.payAtVenu,this.total,this.shipingCharge)
   }
   deleteCartItem() {
     this.cartitems.splice(this.showDeleteCArtitem, 1)
@@ -456,7 +453,7 @@ export class ShoppingCartComponent implements OnInit {
                       item?.id == selectedPromoCode?.club_activity_id)
                     ) {
                       this.activityPromocoDone=true
-                      console.log('!')
+                      
                    
                       if (selectedPromoCode?.type == 'Percentage') {
                         let Percentage = selectedPromoCode?.value / 100
@@ -465,7 +462,7 @@ export class ShoppingCartComponent implements OnInit {
                           item.disc = (currentPrice) - (currentPrice * Percentage)
                           if((currentPrice) - (currentPrice * Percentage)==0) item.fee=true
                         } else if (item?.type == 0) {
-                          console.log('!')
+                          
                           let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
                           item.disc = (currentPrice) - (currentPrice * Percentage)
                           if((currentPrice) - (currentPrice * Percentage)==0)item.fee=true
@@ -621,7 +618,6 @@ export class ShoppingCartComponent implements OnInit {
               }
             }
           }
-          console.log(this.productPromocoDone,this.activityPromocoDone)
           if(!this.productPromocoDone&&!this.activityPromocoDone) {
             this.toastr.error(localStorage.getItem('lang') == 'ar' ? 'لا يمكن تطبيق الخصم' : 'Cannot apply discount on items');
           }
@@ -637,7 +633,6 @@ export class ShoppingCartComponent implements OnInit {
     else return false
   }
   createBooking(free=false) {
-    console.log(this.cartitems)
     this.createBookingLoading=true
     let requestBody = {
       activity_data: [],
@@ -1091,16 +1086,14 @@ export class ShoppingCartComponent implements OnInit {
                 i.shipp = this.shipingCharge,
                 i.total=this.shipingCharge+this.total+this.payAtVenu
             })
-            console.log(this.payAtVenu)
             localStorage.setItem('joincart', JSON.stringify(this.cartitems))
             this.createBooking(true)
           } else {
-            console.log(this.total,this.shipingCharge)
             this.cartService.paymentRequest({
               "user_name": this.notUserData?.name || '',
               "user_phone": this.notUserData?.phone || '',
               "user_email": this.notUserData?.email || '',
-              "amount": Number((this.total + this.shipingCharge).toFixed(2)),
+              "amount": (this.total + this.shipingCharge).toFixed(3),
             }).subscribe(
               response => {
                 if (response?.message) {

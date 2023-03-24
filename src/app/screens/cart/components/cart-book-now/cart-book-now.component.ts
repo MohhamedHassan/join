@@ -321,7 +321,6 @@ selectLocation(item:any) {
     }, 0);
    
   } 
-  console.log(this.selectedLocation,'ghjk',this.selectedActivityToEdit?.selectedLocation)
 }
 getMonthLength() {
   const monthDiff = this.maxDate.getMonth() - this.minDateForMonthlyCase.getMonth();
@@ -539,10 +538,7 @@ confirmAddActivity() {
  if(!!localStorage.getItem('joinToken')==false&&this.hideMembers) {
   this.notUserMembersCount=1
 }
-console.log(this.notuserForm.valid , 
-  this.selectedLocation ,this.selectedDate 
-  ,this.selectedTime  
-  ,this.notuserForm , valid)
+
   if( 
     this.selectedLocation &&
     this.selectedDate &&

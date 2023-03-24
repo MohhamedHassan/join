@@ -9,6 +9,8 @@ import {Auth, FacebookAuthProvider, GoogleAuthProvider} from "firebase/auth" ;
 import {AngularFireAuth } from '@angular/fire/compat/auth' ;
 import { NotificationsService } from 'src/app/screens/notifications/services/notifications.service';
 import { MembersService } from 'src/app/screens/members/services/members.service';
+import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService } from '@abacritt/angularx-social-login';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -20,7 +22,9 @@ export class LoginComponent implements OnInit {
   submited:boolean=false
   loading:boolean=false
   app: FirebaseApp;
+  user: any;
   constructor(private authService:AuthService,
+    private authServiceAbstract: SocialAuthService,
     private angularFireAuth: AngularFireAuth,
     private notficationsService:NotificationsService,
     private membersservice:MembersService,
@@ -29,6 +33,10 @@ export class LoginComponent implements OnInit {
     private fb:FormBuilder) { }
 
   ngOnInit(): void {
+    this.authServiceAbstract.authState.subscribe((user) => {
+      this.user = user;
+      console.log(user);
+    });
     this.app = initializeApp({
       apiKey: "AIzaSyBspMnWz9iq5Evt11YwGkcEPqghHyIGwuo",
       authDomain: "joinapp-515e6.firebaseapp.com",
@@ -43,6 +51,10 @@ export class LoginComponent implements OnInit {
       password : ['',Validators.required]
     })
   }
+  signInWithFB(): void {
+    this.authServiceAbstract.signIn(FacebookLoginProvider.PROVIDER_ID)
+  }
+
   login(formValue:any) {
    this.submited=true
    if(this.loginForm.valid) {
@@ -72,48 +84,45 @@ export class LoginComponent implements OnInit {
    }
   }
   get lang() {return localStorage.getItem('lang')||'en'}
-  GoogleAuth() {
-    return this.AuthLogin(new GoogleAuthProvider(),1);
-  }
-  facebookAuth() {
-    return this.AuthLogin(new FacebookAuthProvider(),2);
-  }
+  // GoogleAuth() {
+  //   return this.AuthLogin(new GoogleAuthProvider(),1);
+  // }
+  // facebookAuth() {
+  //   return this.AuthLogin(new FacebookAuthProvider(),2);
+  // }
   // Auth logic to run auth providers
-  AuthLogin(provider:any,type) {
-    return this.angularFireAuth
-      .signInWithPopup(provider)
-      .then((result:any) => {
-        this.loading=true
-        let loginData:any = result?.additionalUserInfo?.profile
-        let email = result?.user?.multiFactor?.user?.email
-        let body:any = {}
-        if(type==1) body.google_id=loginData?.id
-        else if(type==2) body.facebook_id=loginData?.id
-        this.authService.logIn(body).subscribe(
-          res => {
-            this.loading=false
-            if(res?.code==1) {
-          //    this.toastr.success(res?.message);
-              localStorage.removeItem('joincart')
-              localStorage.setItem('joinToken',res?.payload?.auth_token)
-              this.authService.getUserProfile()
-       //       this.notficationsService.getNotifications()
-              this.membersservice.getAllMembers()
-              this.router.navigate(['/'])
-            } else {
-              this.router.navigate(['/auth/signup'],{queryParams : {
-                id:loginData?.id,
-                family_name:loginData?.family_name, 
-                given_name:loginData?.given_name,
-                email:email||'user@gmail.com',
-                type:type
-              }})
-            }
+  AuthLogin() {
+    this.authServiceAbstract.authState.subscribe((user) => {
+      this.user = user;
+      this.loading=true
+      let loginData:any = user
+      let email = user?.email
+      let body:any = {}
+      if(user.provider=='GOOGLE') body.google_id=loginData?.id
+      else if(user.provider=='FACEBOOK') body.facebook_id=loginData?.id
+      this.authService.logIn(body).subscribe(
+        res => {
+          this.loading=false
+          if(res?.code==1) {
+        //    this.toastr.success(res?.message);
+            localStorage.removeItem('joincart')
+            localStorage.setItem('joinToken',res?.payload?.auth_token)
+            this.authService.getUserProfile()
+     //       this.notficationsService.getNotifications()
+            this.membersservice.getAllMembers()
+            this.router.navigate(['/'])
+          } else {
+            this.router.navigate(['/auth/signup'],{queryParams : {
+              id:loginData?.id,
+              family_name:loginData?.lastName, 
+              given_name:loginData?.firstName,
+              email:email||'user@gmail.com',
+              type:user.provider=='GOOGLE'?1:2
+            }})
           }
-        )
-      })
-      .catch((error) => {
-        
-      });
+        }
+      )
+    });
+
   }
 }

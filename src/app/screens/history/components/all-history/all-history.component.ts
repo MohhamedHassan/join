@@ -35,7 +35,7 @@ export class AllHistoryComponent implements OnInit {
       )
     } else {
       let guestHistory = JSON.parse(localStorage.getItem('guestHistory')) || []
-      console.log(guestHistory)
+    
       if(guestHistory?.length) {
 
         guestHistory.forEach(element =>  {
@@ -65,7 +65,7 @@ export class AllHistoryComponent implements OnInit {
           }
         })
       }
-      console.log(this.history)
+    
       this.loading=false
     }
     

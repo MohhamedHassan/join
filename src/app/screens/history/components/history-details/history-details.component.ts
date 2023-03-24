@@ -106,7 +106,7 @@ export class HistoryDetailsComponent implements OnInit {
             key:localStorage.getItem('lang')=='ar' ? 'المبلغ الإجمالي' :'Total Amount',
             value:this.historyDetails?.total
           })
-          console.log(this.historyDetails)
+       
           this.loading=false
          
         }
@@ -139,9 +139,9 @@ getActivitiesDiscount() {
           }
         } 
       } else if (i?.cstmtype == 1 && i?.type == 0) {
-        console.log('one')
+        
         if (true) {
-          console.log('one')
+          
           activityPrice += Number(i?.selectedLocation.price) * Number(i?.notUserMembersCount)
     
         }
@@ -176,7 +176,6 @@ getDiscountProducts() {
       }
  
     });
-    console.log(price)
     return price
   }else return 0
 }
