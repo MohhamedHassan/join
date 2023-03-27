@@ -47,8 +47,8 @@ export class NotificationsComponent implements OnInit {
     }
     else {
       if(item?.notification_type=='user_notification')   {
-      //  this.router.navigate([`/history/order_details/${item?.action_id}`]) // go history details 
-        this.router.navigate([`/history`])
+        this.router.navigate([`/history/order_details/${item?.action_id}`]) // go history details 
+       // this.router.navigate([`/history`])
       }
       else if(item?.notification_type=='bulk_notification') {
         if(item?.message_type=='activity') this.router.navigate([`/activity/${item?.action_id}`])   // go activity  details page
