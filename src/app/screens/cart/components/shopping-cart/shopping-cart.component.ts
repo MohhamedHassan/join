@@ -836,20 +836,19 @@ export class ShoppingCartComponent implements OnInit {
           //  end guest_child
         } else if (this.cartitems[i]?.cstmtype == 2) {
           let storeItem: any = {}
-            storeItem.product_id = this.cartitems[i]?.id,
-            storeItem.booking_discount = (this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free) ? 0 : (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) - this.
-            cartitems[i]?.disc
+            storeItem.product_id = this.cartitems[i]?.id
+            // storeItem.booking_discount = (this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free) ? 0 : (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) - this.
+            // cartitems[i]?.disc
 
             if(this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free)    storeItem.booking_discount=0
             else if (this.cartitems[i]?.disc>0) {
-              storeItem.booking_discount=(this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) - this.
-              cartitems[i]?.disc
+              storeItem.booking_discount= this.cartitems[i]?.disc/this.cartitems[i]?.countToBuy
             } else if ((this.cartitems[i]?.disc == 0&&this.cartitems[i]?.free)||
             this.cartitems[i]?.disc<0
             ) {
-              storeItem.booking_discount=(this.cartitems[i]?.price*this.cartitems[i]?.countToBuy) 
+              storeItem.booking_discount=(this.cartitems[i]?.price) 
             }
-            storeItem.booking_amount =  (this.cartitems[i]?.price*this.cartitems[i]?.countToBuy),
+            storeItem.booking_amount =  (this.cartitems[i]?.price),
             storeItem.booking_payment =        storeItem.booking_amount - storeItem.booking_discount
             storeItem.qty = this.cartitems[i]?.countToBuy,
             storeItem.color = this.cartitems[i]?.selectedColor?.id || ''
