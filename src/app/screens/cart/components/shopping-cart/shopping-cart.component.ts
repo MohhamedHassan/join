@@ -1004,12 +1004,12 @@ export class ShoppingCartComponent implements OnInit {
           }
           if(this.cartitems[i]?.type==0 && this.cartitems[i]?.notUserMembersCount) {
             for(let x = 0 ; x < this.cartitems[i]?.notUserMembersCount;x++) {
-              // let child_id: any = {}
-              // child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
-              // child_id.activity_id = String(this.cartitems[i]?.id)
-              // child_id.child_id = String(0)
-              // availableSeatsRequestBody.child_id.push(child_id)
-              //  end child_id
+              let child_id: any = {}
+              child_id.branch_id = this.cartitems[i]?.selectedLocation?.branch_id
+              child_id.activity_id = String(this.cartitems[i]?.id)
+              child_id.child_id = String(0)
+              availableSeatsRequestBody.child_id.push(child_id)
+            //   end child_id
               let booking_session: any = {};
               booking_session.branch_id = String(this.cartitems[i]?.selectedLocation?.branch_id)
               booking_session.no_of_session = '1'
@@ -1043,7 +1043,7 @@ export class ShoppingCartComponent implements OnInit {
 
       }
     }
-    if(!!localStorage.getItem('joinToken') == false) delete availableSeatsRequestBody.child_id
+    //if(!!localStorage.getItem('joinToken') == false) delete availableSeatsRequestBody.child_id
     let formdata = new FormData()
     for (let i in availableSeatsRequestBody) {
       formdata.append(i, JSON.stringify(availableSeatsRequestBody[i]))
