@@ -842,7 +842,7 @@ export class ShoppingCartComponent implements OnInit {
 
             if(this.cartitems[i]?.disc == 0&&!this.cartitems[i]?.free)    storeItem.booking_discount=0
             else if (this.cartitems[i]?.disc>0) {
-              storeItem.booking_discount= this.cartitems[i]?.disc/this.cartitems[i]?.countToBuy
+              storeItem.booking_discount= (this.cartitems[i]?.price) - (this.cartitems[i]?.disc/this.cartitems[i]?.countToBuy)
             } else if ((this.cartitems[i]?.disc == 0&&this.cartitems[i]?.free)||
             this.cartitems[i]?.disc<0
             ) {
