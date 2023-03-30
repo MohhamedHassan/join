@@ -11,7 +11,7 @@
             <span class="d-none d-lg-block mx-2"></span>
             <form class="position-relative">
                 <input 
-                (keyup.enter)="inputSearch(searchInput.value)"
+                (keydown.enter)="inputSearch(searchInput.value)"
                 #searchInput
                 [ngStyle]="           
                     {
