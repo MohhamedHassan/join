@@ -9,7 +9,7 @@
                 <img appImgs src="assets/images/mainlogo.png" alt="join">
             </a>
             <span class="d-none d-lg-block mx-2"></span>
-            <div class="position-relative">
+            <form class="position-relative">
                 <input 
                 (keyup.enter)="inputSearch(searchInput.value)"
                 #searchInput
@@ -27,7 +27,7 @@
                     'left':lang=='ar' ? 'auto' : '10px'
                 }"
                 class="fa-solid fa-filter maincolor"></i>
-            </div>
+            </form>
             <i 
             style="cursor: pointer;"
             (click)="openNavbar=!openNavbar"
