@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
           let loginData:any = user
           let email = user?.email
           let body:any = {}
-          console.log(user,'fff')
           if(user?.provider=='GOOGLE') body.google_id=loginData?.id
           else if(user?.provider=='FACEBOOK') body.facebook_id=loginData?.id
          
