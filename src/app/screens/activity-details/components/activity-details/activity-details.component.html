@@ -238,11 +238,13 @@ class="cstmpopup d-flex">
 
      
         <!-- 
+       
+         -->
+           <app-book-now
+           [selectedMemberFromParent]="activity_details.selectedMembers"
            [selectedLocationFromParent]="activity_details?.selectedLocation"
            [selectedDateFromParent]="activity_details?.selectedDate"
            [selectedTimeFromParent]="activity_details?.selectedTime"
-         -->
-           <app-book-now
             [activity_id]="activity_details?.id"
            [hideMembers]="activity_details?.hideMembers"
            [ageFrom]="activity_details?.age_from"

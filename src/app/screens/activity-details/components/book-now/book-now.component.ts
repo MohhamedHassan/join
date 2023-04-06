@@ -20,9 +20,10 @@ export class BookNowComponent implements OnInit {
   @Input() ageFrom:any
   @Input() ageTo:any
   @Input() hideMembers:any
-  // @Input() selectedLocationFromParent:any
-  // @Input() selectedDateFromParent:any
-  // @Input() selectedTimeFromParent:any
+  @Input() selectedLocationFromParent:any
+  @Input() selectedDateFromParent:any
+  @Input() selectedTimeFromParent:any
+  @Input() selectedMemberFromParent:any
   @Output() patchActivityToParent = new EventEmitter()
   @Output() sendLocationToParent = new EventEmitter()
   members:any
@@ -120,13 +121,19 @@ export class BookNowComponent implements OnInit {
       if(hide) item.display_none=true
       else  item.display_none=false
     })
-    // this.selectedLocation=this.selectedLocationFromParent
-    // this.selectLocation(this.selectedLocation)
-    // this.selectedDate=this.selectedDateFromParent
-    // this.date=this.selectedDateFromParent
-    // this.selectedTime=this.selectedTimeFromParent
-    // this.onDateCange(this.date)
-    // this.selectTime(this.selectedTimeFromParent)
+    this.selectedLocation=this.selectedLocationFromParent
+    this.selectLocation(this.selectedLocation)
+    this.selectedDate=this.selectedDateFromParent
+    this.date=this.selectedDateFromParent
+    this.selectedTime=this.selectedTimeFromParent
+    this.onDateCange(this.date)
+    this.selectTime(this.selectedTimeFromParent)
+    if(this.selectedMemberFromParent && this.selectedMemberFromParent?.length && this.members?.length) {
+      this.members.map(item =>  {
+        if(item?.child_id==this.selectedMemberFromParent[0]?.child_id) item.selected=true
+      })
+      this.selectMembers(this.selectedMemberFromParent[0]?.child_id)
+    }
   }
 selectLocation(item:any) {
   this.minDateForMonthlyCase=new Date(item?.from_date)
@@ -322,7 +329,7 @@ onDateCange(value:any) {
     }
   }
 }
-selectTime(time:any,inpt) {
+selectTime(time:any,inpt=null) {
  
   let today = new Date()
   let todayTransformed = this.datePipe.transform(today, 'MM-dd-yyy')
