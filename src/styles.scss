@@ -347,7 +347,10 @@ nav {
           font-size: 15px;
           margin-bottom: 10px;
           @extend %ellipsis;
-          a {color:black}
+          a {color:black;}
+          span{
+               @extend %ellipsis;
+          }
      }
      .heart {
           position: absolute;
@@ -613,7 +616,9 @@ footer {
 //      background-size: 450px;
 // }
 @media only screen and (max-width: 600px) {
-
+     .cart-one .viewDetails {
+          font-size: small;
+     }
      // .signup,
      // .login {
      //      input {
@@ -624,7 +629,15 @@ footer {
      // .phonNumberParent {
      //      width: 90% !important
      // }
+     .glopal-cart {
+         
+          h2 {
+               font-size: 13px !important;
+               font-weight: bold !important;
+          }
 
+        
+     }
      .auth-right-side {
           background-image: none !important;
      }
@@ -872,6 +885,9 @@ footer {
           }
      }
 }
+.slideroneImages {
+     height: 70vh;
+}
 @media only screen and (max-width: 600px) {
      .cstmpopup {
           .images {
@@ -893,7 +909,10 @@ footer {
      }
 
 
-
+.slideroneImages {
+     height: auto !important;
+     max-height: 50vh !important;
+}
 
 }
 .profileaddress {

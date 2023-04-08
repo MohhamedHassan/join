@@ -1,7 +1,7 @@
 <div 
 *ngIf="sliderContent?.length"
-class="mb-4"
-style="min-height: 70vh;box-shadow: 0 0 20px rgb(0 0 0 / 25%);">
+class="mb-4 slideroneImages"
+style="box-shadow: 0 0 20px rgb(0 0 0 / 25%);">
     <swiper 
     [ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
 style="text-align:right" 
@@ -13,10 +13,10 @@ style="text-align:right"
 [navigation]="true"
 >
     <ng-template *ngFor="let item of sliderContent" data-swiper-autoplay="6000" swiperSlide>
-        <div style="height:70vh;">
+        <div class="slideroneImages">
             <a          
             [routerLink]="checkRouting(item)">
-                <img appImgs  alt="join" style="height:70vh;width: 100%" [src]="item?.photo_name||item?.image">
+                <img appImgs class="slideroneImages" alt="join" style="width: 100%" [src]="item?.photo_name||item?.image">
             </a>
         </div>
     </ng-template>
