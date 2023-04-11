@@ -19,7 +19,7 @@
         [navigation]="true"
         >
             <ng-template *ngFor="let item of product_details.images" data-swiper-autoplay="6000" swiperSlide>
-                <div style="height:70vh;">
+                <div class="slideroneImages min">
                     <img appImgs  alt="join" [src]="item?.path">
                 </div>
             </ng-template>

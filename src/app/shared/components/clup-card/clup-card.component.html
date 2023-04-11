@@ -13,7 +13,9 @@
         (click)=" addClupToFavorite()" [class.active]="heartStatus=='FAVORITE'" class="fa-solid fa-heart"></i>
     </div>
     <div class="imgPart">
-        <img appImgs [src]="imgSrc" alt="join">
+        <a [routerLink]="route">
+            <img appImgs [src]="imgSrc" alt="join">
+         </a>
     </div>
     <div class="detasils px-2 py-4">
         <h2 style="font-weight: 400;padding:10px 0;margin:0" class="text-center clup-card">

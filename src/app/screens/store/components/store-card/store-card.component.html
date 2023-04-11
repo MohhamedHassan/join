@@ -8,9 +8,11 @@ class="cart-one glopal-cart position-relative">
         <i class="fa-solid fa-heart"></i>
     </div> -->
     <div class="imgPart position-relative">
-        <img appImgs 
+        <a  [routerLink]="['/product/',id]">
+            <img appImgs 
         
-        [src]="imgSrc"  alt="join">
+            [src]="imgSrc"  alt="join">
+        </a>
         <img appImgs 
         *ngIf="discount_percent&&discount_percent!='0.0 %'"
         style="width:90px;height:60px;position: absolute;top: 0;left:10px"
