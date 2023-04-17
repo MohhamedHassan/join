@@ -13,7 +13,7 @@ style="text-align:right"
 [navigation]="true"
 >
     <ng-template *ngFor="let item of sliderContent" data-swiper-autoplay="6000" swiperSlide>
-        <div class="slideroneImages">
+        <div class="slideroneImages min">
             <a          
             [routerLink]="checkRouting(item)">
                 <img appImgs class="slideroneImages" alt="join" style="width: 100%" [src]="item?.photo_name||item?.image">

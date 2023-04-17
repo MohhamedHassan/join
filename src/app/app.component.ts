@@ -18,7 +18,8 @@ export class AppComponent {
 
   }
   ngOnInit(): void {
-    if(!!localStorage.getItem('joinToken')) {
+   
+if(!!localStorage.getItem('joinToken')) {
       this.membersservice.getAllMembers()
       this.authService.getUserProfile()
       this.homeService.getClupsUser()
