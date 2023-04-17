@@ -229,10 +229,13 @@
                     >
                         <a 
                         class="mx-2"
+                        (click)="openNavbar=false"
                         routerLink="/favorite">
                             <i class="fa-solid fa-heart"></i>
                         </a>
-                        <a  routerLink="/notifications">
+                        <a  
+                        (click)="openNavbar=false"
+                        routerLink="/notifications">
                             <i class="fa-solid fa-bell"></i>
                         </a>
                     </ng-container>
@@ -279,6 +282,7 @@
                       *ngIf="isLogin()"
                       role="menuitem" class='lang'>
                         <a 
+                        (click)="openNavbar=false"
                         routerLink="/profile"
                         >
                             <i class="fa-regular fa-user maincolor"></i>
@@ -287,6 +291,7 @@
                       </li>
                       <li role="menuitem" class='lang'>
                         <a
+                        (click)="openNavbar=false"
                         routerLink="/history"
                         >
                         <i class="fa-regular fa-clock maincolor"></i>
@@ -298,6 +303,7 @@
                       *ngIf="isLogin()"
                       role="menuitem" class='lang'>
                         <a
+                        (click)="openNavbar=false"
                     routerLink="/notifications"
                     >
                         <i class="fa-solid fa-bell maincolor"></i>
@@ -308,6 +314,7 @@
                       *ngIf="isLogin()"
                       role="menuitem" class='lang'>
                         <a
+                        (click)="openNavbar=false"
                         routerLink="/favorite"
                         >
                         <i class="fa-solid fa-heart maincolor"></i>
@@ -326,6 +333,7 @@
                       </li>
                       <li role="menuitem" class='lang'>
                         <a
+                        (click)="openNavbar=false"
                         routerLink="/contact"
                         >
                         <i class="fa-solid fa-phone maincolor"></i>
@@ -334,6 +342,7 @@
                       </li>
                       <li role="menuitem" class='lang'>
                         <a
+                        (click)="openNavbar=false"
                         routerLink="/about"
                         >
                         <i class="fa-solid fa-question maincolor"></i>
@@ -342,6 +351,7 @@
                       </li>
                       <li role="menuitem" class='lang'>
                         <a
+                        (click)="openNavbar=false"
                         routerLink="/terms"
                         >
                         <i class="fa-solid fa-exclamation maincolor"></i>
@@ -350,6 +360,7 @@
                       </li>
                       <li role="menuitem" class='lang'>
                         <a
+                        (click)="openNavbar=false"
                         routerLink="/promotion"
                         >
                         <i class="fa-solid fa-percent maincolor "></i>
