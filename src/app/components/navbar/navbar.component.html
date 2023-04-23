@@ -444,10 +444,10 @@ class="cstmpopup">
 }"
 
 *ngIf="showPopup"
-class="cstmpopup mainswiper">
+class="cstmpopup  mainswiper">
     <div 
     style="overflow: hidden;padding:0"
-    class="content images">
+    class="content transprnt images">
         <i 
         style="z-index: 111111111111;"
         (click)="showPopup=false"
@@ -476,7 +476,7 @@ class="cstmpopup mainswiper">
       data-swiper-autoplay="6000" swiperSlide>
                 <div 
                
-                style="margin: 25px 0;height:90vh;padding: 20px 20px 100px 20px;">
+                style="margin: 25px 0;height:90vh;padding: 20px 20px 120px 20px;text-align: center;">
 
                     <a 
                     (click)="showPopup=false"
@@ -484,8 +484,8 @@ class="cstmpopup mainswiper">
                     >
                         <img 
                         appImgs
-                        style="height:99%;"
-                        class="w-100 "            
+                        style="height:99%"
+                        class="img-fluid"            
                         [src]="item?.image_url" alt="">
                     </a>
                     

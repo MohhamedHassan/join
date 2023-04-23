@@ -875,6 +875,17 @@ footer {
                margin-bottom: 10px;
           }
      }
+     .content.transprnt{
+          background-color: transparent;
+         .fa-x {
+               background-color: #00DCDC;
+               border-radius: 50%;
+               padding: 5px;
+               top:5px !important;
+               font-size: small;
+               box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+          }
+     }
      .content.small {
           width: 50% ;
      }

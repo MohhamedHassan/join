@@ -100,6 +100,15 @@
     .swiper-button-disabled {display:  none !important;}
 }
 // end swiper arrows
+.transprnt {
+.swiper-button-next,
+.swiper-button-prev  {
+    color:$mainColor !important;   
+}
+.swiper-pagination-bullet-active {
+    background-color:$mainColor !important;   
+}
+}
 .dropdown-menu.cstm {
     inset: 105% auto auto -270px !important;
     width: 300px;
