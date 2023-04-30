@@ -91,6 +91,18 @@
                 (click)="openNavbar=!openNavbar"
                 routerLink="/activities">{{'activities'|translate}}</a></li>
                 <!--  -->
+                <li 
+                role="menuitem" class='d-lg-none'>
+                  <a
+                  routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact:true}"
+                  (click)="openNavbar=!openNavbar"
+                  routerLink="/promotion"
+                  >
+                      {{'promotion'|translate}} 
+                  </a>
+                </li>
+                <!--  -->
             <ng-container >
                 <li
                 *ngIf="isLogin()"
@@ -158,18 +170,7 @@
                     (click)="openNavbar=!openNavbar"
                     routerLink="/terms">{{'terms'|translate}}</a></li>
                 <!--  -->
-                <li 
-                role="menuitem" class='d-lg-none'>
-                  <a
-                  routerLinkActive="active"
-                  [routerLinkActiveOptions]="{exact:true}"
-                  (click)="openNavbar=!openNavbar"
-                  routerLink="/promotion"
-                  >
-                      {{'promotion'|translate}}
-                  </a>
-                </li>
-                <!--  -->
+       
                 <li 
                 *ngIf="isLogin()"
                 role="menuitem" class=' text-danger d-lg-none'>

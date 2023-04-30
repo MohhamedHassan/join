@@ -10,21 +10,21 @@ export class FooterComponent implements OnInit {
   footerCart:any[]=[
     {
       h2:'Assured_Purchase',
-      p:'Provide_genuine',
+      p:'100%_genuine_products',
       img:'assets/images/car.53532650.svg',
-      li:['100%_genuine_products','Deliver_items_at_door','Free_return_products']
+      li:['Deliver_items_at_door','Same_or_next_day_delivery']
     },
     {
       h2:'Easy_To_Buy_Return',
-      p:'Single_click_buy_return_products',
+      p:'Quick_support_links_available',
       img:'assets/images/money.2faef535.svg',
-      li:['Same_day_delivery_available','Click_to_return_products','Quick_support_links_available']
+      li:['Easy_To_Buy_Return','Free_return_products']
     },
     {
       h2:'Secure_Payments',
       p:'Accepts_all_credit_debit_cards',
       img:'assets/images/visa.daa9ad19.svg',
-      li:['payment_security','Confirmation_authentity','Delivery_items_at_door']
+      li:['Accepts_all_credit_debit_cards','payment_security']
     }
   ]
   hideFooter:boolean=false
