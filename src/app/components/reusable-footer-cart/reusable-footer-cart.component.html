@@ -5,8 +5,11 @@
         <p>{{p|translate}}</p>
     </div>
     <ul class="m-0 p-0 list-unstyled">
-        <li *ngFor="let item of li">
-            <i class="fa-solid fa-circle-check"></i>
+        <li
+        style="justify-content: flex-start;"
+        class="d-flex"
+        *ngFor="let item of li">
+            <i class="fa-solid fa-circle-check mt-1"></i>
             <span class="mx-2">
                 {{item|translate}}
             </span>
