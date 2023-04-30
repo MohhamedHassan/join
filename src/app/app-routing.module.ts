@@ -57,7 +57,7 @@ const routes: Routes = [
     loadChildren:() => import('src/app/screens/intersts/intersts.module').then(m => m.InterstsModule)
   },
   {
-    path:'clup/:id',
+    path:'club/:id',
     loadChildren:() => import('src/app/screens/clup-details/clup-details.module').then(m => m.ClupDetailsModule)
   },
   {

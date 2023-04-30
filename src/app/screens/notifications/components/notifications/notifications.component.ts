@@ -53,7 +53,7 @@ export class NotificationsComponent implements OnInit {
       }
       else if(item?.notification_type=='bulk_notification') {
         if(item?.message_type=='activity') this.router.navigate([`/activity/${item?.action_id}`])   // go activity  details page
-        else if(item?.message_type=='club') this.router.navigate([`/clup/${item?.action_id}`]) // go clup details page
+        else if(item?.message_type=='club') this.router.navigate([`/club/${item?.action_id}`]) // go clup details page
         else if(item?.message_type=='categories') this.router.navigate([`/activities`])  // go activities page
         else  this.router.navigate(['/']) 
       }

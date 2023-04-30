@@ -42,7 +42,7 @@ makeData(res) {
 checkRouting(item):any {
   if(item?.product_id) return `/product/${item?.product_id}`
   else if(item?.activity_id) return `/activity/${item?.activity_id}`
-  else if(item?.club_id) return `/clup/${item?.club_id}`
+  else if(item?.club_id) return `/club/${item?.club_id}`
   else if(item?.interests_id) return `/interests/${item?.interests_id}`
 }
 get lang() {

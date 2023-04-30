@@ -151,7 +151,7 @@ getsliderContent() {
 checkRouting(item):any {
   if(item?.type=='product') return `/product/${item?.model_id}`
   else if(item?.type=='activity') return `/activity/${item?.model_id}`
-  else if(item?.type=='club') return `/clup/${item?.model_id}`
+  else if(item?.type=='club') return `/club/${item?.model_id}`
   else if(item?.type=='interest'||item?.type=='subinterest') return `/interests/${item?.model_id}`
 }
 }

@@ -89,7 +89,7 @@ searchResult:any[]=[]
   }
   routeToDEtailsPage(item:any) {
     if(item?.type=='ACTIVITY') return `/activity/${item?.id}`
-    else if(item?.type=='CLUB') return `/clup/${item?.id}`
+    else if(item?.type=='CLUB') return `/club/${item?.id}`
     else if(item?.type=='PRODUCT') return `/product/${item?.id}`
     else return '/notfound'
   }
