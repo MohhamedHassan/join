@@ -27,9 +27,13 @@
                                 | {{ activity_details.age_from + '-' + activity_details.age_to }} {{'years'|translate}} | {{interestName}}
                             </h2>
                             <p class="mb-1">
-                                <span *ngFor="let category of activity_details?.categories;let l = last">
+                                <span 
+                                style="text-transform: capitalize;"
+                                *ngFor="let category of activity_details?.categories;let l = last">
                                     {{lang=='ar' ? category?.name_ar : category?.name_en}}
-                                    <span *ngIf="!l">,</span>
+                                    <span 
+                                   
+                                    *ngIf="!l">,</span>
                                 </span>
                             </p>
                             <ul 

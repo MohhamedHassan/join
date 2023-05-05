@@ -9,7 +9,7 @@ SwiperCore.use([Navigation,Pagination]);
 export class ClupDetailsGallreyComponent implements OnInit {
   @Input() gallrey:{photo_name:string}[] = []
   swpieroptions: any = {
-    slidesPerView: 3,
+    slidesPerView: 1.1,
     spaceBetween: "50",
     pagination: false,
     navigation: "true",

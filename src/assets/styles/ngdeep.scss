@@ -232,6 +232,14 @@ bs-datepicker-container, bs-daterangepicker-container {
 bs-datepicker-container {
     top: -50% !important;
 }
+@media(max-width:992px) {
+    .hide-arrow {
+        .swiper-button-next,
+        .swiper-button-prev {
+            display:  none !important;
+        } 
+    } 
+}
 
 }
 

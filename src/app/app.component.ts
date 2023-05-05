@@ -30,4 +30,11 @@ if(!!localStorage.getItem('joinToken')) {
     this.homeService.getIntersts()
 
   }
+  onActivate(event) {
+    window.scroll({ 
+            top: 0, 
+            left: 0, 
+            behavior: 'smooth' 
+     });
+ }
 }

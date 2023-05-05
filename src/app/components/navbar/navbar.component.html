@@ -449,14 +449,7 @@ class="cstmpopup  mainswiper">
     <div 
     style="overflow: hidden;padding:0"
     class="content transprnt images">
-        <i 
-        style="z-index: 111111111111;"
-        (click)="showPopup=false"
-        [ngStyle]="{
-            left:lang=='ar'?'20px':'auto',
-            right:lang=='ar'?'auto':'20px'
-        }"
-        class="fa-solid fa-x"></i>
+ 
 
         <swiper 
         [ngStyle]="{'direction': lang=='ar' ? 'rtl' : 'ltr'}"
@@ -480,9 +473,18 @@ class="cstmpopup  mainswiper">
                 style="margin: 25px 0;height:90vh;padding: 20px 20px 130px 20px;text-align: center;">
 
                     <a 
+                    style="position: relative;display: inline-block;min-width: 200px;"
                     (click)="showPopup=false"
                     [routerLink]="checkRouting(item)"
                     >
+                    <i 
+                    style="z-index: 111111111111;color:blaCK"
+                    (click)="showPopup=false"
+                    [ngStyle]="{
+                        left:lang=='ar'?'-10px':'auto',
+                        right:lang=='ar'?'auto':'-10px'
+                    }"
+                    class="fa-solid fa-x"></i>
                         <img 
                         appImgs
                         style="height:99%"
@@ -545,6 +547,24 @@ class="cstmpopup ">
 }"
 style="position: fixed;bottom:20px;z-index: 11111;"
 >
+<a 
+style="
+background-color: white;
+border-radius: 50%;
+box-shadow: 0 3px 10px 0 rgb(0 0 0 / 15%);
+width:50px;
+height: 50px;
+display: flex;
+justify-content: center;
+align-items: center;"
+target="_blank"
+href="https://api.whatsapp.com/send/?phone=96592294872&text&type=phone_number&app_absent=0"
+class="mb-2">
+    
+    <i 
+    style="font-size: 25px;"
+    class="fa-brands fa-whatsapp maincolor"></i>
+</a>
     <a 
     style="
     background-color: white;
