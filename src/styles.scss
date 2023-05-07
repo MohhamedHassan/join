@@ -879,6 +879,7 @@ footer {
      }
      .content.transprnt{
           background-color: transparent;
+          max-height: 95vh;
          .fa-x {
                background-color: #00DCDC;
                border-radius: 50%;
@@ -893,7 +894,7 @@ footer {
      }
      .images {
           width: 500px ;
-          height: 80vh !important;
+          height: 95vh !important;
      }
      .content.payment {
           width: 40%;
