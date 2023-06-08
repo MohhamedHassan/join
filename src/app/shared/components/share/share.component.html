@@ -14,17 +14,32 @@
        </a>
     </li>
 </ul> -->
-<div class="container-fluid">
+<div class="">
 
-
-    <share-buttons theme="modern-dark"
+   
+  <share-buttons theme="modern-dark"
+  [include]="['copy', 'facebook', 'email', 'messenger', 'linkedin', 'pinterest', 'sms', 'telegram',  'twitter',  'whatsapp']"
+  [showIcon]="true"
+  [showText]="true"
+  [url]="'https://join.com.kw/'+link"
+  description="Join"
+  twitterAccount="rodrigokamada"
+  >
+</share-buttons>
+    <!-- <div class="text-center  d-lg-none">
+      <i 
+      *ngIf="loading"
+      class="fa-solid fa-circle-notch fa-spin"></i>
+      <share-buttons 
+      *ngIf="!loading"
+      theme="modern-dark"
       [include]="['copy', 'facebook', 'email', 'messenger', 'linkedin', 'pinterest', 'sms', 'telegram',  'twitter',  'whatsapp']"
       [showIcon]="true"
       [showText]="true"
-      [url]="'https://join.com.kw/'+link"
+      [url]="mobileDynamicLin"
       description="Join"
       twitterAccount="rodrigokamada"
       >
     </share-buttons>
-  
+    </div> -->
   </div>

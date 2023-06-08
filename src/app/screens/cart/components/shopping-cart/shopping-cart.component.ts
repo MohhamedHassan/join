@@ -470,12 +470,14 @@ export class ShoppingCartComponent implements OnInit {
                       } else if (selectedPromoCode?.type == 'Fixed') {
                         if (item?.type == 1) {
                           let currentPrice = item?.hideMembers ? item?.selectedLocation.price * 1 : item?.selectedLocation.price * item?.selectedMembers?.length
-                          item.disc = (currentPrice) - selectedPromoCode?.value
-                          if((currentPrice) - selectedPromoCode?.value==0)item.fee=true
+                          let discountValue=item?.hideMembers ? selectedPromoCode?.value : (selectedPromoCode?.value * item?.selectedMembers?.length)
+                          item.disc = currentPrice - discountValue
+                          if(currentPrice - discountValue ==0)item.fee=true
                         } else if (item?.type == 0) {
-                          let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount
-                          item.disc = (currentPrice) - selectedPromoCode?.value
-                          if((currentPrice) - selectedPromoCode?.value==0)item.fee=true
+                          let currentPrice = item?.selectedLocation.price * item?.notUserMembersCount;
+                          let discountValue=selectedPromoCode?.value*item?.notUserMembersCount
+                          item.disc = currentPrice - discountValue
+                          if(currentPrice - discountValue==0)item.fee=true
                         }
                       }
                       // end all case

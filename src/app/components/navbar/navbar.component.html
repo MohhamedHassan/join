@@ -466,14 +466,13 @@ class="cstmpopup  mainswiper">
         *ngFor="let item of sliderContent" 
         >
             <ng-template
-            style="height:90%"
       data-swiper-autoplay="6000" swiperSlide>
                 <div 
-               
-                style="margin: 25px 0;height:95vh;text-align: center;">
+               class="d-flex justify-content-center  align-items-center"  
+                style="height:95vh;text-align: center;padding:10px">
 
                     <a 
-                    style="position: relative;display: inline-block;min-width: 200px;height:95vh"
+                    style="position: relative;display: inline-block;"
                     (click)="showPopup=false"
                     [routerLink]="checkRouting(item)"
                     >
@@ -487,8 +486,8 @@ class="cstmpopup  mainswiper">
                     class="fa-solid fa-x"></i>
                         <img 
                         appImgs
-                        style="max-height:90%;border-radius: 10px;"
-                        class="img-fluid"            
+                        style="max-height:90vh;border-radius: 10px;max-width:100%"
+                  
                         [src]="item?.image_url" alt="">
                     </a>
                     

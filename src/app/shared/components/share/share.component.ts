@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -8,41 +9,33 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ShareComponent implements OnInit {
   //links:any[] 
   @Input() link:string
-  constructor() { }
+  @Input() paramName:string
+  @Input() paramValue:string
+  @Input() endpoint:string
+  loading=true
+  mobileDynamicLin=''
+  constructor(private http:HttpClient) { }
 
   ngOnInit(): void {
-    // this.links=[
-    //   {
-    //     icon:'fa-brands fa-facebook-f',
-    //     link:`https://www.facebook.com/sharer/sharer.php?u=${this.link}`,
-    //     color:'#1877F2'
-    //   },
-    //   {
-    //     icon:'fa-brands fa-twitter',
-    //     link:`https://twitter.com/intent/tweet?url=${this.link}`,
-    //     color:'#1DA1F2'
-    //   },
-    //   {
-    //     icon:'fa-brands fa-linkedin',
-    //     link:`https://www.linkedin.com/sharing/share-offsite/?url=${this.link}`,
-    //     color:'#0A66C2'
-    //   },
-    //   {
-    //     icon:'fa-brands fa-telegram',
-    //     link:`https://t.me/share/url?url=${this.link}`,
-    //     color:'#29A9EB'
-    //   },
-    //   {
-    //     icon:'fa-brands fa-whatsapp',
-    //     link:`https://web.whatsapp.com/send?text=${this.link}`,
-    //     color:'#55F571'
-    //   },
-    //   {
-    //     icon:'fa-brands fa-viber',
-    //     link:`viber://forward?text=${this.link}`,
-    //     color:'#685EB3'
+    // this.http.post('https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyC-HQXMctawLVc4uB9bt2xZVOyHrCIu9s0',{
+    //   "dynamicLinkInfo": {
+    //     "domainUriPrefix": "https://joinkw.page.link",
+    //     "link": `https://joinkw.page.link/${this.endpoint}?${this.paramName}=${this.paramValue}`,
+    //     "androidInfo": {
+    //       "androidPackageName": "com.joinkw",
+    //       "androidFallbackLink":`https://join.com.kw/${this.link}`,
+    //     },
+    //     "iosInfo": {
+    //       "iosBundleId": "com.join.join",
+    //       "iosFallbackLink": `https://join.com.kw/${this.link}`,
+    //     }
     //   }
-    // ]
+    // }).subscribe((res:any) =>  {
+    //   this.loading=false
+    //   this.mobileDynamicLin= res.shortLink
+    // }, err =>  {
+    //   this.loading=false
+    // })
   }
 
 }
