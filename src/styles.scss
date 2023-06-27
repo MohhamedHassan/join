@@ -1,6 +1,68 @@
 
 @import '~swiper/swiper-bundle.css';
 @import '/src/assets//styles/colors.scss';
+.conUS {
+     background-image: url('assets/images/awDTotuXRNe4EWaZvnNA_IMG_9179.jpg');
+     background-size: cover;
+     background-position: center;
+     .fa-ellipsis {
+          background: white;
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          font-size: 20px;
+      }
+      .logo {
+          border-radius: 50%;
+          width: 96px;
+          height: 96px;
+          display: block;
+          object-fit: contain;
+      }
+      .links {
+          a {
+               display: flex;
+               justify-content: space-between;
+               align-items: center;
+               padding: 5px 10px;
+               overflow: hidden;
+               margin-bottom: 16px;
+               border: 2px solid rgb(255, 255, 255);
+               background-color: rgb(255, 255, 255);
+               color: rgb(0, 205, 205);
+               box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 8px 0px;
+               transform: scale(1);
+               transition: transform 0.25s cubic-bezier(0.08, 0.59, 0.29, 0.99) 0s, box-shadow 0.25s cubic-bezier(0.08, 0.59, 0.29, 0.99) 0s;
+               border-radius: 30px;
+               font-weight: bold;
+               i {
+                    font-size: 15px;
+               }
+               i:first-of-type {
+                    color: rgb(255, 255, 255);
+                    background-color: rgb(0, 205, 205);
+                    padding:10px;
+                    border-radius: 50%;
+                    font-size: 30px;
+               }
+               i.fa-arrow-up-from-bracket {
+                    visibility: hidden;
+               }
+               &:hover {
+                    i.fa-arrow-up-from-bracket {
+                         visibility: visible
+                    }
+                    box-shadow: rgba(0, 0, 0, 0.24) 0px 4px 12px 0px;
+                    transform: scale(1.01);
+               }
+          }
+
+      }
+}
 .historyicons {
      i  {
          background-color: $mainColor;
